@@ -10,80 +10,80 @@ This is Mobile Shop for ESX Server's
 #### Features
 
 ##### Client Side Protecet :
-Anti Track Player's
-Anti Health Hack
-Anti Armor Hack
-Anti Infinity Ammo
-Anti Spactate
-Anti Ragdoll
-Anti Menyoo
-Anti Aim Assist
-Anti Infinite Stamina
-Anti Aim Bot
-Anti Spactate
-Anti Black List Weapon
-Anti Add Weapon
-Anti Remove Weapon
-Anti God Mode
-Anti Noclip
-Anti Rainbow Vehicle
-Anti Teleport Vehicle
-Anti Teleport Ped
-Anti Invisble
-Anti Change Speed
-Anti Free Camera
-Anti Plate Changer
-Anti Night Vision
-Anti Thermal Vision
-Anti Super Jump
-Anti Suicide
+- Anti Track Player's
+- Anti Health Hack
+- Anti Armor Hack
+- Anti Infinity Ammo
+- Anti Spactate
+- Anti Ragdoll
+- Anti Menyoo
+- Anti Aim Assist
+- Anti Infinite Stamina
+- Anti Aim Bot
+- Anti Spactate
+- Anti Black List Weapon
+- Anti Add Weapon
+- Anti Remove Weapon
+- Anti God Mode
+- Anti Noclip
+- Anti Rainbow Vehicle
+- Anti Teleport Vehicle
+- Anti Teleport Ped
+- Anti Invisble
+- Anti Change Speed
+- Anti Free Camera
+- Anti Plate Changer
+- Anti Night Vision
+- Anti Thermal Vision
+- Anti Super Jump
+- Anti Suicide
 
 ##### Server Side Protecet :
-Anti Spam Chat
-Anti Black List Commands
-Anti Weapon Damage Changer
-Anti Vehicle Damage Changer
-Anti Black List Word
-Anti Bring All
-Anti Black List Trigger
-Anti Spam Trigger
-Anti Clear Ped Tasks
-Anti Taze Players
-Anti Inject
-Anti Black List Explosion
-Anti Explosion Spam
-Anti Black List Object
-Anti Black List Ped
-Anti Black List Vehicle
-Anti Spam Vehicle
-Anti Spam Ped
-Anti Spam Object
-Anti Change Perm
-Anti Play Sound
+- Anti Spam Chat
+- Anti Black List Commands
+- Anti Weapon Damage Changer
+- Anti Vehicle Damage Changer
+- Anti Black List Word
+- Anti Bring All
+- Anti Black List Trigger
+- Anti Spam Trigger
+- Anti Clear Ped Tasks
+- Anti Taze Players
+- Anti Inject
+- Anti Black List Explosion
+- Anti Explosion Spam
+- Anti Black List Object
+- Anti Black List Ped
+- Anti Black List Vehicle
+- Anti Spam Vehicle
+- Anti Spam Ped
+- Anti Spam Object
+- Anti Change Perm
+- Anti Play Sound
 
 ##### Inject Protect :
-Anti Resource Start / Stop / Restart
-Anti Add Command
+- Anti Resource Start / Stop / Restart
+- Anti Add Command
 
 ##### Connection Protect:
-Anti VPN
-Anti Hosting
-Anti Black List Name
+- Anti VPN
+- Anti Hosting
+- Anti Black List Name
 
 #### Ban Method:
-FiveM License
-Steam Identifier
-IP Address
-Microsoft ID(LIVE ID)
-Xbox Live ID (XBL ID)
-Discord ID
-[FiveM Player Token's](https://docs.fivem.net/natives/?_0x54C06897)
+- FiveM License
+- Steam Identifier
+- IP Address
+- Microsoft ID(LIVE ID)
+- Xbox Live ID (XBL ID)
+- Discord ID
+- [FiveM Player Token's](https://docs.fivem.net/natives/?_0x54C06897)
 
 #### Log's:
-Consol Log
-Discord Log
-Chat Log
-Screenshot Log
+- Consol Log
+- Discord Log
+- Chat Log
+- Screenshot Log
 
 ### Installation
 - Add this text in your `server.cfg` :
@@ -102,7 +102,7 @@ FIREAC developed by AmIrReZa#2080 in 2021 and updated in 2022 and due to the cir
 
 FIREAC - Anti Cheat for FiveM
 
-Copyright 2022 by FIREAC®
+**Copyright 2022 by FIREAC®**
 
 This program Is free software: you can redistribute it And/Or modify it under the terms Of the GNU General Public License As published by the Free Software Foundation, either version 3 Of the License, Or (at your option) any later version.
 
