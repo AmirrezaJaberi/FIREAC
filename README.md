@@ -1,6 +1,5 @@
 <h1 align='center'>FIREAC</a></h1><p align='center'><b><a href='https://discord.gg/8zGyDhtbcgJ'>Discord</a></b></h5>
 <img src="https://images-ext-1.discordapp.net/external/o6rKvVQzJu0QDJ8-I1AeB9wt8UyedNZiS5kDqS5BPZQ/https/media.discordapp.net/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png" alt="FIREAC" style="float:left;width:42px;height:42px;">
-This is Mobile Shop for ESX Server's
 
 ### Requirements
    * [menuv](https://github.com/ThymonA/menuv/releases/tag/v1.4.1)
