@@ -95,7 +95,7 @@ ensure discord-screenshot
 ```
 
 ### Information
-FIREAC developed by AmIrReZa#2080 in 2021 and updated in 2022 and due to the circumstances, it was decided to make it public
+FIREAC developed by **AmIrReZa#2080** in 2021 and updated in 2022 and due to the circumstances, it was decided to make it public
 - [Guide Documentation](https://cdn.discordapp.com/attachments/822808647230291988/925290471947927572/Guide.pdf)
 
 ### License
