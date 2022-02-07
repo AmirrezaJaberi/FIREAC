@@ -1765,3 +1765,36 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
         end
     end
 end
+
+function ExtractIdentifiers(src)
+    
+    local identifiers = {
+        steam = "",
+        ip = "",
+        discord = "",
+        license = "",
+        xbl = "",
+        live = ""
+    }
+
+    for i = 0, GetNumPlayerIdentifiers(src) - 1 do
+        local id = GetPlayerIdentifier(src, i)
+        
+        if string.find(id, "steam") then
+            identifiers.steam = id
+        elseif string.find(id, "ip") then
+            identifiers.ip = id
+        elseif string.sub(id, 1, string.len("discord:")) == "discord:" then
+            discordid = string.sub(id, 9)
+            identifiers.discord = "<@" .. discordid .. ">"
+        elseif string.find(id, "license") then
+            identifiers.license = id
+        elseif string.find(id, "xbl") then
+            identifiers.xbl = id
+        elseif string.find(id, "live") then
+            identifiers.live = id
+        end
+    end
+
+    return identifiers
+end
