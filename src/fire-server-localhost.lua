@@ -1045,34 +1045,27 @@ end
 function FIREAC_WHITELIST(SRC)
     if tonumber(SRC) ~= nil then
         local WHITE   = false
-        local STEAM   = "Not Found"
-        local DISCORD = "Not Found"
-        local FIVEML  = "Not Found"
-        local LIVE    = "Not Found"
-        local XBL     = "Not Found"
-        local IP     = IP_ADDRES
-        local g, f = IP:find(string.lower("192.168"))
-        if g or f then
-            IP = "178.131.122.181"
-        end
-        for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
-            if DATA:match("steam") then
-                STEAM = DATA
-            elseif DATA:match("discord") then
-                DISCORD = DATA:gsub("discord:", "")
-            elseif DATA:match("license") then
-                FIVEML = DATA
-            elseif DATA:match("live") then
-                LIVE = DATA
-            elseif DATA:match("xbl") then
-                XBL = DATA
-            end
-        end
-        for _, WID in ipairs(WhiteList) do
-            if STEAM == WID or DISCORD == WID or FIVEML == WID or LIVE == WID or XBL == WID or IP == WID then
+        local ids = ExtractIdentifiers(SRC);
+        local playerIP = ids.ip
+        local playerSteam = ids.steam
+        local playerLicense = ids.license
+        local playerXbl = ids.xbl
+        local playerLive = ids.live
+        local playerDisc = ids.discord
+        for i = 1, #Whitelist do
+            local id =  Whitelist[i]
+            if id == playerLicense then
                 WHITE = true
-            else
-                WHITE = false
+            elseif id == playerSteam then
+                WHITE = true
+            elseif id == playerXbl then
+                WHITE = true
+            elseif id == playerLive then
+                WHITE = true
+            elseif id == playerDisc then
+                WHITE = true
+            elseif id == playerIP then
+                WHITE = true
             end
         end
         return WHITE
