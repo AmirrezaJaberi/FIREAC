@@ -710,7 +710,7 @@ AddEventHandler("playerConnecting", function (name, setKickReason, deferrals)
         for index, value in ipairs(Names) do
             local g, f = name:find(string.lower(value))
             if g or f  then
-                print("^"..COLORS.."FIREAC^0: ^1Player ^3"..name.." ^3Try For Join ^0| ^3Black List Word in name: ^3 "..DETAILS.."^0")
+                print("^"..COLORS.."FIREAC^0: ^1Player ^3"..name.." ^3Try For Join ^0| ^3Black List Word in name: ^3 "..value.."^0")
                 FIREAC_SENDLOG(SRC, FIREAC.Log.Connect, "BLN", "Black List Name", "We are Found "..value.." in the name off this player")
                 setKickReason( "\n["..Emoji.Fire.."FIREAC"..Emoji.Fire.."]\nYou Can not Join Server:\n We Are Find ("..value..") in your Name Please Remove That Or Change Your Name ☺️")
                 CancelEvent()
