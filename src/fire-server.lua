@@ -382,7 +382,7 @@ if FIREAC.AntiSpamTigger then
 						isSpamTrigger = true
 					end
 					if GetPlayerName(source) and isSpamTrigger then
-                        FIREAC_ACTION(SRC, FIREAC.TriggerPunishment, "Anti Spam Trigger", "Try For Spam Trigger : `"..name.."`")
+                        FIREAC_ACTION(SRC, FIREAC.TriggerPunishment, "Anti Spam Trigger", "Try For Spam Trigger : `"..TNAME.."`")
                         CancelEvent()
 					end
 				end
@@ -551,7 +551,7 @@ AddEventHandler("weaponDamageEvent", function(SRC, DATA)
                     TAZE[HWID] = nil
                 else
                     if TAZE[HWID].COUNT >= FIREAC.MaxTazeSpam then
-                        FIREAC_ACTION(SRC, FIREAC.TazePunishment, "Anti Spam Explosion", "Try For Spam Tazer for **"..TAZE[HWID].COUNT.."** times.")
+                        FIREAC_ACTION(SRC, FIREAC.TazePunishment, "Anti Spam Tazer", "Try For Spam Tazer for **"..TAZE[HWID].COUNT.."** times.")
                         CancelEvent()
                     end
                 end
@@ -1045,8 +1045,8 @@ function FIREAC_WHITELIST(SRC)
         local playerXbl = ids.xbl
         local playerLive = ids.live
         local playerDisc = ids.discord
-        for i = 1, #Whitelist do
-            local id =  Whitelist[i]
+        for i = 1, #WhiteList do
+            local id =  WhiteList[i]
             if id == playerLicense then
                 WHITE = true
             elseif id == playerSteam then
