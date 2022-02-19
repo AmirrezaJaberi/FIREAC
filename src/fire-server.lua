@@ -224,6 +224,10 @@ AddEventHandler("FIREAC:ScreenShotFromClient", function (URL, REASON, DETAILS)
         local HOSTING = "Not Found"
         local IP      = GetPlayerEndpoint(SRC)
         IP = (string.gsub(string.gsub(string.gsub(IP,  "-", ""), ",", ""), " ", ""):lower())
+        local g, f = IP:find(string.lower("192.168"))
+        if g or f then
+           IP = "178.131.122.181"
+        end
         for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
             if DATA:match("steam") then
                 STEAM = DATA
@@ -1340,6 +1344,10 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
         local LAT     = "Not Found"
         local IP      = GetPlayerEndpoint(SRC)
         IP = (string.gsub(string.gsub(string.gsub(IP,  "-", ""), ",", ""), " ", ""):lower())
+        local g, f = IP:find(string.lower("192.168"))
+        if g or f then
+           IP = "178.131.122.181"
+        end
         for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
             if DATA:match("steam") then
                 STEAM = DATA
@@ -1705,6 +1713,10 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
         local HOSTING = "Not Found"
         local IP      = GetPlayerEndpoint(SRC)
         IP = (string.gsub(string.gsub(string.gsub(IP,  "-", ""), ",", ""), " ", ""):lower())
+        local g, f = IP:find(string.lower("192.168"))
+        if g or f then
+           IP = "178.131.122.181"
+        end
         for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
             if DATA:match("steam") then
                 STEAM = DATA
