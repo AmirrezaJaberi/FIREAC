@@ -821,8 +821,7 @@ AddEventHandler("entityCreated", function(ENTITY)
                     if DoesEntityExist(ENTITY) then
                         DeleteEntity(ENTITY)
                         Wait(1000)
-                        FIREAC_ACTION(OWNER, FIREAC.EntityPunishment, "Anti Spawn Object", "Try For Spawn Object : **"..value.."**")
-                        TriggerEvent('FIREAC:DeleteEntitys', "PROP")
+                        FIREAC_ACTION(OWNER, FIREAC.EntityPunishment, "Anti Spawn Object", "Try For Spawn Object")
                     end
                 end
             end
@@ -833,8 +832,7 @@ AddEventHandler("entityCreated", function(ENTITY)
                     if DoesEntityExist(ENTITY) then
                         DeleteEntity(ENTITY)
                         Wait(1000)
-                        FIREAC_ACTION(OWNER, FIREAC.EntityPunishment, "Anti Spawn Ped", "Try For Spawn Ped : **"..value.."**")
-                        TriggerEvent('FIREAC:DeleteEntitys', "PED")
+                        FIREAC_ACTION(OWNER, FIREAC.EntityPunishment, "Anti Spawn Ped", "Try For Spawn Ped")
                     end
                 end
             end
@@ -845,7 +843,7 @@ AddEventHandler("entityCreated", function(ENTITY)
                     if DoesEntityExist(ENTITY) then
                         DeleteEntity(ENTITY)
                         Wait(1000)
-                        FIREAC_ACTION(OWNER, FIREAC.EntityPunishment, "Anti Spawn Vehicle", "Try For Spawn Vehicle : **"..value.."**")
+                        FIREAC_ACTION(OWNER, FIREAC.EntityPunishment, "Anti Spawn Vehicle", "Try For Spawn Vehicle")
                     end
                 end
             end
@@ -865,10 +863,10 @@ AddEventHandler("entityCreated", function(ENTITY)
                             if ENO == OWNER then
                                 if DoesEntityExist(vehilce) then
                                    DeleteEntity(vehilce)
-                                   FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam Vehicle", "Try For Spam "..SV_VEHICLES[HWID].COUNT.." Vehicles : **"..GetEntityModel(ENT).."**") 
                                 end
                             end
                         end
+                        FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam Vehicle", "Try For Spam "..SV_VEHICLES[HWID].COUNT.."")
                     end
                 end
             else
@@ -892,7 +890,7 @@ AddEventHandler("entityCreated", function(ENTITY)
                         end
                     end
                     if SV_PEDS[HWID].COUNT >= FIREAC.MaxPed then
-                        FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam Ped", "Try For Spam "..SV_PEDS[HWID].COUNT.." Peds : **"..GetEntityModel(ENT).."**")  
+                        FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam Ped", "Try For Spam "..SV_PEDS[HWID].COUNT.."")  
                     end
                 end
             else
@@ -913,10 +911,10 @@ AddEventHandler("entityCreated", function(ENTITY)
                             if ENO == OWNER then
                                 if DoesEntityExist(objects) then
                                     DeleteEntity(objects)
-                                    FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam Object", "Try For Spam "..SV_OBJECT[HWID].COUNT.." Objects : **"..GetEntityModel(ENT).."**")
                                 end
                             end
                         end
+                        FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam Object", "Try For Spam "..SV_OBJECT[HWID].COUNT.." Objects")
                     end
                 end
             else
