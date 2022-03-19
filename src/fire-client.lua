@@ -105,7 +105,7 @@ Citizen.CreateThread(function()
             if FIREAC.AntiBlackListWeapon then
                 for _, weapon in ipairs(Weapon) do
                     if HasPedGotWeapon(PlayerPedId(), GetHashKey(weapon), false) == 1 then
-                        RemoveAllPedWeapons(PlayerPedId(), true)
+                        RemoveWeaponFromPed(PlayerPedId(), GetHashKey(weapon))
                         TriggerServerEvent('FIREAC:BanFromClient', FIREAC.WeaponPunishment, "Anti Black List Weapon", "Try For Add Black List Weapon: **"..weapon.."**")
                     end
                 end
