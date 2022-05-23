@@ -5,7 +5,10 @@
 
 ### Requirements
    * [menuv](https://github.com/ThymonA/menuv/releases/tag/v1.4.1)
-   * [discord-screenshot](https://github.com/jaimeadf/discord-screenshot/releases)
+   * [discord-screenshot](https://github.com/jaimeadf/discord-screenshot/releases)+
+
+#### New's
+   * Some one tell me anticheat only kick (not ban) --> Check your vps or host network maybe your anti-ddos block that or etc ... 
 
 #### Features
 
