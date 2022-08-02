@@ -270,7 +270,7 @@ AddEventHandler("FIREAC:ScreenShotFromClient", function (URL, REASON, DETAILS)
                                     {
                                         author = {
                                             name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
-                                            url = "https://discord.gg/8zGyDhtbcg",
+                                            url = "https://discord.gg/drwWFkfu6x",
                                             icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
                                         },
                                         image =  {
@@ -1002,7 +1002,7 @@ function StartAntiCheat()
                     {
                         author = {
                             name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
-                            url = "https://discord.gg/8zGyDhtbcg",
+                            url = "https://discord.gg/drwWFkfu6x",
                             icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
                         },
                         footer = {
@@ -1113,7 +1113,7 @@ function FIREAC_ERROR(SERVER_NAME, ERROR)
                     {
                         author = {
                             name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
-                            url = "https://discord.gg/8zGyDhtbcg",
+                            url = "https://discord.gg/drwWFkfu6x",
                             icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
                         },
                         footer = {
@@ -1390,7 +1390,7 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                 {
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
-                                        url = "https://discord.gg/8zGyDhtbcg",
+                                        url = "https://discord.gg/drwWFkfu6x",
                                         icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
                                     },
                                     footer = {
@@ -1412,7 +1412,7 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                 {
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
-                                        url = "https://discord.gg/8zGyDhtbcg",
+                                        url = "https://discord.gg/drwWFkfu6x",
                                         icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
                                     },
                                     footer = {
@@ -1434,7 +1434,7 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                 {
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
-                                        url = "https://discord.gg/8zGyDhtbcg",
+                                        url = "https://discord.gg/drwWFkfu6x",
                                         icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
                                     },
                                     footer = {
@@ -1456,7 +1456,7 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                 {
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
-                                        url = "https://discord.gg/8zGyDhtbcg",
+                                        url = "https://discord.gg/drwWFkfu6x",
                                         icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
                                     },
                                     footer = {
@@ -1478,7 +1478,7 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                 {
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
-                                        url = "https://discord.gg/8zGyDhtbcg",
+                                        url = "https://discord.gg/drwWFkfu6x",
                                         icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
                                     },
                                     footer = {
@@ -1500,7 +1500,7 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                 {
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
-                                        url = "https://discord.gg/8zGyDhtbcg",
+                                        url = "https://discord.gg/drwWFkfu6x",
                                         icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
                                     },
                                     footer = {
@@ -1522,7 +1522,7 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                 {
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
-                                        url = "https://discord.gg/8zGyDhtbcg",
+                                        url = "https://discord.gg/drwWFkfu6x",
                                         icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
                                     },
                                     image =  {
@@ -1547,7 +1547,7 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                 {
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
-                                        url = "https://discord.gg/8zGyDhtbcg",
+                                        url = "https://discord.gg/drwWFkfu6x",
                                         icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
                                     },
                                     image =  {
@@ -1572,7 +1572,7 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                 {
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
-                                        url = "https://discord.gg/8zGyDhtbcg",
+                                        url = "https://discord.gg/drwWFkfu6x",
                                         icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
                                     },
                                     image =  {
