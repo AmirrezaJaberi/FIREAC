@@ -4,7 +4,7 @@
 #FiveM Best Anti Cheat
 
 ### Requirements
-   * [menuv](https://github.com/ThymonA/menuv/releases/tag/v1.4.1)
+   * [menuv](https://github.com/ThymonA/menuv/releases)
    * [discord-screenshot](https://github.com/jaimeadf/discord-screenshot/releases)
 
 #### New's
