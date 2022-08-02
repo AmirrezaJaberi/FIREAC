@@ -4,16 +4,17 @@
 ------------ 𝗔𝗱𝗺𝗶𝗻𝗠𝗲𝗻𝘂 𝗼𝗻𝗹𝘆 𝗳𝗼𝗿 𝗮𝗱𝗺𝗶𝗻'𝘀 (𝘄𝗵𝗶𝘁𝗲𝗹𝗶𝘀𝘁 + 𝗺𝗲𝗻𝘂) ------------
 ----------------------------------------------------------------------
 WhiteList = {
-    '7835767148521717**',                                -- Discord ID
-    'steam:1100001476d05**',                             -- Steam Hex
-    '192.168.1.**',                                      -- IP Address
-    'license2:500a67097ce3c274569c773bc41974d3c28380**', -- FiveM License
-
+	"7835767148521717**", -- Discord ID
+	"steam:1100001476d05**", -- Steam Hex
+	"192.168.1.**", -- IP Address
+	"license2:500a67097ce3c274569c773bc41974d3c28380**", -- FiveM License
+	"license2:aba55cba6cf5d2841819a1fd86878c86fca9fbda",
 }
 
 AdminMenu = {
-    '7835767148521717**',                                -- Discord ID
-    'steam:1100001476d05**',                             -- Steam Hex
-    '192.168.1.**',                                      -- IP Address
-    'license2:500a67097ce3c274569c773bc41974d3c28380**', -- FiveM License
+	"7835767148521717**", -- Discord ID
+	"steam:1100001476d05**", -- Steam Hex
+	"192.168.1.**", -- IP Address
+	"license2:500a67097ce3c274569c773bc41974d3c28380**", -- FiveM License
+	"license2:aba55cba6cf5d2841819a1fd86878c86fca9fbda",
 }
