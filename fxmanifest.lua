@@ -14,9 +14,9 @@ fx_version 'cerulean'
 game 'gta5'
 
 -- 【 𝗜𝗡𝗙𝗢 】--
-author 'https://discord.gg/8zGyDhtbcg'
+author 'https://discord.gg/drwWFkfu6x'
 description 'FIERAC'
-version '6.0.0'
+version '6.0.1'
 
 -- 【 𝗦𝗵𝗮𝗿𝗲𝗱 】--
 shared_scripts {
@@ -40,9 +40,3 @@ client_scripts {
     'src/fire-menu.lua',
 }
 dependency 'menuv'
-
-
-
-
-
-
