@@ -1038,59 +1038,70 @@ end
 
 
 function FIREAC_WHITELIST(SRC)
-    if not tonumber(SRC) then 
-        return FIREAC_ERROR(SERVER_NAME, "function FIREAC_WHITELIST (SRC Not Found)")
-    end
-
-    local WHITE   = false
-    local ids = ExtractIdentifiers(SRC)
-    local playerIP = ids.ip
-    local playerSteam = ids.steam
-    local playerLicense = ids.license
-    local playerXbl = ids.xbl
-    local playerLive = ids.live
-    local playerDisc = ids.discord
-
-    for _, id in pairs(WhiteList) do 
-        if id == playerLicense or id == playerSteam or id == playerXbl or id == playerLive or id == playerDisc or id == playerIP then
-            WHITE = true
+     if tonumber(SRC) ~= nil then
+        local WHITE   = false
+        local ids = ExtractIdentifiers(SRC)
+        local playerIP = ids.ip
+        local playerSteam = ids.steam
+        local playerLicense = ids.license
+        local playerXbl = ids.xbl
+        local playerLive = ids.live
+        local playerDisc = ids.discord
+        for i = 1, #WhiteList do
+            local id =  WhiteList[i]
+            if id == playerLicense then
+                WHITE = true
+            elseif id == playerSteam then
+                WHITE = true
+            elseif id == playerXbl then
+                WHITE = true
+            elseif id == playerLive then
+                WHITE = true
+            elseif id == playerDisc then
+                WHITE = true
+            elseif id == playerIP then
+                WHITE = true
+            end
         end
+        return WHITE
+    else
+        FIREAC_ERROR(SERVER_NAME, "function FIREAC_WHITELIST (SRC Not Found)")
     end
-    return WHITE
 end
 
 function FIREAC_ADMINMENU(SRC)
-    if not tonumber(SRC) then 
-        return FIREAC_ERROR(SERVER_NAME, "function FIREAC_WHITELIST (SRC Not Found)")
-    end
-
-    local ISADMIN = false
-    local STEAM   = "Not Found"
-    local DISCORD = "Not Found"
-    local FIVEML  = "Not Found"
-    local LIVE    = "Not Found"
-    local XBL     = "Not Found"
-    local IP     = GetPlayerEndpoint(SRC)
-    for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
-        if DATA:match("steam") then
-            STEAM = DATA
-        elseif DATA:match("discord") then
-            DISCORD = DATA:gsub("discord:", "")
-        elseif DATA:match("license") then
-            FIVEML = DATA
-        elseif DATA:match("live") then
-            LIVE = DATA
-        elseif DATA:match("xbl") then
-            XBL = DATA
+    if tonumber(SRC) ~= nil then
+        local ISADMIN = false
+        local STEAM   = "Not Found"
+        local DISCORD = "Not Found"
+        local FIVEML  = "Not Found"
+        local LIVE    = "Not Found"
+        local XBL     = "Not Found"
+        local IP     = GetPlayerEndpoint(SRC)
+        for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
+            if DATA:match("steam") then
+                STEAM = DATA
+            elseif DATA:match("discord") then
+                DISCORD = DATA:gsub("discord:", "")
+            elseif DATA:match("license") then
+                FIVEML = DATA
+            elseif DATA:match("live") then
+                LIVE = DATA
+            elseif DATA:match("xbl") then
+                XBL = DATA
+            end
         end
-    end
-    for _, WID in ipairs(AdminMenu) do
-        if STEAM == WID or DISCORD == WID or FIVEML == WID or LIVE == WID or XBL == WID or IP == WID then
-            ISADMIN = true
-            break
+        for _, WID in ipairs(AdminMenu) do
+            if STEAM == WID or DISCORD == WID or FIVEML == WID or LIVE == WID or XBL == WID or IP == WID then
+                ISADMIN = true
+            else
+                ISADMIN = false
+            end
         end
+        return ISADMIN
+    else
+        FIREAC_ERROR(SERVER_NAME, "function FIREAC_WHITELIST (SRC Not Found)")
     end
-    return ISADMIN
 end
 
 function FIREAC_ERROR(SERVER_NAME, ERROR)
