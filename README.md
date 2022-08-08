@@ -7,11 +7,8 @@
    * [menuv](https://github.com/ThymonA/menuv/releases)
    * [discord-screenshot](https://github.com/jaimeadf/discord-screenshot/releases)
 
-#### New's
-   * Some one tell me anticheat only kick (not ban) --> Check your vps or host network maybe your anti-ddos block that or etc ... (but i will fix it)
 
 #### Features
-
 ##### Client Side Protecet :
 - Anti Track Player's
 - Anti Health Hack
