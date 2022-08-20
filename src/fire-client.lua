@@ -404,14 +404,10 @@ AddEventHandler("gameEventTriggered", function(name, args)
         end
     end
     if FIREAC.AntiSuicide then
-        if name == 'CEventNetworkEntityDamage' and args[2] == -1 and not IsEntityDead(args[1]) then
-            if BUILD == 2189 then
-                if args[7] == tonumber(-842959696) and ENOWNER1 == PlayerId() and IsEntityDead(args[1]) then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SuiPunishment, "Anti Suicide", "Try Kill (Suicide) Player")
-                end
-            else
-                if args[5] == tonumber(-842959696) and ENOWNER1 == PlayerId() and IsEntityDead(args[1]) then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SuiPunishment, "Anti Suicide", "Try Kill (Suicide) Player")
+        if name == "CEventNetworkEntityDamage" then
+            if args[1] == PlayerPedId() and args[2] == -1 and args[3] == 0 and args[4] == 0 and args[5] == 0 and args[6] == 1 and args[7] == GetHashKey('WEAPON_FALL') and args[8] == 0 and args[9] == 0 and args[10] == 0 and args[11] == 0 and args[12] == 0 and args[13] == 0 then
+                if FIREAC.AntiSuicide then
+                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SuiPunishment, "Anti Suicide", "Try For Kill Self (Suicide) !")
                 end
             end
         end
