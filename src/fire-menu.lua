@@ -321,8 +321,8 @@ end)
 
 -- MENU 7
 local menu7 = MenuV:CreateMenu(false, 'FIREAC Admin Tools', 'centerright', 51, 102, 255, 'size-125', 'default_native', 'menuv', 'FIREAC: TP Tools Tools')
-local menu7_acinfo = menu7:AddButton({ icon = ''..Emoji.info..'', label = 'Version: 6.0', description = 'discord.com/invite/EAU2DM4hdn' })
-local menu7_creatorac = menu7:AddButton({ icon = ''..Emoji.info..'', label = 'FIREAC Dev: AmIrReZa#2080', description = 'discord.com/invite/EAU2DM4hdn' })
+local menu7_acinfo = menu7:AddButton({ icon = ''..Emoji.info..'', label = 'Version: 6.0', description = 'https://discord.gg/drwWFkfu6x' })
+local menu7_creatorac = menu7:AddButton({ icon = ''..Emoji.info..'', label = 'FIREAC Dev: AmIrReZa#2080', description = 'https://discord.gg/drwWFkfu6x' })
 
 -- NEW MENUS (Augusto/Mopped7)
 
