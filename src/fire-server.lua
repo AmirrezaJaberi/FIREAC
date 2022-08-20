@@ -782,10 +782,15 @@ AddEventHandler("playerConnecting", function (name, setKickReason, deferrals)
                     Wait(15000)
                     deferrals.done("["..Emoji.Fire.."FIREAC"..Emoji.Fire.."]\nPlease Turn off your vpn and rejoin !")
                 else
-                    FIREAC_SENDLOG(SRC, FIREAC.Log.Connect, "CONNECT")
-                    deferrals.update("\n["..Emoji.Fire.."FIREAC"..Emoji.Fire.."] Your Information\nName: "..name.."\nLicense : "..FIVEML.."\nSteam : "..STEAM.."\nDiscord ID: "..DISCORD.."\nLive ID: "..LIVE.."\nXbox ID: "..XBL.."\nIP: "..IP.."\nHWID : "..HWID.."")
-                    Wait(2000)
-                    deferrals.done()
+                    local NEW_HWID = GetPlayerToken(SRC, 0)
+                        if NEW_HWID == nil then
+                            deferrals.done("["..Emoji.Fire.."FIREAC"..Emoji.Fire.."]\nYour HWID (FiveM Token) not find please restart your fivem !")
+                        else
+                            FIREAC_SENDLOG(SRC, FIREAC.Log.Connect, "CONNECT")
+                            deferrals.update("\n["..Emoji.Fire.."FIREAC"..Emoji.Fire.."] Your Information\nName: "..name.."\nLicense : "..FIVEML.."\nSteam : "..STEAM.."\nDiscord ID: "..DISCORD.."\nLive ID: "..LIVE.."\nXbox ID: "..XBL.."\nIP: "..IP.."\nHWID : "..NEW_HWID.."")
+                            Wait(2000)
+                            deferrals.done()
+                        end
                     end
                 else
                     FIREAC_ERROR(SERVER_NAME, "playerConnecting (TABLE Not Found)")
