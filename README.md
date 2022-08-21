@@ -1,5 +1,5 @@
 <h1 align='center'><center><img src="https://images-ext-1.discordapp.net/external/o6rKvVQzJu0QDJ8-I1AeB9wt8UyedNZiS5kDqS5BPZQ/https/media.discordapp.net/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png" alt="what image shows" height="20" width="20"></center>   FIREAC   <center><img src="https://images-ext-1.discordapp.net/external/o6rKvVQzJu0QDJ8-I1AeB9wt8UyedNZiS5kDqS5BPZQ/https/media.discordapp.net/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png" alt="what image shows" height="20" width="20"></center></a></h1>
-<p align='center'><b><a href='https://discord.gg/drwWFkfu6xJ'>Discord</a></b></h5>
+<p align='center'><b><a href='https://discord.gg/uvccDWtqhv'>Discord</a></b></h5>
 
 #FiveM Best Anti Cheat
 
@@ -96,7 +96,7 @@ ensure discord-screenshot
 
 ### Information
 FIREAC developed by **AmIrReZa#2080** in 2021 and updated in 2022 and due to the circumstances, it was decided to make it public
-- [Guide Documentation](https://cdn.discordapp.com/attachments/822808647230291988/925290471947927572/Guide.pdf)
+- [Guide Documentation](https://cdn.discordapp.com/attachments/905814226118008923/1010948127974502543/help.pdf)
 
 ### License
 
