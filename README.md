@@ -96,7 +96,9 @@ ensure discord-screenshot
 
 ### Information
 FIREAC developed by **AmIrReZa#2080** in 2021 and updated in 2022 and due to the circumstances, it was decided to make it public
-- [Guide Documentation](https://cdn.discordapp.com/attachments/905814226118008923/1010948127974502543/help.pdf)
+
+### Guide Documentation
+Guide wiki will add in github soon ...
 
 ### License
 
