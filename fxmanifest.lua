@@ -16,7 +16,7 @@ game 'gta5'
 -- 【 𝗜𝗡𝗙𝗢 】--
 author 'https://discord.gg/drwWFkfu6x'
 description 'FIERAC'
-version '6.1.1'
+version '6.1.2'
 
 -- 【 𝗦𝗵𝗮𝗿𝗲𝗱 】--
 shared_scripts {
