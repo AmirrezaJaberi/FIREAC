@@ -1109,6 +1109,41 @@ function FIREAC_ADMINMENU(SRC)
     end
 end
 
+function FIREAC_UNBANACCESS(SRC)
+    if tonumber(SRC) ~= nil then
+        local ISADMIN = false
+        local STEAM   = "Not Found"
+        local DISCORD = "Not Found"
+        local FIVEML  = "Not Found"
+        local LIVE    = "Not Found"
+        local XBL     = "Not Found"
+        local IP     = GetPlayerEndpoint(SRC)
+        for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
+            if DATA:match("steam") then
+                STEAM = DATA
+            elseif DATA:match("discord") then
+                DISCORD = DATA:gsub("discord:", "")
+            elseif DATA:match("license") then
+                FIVEML = DATA
+            elseif DATA:match("live") then
+                LIVE = DATA
+            elseif DATA:match("xbl") then
+                XBL = DATA
+            end
+        end
+        for _, WID in ipairs(UnBan) do
+            if STEAM == WID or DISCORD == WID or FIVEML == WID or LIVE == WID or XBL == WID or IP == WID then
+                ISADMIN = true
+            else
+                ISADMIN = false
+            end
+        end
+        return ISADMIN
+    else
+        FIREAC_ERROR(SERVER_NAME, "function FIREAC_WHITELIST (SRC Not Found)")
+    end
+end
+
 function FIREAC_ERROR(SERVER_NAME, ERROR)
     if SERVER_NAME ~= nil then
         if ERROR ~= nil then
@@ -1190,6 +1225,32 @@ function FIREAC_BAN(SRC, REASON)
     end
 end
 
+function FIREAC:UNBAN(BanID)
+    local p = promise.new()
+    if tonumber(BanID) then
+        local BANFILE = LoadResourceFile(GetCurrentResourceName(), "banlist/fireac.json")
+        if BANFILE ~= nil then
+            local TABLE = json.decode(BANFILE)
+            if TABLE ~= nil and type(TABLE) == "table" then
+                for index, data in ipairs(TABLE)	do
+                    if data.BANID == "#"..tonumber(BanID).."" then
+                        table.remove(TABLE, index)
+                        p:resolve(true)
+                        Wait(0)
+                        SaveResourceFile(GetCurrentResourceName(), "banlist/fireac.json", json.encode(TABLE, {indent = true}), tonumber("-1"))
+                    else
+                        p:resolve(false)
+                    end
+                end
+            else
+                FIREAC_RELOADFILE() p:resolve(false)
+            end
+        else
+            FIREAC_RELOADFILE() p:resolve(false)
+        end
+    end
+    return Citizen.Await(p)
+end
 
 function FIREAC_INBANLIST(SRC)
     local DEFULT = false
@@ -1781,8 +1842,30 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
     end
 end
 
+RegisterCommand('funban', function (source, args)
+    local BAN_ID = args[1]
+    if source == -1 then
+        local unbaned = FIREAC:UNBAN(BAN_ID)
+        if unbaned then
+            print("^"..COLORS.."[FIREAC]^0: You unbanned ^2"..BAN_ID.."^0 !")
+        else
+            print("^"..COLORS.."[FIREAC]^0: ^1 our unbanned failed !^0")    
+        end
+    else
+        if FIREAC_UNBANACCESS(source) then
+            local unbaned = FIREAC:UNBAN(BAN_ID)
+            if unbaned then
+                TriggerClientEvent("chatMessage", source, "[FIREAC]", {255, 0, 0}, "You unbanned ^2"..BAN_ID.."^0 !")
+            else
+                TriggerClientEvent("chatMessage", source, "[FIREAC]", {255, 0, 0}, "Your unbanned failed !")
+            end
+        else
+            TriggerClientEvent("chatMessage", source, "[FIREAC]", {255, 0, 0}, "You don't have access for unban players !")
+        end
+    end
+end)
+
 function ExtractIdentifiers(src)
-    
     local identifiers = {
         steam = "",
         ip = "",
@@ -1794,7 +1877,6 @@ function ExtractIdentifiers(src)
 
     for i = 0, GetNumPlayerIdentifiers(src) - 1 do
         local id = GetPlayerIdentifier(src, i)
-        
         if string.find(id, "steam") then
             identifiers.steam = id
         elseif string.find(id, "ip") then
