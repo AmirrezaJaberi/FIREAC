@@ -1844,7 +1844,7 @@ end
 
 RegisterCommand('funban', function (source, args)
     local BAN_ID = args[1]
-    if source == -1 then
+    if source == 0 then
         local unbaned = FIREAC:UNBAN(BAN_ID)
         if unbaned then
             print("^"..COLORS.."[FIREAC]^0: You unbanned ^2"..BAN_ID.."^0 !")
