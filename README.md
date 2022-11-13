@@ -94,6 +94,9 @@ ensure screenshot-basic
 ensure discord-screenshot
 ```
 
+### Command
+- `/funban [Ban ID]` This command add for unban players by ban id (with console for in game)
+
 ### Information
 FIREAC developed by **AmIrReZa#2080** in 2021 and updated in 2022 and due to the circumstances, it was decided to make it public
 
