@@ -1043,32 +1043,35 @@ end
 
 
 function FIREAC_WHITELIST(SRC)
-     if tonumber(SRC) ~= nil then
-        local WHITE   = false
-        local ids = ExtractIdentifiers(SRC)
-        local playerIP = ids.ip
-        local playerSteam = ids.steam
-        local playerLicense = ids.license
-        local playerXbl = ids.xbl
-        local playerLive = ids.live
-        local playerDisc = ids.discord
-        for i = 1, #WhiteList do
-            local id =  WhiteList[i]
-            if id == playerLicense then
-                WHITE = true
-            elseif id == playerSteam then
-                WHITE = true
-            elseif id == playerXbl then
-                WHITE = true
-            elseif id == playerLive then
-                WHITE = true
-            elseif id == playerDisc then
-                WHITE = true
-            elseif id == playerIP then
-                WHITE = true
+    if tonumber(SRC) ~= nil then
+        local IS_WHITELIST = false
+        local STEAM   = "Not Found"
+        local DISCORD = "Not Found"
+        local FIVEML  = "Not Found"
+        local LIVE    = "Not Found"
+        local XBL     = "Not Found"
+        local IP     = GetPlayerEndpoint(SRC)
+        for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
+            if DATA:match("steam") then
+                STEAM = DATA
+            elseif DATA:match("discord") then
+                DISCORD = DATA:gsub("discord:", "")
+            elseif DATA:match("license") then
+                FIVEML = DATA
+            elseif DATA:match("live") then
+                LIVE = DATA
+            elseif DATA:match("xbl") then
+                XBL = DATA
             end
         end
-        return WHITE
+        for _, WID in ipairs(WhiteList) do
+            if STEAM == WID or DISCORD == WID or FIVEML == WID or LIVE == WID or XBL == WID or IP == WID then
+                IS_WHITELIST = true
+            else
+                IS_WHITELIST = false
+            end
+        end
+        return IS_WHITELIST
     else
         FIREAC_ERROR(SERVER_NAME, "function FIREAC_WHITELIST (SRC Not Found)")
     end
@@ -1105,7 +1108,7 @@ function FIREAC_ADMINMENU(SRC)
         end
         return ISADMIN
     else
-        FIREAC_ERROR(SERVER_NAME, "function FIREAC_WHITELIST (SRC Not Found)")
+        FIREAC_ERROR(SERVER_NAME, "function FIREAC_ADMINMENU (SRC Not Found)")
     end
 end
 
@@ -1140,7 +1143,7 @@ function FIREAC_UNBANACCESS(SRC)
         end
         return ISADMIN
     else
-        FIREAC_ERROR(SERVER_NAME, "function FIREAC_WHITELIST (SRC Not Found)")
+        FIREAC_ERROR(SERVER_NAME, "function FIREAC_UNBANACCESS (SRC Not Found)")
     end
 end
 
