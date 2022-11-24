@@ -80,7 +80,7 @@ FiveM Best Lua AntiCheat
 - [FiveM Player Token's](https://docs.fivem.net/natives/?_0x54C06897)
 
 #### Log's:
-- Consol Log
+- Console Log
 - Discord Log
 - Chat Log
 - Screenshot Log
