@@ -1,11 +1,10 @@
---[[[
-        -----------------------------------
-        -----------------------------------
-        ---- Copyright 2022 by FIREAC® ----
-        -----------------------------------
-        ------ Dev By AmIrReZa#2080 -------
-        -----------------------------------
-
+--[[
+    -----------------------------------
+    -----------------------------------
+    ---- Copyright 2022 by FIREAC® ----
+    -----------------------------------
+    ------ Dev By AmIrReZa#2080 -------
+    -----------------------------------
 ]]
 
 local Access          = false
@@ -23,8 +22,8 @@ local TargetSpectate  = nil
 RegisterNetEvent('FIREAC:AddAdminOption')
 AddEventHandler('FIREAC:AddAdminOption', function (DATA)
     if DATA ~= nil then
-        Access = true
         DrawNotificationForPlayer('~h~~o~FIREAC:~s~~g~~h~ You Are Joined As Administrator !~s~')
+        Access = true
     end
 end)
 
@@ -36,82 +35,85 @@ end)
 RegisterNetEvent('FIREAC:SpectatePlayer')
 AddEventHandler('FIREAC:SpectatePlayer', function(TARGET ,COORDS)
     if COORDS ~= nil then
-        spectate(TARGET, COORDS)
+        FIREAC_SPECTATE(TARGET, COORDS)
     end
 end)
 
--- Thread
-
 Citizen.CreateThread(function()
-    while Access do
+    Wait(1000)
+    while true do
         Citizen.Wait(0)
-        if isusingfuncs then
-            if isnoclipping then
-                local _ped = PlayerPedId()
-                local _pcoords = GetEntityCoords(_ped)
-                local _x = _pcoords.x
-                local _y = _pcoords.y
-                local _z = _pcoords.z
-                local heading = GetGameplayCamRelativeHeading()+GetEntityHeading(PlayerPedId())
-                local pitch = GetGameplayCamRelativePitch()
-                local x = -math.sin(heading*math.pi/180.0)
-                local y = math.cos(heading*math.pi/180.0)
-                local z = math.sin(pitch*math.pi/180.0)
-                local len = math.sqrt(x*x+y*y+z*z)
-                if len ~= 0 then
-                  x = x/len
-                  y = y/len
-                  z = z/len
+        if Access then
+            if isusingfuncs then
+                if isnoclipping then
+                    local _ped = PlayerPedId()
+                    local _pcoords = GetEntityCoords(_ped)
+                    local _x = _pcoords.x
+                    local _y = _pcoords.y
+                    local _z = _pcoords.z
+                    local heading = GetGameplayCamRelativeHeading()+GetEntityHeading(PlayerPedId())
+                    local pitch = GetGameplayCamRelativePitch()
+                    local x = -math.sin(heading*math.pi/180.0)
+                    local y = math.cos(heading*math.pi/180.0)
+                    local z = math.sin(pitch*math.pi/180.0)
+                    local len = math.sqrt(x*x+y*y+z*z)
+                    if len ~= 0 then
+                      x = x/len
+                      y = y/len
+                      z = z/len
+                    end
+                    local _camx = x
+                    local _camy = y
+                    local _camz = z
+                    if IsControlPressed(0, 32) then
+                        _x = _x + noclipspeed * _camx
+                        _y = _y + noclipspeed * _camy
+                        _z = _z + noclipspeed * _camz
+                    elseif IsControlPressed(0, 33) then
+                        _x = _x - noclipspeed * _camx
+                        _y = _y - noclipspeed * _camy
+                        _z = _z - noclipspeed * _camz
+                    end
+                    SetEntityVisible(_ped, false)
+                    SetEntityVelocity(_ped, 0.05,  0.05,  0.05)
+                    SetEntityCoordsNoOffset(_ped, _x, _y, _z, true, true, true) 
                 end
-                local _camx = x
-                local _camy = y
-                local _camz = z
-                if IsControlPressed(0, 32) then
-                    _x = _x + noclipspeed * _camx
-                    _y = _y + noclipspeed * _camy
-                    _z = _z + noclipspeed * _camz
-                elseif IsControlPressed(0, 33) then
-                    _x = _x - noclipspeed * _camx
-                    _y = _y - noclipspeed * _camy
-                    _z = _z - noclipspeed * _camz
+                if isnoclippingveh then
+                    local _ped = GetVehiclePedIsIn(PlayerPedId(), false)
+                    local _pcoords = GetEntityCoords(_ped)
+                    local _x = _pcoords.x
+                    local _y = _pcoords.y
+                    local _z = _pcoords.z
+                    local heading = GetGameplayCamRelativeHeading()+GetEntityHeading(PlayerPedId())
+                    local pitch = GetGameplayCamRelativePitch()
+                    local x = -math.sin(heading*math.pi/180.0)
+                    local y = math.cos(heading*math.pi/180.0)
+                    local z = math.sin(pitch*math.pi/180.0)
+                    local len = math.sqrt(x*x+y*y+z*z)
+                    if len ~= 0 then
+                      x = x/len
+                      y = y/len
+                      z = z/len
+                    end
+                    local _camx = x
+                    local _camy = y
+                    local _camz = z
+                    if IsControlPressed(0, 32) then
+                        _x = _x + noclipveh * _camx
+                        _y = _y + noclipveh * _camy
+                        _z = _z + noclipveh * _camz
+                    elseif IsControlPressed(0, 33) then
+                        _x = _x - noclipveh * _camx
+                        _y = _y - noclipveh * _camy
+                        _z = _z - noclipveh * _camz
+                    end
+                    SetEntityVisible(_ped, false)
+                    SetEntityVelocity(_ped, 0.05,  0.05,  0.05)
+                    SetEntityCoordsNoOffset(_ped, _x, _y, _z, true, true, true) 
                 end
-                SetEntityVisible(_ped, false)
-                SetEntityVelocity(_ped, 0.05,  0.05,  0.05)
-                SetEntityCoordsNoOffset(_ped, _x, _y, _z, true, true, true) 
             end
-            if isnoclippingveh then
-                local _ped = GetVehiclePedIsIn(PlayerPedId(), false)
-                local _pcoords = GetEntityCoords(_ped)
-                local _x = _pcoords.x
-                local _y = _pcoords.y
-                local _z = _pcoords.z
-                local heading = GetGameplayCamRelativeHeading()+GetEntityHeading(PlayerPedId())
-                local pitch = GetGameplayCamRelativePitch()
-                local x = -math.sin(heading*math.pi/180.0)
-                local y = math.cos(heading*math.pi/180.0)
-                local z = math.sin(pitch*math.pi/180.0)
-                local len = math.sqrt(x*x+y*y+z*z)
-                if len ~= 0 then
-                  x = x/len
-                  y = y/len
-                  z = z/len
-                end
-                local _camx = x
-                local _camy = y
-                local _camz = z
-                if IsControlPressed(0, 32) then
-                    _x = _x + noclipveh * _camx
-                    _y = _y + noclipveh * _camy
-                    _z = _z + noclipveh * _camz
-                elseif IsControlPressed(0, 33) then
-                    _x = _x - noclipveh * _camx
-                    _y = _y - noclipveh * _camy
-                    _z = _z - noclipveh * _camz
-                end
-                SetEntityVisible(_ped, false)
-                SetEntityVelocity(_ped, 0.05,  0.05,  0.05)
-                SetEntityCoordsNoOffset(_ped, _x, _y, _z, true, true, true) 
-            end
+        else
+            break
         end
     end
 end)
@@ -204,7 +206,7 @@ menu7_Spectate:On('check', function(item)
 end)
 
 menu7_Spectate:On('uncheck', function(item)
-	resetNormalCamera()
+	FIREAC_RESETCAMERA()
 end)
 
 -- MENU 3
@@ -467,7 +469,7 @@ function updateTargetChecks()
 	end)
 end
 
-function resetNormalCamera()
+function FIREAC_RESETCAMERA()
 	if InSpectatorMode then
 		InSpectatorMode = false
 		TargetSpectate  = nil
@@ -482,7 +484,7 @@ function resetNormalCamera()
 	end
 end
 
-function spectate(target, coords)
+function FIREAC_SPECTATE(target, coords)
 	if not DoesCamExist(cam) then
 		cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
 	end
@@ -495,14 +497,12 @@ function spectate(target, coords)
 	if player == -1 then return ESX.ShowNotification('~h~~o~[FIREAC]:~s~Player Not Found !') end
 	local ped = GetPlayerPed(player)
 	NetworkSetInSpectatorMode(true, ped)
-	--exports.idoverhead:spectate({active = true, ped = ped})
-	--exports.esx_rpchat:spectate({active = true, ped = ped})
 	InSpectatorMode = true
 	TargetSpectate  = target
-	DoTheSpectate(player, ped)
+	FIREAC_DOSPECTATE(player, ped)
 end
 
-function DoTheSpectate(player, ped)
+function FIREAC_DOSPECTATE(player, ped)
 	Citizen.CreateThread(function()
 		local thePlayer = player
 		targetPed = GetPlayerPed(thePlayer)
@@ -513,7 +513,7 @@ function DoTheSpectate(player, ped)
 			  local coords = GetEntityCoords(targetPed)
 			  if not DoesEntityExist(ped) then
 				ESX.ShowNotification('~h~Player left or teleporteed!')
-				resetNormalCamera()
+				FIREAC_RESETCAMERA()
 			  end
 
 			  DisableControlAction(2, 37, true) 
