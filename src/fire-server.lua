@@ -980,15 +980,19 @@ function StartAntiCheat()
     print("^"..COLORS.."[FIREAC]^0: ^2 fire-white.lua      LOADED !^0")
     print("^"..COLORS.."")
     print([[
-     .sSSSSs.    SSSSS .sSSSSs.    .sSSSSs.    .sSSSSs.    .sSSSSs.    
-     SSSSSSSSSs. SSSSS SSSSSSSSSs. SSSSSSSSSs. SSSSSSSSSs. SSSSSSSSSs. 
-     S SSS SSSS  S SSS S SSS SSSSS S SSS SSSS" S SSS SSSSS S SSS SSSSS 
-     S  SS       S  SS S  SS SSSS" S  SS       S  SS SSSSS S  SS SSSS" 
-     S..SSsss    S..SS S..SSsSSSa. S..SSsss    S..SSsSSSSS S..SS       
-     S:::SSSS    S:::S S:::S SSSSS S:::SSSS    S:::S SSSSS S:::S SSSSS 
-     S;;;S       S;;;S S;;;S SSSSS S;;;S       S;;;S SSSSS S;;;S SSSSS 
-     S%%%S       S%%%S S%%%S SSSSS S%%%S SSSSS S%%%S SSSSS S%%%S SSSSS 
-     SSSSS       SSSSS SSSSS SSSSS SSSSSsSS;:" SSSSS SSSSS SSSSSsSSSSS                                                            
+    8888888888 8888888 8888888b.  8888888888        d8888  .d8888b.  
+    888          888   888   Y88b 888              d88888 d88P  Y88b 
+    888          888   888    888 888             d88P888 888    888 
+    8888888      888   888   d88P 8888888        d88P 888 888        
+    888          888   8888888P"  888           d88P  888 888        
+    888          888   888 T88b   888          d88P   888 888    888 
+    888          888   888  T88b  888         d8888888888 Y88b  d88P 
+    888        8888888 888   T88b 8888888888 d88P     888  "Y8888P"       
+        
+        
+    ^2     __                ^0      ______   ^1 _____  ___ ___ __  __     ^0 
+    ^2|  |/  \|\/| /\ |\ |   ^0|   ||__|__    ^1|__|__)|__ |__ |  \/  \|\/|^0 
+    ^2|/\|\__/|  |/~~\| \|   ^0|___||  |___   ^1|  |  \|___|___|__/\__/|  |^0                                                         
                     ]])
         PerformHttpRequest("http://localhost:"..FIREAC.Port.."/info.json", function(ERROR, DATA, RESULT)
             if DATA ~= nil then
