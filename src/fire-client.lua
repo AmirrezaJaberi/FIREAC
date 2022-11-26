@@ -1,12 +1,9 @@
---[[[
-        -----------------------------------
-        -----------------------------------
-        ---- Copyright 2022 by FIREAC® ----
-        -----------------------------------
-        ------ Dev By AmIrReZa#2080 -------
-        -----------------------------------
-
-]]
+--------[-----------------------------------]--------
+--------[-----------------------------------]--------
+--------[---- Copyright 2022 by FIREAC® ----]--------
+--------[-----------------------------------]--------
+--------[------ Dev By Amirreza Jaberi -----]--------
+--------[-----------------------------------]--------
 
 local SPAWN    = false
 local TRACK    = 0
@@ -112,14 +109,17 @@ Citizen.CreateThread(function()
             end
             local CUHEALTH = GetEntityHealth(PlayerPedId())
             if FIREAC.AntiGodMode then
+                while IsPlayerSwitchInProgress() do
+                    Wait(5000)
+                end
                 if GetPlayerInvincible(PlayerId()) and SPAWN then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti GodeMod", "Try For GodeMode Ped in server")
+                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti GodeMod", "Try For GodeMode Ped in server #1")
                 end
                 SetEntityHealth(PlayerPedId(), CUHEALTH - 2)
                 Wait(250)
-                if not IsPlayerDead(PlayerPedId()) then
+                if not IsPlayerDead(PlayerPedId()) and SPAWN then
                     if GetEntityHealth(PlayerPedId()) == CUHEALTH and GetEntityHealth(PlayerPedId()) ~= 0 then
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti GodeMod", "Try For GodeMode Ped in server")
+                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti GodeMod", "Try For GodeMode Ped in server #2")
                     elseif GetEntityHealth(PlayerPedId()) == CUHEALTH - 2 then
                         SetEntityHealth(PlayerPedId(), GetEntityHealth(PlayerPedId()) + 2)
                     end
@@ -176,8 +176,7 @@ Citizen.CreateThread(function()
                 while IsPlayerSwitchInProgress() do
                     Wait(5000)
                 end
-                local entityalpha = GetEntityAlpha(PlayerPedId())
-                if not IsEntityVisible(PlayerPedId()) or not IsEntityVisibleToScript(PlayerPedId()) or entityalpha <= 150 and SPAWN and not IsPlayerSwitchInProgress() then
+                if ( not IsEntityVisible(PlayerPedId()) and not IsEntityVisibleToScript(PlayerPedId()) ) or (GetEntityAlpha(PlayerPedId()) <= 150 and GetEntityAlpha(PlayerPedId()) ~= 0 and SPAWN and not IsPlayerSwitchInProgress()) then
                     TriggerServerEvent('FIREAC:BanFromClient', FIREAC.InvisiblePunishment, "Anti Invisble", "Try For Invisible in server")
                 end
             end
