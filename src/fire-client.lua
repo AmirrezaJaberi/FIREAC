@@ -12,13 +12,15 @@ local lastcoordsy = nil
 
 --【 𝗦𝗽𝗮𝘄𝗻 𝗠𝗮𝗻𝗮𝗴𝗲𝗺𝗲𝗻𝘁 】--
 AddEventHandler('playerSpawned', function()
-    Wait(2000)
+    Wait(5000)
     if SPAWN == false then
+        SPAWN = false
        TriggerServerEvent('FIREAC:CheckIsAdmin')
         Wait(10000)
         while IsPlayerSwitchInProgress() do
-            Wait(1000)
+            Wait(1500)
         end
+        Wait(100)
         SPAWN = true
     end
 end)
