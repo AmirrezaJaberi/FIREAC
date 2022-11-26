@@ -1,15 +1,11 @@
---[[[
-        -----------------------------------
-        -----------------------------------
-        ---- Copyright 2022 by FIREAC® ----
-        -----------------------------------
-        ------ Dev By AmIrReZa#2080 -------
-        -----------------------------------
-
-]]
+--------[-----------------------------------]--------
+--------[-----------------------------------]--------
+--------[---- Copyright 2022 by FIREAC® ----]--------
+--------[-----------------------------------]--------
+--------[------ Dev By Amirreza Jaberi -----]--------
+--------[-----------------------------------]--------
 
 local COLORS    = math.random(1, 9)
-local SERVER_NAME   = "SERVER NAME"
 local SPAWNED   = {}
 local SPAMLIST  = {}
 
@@ -29,7 +25,7 @@ AddEventHandler("FIREAC:BanFromClient", function (ACTION ,REASON, DETAILS)
             FIREAC_ADD_SPAMLIST(SRC, ACTION, REASON, DETAILS)
         end
     else
-        FIREAC_ERROR(SERVER_NAME, "FIREAC:BanFromClient : REASON or ACTION (Not Found)")
+        FIREAC_ERROR(FIREAC.ServerConfig.Name, "FIREAC:BanFromClient : REASON or ACTION (Not Found)")
     end
 end)
 
@@ -42,7 +38,7 @@ AddEventHandler("FIREAC:BanForInject", function (REASON, DETAILS, RESOURCE)
             FIREAC_ACTION(SRC, FIREAC.InjectPunishment, "Anti Inject", DETAILS)
         end
     else
-        FIREAC_ERROR(SERVER_NAME, "FIREAC:BanForInject : REASON or RESOURCE (Not Found)")
+        FIREAC_ERROR(FIREAC.ServerConfig.Name, "FIREAC:BanForInject : REASON or RESOURCE (Not Found)")
     end
 end)
 
@@ -58,7 +54,7 @@ end)
 RegisterNetEvent("FIREAC:CheckIsAdmin")
 AddEventHandler("FIREAC:CheckIsAdmin", function ()
     local SRC = source
-    if FIREAC_ADMINMENU(SRC) then
+    if FIREAC_GETADMINS(SRC) then
         local DATA = {
             NAME = GetPlayerName(SRC),
             ID   = SRC
@@ -70,7 +66,7 @@ end)
 RegisterNetEvent("FIREAC:MenuOpened")
 AddEventHandler("FIREAC:MenuOpened", function ()
     local SRC = source
-    if not FIREAC_ADMINMENU(SRC) then
+    if not FIREAC_GETADMINS(SRC) then
         FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu", "Try For Open Admin Menu (Not Admin)")
     else
         local PlayerList = {}
@@ -88,7 +84,7 @@ RegisterNetEvent("FIREAC:DeleteEntitys")
 AddEventHandler("FIREAC:DeleteEntitys", function (TYPE)
     local SRC = source
     if TYPE ~= nil then
-        if FIREAC_ADMINMENU(SRC) then
+        if FIREAC_GETADMINS(SRC) then
             if TYPE == "VEHCILE" then
                 for _, VEH in ipairs(GetAllVehicles()) do
                     if DoesEntityExist(VEH) then
@@ -122,7 +118,7 @@ AddEventHandler("FIREAC:TeleportToPlayer", function (SV_ID)
             local TPED    = GetPlayerPed(SV_ID)
             local PED     = GetPlayerPed(SRC)
             local TCOORDS = GetEntityCoords(TPED)
-            if FIREAC_ADMINMENU(SRC) then
+            if FIREAC_GETADMINS(SRC) then
                 SetEntityCoords(PED, TCOORDS.x, TCOORDS.y, TCOORDS.z, true, true, true)
             else
                 FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Teleport", "Try For Teleport to ped by admin menu (not admin)")
@@ -139,7 +135,7 @@ AddEventHandler("FIREAC:GiveVehicleToPlayer", function (VEH_NAME, SV_ID)
             local TPED    = GetPlayerPed(SV_ID)
             local TCOORDS = GetEntityCoords(TPED)
             local HEADING = GetEntityHeading(TPED)
-            if FIREAC_ADMINMENU(SRC) then
+            if FIREAC_GETADMINS(SRC) then
                 local VEH = CreateVehicle(GetHashKey(VEH_NAME), TCOORDS, HEADING, true, true)
                 Wait(1000)
                 SetPedIntoVehicle(TPED, VEH, -1)
@@ -155,7 +151,7 @@ AddEventHandler("FIREAC:GetScreenShot", function (P_ID)
     local SRC = source
     if tonumber(SRC) then
         if tonumber(P_ID) then
-              if FIREAC_ADMINMENU(SRC) then
+              if FIREAC_GETADMINS(SRC) then
                 FIREAC_SCREENSHOT(P_ID, "By Admin Menu", "By "..GetPlayerName(SRC).."", "WARN")
             else
                 FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Get ScreenShot", "Try For Get Screen Shot By Menu (not admin)")
@@ -170,7 +166,7 @@ AddEventHandler("FIREAC:BanByMenu", function (P_ID)
     local Target = P_ID
     if tonumber(SRC) then
         if tonumber(Target) then
-            if FIREAC_ADMINMENU(SRC) then
+            if FIREAC_GETADMINS(SRC) then
                 FIREAC_ACTION(Target, "BAN", "Ban By Admin Menu", "Player Ban By Menu : **"..GetPlayerName(SRC).."**")
             else
                 FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Ban Players", "Try For Ban Player By Admin Menu (not admin)")
@@ -187,7 +183,7 @@ AddEventHandler("FIREAC:ReqSpectate", function(id)
     local COORDS = GetEntityCoords(TPED)
     if tonumber(SRC) then
         if tonumber(Target) then
-            if FIREAC_ADMINMENU(SRC) then
+            if FIREAC_GETADMINS(SRC) then
                 TriggerClientEvent("FIREAC:SpectatePlayer", SRC, Target, COORDS)
             else
                 FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Spectate Players", "Try For Spectate Player By Admin Menu (not admin)")
@@ -293,7 +289,7 @@ AddEventHandler("FIREAC:ScreenShotFromClient", function (URL, REASON, DETAILS)
                 end
             end)
         else
-        FIREAC_ERROR(SERVER_NAME, "FIREAC:ScreenShotFromClient (SRC not found)")
+        FIREAC_ERROR(FIREAC.ServerConfig.Name, "FIREAC:ScreenShotFromClient (SRC not found)")
     end
 end)
 
@@ -304,7 +300,7 @@ AddEventHandler("playerDropped", function(REASON)
     if GetPlayerName(SRC) and REASON ~= nil then
         FIREAC_SENDLOG(SRC, FIREAC.Log.Disconnect, "DISCONNECT", REASON)
      else
-        FIREAC_ERROR(SERVER_NAME, "playerDropped : REASON or SRC (Not Found)")
+        FIREAC_ERROR(FIREAC.ServerConfig.Name, "playerDropped : REASON or SRC (Not Found)")
     end
 end)
 
@@ -317,7 +313,7 @@ AddEventHandler("giveWeaponEvent", function(SRC, DATA)
                 FIREAC_ACTION(SRC, FIREAC.WeaponPunishment, "Anti Add Weapon", "Try for add weapon for player")
             end
         else
-            FIREAC_ERROR(SERVER_NAME, "giveWeaponEvent : SRC (Not Found)")
+            FIREAC_ERROR(FIREAC.ServerConfig.Name, "giveWeaponEvent : SRC (Not Found)")
         end
     end
 end)
@@ -331,7 +327,7 @@ AddEventHandler("RemoveWeaponEvent", function(SRC, DATA)
                 FIREAC_ACTION(SRC, FIREAC.WeaponPunishment, "Anti Remove Weapon", "Try for remove weapon for player")
             end
         else
-            FIREAC_ERROR(SERVER_NAME, "giveWeaponEvent : SRC (Not Found)")
+            FIREAC_ERROR(FIREAC.ServerConfig.Name, "giveWeaponEvent : SRC (Not Found)")
         end
     end
 end)
@@ -345,7 +341,7 @@ AddEventHandler("RemoveAllWeaponsEvent",function(SRC, DATA)
                 FIREAC_ACTION(SRC, FIREAC.WeaponPunishment, "Anti Remove All Weapon", "Try for remove all weapon for player")
             end
         else
-            FIREAC_ERROR(SERVER_NAME, "giveWeaponEvent : SRC (Not Found)")
+            FIREAC_ERROR(FIREAC.ServerConfig.Name, "giveWeaponEvent : SRC (Not Found)")
         end
     end
 end)
@@ -452,6 +448,7 @@ end
 
 --【 𝗔𝗻𝘁𝗶 𝗖𝗵𝗮𝗻𝗴𝗲 𝗣𝗲𝗿𝗺 】--
 AddEventHandler("db:updateUser", function(data)
+    local SRC = source
 	if FIREAC.AntiChangePerm then
 		if not data.playerName or not data.dateofbirth then
             FIREAC_ACTION(SRC, FIREAC.PermPunishment, "Anti Change Perm", "Try Change Perm, Data = `"..json.encode(data).."`")
@@ -793,10 +790,10 @@ AddEventHandler("playerConnecting", function (name, setKickReason, deferrals)
                         end
                     end
                 else
-                    FIREAC_ERROR(SERVER_NAME, "playerConnecting (TABLE Not Found)")
+                    FIREAC_ERROR(FIREAC.ServerConfig.Name, "playerConnecting (TABLE Not Found)")
                 end
             else
-                FIREAC_ERROR(SERVER_NAME, "playerConnecting (DATA Not Found)")
+                FIREAC_ERROR(FIREAC.ServerConfig.Name, "playerConnecting (DATA Not Found)")
             end
         end)
     else
@@ -992,7 +989,7 @@ function StartAntiCheat()
         
     ^2     __                ^0      ______   ^1 _____  ___ ___ __  __     ^0 
     ^2|  |/  \|\/| /\ |\ |   ^0|   ||__|__    ^1|__|__)|__ |__ |  \/  \|\/|^0 
-    ^2|/\|\__/|  |/~~\| \|   ^0|___||  |___   ^1|  |  \|___|___|__/\__/|  |^0                                                         
+    ^2|/\|\__/|  |/~~\| \|   ^0|___||  |___   ^1|  |  \|___|___|__/\__/|  |^0 
                     ]])
         PerformHttpRequest("http://localhost:"..FIREAC.Port.."/info.json", function(ERROR, DATA, RESULT)
             if DATA ~= nil then
@@ -1019,7 +1016,7 @@ function StartAntiCheat()
                             icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png",
                         },
                         title = "FIREAC "..FIREAC.Version.."",
-                        description = "**Current Version:** "..FIREAC.Version.."\n**License:** "..SERVER_NAME.."\n**Server Build:** "..ART7.."\nStarted successfully...",
+                        description = "**Current Version:** "..FIREAC.Version.."\n**License:** "..FIREAC.ServerConfig.Name.."\n**Server Build:** "..ART7.."\nStarted successfully...",
                         color = math.random(0, 16776960)
                     }
                 }
@@ -1027,7 +1024,7 @@ function StartAntiCheat()
                 ["Content-Type"] = "application/json"
             })
             else
-                FIREAC_ERROR(SERVER_NAME, "function StartAntiCheat (Server Port is wronge)")
+                FIREAC_ERROR(FIREAC.ServerConfig.Name, "function StartAntiCheat (Server Port is wronge)")
             end
         end)
     else
@@ -1077,11 +1074,11 @@ function FIREAC_WHITELIST(SRC)
         end
         return IS_WHITELIST
     else
-        FIREAC_ERROR(SERVER_NAME, "function FIREAC_WHITELIST (SRC Not Found)")
+        FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_WHITELIST (SRC Not Found)")
     end
 end
 
-function FIREAC_ADMINMENU(SRC)
+function FIREAC_GETADMINS(SRC)
     if tonumber(SRC) ~= nil then
         local ISADMIN = false
         local STEAM   = "Not Found"
@@ -1103,7 +1100,7 @@ function FIREAC_ADMINMENU(SRC)
                 XBL = DATA
             end
         end
-        for _, WID in ipairs(AdminMenu) do
+        for _, WID in ipairs(Admins) do
             if STEAM == WID or DISCORD == WID or FIVEML == WID or LIVE == WID or XBL == WID or IP == WID then
                 ISADMIN = true
             else
@@ -1112,7 +1109,7 @@ function FIREAC_ADMINMENU(SRC)
         end
         return ISADMIN
     else
-        FIREAC_ERROR(SERVER_NAME, "function FIREAC_ADMINMENU (SRC Not Found)")
+        FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_GETADMINS (SRC Not Found)")
     end
 end
 
@@ -1147,7 +1144,7 @@ function FIREAC_UNBANACCESS(SRC)
         end
         return ISADMIN
     else
-        FIREAC_ERROR(SERVER_NAME, "function FIREAC_UNBANACCESS (SRC Not Found)")
+        FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_UNBANACCESS (SRC Not Found)")
     end
 end
 
@@ -1338,7 +1335,7 @@ function FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
                         if FIREAC.ScreenShot.Log ~= nil then
                             FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
                         else
-                            FIREAC_ERROR(SERVER_NAME, "function FIREAC_ACTION (FIREAC.ScreenShot.Log is nil)")
+                            FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_ACTION (FIREAC.ScreenShot.Log is nil)")
                         end
                     end
                     if ACTION == "WARN" then
@@ -1362,7 +1359,7 @@ function FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
             end
         end
     else
-        FIREAC_ERROR(SERVER_NAME, "function FIREAC_ACTION (REASON and DETAILS Not Found)")
+        FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_ACTION (REASON and DETAILS Not Found)")
     end
 end
 
@@ -1371,29 +1368,40 @@ function FIREAC_MEESAGE(SRC, TYPE, NAME, REASON)
         if NAME ~= nil then
             if REASON ~= nil then
                 if TYPE == "WARN" then
-                    TriggerClientEvent('chat:addMessage', -1, {
-                        template = '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://s19.picofile.com/file/8433022734/Red.png); border-radius: 13px;"><i class="far fa-newspaper"></i> '..Emoji.Fire..' FIREAC '..Emoji.Fire..' :<br>  {1}</div>',
-                        args = {"Console", ""..Emoji.Warn.." Warning | Player ^1".. NAME .."(".. SRC ..")^0 Cheating From Server : ^5".. REASON .. " " }
-                    })
+                    if FIREAC.PrivateWarn then
+                        for _, playerId in ipairs(GetPlayers()) do
+                           if FIREAC_GETADMINS(playerId) then
+                            TriggerClientEvent('chat:addMessage', playerId, {
+                                template = '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://cdn.discordapp.com/attachments/905814226118008923/1045778789537419284/red.png); border-radius: 13px;"><i class="far fa-newspaper"></i> '..Emoji.Fire..' FIREAC '..Emoji.Fire..' :<br>  {1}</div>',
+                                args = {"Console", ""..Emoji.Warn.." Warning | Player ^1".. NAME .."(".. SRC ..")^0 Cheating From Server : ^5".. REASON .. " " }
+                            })
+                           end
+                        end
+                    else
+                        TriggerClientEvent('chat:addMessage', -1, {
+                            template = '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://cdn.discordapp.com/attachments/905814226118008923/1045778789537419284/red.png); border-radius: 13px;"><i class="far fa-newspaper"></i> '..Emoji.Fire..' FIREAC '..Emoji.Fire..' :<br>  {1}</div>',
+                            args = {"Console", ""..Emoji.Warn.." Warning | Player ^1".. NAME .."(".. SRC ..")^0 Cheating From Server : ^5".. REASON .. " " }
+                        })
+                    end
                     elseif TYPE == "KICK" then
                     TriggerClientEvent('chat:addMessage', -1, {
-                        template = '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://s18.picofile.com/file/8433022718/Yellow.png); border-radius: 13px;"><i class="far fa-newspaper"></i> '..Emoji.Fire..' FIREAC '..Emoji.Fire..' <br>  {1}</div>',
+                        template = '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://cdn.discordapp.com/attachments/905814226118008923/1045778771975880784/orenge.png); border-radius: 13px;"><i class="far fa-newspaper"></i> '..Emoji.Fire..' FIREAC '..Emoji.Fire..' <br>  {1}</div>',
                         args = {"Console", ""..Emoji.Kick.." Kick | Player ^1".. NAME .."(".. SRC ..")^0 Cheating From Server : ^5".. REASON .. " " }
                     })
                     elseif TYPE == "BAN" then
                     TriggerClientEvent('chat:addMessage', -1, {
-                        template = '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://s18.picofile.com/file/8433022700/Black.png); border-radius: 13px;"><i class="far fa-newspaper"></i> '..Emoji.Fire..' FIREAC '..Emoji.Fire..' <br>  {1}</div>',
+                        template = '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://cdn.discordapp.com/attachments/905814226118008923/1045778782545518612/black.png); border-radius: 13px;"><i class="far fa-newspaper"></i> '..Emoji.Fire..' FIREAC '..Emoji.Fire..' <br>  {1}</div>',
                         args = {"Console", ""..Emoji.Ban.." Banned | Player ^1".. NAME .."(".. SRC ..")^0 Cheating From Server : ^5".. REASON .. " " }
                     })
                 end
             else
-                FIREAC_ERROR(SERVER_NAME, "function FIREAC_MEESAGE (REASON Not Found)")
+                FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_MEESAGE (REASON Not Found)")
             end
             else
-            FIREAC_ERROR(SERVER_NAME, "function FIREAC_MEESAGE (NAME Not Found)")
+            FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_MEESAGE (NAME Not Found)")
         end
     else
-        FIREAC_ERROR(SERVER_NAME, "function FIREAC_MEESAGE (TYPE Not Found)")
+        FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_MEESAGE (TYPE Not Found)")
     end
 end
 
@@ -1665,7 +1673,7 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                         })
                     end
                 else
-                    FIREAC_ERROR(SERVER_NAME, " FIREAC_SENDLOG (in IP API DATA Not Found )")
+                    FIREAC_ERROR(FIREAC.ServerConfig.Name, " FIREAC_SENDLOG (in IP API DATA Not Found )")
                 end
             end
         end)
