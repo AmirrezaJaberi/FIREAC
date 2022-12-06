@@ -9,6 +9,7 @@ Emoji = {
     Connect    = "🟩",
     Disconnect = "🟥",
     TFJ        = "⚠️",
+    VPN        = "⛔️",
     Exoplosion = "🚒",
     BLN        = "🤬",
     Beard      = "🐦",
