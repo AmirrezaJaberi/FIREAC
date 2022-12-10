@@ -95,7 +95,7 @@ FIREAC.SafePlayers      = true
 FIREAC.AntiInfinityAmmo = true
 
 --【 𝗔𝗻𝘁𝗶 𝗦𝗽𝗲𝗰𝘁𝗮𝘁𝗲 】--
-FIREAC.AntiSpactate       = true
+FIREAC.AntiSpectate       = true
 FIREAC.SpactatePunishment = "BAN"
 
 --【 𝗔𝗻𝘁𝗶 𝗪𝗲𝗮𝗽𝗼𝗻 】--
@@ -110,7 +110,7 @@ FIREAC.AntiGodMode    = true
 FIREAC.GodPunishment  = "BAN"
 
 --【 𝗔𝗻𝘁𝗶 𝗜𝗻𝘃𝗶𝘀𝗶𝗯𝗹𝗲 】--
-FIREAC.AntiInvisble         = true
+FIREAC.AntiInvisible        = true
 FIREAC.InvisiblePunishment  = "KICK"
 
 --【 𝗔𝗻𝘁𝗶 𝗖𝗵𝗮𝗻𝗴𝗲 𝗦𝗽𝗲𝗲𝗱 】--
@@ -124,10 +124,6 @@ FIREAC.CamPunishment = "BAN"
 --【 𝗔𝗻𝘁𝗶 𝗥𝗮𝗶𝗻𝗯𝗼𝘄 𝗩𝗲𝗵𝗶𝗰𝗹𝗲 】--
 FIREAC.AntiRainbowVehicle  = true
 FIREAC.RainbowPunishment   = "BAN"
-
---【 𝗔𝗻𝘁𝗶 𝗔𝗶𝗺 𝗕𝗼𝘁 】--
-FIREAC.AntiAimBot       = false
-FIREAC.AimBotPunishment = "WARN"
 
 --【 𝗔𝗻𝘁𝗶 𝗣𝗹𝗮𝘁𝗲 】--
 FIREAC.AntiPlateChanger   = true
@@ -145,8 +141,8 @@ FIREAC.JumpPunishment = "BAN"
 
 --【 𝗔𝗻𝘁𝗶 𝗧𝗲𝗹𝗲𝗽𝗼𝗿𝘁 】--
 FIREAC.AntiTeleport        = true
-FIREAC.MaxFootDistence     = 200
-FIREAC.MaxVehicleDistence  = 600
+FIREAC.MaxFootDistance     = 200
+FIREAC.MaxVehicleDistance  = 600
 FIREAC.TeleportPunishment  = "WARN"
 
 --【 𝗔𝗻𝘁𝗶 𝗣𝗲𝗱 𝗖𝗵𝗮𝗻𝗴𝗲𝗿 】--
@@ -170,7 +166,7 @@ FIREAC.AntiAimAssist        =  false
 FIREAC.AimAssistPunishment  = "WARN"
 
 --【 𝗔𝗻𝘁𝗶 𝗥𝗲𝘀𝗼𝘂𝗿𝗰𝗲 】--
-FIREAC.AntiResourceStoper     = false
+FIREAC.AntiResourceStopper     = false
 FIREAC.AntiResourceStarter    = false
 FIREAC.AntiResourceRestarter  = false
 FIREAC.ResourcePunishment     = "WARN"
@@ -181,11 +177,11 @@ FIREAC.PedFlagPunishment  = "BAN"
 
 --【 𝗔𝗻𝘁𝗶 𝗦𝘂𝗶𝗰𝗶𝗱𝗲 】--
 FIREAC.AntiSuicide   = false
-FIREAC.SuiPunishment = "WARN"
+FIREAC.SuicidePunishment = "WARN"
 
 --【 𝗔𝗻𝘁𝗶 𝗖𝗼𝗹𝗹𝗲𝗰𝘁𝗲𝗱 𝗣𝗶𝗰𝗸𝘂𝗽 】--
-FIREAC.AntiCollectedPickup = true
-FIREAC.PickupePunishment   = "BAN"
+FIREAC.AntiPickupCollect   = true
+FIREAC.PickupPunishment   = "BAN"
 
 --【 𝗔𝗻𝘁𝗶 𝗖𝗵𝗮𝘁 】--
 FIREAC.AntiSpamChat          = true
