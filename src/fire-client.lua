@@ -18,7 +18,7 @@ AddEventHandler('playerSpawned', function()
        TriggerServerEvent('FIREAC:CheckIsAdmin')
         Wait(10000)
         while IsPlayerSwitchInProgress() do
-            Wait(1500)
+            Wait(7500)
         end
         Wait(100)
         SPAWN = true
@@ -30,19 +30,19 @@ Citizen.CreateThread(function()
         Citizen.Wait(9)
         local PED = PlayerPedId()
         while IsPlayerSwitchInProgress() or IsPedFalling(PED) do
-            Citizen.Wait(5000)
+            Citizen.Wait(7500)
         end
         if FIREAC.AntiTeleport then
-            if not IsPedInAnyVehicle(PED, false) and SPAWN and not IsPlayerSwitchInProgress() then
+            if not IsPedInAnyVehicle(PED, false) and SPAWN and not IsPlayerSwitchInProgress() and not IsPlayerCamControlDisabled() then
                 local _pos = GetEntityCoords(PED)
                 Citizen.Wait(3000)
                 local _newped = PlayerPedId()
                 local _newpos = GetEntityCoords(_newped)
                 local _distance = #(vector3(_pos) - vector3(_newpos))
-                if _distance > FIREAC.MaxFootDistence and not IsEntityDead(PED) and not IsPedInParachuteFreeFall(PED) and not IsPedJumpingOutOfVehicle(PED) and PED == _newped and SPAWN == true and not IsPlayerSwitchInProgress() then
+                if _distance > FIREAC.MaxFootDistance and not IsEntityDead(PED) and not IsPedInParachuteFreeFall(PED) and not IsPedJumpingOutOfVehicle(PED) and PED == _newped and SPAWN == true and not IsPlayerSwitchInProgress() and not IsPlayerCamControlDisabled() then
                     TriggerServerEvent('FIREAC:BanFromClient', FIREAC.TeleportPunishment, "Anti Teleport", "Try For Teleport in Server")
                 end
-            end 
+            end
         end
         if FIREAC.AntiSuperJump then
             if DoesEntityExist(PED) and SPAWN and not IsPlayerSwitchInProgress() then
@@ -73,7 +73,7 @@ Citizen.CreateThread(function()
                 PLATE   = GetVehicleNumberPlateText(VEH)
                 VEHHASH = GetHashKey(VEH)
             end
-            if FIREAC.AntiSpactate then
+            if FIREAC.AntiSpectate then
                 if NetworkIsInSpectatorMode() then
                     TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SpactatePunishment, "Anti Spactate", "Try For Spactate on other player")
                 end
@@ -112,14 +112,14 @@ Citizen.CreateThread(function()
             local CUHEALTH = GetEntityHealth(PlayerPedId())
             if FIREAC.AntiGodMode then
                 while IsPlayerSwitchInProgress() do
-                    Wait(5000)
+                    Wait(7500)
                 end
-                if GetPlayerInvincible(PlayerId()) and SPAWN then
+                if GetPlayerInvincible(PlayerId()) and not IsPlayerCamControlDisabled() and SPAWN then
                     TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti GodeMod", "Try For GodeMode Ped in server #1")
                 end
                 SetEntityHealth(PlayerPedId(), CUHEALTH - 2)
                 Wait(250)
-                if not IsPlayerDead(PlayerPedId()) and SPAWN then
+                if not IsPlayerDead(PlayerPedId()) and SPAWN and not IsPlayerCamControlDisabled() then
                     if GetEntityHealth(PlayerPedId()) == CUHEALTH and GetEntityHealth(PlayerPedId()) ~= 0 then
                         TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti GodeMod", "Try For GodeMode Ped in server #2")
                     elseif GetEntityHealth(PlayerPedId()) == CUHEALTH - 2 then
@@ -174,7 +174,7 @@ Citizen.CreateThread(function()
                 end
             end
             Wait(2000)
-            if FIREAC.AntiInvisble then
+            if FIREAC.AntiInvisible then
                 while IsPlayerSwitchInProgress() do
                     Wait(5000)
                 end
@@ -331,24 +331,8 @@ Citizen.CreateThread(function()
                 Wait(1000)
                 local NEW_COORDS = GetEntityCoords(PlayerPedId())
                 local DISTENCE = Vdist(COORDS.x, COORDS.y, COORDS.z, NEW_COORDS.x, NEW_COORDS.y, NEW_COORDS.z)
-                if IsPedInAnyVehicle(PlayerPedId(), false) and DISTENCE >= FIREAC.MaxVehicleDistence and not IsPedFalling(PlayerPedId()) then
+                if IsPedInAnyVehicle(PlayerPedId(), false) and DISTENCE >= FIREAC.MaxVehicleDistance and not IsPedFalling(PlayerPedId()) then
                     TriggerServerEvent('FIREAC:BanFromClient', FIREAC.TeleportPunishment, "Anti Teleport", "Try for teleport in server (by vehicle)")
-                end
-            end
-        end
-        if IsAimCamActive() then
-            local _isaiming, _entity = GetEntityPlayerIsFreeAimingAt(PlayerId())
-            if _isaiming and _entity then
-                if IsEntityAPed(_entity) and not IsEntityDead(_entity) and not IsPedStill(_entity) and not IsPedStopped(_entity) and not IsPedInAnyVehicle(_entity, false) then
-                    local _entitycoords = GetEntityCoords(_entity)
-                    local retval, screenx, screeny = GetScreenCoordFromWorldCoord(_entitycoords.x, _entitycoords.y, _entitycoords.z)
-                    if screenx == lastcoordsx or screeny == lastcoordsy then
-                        if FIREAC.AntiAimBot  then
-                            TriggerServerEvent('FIREAC:BanFromClient', FIREAC.AimBotPunishment, "Anti AimBot", "Try for enable aim bot in server")
-                        end
-                    end
-                    lastcoordsx = screenx
-                    lastcoordsy = screeny
                 end
             end
         end
@@ -358,7 +342,7 @@ end)
 
 --【 𝗦𝘁𝗼𝗽 𝗥𝗲𝘀𝗼𝘂𝗿𝗰𝗲 】--
 AddEventHandler("onClientResourceStop", function(RES)
-    if FIREAC.AntiResourceStoper or FIREAC.AntiResourceRestarter then
+    if FIREAC.AntiResourceStopper or FIREAC.AntiResourceRestarter then
         if RES == "FIREAC" then TriggerServerEvent('FIREAC:BanFromClient', FIREAC.ResourcePunishment, "Anti Resource Stopper", "Try for stop resource : **"..RES.."** !") CancelEvent() end
         if SPAWN then
             TriggerServerEvent('FIREAC:BanFromClient', FIREAC.ResourcePunishment, "Anti Resource Stopper", "Try for stop resource : **"..RES.."** !")
@@ -369,12 +353,14 @@ end)
 --【 𝗦𝘁𝗮𝗿𝘁 𝗥𝗲𝘀𝗼𝘂𝗿𝗰𝗲 】--
 AddEventHandler('onClientResourceStart', function (RES)
     while IsPlayerSwitchInProgress() do
-        Wait(1000)
+        Wait(7500)
     end
     if not IsPlayerSwitchInProgress() then
         SPAWN = true
     end
-    TriggerServerEvent('FIREAC:CheckIsAdmin')
+    if RES == GetCurrentResourceName() then
+        TriggerServerEvent('FIREAC:CheckIsAdmin')
+    end
     if FIREAC.AntiResourceStarter or FIREAC.AntiResourceRestarter then
         if SPAWN then
             TriggerServerEvent('FIREAC:BanFromClient', FIREAC.ResourcePunishment, "Anti Resource Starter", "Try for start resource : **"..RES.."** !")
@@ -385,37 +371,25 @@ end)
 --【 𝗔𝗻𝘁𝗶 𝗦𝘂𝗶𝗰𝗶𝗱𝗲 】--
 AddEventHandler("gameEventTriggered", function(name, args)
     local PLID     = PlayerId()
+    local PED      = PlayerPedId()
     local ENOWNER  = GetPlayerServerId(NetworkGetEntityOwner(args[2]))
     local ENOWNER1 = NetworkGetEntityOwner(args[1])
-    local BUILD     = GetConvarInt('sv_enforceGameBuild', 2189)
+    local ARMED     = false
     while IsPlayerSwitchInProgress() do
-        Citizen.Wait(5000)
-    end
-    if ENOWNER == GetPlayerServerId(PlayerId()) or args[2] == -1 and FIREAC.AntiAimBot then
-        if IsEntityAPed(args[1]) then
-            if not IsEntityOnScreen(args[1]) then
-                local _entitycoords = GetEntityCoords(args[1])
-                local _distance = #(_entitycoords - GetEntityCoords(PlayerPedId()))
-                TriggerServerEvent('FIREAC:BanFromClient', FIREAC.AimBotPunishment, "Anti Aim Hacking", "Shot Player Without Being On His Screen (DIS : ".._distance..")")
-            end
-            if isarmed and lastentityplayeraimedat ~= args[1] and IsPedAPlayer(args[1]) and PLID ~= ENOWNER1 then
-                TriggerServerEvent('FIREAC:BanFromClient', FIREAC.AimBotPunishment, "Anti AimBot", "Try for enable aim bot in server")
-                Citizen.Wait(3000)
-            end
-        end
+        Wait(7500)
     end
     if FIREAC.AntiSuicide then
         if name == "CEventNetworkEntityDamage" then
             if args[1] == PlayerPedId() and args[2] == -1 and args[3] == 0 and args[4] == 0 and args[5] == 0 and args[6] == 1 and args[7] == GetHashKey('WEAPON_FALL') and args[8] == 0 and args[9] == 0 and args[10] == 0 and args[11] == 0 and args[12] == 0 and args[13] == 0 then
                 if FIREAC.AntiSuicide then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SuiPunishment, "Anti Suicide", "Try For Kill Self (Suicide) !")
+                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SuicidePunishment, "Anti Suicide", "Try For Kill Self (Suicide) !")
                 end
             end
         end
     end
     if name == 'CEventNetworkPlayerCollectedPickup' then
-        if FIREAC.AntiCollectedPickup then
-            TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PickupePunishment, "Anti Collected Pickup", "Try Collected Pickup : "..json.encode(args).."")
+        if FIREAC.AntiPickupCollect then
+            TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PickupPunishment, "Anti Collected Pickup", "Try Collected Pickup : "..json.encode(args).."")
         end
     end
 end)
