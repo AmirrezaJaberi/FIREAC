@@ -21,8 +21,15 @@ AddEventHandler("FIREAC:BanFromClient", function (ACTION ,REASON, DETAILS)
     local SRC = source
     if REASON ~= nil and ACTION ~= nil then
         if not FIREAC_WHITELIST(SRC) then
-            FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
-            FIREAC_ADD_SPAMLIST(SRC, ACTION, REASON, DETAILS)
+            if REASON == "Anti Teleport" then
+                if (not FIREAC_ISNEARADMIN(SRC)) then
+                    FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
+                    FIREAC_ADD_SPAMLIST(SRC, ACTION, REASON, DETAILS)
+                end
+            else
+                FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
+                FIREAC_ADD_SPAMLIST(SRC, ACTION, REASON, DETAILS)
+            end
         end
     else
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "FIREAC:BanFromClient : REASON or ACTION (Not Found)")
@@ -512,33 +519,35 @@ end)
 
 
 --【 𝗔𝗻𝘁𝗶 𝗣𝗹𝗮𝘆 𝗦𝗼𝘂𝗻𝗱 】--
-AddEventHandler("InteractSound_SV:PlayWithinDistance", function(maxDistance, soundFile, soundVolume)
-	local SRC = source
-	if FIREAC.AntiPlaySound then
-		if maxDistance == 10000 and soundFile == "handcuff" then
-            FIREAC_ACTION(SRC, FIREAC.SoundPunishment, "Anti Play Sound", "Try For Play **handcuff** sound in **"..maxDistance.."** Distance")
-            CancelEvent()
-		elseif maxDistance == 1000 and soundFile == "Cuff" then
-            FIREAC_ACTION(SRC, FIREAC.SoundPunishment, "Anti Play Sound", "Try For Play **Cuff** sound in **"..maxDistance.."** Distance")
-            CancelEvent()
-		elseif maxDistance == 103232 and soundFile == "lock" then
-            FIREAC_ACTION(SRC, FIREAC.SoundPunishment, "Anti Play Sound", "Try For Play **Lock** sound in **"..maxDistance.."** Distance")
-            CancelEvent()
-		elseif maxDistance == 10 and soundFile == "szajbusek" then
-            FIREAC_ACTION(SRC, FIREAC.SoundPunishment, "Anti Play Sound", "Try For Play **szajbusek** sound in **"..maxDistance.."** Distance")
-            CancelEvent()
-		elseif maxDistance == 5 and soundFile == "alarm" then
-            FIREAC_ACTION(SRC, FIREAC.SoundPunishmentt, "Anti Play Sound", "Try For Play **alarm** sound in **"..maxDistance.."** Distance")
-            CancelEvent()
-		elseif maxDistance == 13232 and soundFile == "pasysound" then
-            FIREAC_ACTION(SRC, FIREAC.SoundPunishment, "Anti Play Sound", "Try For Play **pasysound** sound in **"..maxDistance.."** Distance")
-            CancelEvent()
-        elseif maxDistance == 5000 and soundFile == "demo" then
-            FIREAC_ACTION(SRC, FIREAC.SoundPunishment, "Anti Play Sound", "Try For Play **pasysound** sound in **"..maxDistance.."** Distance")
-            CancelEvent() 
-		end
-	end
-end)
+if GetResourceState("interact-sound") == "started" then
+    AddEventHandler("InteractSound_SV:PlayWithinDistance", function(maxDistance, soundFile, soundVolume)
+        local SRC = source
+        if FIREAC.AntiPlaySound then
+            if maxDistance == 10000 and soundFile == "handcuff" then
+                FIREAC_ACTION(SRC, FIREAC.SoundPunishment, "Anti Play Sound", "Try For Play **handcuff** sound in **"..maxDistance.."** Distance")
+                CancelEvent()
+            elseif maxDistance == 1000 and soundFile == "Cuff" then
+                FIREAC_ACTION(SRC, FIREAC.SoundPunishment, "Anti Play Sound", "Try For Play **Cuff** sound in **"..maxDistance.."** Distance")
+                CancelEvent()
+            elseif maxDistance == 103232 and soundFile == "lock" then
+                FIREAC_ACTION(SRC, FIREAC.SoundPunishment, "Anti Play Sound", "Try For Play **Lock** sound in **"..maxDistance.."** Distance")
+                CancelEvent()
+            elseif maxDistance == 10 and soundFile == "szajbusek" then
+                FIREAC_ACTION(SRC, FIREAC.SoundPunishment, "Anti Play Sound", "Try For Play **szajbusek** sound in **"..maxDistance.."** Distance")
+                CancelEvent()
+            elseif maxDistance == 5 and soundFile == "alarm" then
+                FIREAC_ACTION(SRC, FIREAC.SoundPunishmentt, "Anti Play Sound", "Try For Play **alarm** sound in **"..maxDistance.."** Distance")
+                CancelEvent()
+            elseif maxDistance == 13232 and soundFile == "pasysound" then
+                FIREAC_ACTION(SRC, FIREAC.SoundPunishment, "Anti Play Sound", "Try For Play **pasysound** sound in **"..maxDistance.."** Distance")
+                CancelEvent()
+            elseif maxDistance == 5000 and soundFile == "demo" then
+                FIREAC_ACTION(SRC, FIREAC.SoundPunishment, "Anti Play Sound", "Try For Play **pasysound** sound in **"..maxDistance.."** Distance")
+                CancelEvent() 
+            end
+        end
+    end) 
+end
 
 --【 𝗔𝗻𝘁𝗶 𝗧𝗮𝘇𝗲 𝗣𝗹𝗮𝘆𝗲𝗿"𝘀 】--
 local TAZE = {}
@@ -1042,6 +1051,29 @@ function StartAntiCheat()
     end
 end
 
+function FIREAC_ISNEARADMIN(SRC)
+    if tonumber(SRC) ~= nil then
+        local RESULT = false
+        local P_DATA = GetPlayers()
+        local MY_PED  = GetPlayerPed(SRC)
+        local MY_POS  = GetEntityCoords(MY_PED)
+        for index, value in ipairs(P_DATA) do
+            local IS_ADMIN = FIREAC_GETADMINS(value)
+            if IS_ADMIN then
+                local ADMIN_PED = GetPlayerPed(value)
+                local ADMIN_POS = GetEntityCoords(ADMIN_PED)
+                if #(MY_POS - ADMIN_POS) < 30 then
+                    RESULT = true
+                else
+                    RESULT = false
+                end
+            end
+        end
+        return RESULT
+    else
+        FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_WHITELIST (SRC Not Found)")
+    end
+end
 
 function FIREAC_WHITELIST(SRC)
     if tonumber(SRC) ~= nil then
@@ -1065,11 +1097,11 @@ function FIREAC_WHITELIST(SRC)
                 XBL = DATA
             end
         end
-        for _, WID in ipairs(WhiteList) do
-            if STEAM == WID or DISCORD == WID or FIVEML == WID or LIVE == WID or XBL == WID or IP == WID then
-                IS_WHITELIST = true
+        for i=0, #WhiteList, 0 do
+            if STEAM == WhiteList[i] or DISCORD == WhiteList[i] or FIVEML == WhiteList[i] or LIVE == WhiteList[i] or XBL == WhiteList[i] or IP == WhiteList[i] then
+                ISADMIN = true
             else
-                IS_WHITELIST = false
+                ISADMIN = false
             end
         end
         return IS_WHITELIST
@@ -1100,8 +1132,8 @@ function FIREAC_GETADMINS(SRC)
                 XBL = DATA
             end
         end
-        for _, WID in ipairs(Admins) do
-            if STEAM == WID or DISCORD == WID or FIVEML == WID or LIVE == WID or XBL == WID or IP == WID then
+        for i=0, #Admins, 0 do
+            if STEAM == Admins[i] or DISCORD == Admins[i] or FIVEML == Admins[i] or LIVE == Admins[i] or XBL == Admins[i] or IP == Admins[i] then
                 ISADMIN = true
             else
                 ISADMIN = false
@@ -1135,8 +1167,8 @@ function FIREAC_UNBANACCESS(SRC)
                 XBL = DATA
             end
         end
-        for _, WID in ipairs(UnBan) do
-            if STEAM == WID or DISCORD == WID or FIVEML == WID or LIVE == WID or XBL == WID or IP == WID then
+        for i=0, #UnBan, 0 do
+            if STEAM == UnBan[i] or DISCORD == UnBan[i] or FIVEML == UnBan[i] or LIVE == UnBan[i] or XBL == UnBan[i] or IP == UnBan[i] then
                 ISADMIN = true
             else
                 ISADMIN = false
@@ -1879,34 +1911,3 @@ RegisterCommand('funban', function (source, args)
         end
     end
 end)
-
-function ExtractIdentifiers(src)
-    local identifiers = {
-        steam = "",
-        ip = "",
-        discord = "",
-        license = "",
-        xbl = "",
-        live = ""
-    }
-
-    for i = 0, GetNumPlayerIdentifiers(src) - 1 do
-        local id = GetPlayerIdentifier(src, i)
-        if string.find(id, "steam") then
-            identifiers.steam = id
-        elseif string.find(id, "ip") then
-            identifiers.ip = id
-        elseif string.sub(id, 1, string.len("discord:")) == "discord:" then
-            discordid = string.sub(id, 9)
-            identifiers.discord = "<@" .. discordid .. ">"
-        elseif string.find(id, "license") then
-            identifiers.license = id
-        elseif string.find(id, "xbl") then
-            identifiers.xbl = id
-        elseif string.find(id, "live") then
-            identifiers.live = id
-        end
-    end
-
-    return identifiers
-end
