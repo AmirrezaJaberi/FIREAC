@@ -1077,7 +1077,7 @@ end
 
 function FIREAC_WHITELIST(SRC)
     if tonumber(SRC) ~= nil then
-        local IS_WHITELIST = false
+        
         local STEAM   = "Not Found"
         local DISCORD = "Not Found"
         local FIVEML  = "Not Found"
@@ -1097,14 +1097,14 @@ function FIREAC_WHITELIST(SRC)
                 XBL = DATA
             end
         end
-        for i=0, #WhiteList, 0 do
-            if STEAM == WhiteList[i] or DISCORD == WhiteList[i] or FIVEML == WhiteList[i] or LIVE == WhiteList[i] or XBL == WhiteList[i] or IP == WhiteList[i] then
-                ISADMIN = true
-            else
-                ISADMIN = false
+        for _, DATA in ipairs(WhiteList) do
+            if STEAM == DATA or DISCORD == DATA or FIVEML == DATA or LIVE == DATA or XBL == DATA or IP == DATA then
+                return true
             end
         end
-        return IS_WHITELIST
+        -- Every admin is also whitlisted
+        return FIREAC_GETADMINS(SRC)
+        
     else
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_WHITELIST (SRC Not Found)")
     end
@@ -1112,7 +1112,6 @@ end
 
 function FIREAC_GETADMINS(SRC)
     if tonumber(SRC) ~= nil then
-        local ISADMIN = false
         local STEAM   = "Not Found"
         local DISCORD = "Not Found"
         local FIVEML  = "Not Found"
@@ -1132,14 +1131,12 @@ function FIREAC_GETADMINS(SRC)
                 XBL = DATA
             end
         end
-        for i=0, #Admins, 0 do
-            if STEAM == Admins[i] or DISCORD == Admins[i] or FIVEML == Admins[i] or LIVE == Admins[i] or XBL == Admins[i] or IP == Admins[i] then
-                ISADMIN = true
-            else
-                ISADMIN = false
+        for _, DATA in ipairs(Admins) do
+            if STEAM == DATA or DISCORD == DATA or FIVEML == DATA or LIVE == DATA or XBL == DATA or IP == DATA then
+                return true
             end
         end
-        return ISADMIN
+        return false
     else
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_GETADMINS (SRC Not Found)")
     end
@@ -1147,7 +1144,6 @@ end
 
 function FIREAC_UNBANACCESS(SRC)
     if tonumber(SRC) ~= nil then
-        local ISADMIN = false
         local STEAM   = "Not Found"
         local DISCORD = "Not Found"
         local FIVEML  = "Not Found"
@@ -1167,14 +1163,12 @@ function FIREAC_UNBANACCESS(SRC)
                 XBL = DATA
             end
         end
-        for i=0, #UnBan, 0 do
-            if STEAM == UnBan[i] or DISCORD == UnBan[i] or FIVEML == UnBan[i] or LIVE == UnBan[i] or XBL == UnBan[i] or IP == UnBan[i] then
-                ISADMIN = true
-            else
-                ISADMIN = false
+        for _, DATA in ipairs(UnBan) do
+            if STEAM == DATA or DISCORD == DATA or FIVEML == DATA or LIVE == DATA or XBL == DATA or IP == DATA then
+                return true
             end
         end
-        return ISADMIN
+        return false
     else
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_UNBANACCESS (SRC Not Found)")
     end
