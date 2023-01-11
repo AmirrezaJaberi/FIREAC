@@ -106,7 +106,7 @@ Guide wiki will add in github soon ...
 ### License
 ```
     FIREAC - FiveM Anti Cheat
-    Copyright (C) 2021  Amirreza Jaberi
+    Copyright (C) 2023  Amirreza Jaberi
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
