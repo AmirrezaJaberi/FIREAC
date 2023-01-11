@@ -7,19 +7,16 @@
 
 local SPAWN    = false
 local TRACK    = 0
-local lastcoordsx = nil
-local lastcoordsy = nil
 
 --【 𝗦𝗽𝗮𝘄𝗻 𝗠𝗮𝗻𝗮𝗴𝗲𝗺𝗲𝗻𝘁 】--
-AddEventHandler('playerSpawned', function()
+AddEventHandler('playerSpawned', function(data)
     Wait(5000)
     if SPAWN == false then
         SPAWN = false
-       TriggerServerEvent('FIREAC:CheckIsAdmin')
+        Wait(100)
+        TriggerServerEvent('FIREAC:CheckIsAdmin')
         Wait(10000)
-        while IsPlayerSwitchInProgress() do
-            Wait(7500)
-        end
+        while IsPlayerSwitchInProgress() do Wait(7500) end
         Wait(100)
         SPAWN = true
     end
@@ -111,9 +108,6 @@ Citizen.CreateThread(function()
             end
             local CUHEALTH = GetEntityHealth(PlayerPedId())
             if FIREAC.AntiGodMode then
-                while IsPlayerSwitchInProgress() do
-                    Wait(7500)
-                end
                 if GetPlayerInvincible(PlayerId()) and not IsPlayerCamControlDisabled() and SPAWN then
                     TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti GodeMod", "Try For GodeMode Ped in server #1")
                 end
@@ -159,8 +153,10 @@ Citizen.CreateThread(function()
                 end
             end
             if FIREAC.AntiRagdoll then
-                if not CanPedRagdoll(PlayerPedId()) and not IsPedInAnyVehicle(PlayerPedId(), true) and not IsEntityDead(PlayerPedId()) and not IsPedJumpingOutOfVehicle(PlayerPedId()) and not IsPedJacking(PlayerPedId()) and IsPedRagdoll(PlayerPedId()) then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.InfinitePunishment, "Anti Ragdoll", "Try For Enable Ragdoll by cheat menu")
+                if SPAWN then
+                    if not CanPedRagdoll(PlayerPedId()) and not IsPedInAnyVehicle(PlayerPedId(), true) and not IsEntityDead(PlayerPedId()) and not IsPedJumpingOutOfVehicle(PlayerPedId()) and not IsPedJacking(PlayerPedId()) and IsPedRagdoll(PlayerPedId()) then
+                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.InfinitePunishment, "Anti Ragdoll", "Try For Enable Ragdoll by cheat menu")
+                    end
                 end
             end
             if FIREAC.AntiNightVision then
@@ -175,11 +171,12 @@ Citizen.CreateThread(function()
             end
             Wait(2000)
             if FIREAC.AntiInvisible then
-                while IsPlayerSwitchInProgress() do
-                    Wait(5000)
-                end
-                if ( not IsEntityVisible(PlayerPedId()) and not IsEntityVisibleToScript(PlayerPedId()) ) or (GetEntityAlpha(PlayerPedId()) <= 150 and GetEntityAlpha(PlayerPedId()) ~= 0 and SPAWN and not IsPlayerSwitchInProgress()) then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.InvisiblePunishment, "Anti Invisble", "Try For Invisible in server")
+                if SPAWN then
+                    if (not IsEntityVisible(PlayerPedId()) and not IsEntityVisibleToScript(PlayerPedId())) or (GetEntityAlpha(PlayerPedId()) <= 150 and GetEntityAlpha(PlayerPedId()) ~= 0) then
+                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.InvisiblePunishment, "Anti Invisble", "Try For Invisible in server")
+                    end
+                else
+                    Wait(1000)
                 end
             end
             if FIREAC.AntiBlackListPlate then
@@ -209,6 +206,11 @@ Citizen.CreateThread(function()
                     end
                 else
                     Wait(0)
+                end
+            end
+            if FIREAC.AntiNoclip then
+                if not IsPedInAnyVehicle(PlayerPedId(), false) and GetEntityHeightAboveGround(PlayerPedId()) > 4.0 and not IsPedFalling(PlayerPedId()) then
+                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.NoclipPunishment, "Anti Noclip", "Try for going to noclip in server")
                 end
             end
             if FIREAC.AntiFreeCam then
@@ -245,11 +247,9 @@ Citizen.CreateThread(function()
                 end
             end
             if FIREAC.AntiPedChanger then
-                local PPED    = PlayerPedId()
-                local ENMODEL = GetEntityModel(PPED)
                 for i, value in ipairs(WhiteListPeds) do
-                    if not GetEntityModel(ENMODEL) == GetHashKey(WhiteListPeds) then
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PedChangePunishment, "Anti Ped Changer", "Tried to change ped to "..ENMODEL.."!")
+                    if not GetEntityModel(PlayerPedId()) == GetHashKey(value) then
+                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PedChangePunishment, "Anti Ped Changer", "Tried to change ped to "..value.."!")
                     end
                 end
             end
@@ -352,20 +352,26 @@ end)
 
 --【 𝗦𝘁𝗮𝗿𝘁 𝗥𝗲𝘀𝗼𝘂𝗿𝗰𝗲 】--
 AddEventHandler('onClientResourceStart', function (RES)
-    while IsPlayerSwitchInProgress() do
-        Wait(7500)
-    end
-    if not IsPlayerSwitchInProgress() then
-        SPAWN = true
-    end
+    -- Admin Menu --
     if RES == GetCurrentResourceName() then
         TriggerServerEvent('FIREAC:CheckIsAdmin')
     end
+    -- Resource Stopper --
     if FIREAC.AntiResourceStarter or FIREAC.AntiResourceRestarter then
         if SPAWN then
             TriggerServerEvent('FIREAC:BanFromClient', FIREAC.ResourcePunishment, "Anti Resource Starter", "Try for start resource : **"..RES.."** !")
         end
     end
+    -- Spawn --
+    Citizen.CreateThread(function()
+        while true do
+            Wait(1000)
+            if IsPedWalking(PlayerPedId()) or GetCamActiveViewModeContext() then
+                SPWAN = true
+                break
+            end
+        end
+    end)
 end)
 
 --【 𝗔𝗻𝘁𝗶 𝗦𝘂𝗶𝗰𝗶𝗱𝗲 】--
