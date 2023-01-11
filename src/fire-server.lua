@@ -158,8 +158,10 @@ AddEventHandler("FIREAC:GetScreenShot", function (P_ID)
     local SRC = source
     if tonumber(SRC) then
         if tonumber(P_ID) then
-              if FIREAC_GETADMINS(SRC) then
-                FIREAC_SCREENSHOT(P_ID, "By Admin Menu", "By "..GetPlayerName(SRC).."", "WARN")
+            if FIREAC_GETADMINS(SRC) then
+                if FIREAC.ScreenShot.Log ~= "" and FIREAC.ScreenShot.Log ~= nil then
+                    FIREAC_SCREENSHOT(P_ID, "By Admin Menu", "By "..GetPlayerName(SRC).."", "WARN")
+                end
             else
                 FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Get ScreenShot", "Try For Get Screen Shot By Menu (not admin)")
             end
@@ -1097,11 +1099,9 @@ function FIREAC_WHITELIST(SRC)
                 XBL = DATA
             end
         end
-        for i=0, #WhiteList, 0 do
-            if STEAM == WhiteList[i] or DISCORD == WhiteList[i] or FIVEML == WhiteList[i] or LIVE == WhiteList[i] or XBL == WhiteList[i] or IP == WhiteList[i] then
-                ISADMIN = true
-            else
-                ISADMIN = false
+        for _, value in ipairs(WhiteList) do
+            if value == STEAM or value == DISCORD or value == FIVEML or value == LIVE or value == XBL or value == IP then
+                IS_WHITELIST = true
             end
         end
         return IS_WHITELIST
@@ -1132,11 +1132,9 @@ function FIREAC_GETADMINS(SRC)
                 XBL = DATA
             end
         end
-        for i=0, #Admins, 0 do
-            if STEAM == Admins[i] or DISCORD == Admins[i] or FIVEML == Admins[i] or LIVE == Admins[i] or XBL == Admins[i] or IP == Admins[i] then
+        for _, value in ipairs(Admins) do
+            if value == STEAM or value == DISCORD or value == FIVEML or value == LIVE or value == XBL or value == IP then
                 ISADMIN = true
-            else
-                ISADMIN = false
             end
         end
         return ISADMIN
@@ -1167,11 +1165,9 @@ function FIREAC_UNBANACCESS(SRC)
                 XBL = DATA
             end
         end
-        for i=0, #UnBan, 0 do
-            if STEAM == UnBan[i] or DISCORD == UnBan[i] or FIVEML == UnBan[i] or LIVE == UnBan[i] or XBL == UnBan[i] or IP == UnBan[i] then
+        for _, value in ipairs(UnBan) do
+            if value == STEAM or value == DISCORD or value == FIVEML or value == LIVE or value == XBL or value == IP then
                 ISADMIN = true
-            else
-                ISADMIN = false
             end
         end
         return ISADMIN
@@ -1364,7 +1360,7 @@ function FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
             if not FIREAC_WHITELIST(SRC) and not FIREAC_IS_SPAMLIST(SRC, ACTION, REASON, DETAILS) then
                 if ACTION == "WARN" or ACTION == "KICK" or ACTION == "BAN" then
                     if FIREAC.ScreenShot.Enable == true then
-                        if FIREAC.ScreenShot.Log ~= nil then
+                        if FIREAC.ScreenShot.Log ~= "" and FIREAC.ScreenShot.Log ~= nil then
                             FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
                         else
                             FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_ACTION (FIREAC.ScreenShot.Log is nil)")
@@ -1481,9 +1477,9 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
             if DATA ~= nil then
                 local TABLE = json.decode(DATA)
                 if TABLE ~= nil then
-                    ISP     = TABLE["isp"]
-                    CITY    = TABLE["city"]
-                    COUNTRY = TABLE["country"]
+                    ISP     = tostring(TABLE["isp"])
+                    CITY    = tostring(TABLE["city"])
+                    COUNTRY = tostring(TABLE["country"])
                     if TABLE["proxy"] == true then
                         PROXY   =  "ON"
                     else
@@ -1496,7 +1492,7 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                     end
                     LON     = TABLE["lon"]
                     LAT     = TABLE["lat"]
-                    if TYPE == "CONNECT" then
+                    if TYPE == "CONNECT" and CITY ~= nil then
                        PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
                         end, "POST", json.encode({
                             embeds = {
