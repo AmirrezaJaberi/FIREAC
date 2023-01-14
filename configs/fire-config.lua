@@ -145,6 +145,10 @@ FIREAC.MaxFootDistance     = 200
 FIREAC.MaxVehicleDistance  = 600
 FIREAC.TeleportPunishment  = "WARN"
 
+--【 𝗔𝗻𝘁𝗶 𝗡𝗼𝗰𝗹𝗶𝗽 】--
+FIREAC.AntiNoclip        = true
+FIREAC.NoclipPunishment = "KICK"
+
 --【 𝗔𝗻𝘁𝗶 𝗣𝗲𝗱 𝗖𝗵𝗮𝗻𝗴𝗲𝗿 】--
 FIREAC.AntiPedChanger       = true
 FIREAC.PedChangePunishment  = "BAN"
