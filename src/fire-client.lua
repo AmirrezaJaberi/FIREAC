@@ -45,7 +45,7 @@ Citizen.CreateThread(function()
             if DoesEntityExist(PED) and SPAWN and not IsPlayerSwitchInProgress() then
                 local JUPING = IsPedJumping(PED)
                 if JUPING then
-                    TriggerServerEvent('FIREAC:CheckJumping', FIREAC.JumpPunishment, "Anti SuperJump", "Try For Superjump in server")
+                    TriggerServerEvent('FIREAC:CheckJumping', FIREAC.JumpPunishment, "Anti Superjump", "Try For Superjump in server")
                 end
             end
         end
@@ -72,7 +72,7 @@ Citizen.CreateThread(function()
             end
             if FIREAC.AntiSpectate then
                 if NetworkIsInSpectatorMode() then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SpactatePunishment, "Anti Spactate", "Try For Spactate on other player")
+                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SpactatePunishment, "Anti Spectate", "Try For Spectate on other player")
                 end
             end
             if FIREAC.AntiTrackPlayer then
@@ -90,12 +90,12 @@ Citizen.CreateThread(function()
             end
             if FIREAC.AntiHealthHack then
                 if HEALTH > FIREAC.MaxHealth then
-                    TriggerServerEvent('FIREAC:BanFromClient',  FIREAC.HealthPunishment, "Anti Health Hack", "Try For Hack Health : **"..HEALTH.."**")
+                    TriggerServerEvent('FIREAC:BanFromClient',  FIREAC.HealthPunishment, "Anti Health Hack", "Try For Health Hack : **"..HEALTH.."**")
                 end
             end
             if FIREAC.AntiArmorHack then
                 if ARMOR > FIREAC.MaxArmor then
-                    TriggerServerEvent('FIREAC:BanFromClient',  FIREAC.HealthPunishment, "Anti Armor Hack", "Try For Hack Armor : **"..ARMOR.."**")
+                    TriggerServerEvent('FIREAC:BanFromClient',  FIREAC.HealthPunishment, "Anti Armor Hack", "Try For Armor Hack : **"..ARMOR.."**")
                 end
             end
             if FIREAC.AntiBlackListWeapon then
@@ -109,13 +109,13 @@ Citizen.CreateThread(function()
             local CUHEALTH = GetEntityHealth(PlayerPedId())
             if FIREAC.AntiGodMode then
                 if GetPlayerInvincible(PlayerId()) and not IsPlayerCamControlDisabled() and SPAWN then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti GodeMod", "Try For GodeMode Ped in server #1")
+                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmod", "Try For Godmod Ped in server #1")
                 end
                 SetEntityHealth(PlayerPedId(), CUHEALTH - 2)
                 Wait(250)
                 if not IsPlayerDead(PlayerPedId()) and SPAWN and not IsPlayerCamControlDisabled() then
                     if GetEntityHealth(PlayerPedId()) == CUHEALTH and GetEntityHealth(PlayerPedId()) ~= 0 then
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti GodeMod", "Try For GodeMode Ped in server #2")
+                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmod", "Try For Godmod Ped in server #2")
                     elseif GetEntityHealth(PlayerPedId()) == CUHEALTH - 2 then
                         SetEntityHealth(PlayerPedId(), GetEntityHealth(PlayerPedId()) + 2)
                     end
@@ -166,7 +166,7 @@ Citizen.CreateThread(function()
             end
             if FIREAC.AntiNightVision then
                 if GetUsingseethrough(true) and not IsPedInAnyHeli(PlayerPedId()) then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.VisionPunishment, "Anti Termal Vision", "Try For Enable Termal Vision")
+                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.VisionPunishment, "Anti Thermal Vision", "Try For Enable Termal Vision")
                 end
             end
             Wait(2000)
