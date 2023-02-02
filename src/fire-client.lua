@@ -45,14 +45,14 @@ Citizen.CreateThread(function()
             if DoesEntityExist(PED) and SPAWN and not IsPlayerSwitchInProgress() then
                 local JUPING = IsPedJumping(PED)
                 if JUPING then
-                    TriggerServerEvent('FIREAC:CheckJumping', FIREAC.JumpPunishment, "Anti Superjump", "Try For Superjump in server")
+                    TriggerServerEvent('FIREAC:CheckJumping', FIREAC.JumpPunishment, "Anti Superjump", "Try For Superjump in Server")
                 end
             end
         end
     end
 end)
 
---【 𝗖𝗵𝗲𝗰𝗸 𝗧𝗵𝗲𝗮𝗿𝗱 1 】--
+--【 𝗖𝗵𝗲𝗰𝗸 𝗧𝗵r𝗲𝗮𝗱 1 】--
 Citizen.CreateThread(function()
     while true do
         Wait(5000)
@@ -115,7 +115,7 @@ Citizen.CreateThread(function()
                 Wait(250)
                 if not IsPlayerDead(PlayerPedId()) and SPAWN and not IsPlayerCamControlDisabled() then
                     if GetEntityHealth(PlayerPedId()) == CUHEALTH and GetEntityHealth(PlayerPedId()) ~= 0 then
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmod", "Try For Godmod Ped in server #2")
+                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode", "Try For Godmode Ped in server #2")
                     elseif GetEntityHealth(PlayerPedId()) == CUHEALTH - 2 then
                         SetEntityHealth(PlayerPedId(), GetEntityHealth(PlayerPedId()) + 2)
                     end
@@ -357,23 +357,17 @@ AddEventHandler('onClientResourceStart', function (RES)
         TriggerServerEvent('FIREAC:CheckIsAdmin')
     end
     -- Resource Stopper --
-    if FIREAC.AntiResourceStarter or FIREAC.AntiResourceRestarter then
-        if SPAWN then
-            TriggerServerEvent('FIREAC:BanFromClient', FIREAC.ResourcePunishment, "Anti Resource Starter", "Try for start resource : **"..RES.."** !")
-        end
-    end
-    -- Spawn --
+if FIREAC.AntiResourceStarter or FIREAC.AntiResourceRestarter then
     Citizen.CreateThread(function()
         while true do
             Wait(1000)
             if IsPedWalking(PlayerPedId()) or GetCamActiveViewModeContext() then
-                SPWAN = true
+                TriggerServerEvent("FIREAC:BanFromClient", FIREAC.ResourcePunishment, "Anti Resource Starter", "Try for start resource : **"..RES.."** !")
                 break
             end
         end
     end)
-end)
-
+end
 --【 𝗔𝗻𝘁𝗶 𝗦𝘂𝗶𝗰𝗶𝗱𝗲 】--
 AddEventHandler("gameEventTriggered", function(name, args)
     local PLID     = PlayerId()
@@ -381,21 +375,20 @@ AddEventHandler("gameEventTriggered", function(name, args)
     local ENOWNER  = GetPlayerServerId(NetworkGetEntityOwner(args[2]))
     local ENOWNER1 = NetworkGetEntityOwner(args[1])
     local ARMED     = false
-    while IsPlayerSwitchInProgress() do
-        Wait(7500)
-    end
-    if FIREAC.AntiSuicide then
-        if name == "CEventNetworkEntityDamage" then
-            if args[1] == PlayerPedId() and args[2] == -1 and args[3] == 0 and args[4] == 0 and args[5] == 0 and args[6] == 1 and args[7] == GetHashKey('WEAPON_FALL') and args[8] == 0 and args[9] == 0 and args[10] == 0 and args[11] == 0 and args[12] == 0 and args[13] == 0 then
-                if FIREAC.AntiSuicide then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SuicidePunishment, "Anti Suicide", "Try For Kill Self (Suicide) !")
-                end
-            end
+        while IsPlayerSwitchInProgress() do
+            Wait(7500)
         end
+
+if FIREAC.AntiSuicide and name == "CEventNetworkEntityDamage" then
+    if args[1] == PlayerPedId() and args[2] == -1 and #args == 14 and 
+       args[3] == 0 and args[4] == 0 and args[5] == 0 and args[6] == 1 and 
+       args[7] == GetHashKey('WEAPON_FALL') and args[8] == 0 and args[9] == 0 and 
+       args[10] == 0 and args[11] == 0 and args[12] == 0 and args[13] == 0 then
+            TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SuicidePunishment, "Anti Suicide", "Try For Kill Self (Suicide) !")
     end
-    if name == 'CEventNetworkPlayerCollectedPickup' then
-        if FIREAC.AntiPickupCollect then
-            TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PickupPunishment, "Anti Collected Pickup", "Try Collected Pickup : "..json.encode(args).."")
-        end
+end
+
+if FIREAC.AntiPickupCollect and name == 'CEventNetworkPlayerCollectedPickup' then
+    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PickupPunishment, "Anti Collected Pickup", "Try Collected Pickup : "..json.encode(args).."")
     end
 end)
