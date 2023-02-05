@@ -72,7 +72,7 @@ Citizen.CreateThread(function()
             end
             if FIREAC.AntiSpectate then
                 if NetworkIsInSpectatorMode() then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SpactatePunishment, "Anti Spectate", "Spectated another player")
+                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SpectatePunishment, "Anti Spectate", "Spectated another player")
                 end
             end
             if FIREAC.AntiTrackPlayer then
