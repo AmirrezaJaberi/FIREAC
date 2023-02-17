@@ -357,17 +357,19 @@ AddEventHandler('onClientResourceStart', function (RES)
         TriggerServerEvent('FIREAC:CheckIsAdmin')
     end
     -- Resource Stopper --
-if FIREAC.AntiResourceStarter or FIREAC.AntiResourceRestarter then
-    Citizen.CreateThread(function()
-        while true do
-            Wait(1000)
-            if IsPedWalking(PlayerPedId()) or GetCamActiveViewModeContext() then
-                TriggerServerEvent("FIREAC:BanFromClient", FIREAC.ResourcePunishment, "Anti Resource Starter", "Tried to start resource : **"..RES.."** !")
-                break
+    if FIREAC.AntiResourceStarter or FIREAC.AntiResourceRestarter then
+        Citizen.CreateThread(function()
+            while true do
+                Wait(1000)
+                if IsPedWalking(PlayerPedId()) or GetCamActiveViewModeContext() then
+                    TriggerServerEvent("FIREAC:BanFromClient", FIREAC.ResourcePunishment, "Anti Resource Starter", "Tried to start resource : **"..RES.."** !")
+                    break
+                end
             end
-        end
-    end)
-end
+        end)
+    end
+end)
+
 --【 𝗔𝗻𝘁𝗶 𝗦𝘂𝗶𝗰𝗶𝗱𝗲 】--
 AddEventHandler("gameEventTriggered", function(name, args)
     local PLID     = PlayerId()
