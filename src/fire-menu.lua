@@ -277,7 +277,7 @@ local menu6_fixcar = menu6:AddButton({ icon = ''..Emoji.Fix..'', label = 'Fix Ca
 local menu6_godmode = menu6:AddCheckbox({ icon = ''..Emoji.GodMode..'', label = 'GodMode', description = 'GodMode', value = 'n' })
 local menu6_noclip = menu6:AddCheckbox({ icon = ''..Emoji.Beard..'', label = 'NoClip (Vehicle)', description = 'Noclip with a Vehicle', value = 'n' })
 local menu6_nocliprange = menu6:AddRange({ icon = ''..Emoji.Speed..'', label = 'Noclip Speed', min = 0, max = 10, value = 0, saveOnUpdate = true, description = 'Set NoClip Speed' })
-local menu6_engineboost = menu6:AddRange({ icon = ''..Emoji.Engine..'', label = 'Engine Boost', min = 0, max = 10, value = 0, saveOnUpdate = true, description = 'Set Vehicle Engine Boost' })
+local menu6_engineboost = menu6:AddRange({ icon = ''..Emoji.Engine..'', label = 'Speed Boost', min = 0, max = 10, value = 0, saveOnUpdate = true, description = 'Set Vehicle Engine Boost (Speed Boost)' })
 menu6_fixcar:On('select', function(item)
     local _ped = PlayerPedId()
     local _vehiclein = GetVehiclePedIsIn(_ped)
