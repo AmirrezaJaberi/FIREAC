@@ -106,19 +106,15 @@ Citizen.CreateThread(function()
                     end
                 end
             end
-            local CUHEALTH = GetEntityHealth(PlayerPedId())
             if FIREAC.AntiGodMode then
-                if GetPlayerInvincible(PlayerId()) and not IsPlayerCamControlDisabled() and SPAWN then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode", "Used godmode hacks")
-                end
-                SetEntityHealth(PlayerPedId(), CUHEALTH - 2)
-                Wait(250)
-                if not IsPlayerDead(PlayerPedId()) and SPAWN and not IsPlayerCamControlDisabled() then
-                    if GetEntityHealth(PlayerPedId()) == CUHEALTH and GetEntityHealth(PlayerPedId()) ~= 0 then
+                local retval, bulletProof, fireProof, explosionProof, collisionProof, meleeProof, steamProof, p7, drownProof= GetEntityProofs(PlayerPedId())
+                if GetPlayerInvincible(PlayerId()) or GetPlayerInvincible_2(PlayerId()) then
+                    if SPAWN then
                         TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode", "Used godmode hacks")
-                    elseif GetEntityHealth(PlayerPedId()) == CUHEALTH - 2 then
-                        SetEntityHealth(PlayerPedId(), GetEntityHealth(PlayerPedId()) + 2)
                     end
+                end
+                if retval == 1 and bulletProof == 1 and fireProof == 1 and explosionProof == 1 and collisionProof == 1 and steamProof == 1 and p7 == 1 and drownProof == 1 then
+                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode", "Used godmode hacks")
                 end
             end
             if FIREAC.AntiPlateChanger then
@@ -341,12 +337,9 @@ Citizen.CreateThread(function()
 end)
 
 --【 𝗦𝘁𝗼𝗽 𝗥𝗲𝘀𝗼𝘂𝗿𝗰𝗲 】--
-AddEventHandler("onClientResourceStop", function(RES)
+AddEventHandler('onResourceStop', function(resourceName)
     if FIREAC.AntiResourceStopper or FIREAC.AntiResourceRestarter then
-        if RES == "FIREAC" then TriggerServerEvent('FIREAC:BanFromClient', FIREAC.ResourcePunishment, "Anti Resource Stopper", "Tried to stop resource : **"..RES.."** !") CancelEvent() end
-        if SPAWN then
-            TriggerServerEvent('FIREAC:BanFromClient', FIREAC.ResourcePunishment, "Anti Resource Stopper", "Tried to stop resource : **"..RES.."** !")
-        end
+        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.ResourcePunishment, "Anti Resource Stopper", "Tried to stop resource : **"..resourceName.."** !")
     end
 end)
 
@@ -386,7 +379,7 @@ if FIREAC.AntiSuicide and name == "CEventNetworkEntityDamage" then
        args[3] == 0 and args[4] == 0 and args[5] == 0 and args[6] == 1 and 
        args[7] == GetHashKey('WEAPON_FALL') and args[8] == 0 and args[9] == 0 and 
        args[10] == 0 and args[11] == 0 and args[12] == 0 and args[13] == 0 then
-            TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SuicidePunishment, "Anti Suicide", "Tried to suicide")
+        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SuicidePunishment, "Anti Suicide", "Tried to suicide")
     end
 end
 
