@@ -18,10 +18,10 @@ FIREAC = {}
 --                                𝗔𝗗𝗗 𝟭 𝗥𝗘𝗦𝗢𝗨𝗥𝗖𝗘 𝗢𝗡 𝗬𝗢𝗨𝗥 𝗦𝗘𝗥𝗩𝗘𝗥
 
 --【 𝗩𝗲𝗿𝘀𝗶𝗼𝗻 𝗖𝗵𝗲𝗰𝗸 】--
-FIREAC.Version   = "6.1.5"
+FIREAC.Version   = "6.1.8"
 
 
---【 𝗦𝗲𝗿𝘃𝗲𝗿 𝗦𝗲𝘁𝘁𝗶𝗻𝗴𝘀 】--
+--【 𝗦𝗲𝗿𝘃𝗲𝗿 𝗦𝗲𝘁𝘁𝗶𝗻𝗴𝘀 】--   
 FIREAC.ServerConfig = {
     Name = "YOUR SERVER NAME",
     Port = "30120",
@@ -51,6 +51,7 @@ FIREAC.ScreenShot = {
 FIREAC.Connection = {
     AntiBlackListName = true,
     AntiVPN           = true,
+    HideIP            = true,
     Log               = ""
 }
 
