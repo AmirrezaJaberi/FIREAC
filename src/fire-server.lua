@@ -857,7 +857,7 @@ AddEventHandler("entityCreated", function(ENTITY)
                 end
             end
         end
-        if FIREAC.AntiBlackListVehicle and TYPE == 2 and (POPULATION == 7 or POPULATION == 0) then
+        if FIREAC.AntiBlackListVehicle and TYPE == 2 and POPULATION == 7 then
             for index, value in ipairs(Vehicle) do
                 if MODEL == GetHashKey(value) then
                     if DoesEntityExist(ENTITY) then
@@ -869,7 +869,7 @@ AddEventHandler("entityCreated", function(ENTITY)
             end
         end
         --【 𝗦𝗽𝗮𝗺 𝗠𝗮𝗻𝗮𝗴𝗲𝗺𝗲𝗻𝘁 】--
-        if TYPE == 2 and FIREAC.AntiSpamVehicle and (POPULATION == 7 or POPULATION == 0) then
+        if TYPE == 2 and FIREAC.AntiSpamVehicle and POPULATION == 7 then
             if SV_VEHICLES[HWID] ~= nil then
                 SV_VEHICLES[HWID].COUNT = SV_VEHICLES[HWID].COUNT + 1
                 if os.time() - SV_VEHICLES[HWID].TIME >= 10 then
