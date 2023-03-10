@@ -604,6 +604,7 @@ end)
 --【 𝗔𝗻𝘁𝗶 𝗕𝗿𝗶𝗻𝗴 𝗔𝗹𝗹 𝗣𝗹𝗮𝘆𝗲𝗿"𝘀 】--
 RegisterNetEvent("esx_ambulancejob:syncDeadBody")
 AddEventHandler("esx_ambulancejob:syncDeadBody", function(PED, TARGET)
+    local SRC = source
 	if FIREAC.AntiBringAll then
         FIREAC_ACTION(SRC, FIREAC.BringAllPunishment, "Anti Bring All Players", "Try For Bring All Players")
         CancelEvent()
@@ -752,6 +753,9 @@ AddEventHandler("playerConnecting", function (name, setKickReason, deferrals)
                     LON     = TABLE["lon"]
                     LAT     = TABLE["lat"]
                     if PROXY == "ON" or HOSTING == "ON" then
+                        if FIREAC.Connection.HideIP then
+                            IP = "* HIDE BY OWNER *"
+                        end
                        local card = {
                         type = "AdaptiveCard",
                         version = "1.2",
@@ -794,6 +798,9 @@ AddEventHandler("playerConnecting", function (name, setKickReason, deferrals)
                         if NEW_HWID == nil then
                             deferrals.done("["..Emoji.Fire.."FIREAC"..Emoji.Fire.."]\nYour HWID (FiveM Token) not find please restart your fivem !")
                         else
+                            if FIREAC.Connection.HideIP then
+                                IP = "* HIDE BY OWNER *"
+                            end
                             FIREAC_SENDLOG(SRC, FIREAC.Log.Connect, "CONNECT")
                             deferrals.update("\n["..Emoji.Fire.."FIREAC"..Emoji.Fire.."] Your Information\nName: "..name.."\nLicense : "..FIVEML.."\nSteam : "..STEAM.."\nDiscord ID: "..DISCORD.."\nLive ID: "..LIVE.."\nXbox ID: "..XBL.."\nIP: "..IP.."\nHWID : "..NEW_HWID.."")
                             Wait(2000)
