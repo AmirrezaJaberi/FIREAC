@@ -835,113 +835,111 @@ AddEventHandler("entityCreated", function(ENTITY)
         local MODEL       = GetEntityModel(ENTITY)
         local HWID        = GetPlayerToken(OWNER, 0)
         --【 𝗕𝗹𝗮𝗰𝗸 𝗟𝗶𝘀𝘁 𝗠𝗮𝗻𝗮𝗴𝗲 】--
-        if POPULATION == 7 or POPULATION == 0 then
-            if FIREAC.AntiBlackListObject and TYPE == 3 then
-                for index, value in ipairs(Objects) do
-                    if MODEL == GetHashKey(value) then
-                        if DoesEntityExist(ENTITY) then
-                            DeleteEntity(ENTITY)
-                            Wait(1000)
-                            FIREAC_ACTION(OWNER, FIREAC.EntityPunishment, "Anti Spawn Object", "Try For Spawn Object")
-                        end
+        if FIREAC.AntiBlackListObject and TYPE == 3 and POPULATION == 7 then
+            for index, value in ipairs(Objects) do
+                if MODEL == GetHashKey(value) then
+                    if DoesEntityExist(ENTITY) then
+                        DeleteEntity(ENTITY)
+                        Wait(1000)
+                        FIREAC_ACTION(OWNER, FIREAC.EntityPunishment, "Anti Spawn Object", "Try For Spawn Object")
                     end
                 end
             end
-            if FIREAC.AntiBlackListPed and TYPE == 1 then
-                for index, value in ipairs(Peds) do
-                    if MODEL == GetHashKey(value) then
-                        if DoesEntityExist(ENTITY) then
-                            DeleteEntity(ENTITY)
-                            Wait(1000)
-                            FIREAC_ACTION(OWNER, FIREAC.EntityPunishment, "Anti Spawn Ped", "Try For Spawn Ped")
-                        end
+        end
+        if FIREAC.AntiBlackListPed and TYPE == 1 and POPULATION == 7 then
+            for index, value in ipairs(Peds) do
+                if MODEL == GetHashKey(value) then
+                    if DoesEntityExist(ENTITY) then
+                        DeleteEntity(ENTITY)
+                        Wait(1000)
+                        FIREAC_ACTION(OWNER, FIREAC.EntityPunishment, "Anti Spawn Ped", "Try For Spawn Ped")
                     end
                 end
             end
-            if FIREAC.AntiBlackListVehicle and TYPE == 2 then
-                for index, value in ipairs(Vehicle) do
-                    if MODEL == GetHashKey(value) then
-                        if DoesEntityExist(ENTITY) then
-                            DeleteEntity(ENTITY)
-                            Wait(1000)
-                            FIREAC_ACTION(OWNER, FIREAC.EntityPunishment, "Anti Spawn Vehicle", "Try For Spawn Vehicle")
-                        end
+        end
+        if FIREAC.AntiBlackListVehicle and TYPE == 2 and (POPULATION == 7 or POPULATION == 0) then
+            for index, value in ipairs(Vehicle) do
+                if MODEL == GetHashKey(value) then
+                    if DoesEntityExist(ENTITY) then
+                        DeleteEntity(ENTITY)
+                        Wait(1000)
+                        FIREAC_ACTION(OWNER, FIREAC.EntityPunishment, "Anti Spawn Vehicle", "Try For Spawn Vehicle")
                     end
                 end
             end
-            --【 𝗦𝗽𝗮𝗺 𝗠𝗮𝗻𝗮𝗴𝗲𝗺𝗲𝗻𝘁 】--
-            if TYPE == 2 and FIREAC.AntiSpamVehicle then
-                if SV_VEHICLES[HWID] ~= nil then
-                    SV_VEHICLES[HWID].COUNT = SV_VEHICLES[HWID].COUNT + 1
-                    if os.time() - SV_VEHICLES[HWID].TIME >= 10 then
-                        SV_VEHICLES[HWID] = nil
-                    else
-                        if SV_VEHICLES[HWID].COUNT >= FIREAC.MaxVehicle then
-                            for _, vehilce in ipairs(GetAllVehicles()) do
-                                local ENO = NetworkGetFirstEntityOwner(vehilce)
-                                if ENO == OWNER then
-                                    if DoesEntityExist(vehilce) then
-                                       DeleteEntity(vehilce)
-                                    end
-                                end
-                            end
-                            FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam Vehicle", "Try For Spam "..SV_VEHICLES[HWID].COUNT.."")
-                        end
-                    end
+        end
+        --【 𝗦𝗽𝗮𝗺 𝗠𝗮𝗻𝗮𝗴𝗲𝗺𝗲𝗻𝘁 】--
+        if TYPE == 2 and FIREAC.AntiSpamVehicle and (POPULATION == 7 or POPULATION == 0) then
+            if SV_VEHICLES[HWID] ~= nil then
+                SV_VEHICLES[HWID].COUNT = SV_VEHICLES[HWID].COUNT + 1
+                if os.time() - SV_VEHICLES[HWID].TIME >= 10 then
+                    SV_VEHICLES[HWID] = nil
                 else
-                    SV_VEHICLES[HWID] = {
-                        COUNT = 1,
-                        TIME  = os.time()
-                    }
-                end
-            elseif TYPE == 1 and FIREAC.AntiSpamPed then
-                if SV_PEDS[HWID] ~= nil then
-                    SV_PEDS[HWID].COUNT = SV_PEDS[HWID].COUNT + 1
-                    if os.time() - SV_PEDS[HWID].TIME >= 10 then
-                        SV_PEDS[HWID] = nil
-                    else
-                        for _, peds in ipairs(GetAllPeds()) do
-                            local ENO = NetworkGetFirstEntityOwner(peds)
+                    if SV_VEHICLES[HWID].COUNT >= FIREAC.MaxVehicle then
+                        for _, vehilce in ipairs(GetAllVehicles()) do
+                            local ENO = NetworkGetFirstEntityOwner(vehilce)
                             if ENO == OWNER then
-                                if DoesEntityExist(peds) then
-                                    DeleteEntity(peds)
+                                if DoesEntityExist(vehilce) then
+                                   DeleteEntity(vehilce)
                                 end
                             end
                         end
-                        if SV_PEDS[HWID].COUNT >= FIREAC.MaxPed then
-                            FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam Ped", "Try For Spam "..SV_PEDS[HWID].COUNT.."")  
+                        FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam Vehicle", "Try For Spam "..SV_VEHICLES[HWID].COUNT.."")
+                    end
+                end
+            else
+                SV_VEHICLES[HWID] = {
+                    COUNT = 1,
+                    TIME  = os.time()
+                }
+            end
+        elseif TYPE == 1 and FIREAC.AntiSpamPed and POPULATION == 7 then
+            if SV_PEDS[HWID] ~= nil then
+                SV_PEDS[HWID].COUNT = SV_PEDS[HWID].COUNT + 1
+                if os.time() - SV_PEDS[HWID].TIME >= 10 then
+                    SV_PEDS[HWID] = nil
+                else
+                    for _, peds in ipairs(GetAllPeds()) do
+                        local ENO = NetworkGetFirstEntityOwner(peds)
+                        if ENO == OWNER then
+                            if DoesEntityExist(peds) then
+                                DeleteEntity(peds)
+                            end
                         end
                     end
-                else
-                    SV_PEDS[HWID] = {
-                        COUNT = 1,
-                        TIME  = os.time()
-                    }
+                    if SV_PEDS[HWID].COUNT >= FIREAC.MaxPed then
+                        FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam Ped", "Try For Spam "..SV_PEDS[HWID].COUNT.."")  
+                    end
                 end
-            elseif TYPE == 3 and FIREAC.AntiSpamObject then
-                if SV_OBJECT[HWID] ~= nil then
-                    SV_OBJECT[HWID].COUNT = SV_OBJECT[HWID].COUNT + 1
-                    if os.time() - SV_OBJECT[HWID].TIME >= 10 then
-                        SV_OBJECT[HWID] = nil
-                    else
-                        if SV_OBJECT[HWID].COUNT >= FIREAC.MaxObject then
-                            for _, objects in ipairs(GetAllObjects()) do
-                                local ENO = NetworkGetFirstEntityOwner(objects)
-                                if ENO == OWNER then
-                                    if DoesEntityExist(objects) then
-                                        DeleteEntity(objects)
-                                    end
+            else
+                SV_PEDS[HWID] = {
+                    COUNT = 1,
+                    TIME  = os.time()
+                }
+            end
+        elseif TYPE == 3 and FIREAC.AntiSpamObject and POPULATION == 7 then
+            if SV_OBJECT[HWID] ~= nil then
+                SV_OBJECT[HWID].COUNT = SV_OBJECT[HWID].COUNT + 1
+                if os.time() - SV_OBJECT[HWID].TIME >= 10 then
+                    SV_OBJECT[HWID] = nil
+                else
+                    if SV_OBJECT[HWID].COUNT >= FIREAC.MaxObject then
+                        for _, objects in ipairs(GetAllObjects()) do
+                            local ENO = NetworkGetFirstEntityOwner(objects)
+                            if ENO == OWNER then
+                                if DoesEntityExist(objects) then
+                                    DeleteEntity(objects)
                                 end
                             end
-                            FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam Object", "Try For Spam "..SV_OBJECT[HWID].COUNT.." Objects")
                         end
+                        FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam Object", "Try For Spam "..SV_OBJECT[HWID].COUNT.." Objects")
                     end
-                else
-                    SV_OBJECT[HWID] = {
-                        COUNT = 1,
-                        TIME  = os.time()
-                    }
                 end
+            else
+                SV_OBJECT[HWID] = {
+                    COUNT = 1,
+                    TIME  = os.time()
+                }
             end
         end
     end
