@@ -105,7 +105,7 @@ Admins = {
     'license2:500a67097ce3c274569c773bc41974d3c28380**', -- FiveM License
 }
 ```
-Where can I find my identifiers ? From connecting (Log of Discord) to the server or...
+**Where can I find my identifiers ?** From connecting (Log of Discord) to the server or...
 ________________________________________________________________________
 ### Command
 - `/funban [Ban ID]` This command add for unban players by ban id (with console for in game)
