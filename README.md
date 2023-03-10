@@ -1,15 +1,15 @@
-<h1 align='center'><center><img src="https://images-ext-1.discordapp.net/external/o6rKvVQzJu0QDJ8-I1AeB9wt8UyedNZiS5kDqS5BPZQ/https/media.discordapp.net/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png" alt="what image shows" height="20" width="20"></center>   FIREAC   <center><img src="https://images-ext-1.discordapp.net/external/o6rKvVQzJu0QDJ8-I1AeB9wt8UyedNZiS5kDqS5BPZQ/https/media.discordapp.net/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png" alt="what image shows" height="20" width="20"></center></a></h1>
+<h1 align='center'><center><img src="https://github.com/AmIrReZa386/AmIrReZa386/blob/main/assist/Github.png" alt="what image shows" height="20" width="20"></center>   FIREAC   <center><img src="https://github.com/AmIrReZa386/AmIrReZa386/blob/main/assist/Github.png" alt="what image shows" height="20" width="20"></center></a></h1>
 <p align='center'><b><a href='https://discord.gg/uvccDWtqhv'>Discord</a></b></h5>
 
-FiveM Best Lua AntiCheat
+FIREAC is the best FiveM anti-cheat made for free for you FiveM server owners and developers, this anti-cheat will help you get rid of cheaters and make a fair game for your players.
+________________________________________________________________________
+### Requirements :
+   * [menuv](https://github.com/ThymonA/menuv/releases) (To open admin menu)
+   * [discord-screenshot](https://github.com/jaimeadf/discord-screenshot/releases) (To take screenshot)
 
-### Requirements
-   * [menuv](https://github.com/ThymonA/menuv/releases)
-   * [discord-screenshot](https://github.com/jaimeadf/discord-screenshot/releases)
-
-
+________________________________________________________________________
 #### Features
-##### Client Side Protecet :
+Client Side Protecet :
 - Anti Track Player's
 - Anti Health Hack
 - Anti Armor Hack
@@ -38,7 +38,7 @@ FiveM Best Lua AntiCheat
 - Anti Super Jump
 - Anti Suicide
 
-##### Server Side Protecet :
+Server Side Protecet :
 - Anti Spam Chat
 - Anti Black List Commands
 - Anti Weapon Damage Changer
@@ -60,16 +60,16 @@ FiveM Best Lua AntiCheat
 - Anti Spam Object
 - Anti Change Perm
 - Anti Play Sound
-
+________________________________________________________________________
 ##### Inject Protect :
 - Anti Resource Start / Stop / Restart
 - Anti Add Command
-
+________________________________________________________________________
 ##### Connection Protect:
 - Anti VPN
 - Anti Hosting
 - Anti Black List Name
-
+________________________________________________________________________
 #### Ban Method:
 - FiveM License
 - Steam Identifier
@@ -77,14 +77,14 @@ FiveM Best Lua AntiCheat
 - Microsoft ID(LIVE ID)
 - Xbox Live ID (XBL ID)
 - Discord ID
-- [FiveM Player Token's](https://docs.fivem.net/natives/?_0x54C06897)
-
+- [FiveM Player Token's](https://docs.fivem.net/natives/?_0x54C06897) (I call this option HWID because it is very powerful 💪)
+________________________________________________________________________
 #### Log's:
-- Console Log
-- Discord Log
-- Chat Log
-- Screenshot Log
-
+- Console
+- Discord
+- Chat
+- Screenshot
+________________________________________________________________________
 ### Installation
 - Add this text in your `server.cfg` :
 ```
@@ -93,16 +93,13 @@ ensure menuv
 ensure screenshot-basic
 ensure discord-screenshot
 ```
-
+________________________________________________________________________
 ### Command
 - `/funban [Ban ID]` This command add for unban players by ban id (with console for in game)
-
+________________________________________________________________________
 ### Information
 FIREAC is an FiveM anti cheat developed by **Amirreza Jaberi** as a script in 2021 & due to the circumstances, it was decided to make it public
-
-### Guide Documentation
-Guide wiki will add in github soon ...
-
+________________________________________________________________________
 ### License
 ```
     FIREAC - FiveM Anti Cheat
