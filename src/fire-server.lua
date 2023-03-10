@@ -828,7 +828,7 @@ AddEventHandler("entityCreated", function(ENTITY)
         local MODEL       = GetEntityModel(ENTITY)
         local HWID        = GetPlayerToken(OWNER, 0)
         --【 𝗕𝗹𝗮𝗰𝗸 𝗟𝗶𝘀𝘁 𝗠𝗮𝗻𝗮𝗴𝗲 】--
-        if POPULATION == 7 then
+        if POPULATION == 7 or POPULATION == 0 then
             if FIREAC.AntiBlackListObject and TYPE == 3 then
                 for index, value in ipairs(Objects) do
                     if MODEL == GetHashKey(value) then
