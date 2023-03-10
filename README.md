@@ -94,11 +94,27 @@ ensure screenshot-basic
 ensure discord-screenshot
 ```
 ________________________________________________________________________
+### Whitelist
+- You can add your users identifiers in `FIREAC/whitelists/fire-white.lua`
+for example :
+```
+Admins = {
+    '7835767148521717**',                                -- Discord ID
+    'steam:1100001476d05**',                             -- Steam Hex
+    '192.168.1.**',                                      -- IP Address
+    'license2:500a67097ce3c274569c773bc41974d3c28380**', -- FiveM License
+}
+```
+Where can I find my identifiers ? From connecting (Log of Discord) to the server or...
+________________________________________________________________________
 ### Command
 - `/funban [Ban ID]` This command add for unban players by ban id (with console for in game)
 ________________________________________________________________________
 ### Information
 FIREAC is an FiveM anti cheat developed by **Amirreza Jaberi** as a script in 2021 & due to the circumstances, it was decided to make it public
+________________________________________________________________________
+### Guide Documentation
+Guide wiki will add in github soon ...
 ________________________________________________________________________
 ### License
 ```
