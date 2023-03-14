@@ -1,13 +1,14 @@
 --------[-----------------------------------]--------
 --------[-----------------------------------]--------
---------[---- Copyright 2022 by FIREAC® ----]--------
+--------[---- Copyright 2023 by FIREAC® ----]--------
 --------[-----------------------------------]--------
 --------[------ Dev By Amirreza Jaberi -----]--------
 --------[-----------------------------------]--------
 
-local COLORS    = math.random(1, 9)
-local SPAWNED   = {}
-local SPAMLIST  = {}
+local COLORS         = math.random(1, 9)
+local SPAWNED        = {}
+local SPAMLIST       = {}
+local TEMP_WHITELIST = {}
 
 --【 𝗦𝘁𝗮𝗿𝘁𝗶𝗻𝗴 】--
 Citizen.CreateThread(function()
@@ -276,14 +277,14 @@ AddEventHandler("FIREAC:ScreenShotFromClient", function (URL, REASON, DETAILS)
                                         author = {
                                             name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
                                             url = "https://discord.gg/drwWFkfu6x",
-                                            icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
+                                            icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
                                         },
                                         image =  {
                                             url = URL,
                                         },
                                         footer = {
                                             text = "FIREAC V6 "..Emoji.Fire.." | "..os.date("%Y/%m/%d | %X").."",
-                                            icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png",
+                                            icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                         },
                                         title = ""..Emoji.VPN.." ScreenShot "..Emoji.VPN.."",
                                         description = "**Player:** "..NAME.."\n**Reason:** "..REASON.."\n**Details:** "..DETAILS.."\n**Coords:** "..COORDS.."\n**Steam Hex:** "..STEAM.."\n**Discord:** "..DISCORD.."\n**License:** "..FIVEML.."\n**Live:** "..LIVE.."\n**Xbox:** "..XBL.."\n**ISP:** "..ISP.."\n**Country:** "..COUNTRY.."\n**City:** "..CITY.."\n**IP:** "..IP.."\n**VPN:** "..PROXY.."\n**Hosting:** "..HOSTING.."",
@@ -1009,38 +1010,35 @@ function StartAntiCheat()
                     ]])
         PerformHttpRequest("http://localhost:"..FIREAC.ServerConfig.Port.."/info.json", function(ERROR, DATA, RESULT)
             if DATA ~= nil then
-                local TABLE = json.decode(DATA)
-                local ART1 = TABLE["server"]
-                local ART2 = string.gsub(ART1, "FXServer", " ")
-                local ART3 = string.gsub(ART2, "-master", " ")
-                local ART4 = string.gsub(ART3, " SERVER", " ")	
-                local ART5 = string.gsub(ART4, "v1.0.0.", " ")
-                local ART6 = string.gsub(ART5, "win32", "")
-                local ART7 = string.gsub(ART6, " ", "")
-                print("^"..COLORS.."[FIREAC]^0: ^3Server Build : "..ART7.."")
-              PerformHttpRequest(FIREAC.Log.Ban, function(ERROR, DATA, RESULT)
+            -- Check Artifact --
+                local ARTIFACT = string.gsub(string.gsub(string.gsub(string.gsub(string.gsub(json.decode(DATA).server, "FXServer", " "), "-master", " "), " SERVER", " "), "v1.0.0.", " "), "win32", "")
+                print("^"..COLORS.."[FIREAC]^0: ^3Server Build : "..ARTIFACT.."")
+
+            -- Send Log --
+            PerformHttpRequest(FIREAC.Log.Ban, function(ERROR, DATA, RESULT)
             end, "POST", json.encode({
                 embeds = {
                     {
                         author = {
                             name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
                             url = "https://discord.gg/drwWFkfu6x",
-                            icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
+                            icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
                         },
                         footer = {
                             text = "FIREAC V6 "..Emoji.Fire.." | "..os.date("%Y/%m/%d | %X").."",
-                            icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png",
+                            icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                         },
                         title = "FIREAC "..FIREAC.Version.."",
-                        description = "**Current Version:** "..FIREAC.Version.."\n**License:** "..FIREAC.ServerConfig.Name.."\n**Server Build:** "..ART7.."\nStarted successfully...",
+                        description = "**Current Version:** "..FIREAC.Version.."\n**License:** "..FIREAC.ServerConfig.Name.."\n**Server Build:** "..ARTIFACT.."\nStarted successfully...",
                         color = math.random(0, 16776960)
                     }
                 }
             }), {
                 ["Content-Type"] = "application/json"
             })
+
             else
-                FIREAC_ERROR(FIREAC.ServerConfig.Name, "function StartAntiCheat (Server Port is wronge)")
+                FIREAC_ERROR(FIREAC.ServerConfig.Name, "function StartAntiCheat (Server Port is wronge or We can't connect to that)")
             end
         end)
     else
@@ -1191,11 +1189,11 @@ function FIREAC_ERROR(SERVER_NAME, ERROR)
                         author = {
                             name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
                             url = "https://discord.gg/drwWFkfu6x",
-                            icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
+                            icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
                         },
                         footer = {
                             text = "FIREAC V6 "..Emoji.Fire.." | "..os.date("%Y/%m/%d | %X").."",
-                            icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png",
+                            icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                         },
                         title = ""..Emoji.Warn.." Warning "..Emoji.Warn.."",
                         description = "**Error**: `"..ERROR.."`\n**License:** "..SERVER_NAME.."",
@@ -1362,7 +1360,7 @@ end
 function FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
     if REASON ~= nil and DETAILS ~= nil then
         if tonumber(SRC) ~= nil and tonumber(SRC) > 0 and GetPlayerName(SRC) ~= nil then
-            if not FIREAC_WHITELIST(SRC) and not FIREAC_IS_SPAMLIST(SRC, ACTION, REASON, DETAILS) then
+            if not FIREAC_WHITELIST(SRC) and not FIREAC_CHECK_TEMP_WHITELIST(SRC) and not FIREAC_IS_SPAMLIST(SRC, ACTION, REASON, DETAILS) then
                 if ACTION == "WARN" or ACTION == "KICK" or ACTION == "BAN" then
                     if FIREAC.ScreenShot.Enable == true then
                         if FIREAC.ScreenShot.Log ~= "" and FIREAC.ScreenShot.Log ~= nil then
@@ -1505,11 +1503,11 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
                                         url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
                                     },
                                     footer = {
                                         text = "FIREAC V6 "..Emoji.Fire.." | "..os.date("%Y/%m/%d | %X").."",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png",
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                     },
                                     title = ""..Emoji.Connect.." Connecting "..Emoji.Connect.."",
                                     description = "**Player:** "..NAME.."\n**Steam Hex:** "..STEAM.."\n**Discord:** "..DISCORD.."\n**License:** "..FIVEML.."\n**Live:** "..LIVE.."\n**Xbox:** "..XBL.."\n**ISP:** "..ISP.."\n**Country:** "..COUNTRY.."\n**City:** "..CITY.."\n**IP:** "..IP.."\n**VPN:** "..PROXY.."\n**Hosting:** "..HOSTING.."",
@@ -1527,11 +1525,11 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
                                         url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
                                     },
                                     footer = {
                                         text = "FIREAC V6 "..Emoji.Fire.." | "..os.date("%Y/%m/%d | %X").."",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png",
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                     },
                                     title = ""..Emoji.Disconnect.." Disconnect "..Emoji.Disconnect.."",
                                     description = "**Player:** "..NAME.."\n**Reason:**: "..REASON.."\n**Steam Hex:** "..STEAM.."\n**Discord:** "..DISCORD.."\n**License:** "..FIVEML.."\n**Live:** "..LIVE.."\n**Xbox:** "..XBL.."\n**ISP:** "..ISP.."\n**Country:** "..COUNTRY.."\n**City:** "..CITY.."\n**IP:** "..IP.."\n**VPN:** "..PROXY.."\n**Hosting:** "..HOSTING.."",
@@ -1549,11 +1547,11 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
                                         url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
                                     },
                                     footer = {
                                         text = "FIREAC V6 "..Emoji.Fire.." | "..os.date("%Y/%m/%d | %X").."",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png",
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                     },
                                     title = ""..Emoji.Ban.." Banned "..Emoji.Ban.."",
                                     description = "**Player:** "..NAME.."\n**Reason:**: "..REASON.."\n**Details:** "..DETAILS.."\n**Steam Hex:** "..STEAM.."\n**Discord:** "..DISCORD.."\n**License:** "..FIVEML.."\n**Live:** "..LIVE.."\n**Xbox:** "..XBL.."\n**ISP:** "..ISP.."\n**Country:** "..COUNTRY.."\n**City:** "..CITY.."\n**IP:** "..IP.."\n**VPN:** "..PROXY.."\n**Hosting:** "..HOSTING.."",
@@ -1571,11 +1569,11 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
                                         url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
                                     },
                                     footer = {
                                         text = "FIREAC V6 "..Emoji.Fire.." | "..os.date("%Y/%m/%d | %X").."",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png",
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                     },
                                     title = ""..Emoji.Kick.." Kicked "..Emoji.Kick.."",
                                     description = "**Player:** "..NAME.."\n**Reason:**: "..REASON.."\n**Details:** "..DETAILS.."\n**Steam Hex:** "..STEAM.."\n**Discord:** "..DISCORD.."\n**License:** "..FIVEML.."\n**Live:** "..LIVE.."\n**Xbox:** "..XBL.."\n**ISP:** "..ISP.."\n**Country:** "..COUNTRY.."\n**City:** "..CITY.."\n**IP:** "..IP.."\n**VPN:** "..PROXY.."\n**Hosting:** "..HOSTING.."",
@@ -1593,11 +1591,11 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
                                         url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
                                     },
                                     footer = {
                                         text = "FIREAC V6 "..Emoji.Fire.." | "..os.date("%Y/%m/%d | %X").."",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png",
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                     },
                                     title = ""..Emoji.Warn.." Warning "..Emoji.Warn.."",
                                     description = "**Player:** "..NAME.."\n**Reason:**: "..REASON.."\n**Details:** "..DETAILS.."\n**Steam Hex:** "..STEAM.."\n**Discord:** "..DISCORD.."\n**License:** "..FIVEML.."\n**Live:** "..LIVE.."\n**Xbox:** "..XBL.."\n**ISP:** "..ISP.."\n**Country:** "..COUNTRY.."\n**City:** "..CITY.."\n**IP:** "..IP.."\n**VPN:** "..PROXY.."\n**Hosting:** "..HOSTING.."",
@@ -1615,11 +1613,11 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
                                         url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
                                     },
                                     footer = {
                                         text = "FIREAC V6 "..Emoji.Fire.." | "..os.date("%Y/%m/%d | %X").."",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png",
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                     },
                                     title = ""..Emoji.Exoplosion.." Explosion "..Emoji.Exoplosion.."",
                                     description = "**Player:** "..NAME.."\n**Explosion Type:**: "..REASON.."\n**Coords:** "..COORDS.."\n**Steam Hex:** "..STEAM.."\n**Discord:** "..DISCORD.."\n**License:** "..FIVEML.."\n**Live:** "..LIVE.."\n**Xbox:** "..XBL.."\n**ISP:** "..ISP.."\n**Country:** "..COUNTRY.."\n**City:** "..CITY.."\n**IP:** "..IP.."\n**VPN:** "..PROXY.."\n**Hosting:** "..HOSTING.."",
@@ -1637,14 +1635,14 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
                                         url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
                                     },
                                     image =  {
                                         url = "https://cache.ip-api.com/"..LON..","..LAT..",10",
                                     },
                                     footer = {
                                         text = "FIREAC V6 "..Emoji.Fire.." | "..os.date("%Y/%m/%d | %X").."",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png",
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                     },
                                     title = ""..Emoji.TFJ.." Try For Join "..Emoji.TFJ.."",
                                     description = "**Player:** "..NAME.."\n**Ban ID:** "..REASON.."\n**Details:** "..DETAILS.."\n**Steam Hex:** "..STEAM.."\n**Discord:** "..DISCORD.."\n**License:** "..FIVEML.."\n**Live:** "..LIVE.."\n**Xbox:** "..XBL.."\n**ISP:** "..ISP.."\n**Country:** "..COUNTRY.."\n**City:** "..CITY.."\n**IP:** "..IP.."\n**VPN:** "..PROXY.."\n**Hosting:** "..HOSTING.."",
@@ -1662,14 +1660,14 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
                                         url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
                                     },
                                     image =  {
                                         url = "https://cache.ip-api.com/"..LON..","..LAT..",10",
                                     },
                                     footer = {
                                         text = "FIREAC V6 "..Emoji.Fire.." | "..os.date("%Y/%m/%d | %X").."",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png",
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                     },
                                     title = ""..Emoji.BLN.." Black List Name Found ! "..Emoji.BLN.."",
                                     description = "**Player:** "..NAME.."\n**Reason:** "..REASON.."\n**Details:** "..DETAILS.."\n**Steam Hex:** "..STEAM.."\n**Discord:** "..DISCORD.."\n**License:** "..FIVEML.."\n**Live:** "..LIVE.."\n**Xbox:** "..XBL.."\n**ISP:** "..ISP.."\n**Country:** "..COUNTRY.."\n**City:** "..CITY.."\n**IP:** "..IP.."\n**VPN:** "..PROXY.."\n**Hosting:** "..HOSTING.."",
@@ -1687,14 +1685,14 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
                                         url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
                                     },
                                     image =  {
                                         url = "https://cache.ip-api.com/"..LON..","..LAT..",10",
                                     },
                                     footer = {
                                         text = "FIREAC V6 "..Emoji.Fire.." | "..os.date("%Y/%m/%d | %X").."",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png",
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                     },
                                     title = ""..Emoji.VPN.." VPN Blocked "..Emoji.VPN.."",
                                     description = "**Player:** "..NAME.."\n**Details:** Try For Join By VPN\n**Steam Hex:** "..STEAM.."\n**Discord:** "..DISCORD.."\n**License:** "..FIVEML.."\n**Live:** "..LIVE.."\n**Xbox:** "..XBL.."\n**ISP:** "..ISP.."\n**Country:** "..COUNTRY.."\n**City:** "..CITY.."\n**IP:** "..IP.."\n**VPN:** "..PROXY.."\n**Hosting:** "..HOSTING.."",
@@ -1866,19 +1864,19 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
                         end
                         exports["discord-screenshot"]:requestCustomClientScreenshotUploadToDiscord(SRC, FIREAC.ScreenShot.Log, SSO, {
                             username = ""..Emoji.Fire.." FIREAC "..Emoji.Fire.."",
-                            avatar_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png",
+                            avatar_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                             embeds = {
                                 {
                                     color = COLORS[ACTION],
                                     author = {
                                         name = ""..Emoji.Fire.."| FIRE AC™ | "..Emoji.Fire.."",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png"
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
                                     },
                                     title = "Screenshot",
                                     description = "**Player:** "..NAME.."\n**ID:** "..SRC.."\n**Reason:** "..REASON.."\n**Steam Hex:** "..STEAM.."\n**Discord:** "..DISCORD.."\n**License:** "..FIVEML.."\n**Live:** "..LIVE.."\n**Xbox:** "..XBL.."\n**ISP:** "..ISP.."\n**Country:** "..COUNTRY.."\n**City:** "..CITY.."\n**Ping:** ".. PING .."\n**IP:** "..IP.."\n**VPN:** "..PROXY.."\n**Hosting:** "..HOSTING.."",
                                     footer = {
                                         text = "FIREAC V6 "..Emoji.Fire.." | "..os.date("%Y/%m/%d | %X").."",
-                                        icon_url = "https://cdn.discordapp.com/attachments/837386511920922694/838343457700839434/3928fa3aa4971eeb3d88482c62540344.png",
+                                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                     },
                                 }
                             }
@@ -1887,6 +1885,45 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
                 end
             end)
         end
+    end
+end
+
+function FIREAC_CHANGE_TEMP_WHHITELIST(SRC, STATUS)
+    if tonumber(SRC) then
+        if STATUS == true then
+            local Availble = false
+            for _, value in ipairs(TEMP_WHITELIST) do
+                if value == SRC then
+                    Availble = true
+                end
+            end
+            if not Availble then
+                table.insert(TEMP_WHITELIST, SRC)
+            end
+        elseif STATUS == false then
+            for index, value in ipairs(TEMP_WHITELIST) do
+                if value == SRC then
+                    table.remove(TEMP_WHITELIST, index)
+                end
+            end
+        end
+    end
+end
+
+function FIREAC_CHECK_TEMP_WHITELIST(SRC)
+    local CALLBACK = false
+    if tonumber(SRC) then
+        for _, value in ipairs(TEMP_WHITELIST) do
+            if value == SRC then
+                Availble = true
+            end
+        end
+        if Availble then
+            CALLBACK = true
+        else
+            CALLBACK = false
+        end
+        return CALLBACK
     end
 end
 
