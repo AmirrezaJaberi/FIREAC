@@ -831,7 +831,7 @@ AddEventHandler("entityCreated", function(ENTITY)
     if DoesEntityExist(ENTITY) then
         local TYPE        = GetEntityType(ENTITY)
         local OWNER       = NetworkGetFirstEntityOwner(ENTITY)
-        local POPULATION  = GetEntityPopulationType(entity)
+        local POPULATION  = GetEntityPopulationType(ENTITY)
         local MODEL       = GetEntityModel(ENTITY)
         local HWID        = GetPlayerToken(OWNER, 0)
         --【 𝗕𝗹𝗮𝗰𝗸 𝗟𝗶𝘀𝘁 𝗠𝗮𝗻𝗮𝗴𝗲 】--
