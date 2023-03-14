@@ -1,6 +1,6 @@
 --------[-----------------------------------]--------
 --------[-----------------------------------]--------
---------[---- Copyright 2022 by FIREAC® ----]--------
+--------[---- Copyright 2023 by FIREAC® ----]--------
 --------[-----------------------------------]--------
 --------[------ Dev By Amirreza Jaberi -----]--------
 --------[-----------------------------------]--------
@@ -12,7 +12,7 @@ game 'gta5'
 -- 【 𝗜𝗡𝗙𝗢 】--
 author 'Amirreza Jaberi'
 description 'FIERAC'
-version '6.1.9'
+version '6.2.0'
 
 -- 【 𝗦𝗵𝗮𝗿𝗲𝗱 】--
 shared_scripts {
@@ -35,4 +35,14 @@ client_scripts {
     '@menuv/menuv.lua',
     'src/fire-menu.lua',
 }
-dependency 'menuv'
+
+-- 【 𝗘𝘅𝗽𝗼𝗿𝘁 】--
+server_exports {
+	'FIREAC_CHANGE_TEMP_WHHITELIST',
+	'FIREAC_CHECK_TEMP_WHITELIST',
+}
+
+-- 【 𝗗𝗲𝗽𝗲𝗻𝗱𝗲𝗻𝗰𝗶𝗲𝘀 】--
+dependencies {
+    'menuv',
+}
