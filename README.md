@@ -107,6 +107,24 @@ Admins = {
 ```
 **Where can I find my identifiers ?** `From connecting (Log of Discord) to the server or...`
 ________________________________________________________________________
+### Exports (Server Side)
+- `FIREAC_CHANGE_TEMP_WHHITELIST` This export only for add and remove player from `Temporary whitelist`
+for example :
+```
+Add :
+exports['FIREAC']:FIREAC_CHANGE_TEMP_WHHITELIST(source, true)
+
+Remove :
+exports['FIREAC']:FIREAC_CHANGE_TEMP_WHHITELIST(source, false)
+```
+
+- `FIREAC_CHECK_TEMP_WHITELIST` This export only for check player from `Temporary whitelist` and get your result
+for example :
+```
+for check :
+exports['FIREAC']:FIREAC_CHECK_TEMP_WHITELIST(source)
+```
+________________________________________________________________________
 ### Command
 - `/funban [Ban ID]` This command add for unban players by ban id (with console for in game)
 ________________________________________________________________________
