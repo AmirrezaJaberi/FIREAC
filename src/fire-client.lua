@@ -1,6 +1,6 @@
 --------[-----------------------------------]--------
 --------[-----------------------------------]--------
---------[---- Copyright 2022 by FIREAC® ----]--------
+--------[---- Copyright 2023 by FIREAC® ----]--------
 --------[-----------------------------------]--------
 --------[------ Dev By Amirreza Jaberi -----]--------
 --------[-----------------------------------]--------
@@ -114,6 +114,9 @@ Citizen.CreateThread(function()
                     end
                 end
                 if retval == 1 and bulletProof == 1 and fireProof == 1 and explosionProof == 1 and collisionProof == 1 and steamProof == 1 and p7 == 1 and drownProof == 1 then
+                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode", "Used godmode hacks")
+                end
+                if not GetEntityCanBeDamaged(PlayerPedId()) then
                     TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode", "Used godmode hacks")
                 end
             end
