@@ -369,7 +369,7 @@ end)
 --【 𝗧𝗿𝗶𝗴𝗴𝗲𝗿 𝗠𝗮𝗻𝗮𝗴𝗲𝗺𝗲𝗻𝘁 】--
 local EVENTS = {}
 local isSpamTrigger = false
-if FIREAC.AntiSpamTigger then
+if FIREAC.AntiSpamTrigger then
 	for i = 1, #SpamCheck do
 		local TNAME  =  SpamCheck[i].EVENT
 		local MTIME  =  SpamCheck[i].MAX_TIME
