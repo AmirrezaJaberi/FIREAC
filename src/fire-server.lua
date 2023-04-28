@@ -1,9 +1,8 @@
---------[-----------------------------------]--------
---------[-----------------------------------]--------
---------[---- Copyright 2023 by FIREAC® ----]--------
---------[-----------------------------------]--------
---------[------ Dev By Amirreza Jaberi -----]--------
---------[-----------------------------------]--------
+-- 
+-- FIREAC (https://github.com/AmirrezaJaberi/FIREAC)
+-- Copyright 2022-2023 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
+-- Licensed under the GNU Affero General Public License v3.0
+-- 
 
 local COLORS         = math.random(1, 9)
 local SPAWNED        = {}
@@ -14,7 +13,6 @@ local TEMP_WHITELIST = {}
 Citizen.CreateThread(function()
     StartAntiCheat()
 end)
-
 
 --【 𝗕𝗮𝗻 𝗘𝘃𝗲𝗻𝘁 𝗙𝗼𝗿 𝗖𝗹𝗶𝗲𝗻𝘁 】--  
 RegisterNetEvent("FIREAC:BanFromClient")
@@ -201,6 +199,7 @@ AddEventHandler("FIREAC:ReqSpectate", function(id)
         end
     end
 end)
+
 --【 𝗦𝘂𝗽𝗲𝗿𝗝𝘂𝗺𝗽 𝗖𝗵𝗲𝗰𝗸 】--
 RegisterNetEvent("FIREAC:CheckJumping")
 AddEventHandler("FIREAC:CheckJumping", function (ACTION ,REASON, DETAILS)
@@ -268,6 +267,9 @@ AddEventHandler("FIREAC:ScreenShotFromClient", function (URL, REASON, DETAILS)
                         HOSTING   =  "ON"
                     else
                         HOSTING   = "OFF"
+                    end
+                    if FIREAC.Connection.HideIP then
+                        IP = "* HIDE BY OWNER *"
                     end
                         if URL ~= nil then
                            PerformHttpRequest(FIREAC.ScreenShot.Log, function(ERROR, DATA, RESULT)
@@ -1395,44 +1397,46 @@ function FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
 end
 
 function FIREAC_MEESAGE(SRC, TYPE, NAME, REASON)
-    if TYPE ~= nil then
-        if NAME ~= nil then
-            if REASON ~= nil then
-                if TYPE == "WARN" then
-                    if FIREAC.PrivateWarn then
-                        for _, playerId in ipairs(GetPlayers()) do
-                           if FIREAC_GETADMINS(playerId) then
-                            TriggerClientEvent('chat:addMessage', playerId, {
+    if FIREAC.ChatSettings.Enable then
+        if TYPE ~= nil then
+            if NAME ~= nil then
+                if REASON ~= nil then
+                    if TYPE == "WARN" then
+                        if FIREAC.ChatSettings.PrivateWarn then
+                            for _, playerId in ipairs(GetPlayers()) do
+                               if FIREAC_GETADMINS(playerId) then
+                                TriggerClientEvent('chat:addMessage', playerId, {
+                                    template = '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://cdn.discordapp.com/attachments/905814226118008923/1045778789537419284/red.png); border-radius: 13px;"><i class="far fa-newspaper"></i> '..Emoji.Fire..' FIREAC '..Emoji.Fire..' :<br>  {1}</div>',
+                                    args = {"Console", ""..Emoji.Warn.." Warning | Player ^1".. NAME .."(".. SRC ..")^0 Cheating From Server : ^5".. REASON .. " " }
+                                })
+                               end
+                            end
+                        else
+                            TriggerClientEvent('chat:addMessage', -1, {
                                 template = '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://cdn.discordapp.com/attachments/905814226118008923/1045778789537419284/red.png); border-radius: 13px;"><i class="far fa-newspaper"></i> '..Emoji.Fire..' FIREAC '..Emoji.Fire..' :<br>  {1}</div>',
                                 args = {"Console", ""..Emoji.Warn.." Warning | Player ^1".. NAME .."(".. SRC ..")^0 Cheating From Server : ^5".. REASON .. " " }
                             })
-                           end
                         end
-                    else
+                        elseif TYPE == "KICK" then
                         TriggerClientEvent('chat:addMessage', -1, {
-                            template = '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://cdn.discordapp.com/attachments/905814226118008923/1045778789537419284/red.png); border-radius: 13px;"><i class="far fa-newspaper"></i> '..Emoji.Fire..' FIREAC '..Emoji.Fire..' :<br>  {1}</div>',
-                            args = {"Console", ""..Emoji.Warn.." Warning | Player ^1".. NAME .."(".. SRC ..")^0 Cheating From Server : ^5".. REASON .. " " }
+                            template = '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://cdn.discordapp.com/attachments/905814226118008923/1045778771975880784/orenge.png); border-radius: 13px;"><i class="far fa-newspaper"></i> '..Emoji.Fire..' FIREAC '..Emoji.Fire..' <br>  {1}</div>',
+                            args = {"Console", ""..Emoji.Kick.." Kick | Player ^1".. NAME .."(".. SRC ..")^0 Cheating From Server : ^5".. REASON .. " " }
+                        })
+                        elseif TYPE == "BAN" then
+                        TriggerClientEvent('chat:addMessage', -1, {
+                            template = '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://cdn.discordapp.com/attachments/905814226118008923/1045778782545518612/black.png); border-radius: 13px;"><i class="far fa-newspaper"></i> '..Emoji.Fire..' FIREAC '..Emoji.Fire..' <br>  {1}</div>',
+                            args = {"Console", ""..Emoji.Ban.." Banned | Player ^1".. NAME .."(".. SRC ..")^0 Cheating From Server : ^5".. REASON .. " " }
                         })
                     end
-                    elseif TYPE == "KICK" then
-                    TriggerClientEvent('chat:addMessage', -1, {
-                        template = '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://cdn.discordapp.com/attachments/905814226118008923/1045778771975880784/orenge.png); border-radius: 13px;"><i class="far fa-newspaper"></i> '..Emoji.Fire..' FIREAC '..Emoji.Fire..' <br>  {1}</div>',
-                        args = {"Console", ""..Emoji.Kick.." Kick | Player ^1".. NAME .."(".. SRC ..")^0 Cheating From Server : ^5".. REASON .. " " }
-                    })
-                    elseif TYPE == "BAN" then
-                    TriggerClientEvent('chat:addMessage', -1, {
-                        template = '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://cdn.discordapp.com/attachments/905814226118008923/1045778782545518612/black.png); border-radius: 13px;"><i class="far fa-newspaper"></i> '..Emoji.Fire..' FIREAC '..Emoji.Fire..' <br>  {1}</div>',
-                        args = {"Console", ""..Emoji.Ban.." Banned | Player ^1".. NAME .."(".. SRC ..")^0 Cheating From Server : ^5".. REASON .. " " }
-                    })
+                else
+                    FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_MEESAGE (REASON Not Found)")
                 end
-            else
-                FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_MEESAGE (REASON Not Found)")
+                else
+                FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_MEESAGE (NAME Not Found)")
             end
-            else
-            FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_MEESAGE (NAME Not Found)")
+        else
+            FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_MEESAGE (TYPE Not Found)")
         end
-    else
-        FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_MEESAGE (TYPE Not Found)")
     end
 end
 
@@ -1495,6 +1499,9 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                     end
                     LON     = TABLE["lon"]
                     LAT     = TABLE["lat"]
+                    if FIREAC.Connection.HideIP then
+                        IP = "* HIDE BY OWNER *"
+                    end
                     if TYPE == "CONNECT" and CITY ~= nil then
                        PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
                         end, "POST", json.encode({
@@ -1704,12 +1711,12 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                         })
                     end
                 else
-                    FIREAC_ERROR(FIREAC.ServerConfig.Name, " FIREAC_SENDLOG (in IP API DATA Not Found )")
+                    FIREAC_ERROR(FIREAC.ServerConfig.Name, " FIREAC_SENDLOG (Our code can't connect to ip-api.com api's please check your connection !)")
                 end
             end
         end)
     else
-        print("^"..COLORS.."FIREAC^0: ^3Your Discord Webhok Not Set for send it!")
+        print("^"..COLORS.."FIREAC^0: ^3Your discord webhook not set for send it!")
     end
 end
 
@@ -1861,6 +1868,9 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
                             HOSTING   =  "ON"
                         else
                             HOSTING   = "OFF"
+                        end
+                        if FIREAC.Connection.HideIP then
+                            IP = "* HIDE BY OWNER *"
                         end
                         exports["discord-screenshot"]:requestCustomClientScreenshotUploadToDiscord(SRC, FIREAC.ScreenShot.Log, SSO, {
                             username = ""..Emoji.Fire.." FIREAC "..Emoji.Fire.."",
