@@ -1,9 +1,8 @@
---------[-----------------------------------]--------
---------[-----------------------------------]--------
---------[---- Copyright 2022 by FIREAC® ----]--------
---------[-----------------------------------]--------
---------[------ Dev By Amirreza Jaberi -----]--------
---------[-----------------------------------]--------
+-- 
+-- FIREAC (https://github.com/AmirrezaJaberi/FIREAC)
+-- Copyright 2022-2023 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
+-- Licensed under the GNU Affero General Public License v3.0
+-- 
 
 local Access          = false
 local isusingfuncs    = false
