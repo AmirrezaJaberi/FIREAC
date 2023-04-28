@@ -124,6 +124,18 @@ for example :
 for check :
 exports['FIREAC']:FIREAC_CHECK_TEMP_WHITELIST(source)
 ```
+- `FIREAC_ACTION` This export is for `BAN` or `KICK` or `WARN` the player
+for example :
+```
+for BAN :
+exports['FIREAC']:FIREAC_ACTION(source, "BAN", reason, details)
+
+for KICK :
+exports['FIREAC']:FIREAC_ACTION(source, "KICK", reason, details)
+
+for WARN :
+exports['FIREAC']:FIREAC_ACTION(source, "WARN", reason, details)
+```
 ________________________________________________________________________
 ### Command
 - `/funban [Ban ID]` This command add for unban players by ban id (with console for in game)
