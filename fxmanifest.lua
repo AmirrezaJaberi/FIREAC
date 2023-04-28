@@ -1,9 +1,8 @@
---------[-----------------------------------]--------
---------[-----------------------------------]--------
---------[---- Copyright 2023 by FIREAC® ----]--------
---------[-----------------------------------]--------
---------[------ Dev By Amirreza Jaberi -----]--------
---------[-----------------------------------]--------
+-- 
+-- FIREAC (https://github.com/AmirrezaJaberi/FIREAC)
+-- Copyright 2022-2023 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
+-- Licensed under the GNU Affero General Public License v3.0
+-- 
 
 -- 【 𝗥𝗲𝘀𝗼𝘂𝗿𝗰𝗲 𝗠𝗲𝘁𝗮𝗱𝗮𝘁𝗮 】--
 fx_version 'cerulean'
@@ -12,7 +11,7 @@ game 'gta5'
 -- 【 𝗜𝗡𝗙𝗢 】--
 author 'Amirreza Jaberi'
 description 'FIERAC'
-version '6.2.0'
+version '6.2.1'
 
 -- 【 𝗦𝗵𝗮𝗿𝗲𝗱 】--
 shared_scripts {
@@ -40,6 +39,7 @@ client_scripts {
 server_exports {
 	'FIREAC_CHANGE_TEMP_WHHITELIST',
 	'FIREAC_CHECK_TEMP_WHITELIST',
+    'FIREAC_ACTION'
 }
 
 -- 【 𝗗𝗲𝗽𝗲𝗻𝗱𝗲𝗻𝗰𝗶𝗲𝘀 】--
