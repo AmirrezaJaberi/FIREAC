@@ -1,4 +1,5 @@
------------------------------ 𝗣𝗿𝗼𝗽𝗼𝘀𝗮𝗹 : 𝗗𝗼𝗻'𝘁 𝗧𝗼𝗰𝗵 𝘁𝗵𝗶𝘀 𝗜𝘁'𝘀 𝗖𝗼𝗻𝗳𝗶𝗴𝘂𝗿𝗲𝗱 -----------------------------
+-- Do not touch these codes as much as possible (touch them if you are familiar and confident)
+
 Events = {
     -- Job --
     'NB:recruterplayer',
@@ -122,7 +123,7 @@ Events = {
     'SEM_InteractionMenu:DragNear',
 }
 
------------------------------ 𝗬𝗼𝘂 𝗖𝗮𝗻 𝗔𝗱𝗱 𝗔𝗻𝗱 𝗥𝗲𝗺𝗼𝘃𝗲 -----------------------------
+-- You can add or remove your custom events
 SpamCheck = {
     { EVENT = "esx_policejob:handcuff",           MAX_TIME = 4  },
     { EVENT = "esx-qalle-hunting:reward",         MAX_TIME = 3  },
