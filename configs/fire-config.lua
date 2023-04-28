@@ -1,25 +1,21 @@
---------[-----------------------------------]--------
---------[-----------------------------------]--------
---------[---- Copyright 2023 by FIREAC® ----]--------
---------[-----------------------------------]--------
---------[------ Dev By Amirreza Jaberi -----]--------
---------[-----------------------------------]--------
-
-
+-- 
+-- FIREAC (https://github.com/AmirrezaJaberi/FIREAC)
+-- Copyright 2022-2023 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
+-- Licensed under the GNU Affero General Public License v3.0
+-- 
 
 FIREAC = {}
 --                                           * 𝗧𝗜𝗣 𝟭 *
---                               𝗧𝘆𝗽𝗲 𝗼𝗳 𝗽𝘂𝗻𝗶𝘀𝗵𝗺𝗲𝗻𝘁𝘀 : BAN | KICK | WARN
+--                               Type of Punishment : BAN | KICK | WARN
 --
 --                                           * 𝗧𝗜𝗣 𝟮 *
---                                           𝗦𝗰𝗿𝗲𝗲𝗻𝘀𝗵𝗼𝘁
---                              𝗙𝗼𝗿 𝗘𝗻𝗮𝗯𝗹𝗲 𝗦𝗰𝗿𝗲𝗲𝗻𝘀𝗵𝗼𝘁 𝗼𝗽𝘁𝗶𝗼𝗻 𝗱𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝘁𝗵𝗶𝘀
+--                                           Screenshot
+--                            For enable screenshot download this resources
 --                     (https://github.com/jaimeadf/discord-screenshot/releases)
---                                𝗔𝗗𝗗 𝟭 𝗥𝗘𝗦𝗢𝗨𝗥𝗖𝗘 𝗢𝗡 𝗬𝗢𝗨𝗥 𝗦𝗘𝗥𝗩𝗘𝗥
+--                                 Add this resource to your server
 
 --【 𝗩𝗲𝗿𝘀𝗶𝗼𝗻 𝗖𝗵𝗲𝗰𝗸 】--
-FIREAC.Version   = "6.2.0"
-
+FIREAC.Version   = "6.2.1"
 
 --【 𝗦𝗲𝗿𝘃𝗲𝗿 𝗦𝗲𝘁𝘁𝗶𝗻𝗴𝘀 】--   
 FIREAC.ServerConfig = {
@@ -36,8 +32,11 @@ FIREAC.Log = {
     Exoplosion = "",
 }
 
---【 𝗣𝗿𝗶𝘃𝗮𝘁𝗲 𝗪𝗮𝗿𝗻 】--
-FIREAC.PrivateWarn = true
+--【 𝗖𝗵𝗮𝘁 𝗦𝗲𝘁𝘁𝗶𝗻𝗴𝘀 】--
+FIREAC.ChatSettings = {
+    Enable      = true,
+    PrivateWarn = true,
+}
 
 --【 𝗦𝗰𝗿𝗲𝗲𝗻𝗦𝗵𝗼𝘁 】--
 FIREAC.ScreenShot = {
