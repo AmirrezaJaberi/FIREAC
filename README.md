@@ -14,13 +14,12 @@ Client Side Protecet :
 - Anti Health Hack
 - Anti Armor Hack
 - Anti Infinity Ammo
-- Anti Spactate
+- Anti Spectate
 - Anti Ragdoll
 - Anti Menyoo
 - Anti Aim Assist
 - Anti Infinite Stamina
 - Anti Aim Bot
-- Anti Spactate
 - Anti Black List Weapon
 - Anti Add Weapon
 - Anti Remove Weapon
