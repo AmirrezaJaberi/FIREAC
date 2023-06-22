@@ -5,49 +5,58 @@
 --
 
 local SPAWN = false
+local CHECK_SPAWN = true
 local TRACK = 0
 
---【 𝗦𝗽𝗮𝘄𝗻 𝗠𝗮𝗻𝗮𝗴𝗲𝗺𝗲𝗻𝘁 】--
-AddEventHandler('playerSpawned', function(data)
-    Wait(5000)
-    if SPAWN == false then
-        SPAWN = false
-        Wait(100)
-        TriggerServerEvent('FIREAC:CheckIsAdmin')
-        Wait(10000)
-        while IsPlayerSwitchInProgress() do Wait(7500) end
-        Wait(100)
-        SPAWN = true
+Citizen.CreateThread(function()
+    while not NetworkIsPlayerActive(PlayerId()) or IsPlayerSwitchInProgress() do
+        Citizen.Wait(0)
+    end
+    SPAWN = true
+    CHECK_SPAWN = false
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        if CHECK_SPAWN and not SPAWN then
+            TriggerServerEvent('FIREAC:CheckIsAdmin')
+            Wait(10000)
+            SPAWN = true
+            CHECK_SPAWN = false
+            break
+        end
+        Citizen.Wait(5000)
     end
 end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(9)
-        local PED = PlayerPedId()
-        while IsPlayerSwitchInProgress() or IsPedFalling(PED) do
-            Citizen.Wait(7500)
-        end
-        if FIREAC.AntiTeleport then
-            if not IsPedInAnyVehicle(PED, false) and SPAWN and not IsPlayerSwitchInProgress() and not IsPlayerCamControlDisabled() then
-                local _pos = GetEntityCoords(PED)
-                Citizen.Wait(3000)
-                local _newped = PlayerPedId()
-                local _newpos = GetEntityCoords(_newped)
-                local _distance = #(vector3(_pos) - vector3(_newpos))
-                if _distance > FIREAC.MaxFootDistance and not IsEntityDead(PED) and not IsPedInParachuteFreeFall(PED) and not IsPedJumpingOutOfVehicle(PED) and PED == _newped and SPAWN == true and not IsPlayerSwitchInProgress() and not IsPlayerCamControlDisabled() then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.TeleportPunishment, "Anti Teleport",
-                        "Used teleport hacks")
-                end
+        Citizen.Wait(0)
+
+        local playerPed = PlayerPedId()
+        local doesPlayerExist = DoesEntityExist(playerPed)
+        local isPlayerInVehicle = IsPedInAnyVehicle(playerPed, false)
+        local isSpawned = SPAWN
+        local isPlayerSwitchInProgress = IsPlayerSwitchInProgress()
+        local isCameraControlDisabled = IsPlayerCamControlDisabled()
+
+        if FIREAC.AntiTeleport and not isPlayerInVehicle and isSpawned and not isPlayerSwitchInProgress and not isCameraControlDisabled then
+            local currentPosition = GetEntityCoords(playerPed)
+            Citizen.Wait(3000)
+            local newPlayerPed = PlayerPedId()
+            local newPosition = GetEntityCoords(newPlayerPed)
+            local distance = #(vector3(currentPosition) - vector3(newPosition))
+
+            if distance > FIREAC.MaxFootDistance and not IsEntityDead(playerPed) and not IsPedInParachuteFreeFall(playerPed) and not IsPedJumpingOutOfVehicle(playerPed) and playerPed == newPlayerPed then
+                TriggerServerEvent('FIREAC:BanFromClient', FIREAC.TeleportPunishment, "Anti Teleport", "Used teleport hacks")
             end
         end
-        if FIREAC.AntiSuperJump then
-            if DoesEntityExist(PED) and SPAWN and not IsPlayerSwitchInProgress() then
-                local JUPING = IsPedJumping(PED)
-                if JUPING then
-                    TriggerServerEvent('FIREAC:CheckJumping', FIREAC.JumpPunishment, "Anti Superjump",
-                        "Used superjump hacks")
-                end
+
+        if FIREAC.AntiSuperJump and doesPlayerExist and isSpawned and not isPlayerSwitchInProgress then
+            local isJumping = IsPedJumping(playerPed)
+
+            if isJumping then
+                TriggerServerEvent('FIREAC:CheckJumping', FIREAC.JumpPunishment, "Anti Superjump", "Used superjump hacks")
             end
         end
     end
@@ -88,7 +97,7 @@ Citizen.CreateThread(function()
                 end
                 if TRACK >= FIREAC.MaxTrack then
                     TriggerServerEvent('FIREAC:BanFromClient', FIREAC.TrackPunishment, "Anti Track Player",
-                        "Tracked **" .. TRACK .. "** players")                                                                                  -- needs edit?
+                        "Tracked **" .. TRACK .. "** players") -- needs edit?
                 end
             end
             if FIREAC.AntiHealthHack then
@@ -114,7 +123,7 @@ Citizen.CreateThread(function()
             end
             if FIREAC.AntiGodMode then
                 local retval, bulletProof, fireProof, explosionProof, collisionProof, meleeProof, steamProof, p7, drownProof =
-                GetEntityProofs(PlayerPedId())
+                    GetEntityProofs(PlayerPedId())
                 if GetPlayerInvincible(PlayerId()) or GetPlayerInvincible_2(PlayerId()) then
                     if SPAWN then
                         TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode",
@@ -198,7 +207,7 @@ Citizen.CreateThread(function()
                         NPLATE = GetVehicleNumberPlateText(GetVehiclePedIsIn(PlayerPedId(), false), false)
                         if NPLATE == plate then
                             TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PlatePunishment, "Anti Black List Plate",
-                                "Used blacklisted plate : " .. plate .. "")                                                                                    -- might work, needs check
+                                "Used blacklisted plate : " .. plate .. "") -- might work, needs check
                         end
                     end
                 end

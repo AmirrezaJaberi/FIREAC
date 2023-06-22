@@ -105,7 +105,7 @@ FIREAC.AntiWeaponsExplosive     = true
 FIREAC.WeaponPunishment         = "BAN"
 
 --【 𝗔𝗻𝘁𝗶 𝗚𝗼𝗱𝗠𝗼𝗱𝗲 】--
-FIREAC.AntiGodMode              = true
+FIREAC.AntiGodMode              = false
 FIREAC.GodPunishment            = "BAN"
 
 --【 𝗔𝗻𝘁𝗶 𝗜𝗻𝘃𝗶𝘀𝗶𝗯𝗹𝗲 】--
@@ -142,10 +142,10 @@ FIREAC.JumpPunishment           = "BAN"
 FIREAC.AntiTeleport             = true
 FIREAC.MaxFootDistance          = 200
 FIREAC.MaxVehicleDistance       = 600
-FIREAC.TeleportPunishment       = "WARN"
+FIREAC.TeleportPunishment       = "BAN"
 
 --【 𝗔𝗻𝘁𝗶 𝗡𝗼𝗰𝗹𝗶𝗽 】--
-FIREAC.AntiNoclip               = true
+FIREAC.AntiNoclip               = false
 FIREAC.NoclipPunishment         = "KICK"
 
 --【 𝗔𝗻𝘁𝗶 𝗣𝗲𝗱 𝗖𝗵𝗮𝗻𝗴𝗲𝗿 】--
