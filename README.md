@@ -2,14 +2,20 @@
 <p align='center'><b><a href='https://discord.gg/uvccDWtqhv'>Discord</a></b></h5>
 
 FIREAC is the best FiveM anti-cheat made for free for you FiveM server owners and developers, this anti-cheat will help you get rid of cheaters and make a fair game for your players.
-________________________________________________________________________
-### Requirements :
-   * [menuv](https://github.com/ThymonA/menuv/releases) (To open admin menu)
-   * [discord-screenshot](https://github.com/jaimeadf/discord-screenshot/releases) (To take screenshot)
 
-________________________________________________________________________
+---
+
+### Requirements :
+
+- [menuv](https://github.com/ThymonA/menuv/releases) (To open admin menu)
+- [discord-screenshot](https://github.com/jaimeadf/discord-screenshot/releases) (To take screenshot)
+
+---
+
 #### Features
+
 Client Side Protecet :
+
 - Anti Track Player's
 - Anti Health Hack
 - Anti Armor Hack
@@ -38,6 +44,7 @@ Client Side Protecet :
 - Anti Suicide
 
 Server Side Protecet :
+
 - Anti Spam Chat
 - Anti Black List Commands
 - Anti Weapon Damage Changer
@@ -59,17 +66,26 @@ Server Side Protecet :
 - Anti Spam Object
 - Anti Change Perm
 - Anti Play Sound
-________________________________________________________________________
+
+---
+
 ##### Inject Protect :
+
 - Anti Resource Start / Stop / Restart
 - Anti Add Command
-________________________________________________________________________
+
+---
+
 ##### Connection Protect:
+
 - Anti VPN
 - Anti Hosting
 - Anti Black List Name
-________________________________________________________________________
+
+---
+
 #### Ban Method:
+
 - FiveM License
 - Steam Identifier
 - IP Address
@@ -77,25 +93,36 @@ ________________________________________________________________________
 - Xbox Live ID (XBL ID)
 - Discord ID
 - [FiveM Player Token's](https://docs.fivem.net/natives/?_0x54C06897) (I call this option HWID because it is very powerful 💪)
-________________________________________________________________________
+
+---
+
 #### Log's:
+
 - Console
 - Discord
 - Chat
 - Screenshot
-________________________________________________________________________
+
+---
+
 ### Installation
+
 - Add this text in your `server.cfg` :
+
 ```
 ensure FIREAC
 ensure menuv
 ensure screenshot-basic
 ensure discord-screenshot
 ```
-________________________________________________________________________
+
+---
+
 ### Whitelist
+
 - You can add your users identifiers in `FIREAC/whitelists/fire-white.lua`
-for example :
+  for example :
+
 ```
 Admins = {
     '7835767148521717**',                                -- Discord ID
@@ -104,11 +131,16 @@ Admins = {
     'license2:500a67097ce3c274569c773bc41974d3c28380**', -- FiveM License
 }
 ```
+
 **Where can I find my identifiers ?** `From connecting (Log of Discord) to the server or...`
-________________________________________________________________________
+
+---
+
 ### Exports (Server Side)
+
 - `FIREAC_CHANGE_TEMP_WHHITELIST` This export only for add and remove player from `Temporary whitelist`
-for example :
+  for example :
+
 ```
 Add :
 exports['FIREAC']:FIREAC_CHANGE_TEMP_WHHITELIST(source, true)
@@ -118,13 +150,16 @@ exports['FIREAC']:FIREAC_CHANGE_TEMP_WHHITELIST(source, false)
 ```
 
 - `FIREAC_CHECK_TEMP_WHITELIST` This export only for check player from `Temporary whitelist` and get your result
-for example :
+  for example :
+
 ```
 for check :
 exports['FIREAC']:FIREAC_CHECK_TEMP_WHITELIST(source)
 ```
+
 - `FIREAC_ACTION` This export is for `BAN` or `KICK` or `WARN` the player
-for example :
+  for example :
+
 ```
 for BAN :
 exports['FIREAC']:FIREAC_ACTION(source, "BAN", reason, details)
@@ -135,17 +170,29 @@ exports['FIREAC']:FIREAC_ACTION(source, "KICK", reason, details)
 for WARN :
 exports['FIREAC']:FIREAC_ACTION(source, "WARN", reason, details)
 ```
-________________________________________________________________________
+
+---
+
 ### Command
+
 - `/funban [Ban ID]` This command add for unban players by ban id (with console for in game)
-________________________________________________________________________
+
+---
+
 ### Information
+
 FIREAC is an FiveM anti cheat developed by **Amirreza Jaberi** as a script in 2021 & due to the circumstances, it was decided to make it public
-________________________________________________________________________
+
+---
+
 ### Guide Documentation
+
 Guide wiki will add in github soon ...
-________________________________________________________________________
+
+---
+
 ### License
+
 ```
     FIREAC - FiveM Anti Cheat
     Copyright (C) 2023  Amirreza Jaberi

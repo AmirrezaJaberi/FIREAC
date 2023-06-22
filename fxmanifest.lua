@@ -1,8 +1,8 @@
--- 
+--
 -- FIREAC (https://github.com/AmirrezaJaberi/FIREAC)
 -- Copyright 2022-2023 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
 -- Licensed under the GNU Affero General Public License v3.0
--- 
+--
 
 -- 【 𝗥𝗲𝘀𝗼𝘂𝗿𝗰𝗲 𝗠𝗲𝘁𝗮𝗱𝗮𝘁𝗮 】--
 fx_version 'cerulean'
@@ -15,7 +15,7 @@ version '6.2.1'
 
 -- 【 𝗦𝗵𝗮𝗿𝗲𝗱 】--
 shared_scripts {
-   -- 【 𝗔𝗻𝘁𝗶 𝗖𝗵𝗲𝗮𝘁 】--
+    -- 【 𝗔𝗻𝘁𝗶 𝗖𝗵𝗲𝗮𝘁 】--
     'tables/*.lua',
     'whitelists/*.lua',
     'configs/*.lua'
@@ -37,8 +37,8 @@ client_scripts {
 
 -- 【 𝗘𝘅𝗽𝗼𝗿𝘁 】--
 server_exports {
-	'FIREAC_CHANGE_TEMP_WHHITELIST',
-	'FIREAC_CHECK_TEMP_WHITELIST',
+    'FIREAC_CHANGE_TEMP_WHHITELIST',
+    'FIREAC_CHECK_TEMP_WHITELIST',
     'FIREAC_ACTION'
 }
 

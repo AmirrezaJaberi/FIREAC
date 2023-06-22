@@ -1,7 +1,7 @@
 -- Do not touch these codes as much as possible (touch them if you are familiar and confident)
 
 Vehicle = {
-    'RHINO',
+	'RHINO',
 	'dune4',
 	'dune5',
 	'phantom2',

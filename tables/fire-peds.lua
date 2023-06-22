@@ -1,6 +1,6 @@
 -- Do not touch these codes as much as possible (touch them if you are familiar and confident)
 
-Peds =  {
+Peds = {
     'a_c_deer',
     'a_c_cat_01',
     's_m_y_swat_01',
