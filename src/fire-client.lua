@@ -48,7 +48,8 @@ Citizen.CreateThread(function()
             local distance = #(vector3(currentPosition) - vector3(newPosition))
 
             if distance > FIREAC.MaxFootDistance and not IsEntityDead(playerPed) and not IsPedInParachuteFreeFall(playerPed) and not IsPedJumpingOutOfVehicle(playerPed) and playerPed == newPlayerPed then
-                TriggerServerEvent('FIREAC:BanFromClient', FIREAC.TeleportPunishment, "Anti Teleport", "Used teleport hacks")
+                TriggerServerEvent('FIREAC:BanFromClient', FIREAC.TeleportPunishment, "Anti Teleport",
+                    "Used teleport hacks")
             end
         end
 
