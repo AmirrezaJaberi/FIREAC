@@ -88,17 +88,25 @@ Citizen.CreateThread(function()
                 end
             end
             if FIREAC.AntiTrackPlayer then
-                for i = 1, #PLS do
-                    local TPED = GetPlayerPed(PLS[i])
-                    if TPED ~= PED then
-                        if DoesBlipExist(TPED) then
-                            TRACK = TRACK + 1
+                local playerPed = PlayerPedId()
+                local trackCount = 0
+                for i = 0, 255 do
+                    if NetworkIsPlayerActive(i) and i ~= PlayerId() then
+                        local otherPlayerPed = GetPlayerPed(i)
+                        local otherPlayerBlip = GetBlipFromEntity(otherPlayerPed)
+                        if DoesBlipExist(otherPlayerBlip) then
+                            local blipInfo = GetBlipInfoIdCoord(otherPlayerBlip)
+                            local isSelfPlayerBlip = (blipInfo.id == 1 and blipInfo.x == GetEntityCoords(playerPed))
+                            if not isSelfPlayerBlip then
+                                trackCount = trackCount + 1
+                            end
                         end
                     end
                 end
-                if TRACK >= FIREAC.MaxTrack then
+
+                if trackCount >= FIREAC.MaxTrack then
                     TriggerServerEvent('FIREAC:BanFromClient', FIREAC.TrackPunishment, "Anti Track Player",
-                        "Tracked **" .. TRACK .. "** players") -- needs edit?
+                        "Tracked **" .. trackCount .. "** players")
                 end
             end
             if FIREAC.AntiHealthHack then
