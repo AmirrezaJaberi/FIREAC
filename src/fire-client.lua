@@ -123,27 +123,37 @@ Citizen.CreateThread(function()
             end
             if FIREAC.AntiBlackListWeapon then
                 for _, weapon in ipairs(Weapon) do
-                    if HasPedGotWeapon(PlayerPedId(), GetHashKey(weapon), false) == 1 then
+                    local currentWeaponHash = GetSelectedPedWeapon(PlayerPedId())
+                    if currentWeaponHash == GetHashKey(weapon) then
                         RemoveAllPedWeapons(PlayerPedId(), true)
                         TriggerServerEvent('FIREAC:BanFromClient', FIREAC.WeaponPunishment, "Anti Black List Weapon",
-                            "Used blacklisted weapon : **" .. weapon .. "**")
+                            "Used blacklisted weapon: " .. weapon)
+                        break
                     end
                 end
             end
             if FIREAC.AntiGodMode then
-                local retval, bulletProof, fireProof, explosionProof, collisionProof, meleeProof, steamProof, p7, drownProof =
-                    GetEntityProofs(PlayerPedId())
-                if GetPlayerInvincible(PlayerId()) or GetPlayerInvincible_2(PlayerId()) then
-                    if SPAWN then
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode",
-                            "Used godmode hacks")
+                if NetworkIsPlayerActive(PlayerId()) then
+                    if not IsNuiFocused() then
+                        if IsScreenFadedIn() then
+                            local retval, bulletProof, fireProof, explosionProof, collisionProof, meleeProof, steamProof, p7, drownProof =
+                                GetEntityProofs(PlayerPedId())
+                            if GetPlayerInvincible(PlayerId()) or GetPlayerInvincible_2(PlayerId()) then
+                                if SPAWN then
+                                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode",
+                                        "Used godmode hacks")
+                                end
+                            end
+                            if retval == 1 and bulletProof == 1 and fireProof == 1 and explosionProof == 1 and collisionProof == 1 and steamProof == 1 and p7 == 1 and drownProof == 1 then
+                                TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode",
+                                    "Used godmode hacks")
+                            end
+                            if not GetEntityCanBeDamaged(PlayerPedId()) then
+                                TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode",
+                                    "Used godmode hacks")
+                            end
+                        end
                     end
-                end
-                if retval == 1 and bulletProof == 1 and fireProof == 1 and explosionProof == 1 and collisionProof == 1 and steamProof == 1 and p7 == 1 and drownProof == 1 then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode", "Used godmode hacks")
-                end
-                if not GetEntityCanBeDamaged(PlayerPedId()) then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode", "Used godmode hacks")
                 end
             end
             if FIREAC.AntiPlateChanger then
