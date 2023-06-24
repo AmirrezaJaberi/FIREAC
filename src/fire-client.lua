@@ -157,27 +157,20 @@ Citizen.CreateThread(function()
                 end
             end
             if FIREAC.AntiPlateChanger then
-                if VEH ~= nil then
-                    if PLATE ~= nil then
-                        local RPED = PlayerPedId()
-                        if IsPedInAnyVehicle(RPED, false) then
-                            local RVEH   = GetVehiclePedIsIn(PED, false)
-                            local RPLATE = GetVehicleNumberPlateText(RVEH)
-                            local RHASH  = GetHashKey(RVEH)
-                            if RPLATE ~= PLATE and RHASH == VEHHASH then
-                                TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Plate Changer",
-                                    "Changed the vehicle plate : **" .. PLATE .. " --> " .. RPLATE .. "**")
-                            else
-                                Wait(0)
-                            end
-                        else
-                            Wait(0)
-                        end
-                    else
-                        Wait(0)
+                local ped = PlayerPedId()
+                if IsPedInAnyVehicle(ped, false) then
+                    local vehicle = GetVehiclePedIsIn(ped, false)
+                    local plate = GetVehicleNumberPlateText(vehicle)
+                    local hash = GetHashKey(vehicle)
+                    if plate and hash and VEH == vehicle and PLATE ~= plate then
+                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Plate Changer",
+                            "Changed the vehicle plate : **" .. PLATE .. " --> " .. plate .. "**")
                     end
+                    VEH = vehicle
+                    PLATE = plate
                 else
-                    Wait(0)
+                    VEH = nil
+                    PLATE = nil
                 end
             end
             if FIREAC.AntiInfiniteStamina then
