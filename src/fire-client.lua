@@ -65,6 +65,8 @@ end)
 
 --【 𝗖𝗵𝗲𝗰𝗸 𝗧𝗵r𝗲𝗮𝗱 1 】--
 Citizen.CreateThread(function()
+    local lastCoords = nil
+    local isFirstAttempt = true
     while true do
         Wait(5000)
         local PED     = PlayerPedId()
@@ -174,20 +176,25 @@ Citizen.CreateThread(function()
                 end
             end
             if FIREAC.AntiInfiniteStamina then
-                if GetEntitySpeed(PlayerPedId()) > 7 and not IsPedInAnyVehicle(PlayerPedId(), true) and not IsPedFalling(PlayerPedId()) and not IsPedInParachuteFreeFall(PlayerPedId()) and not IsPedJumpingOutOfVehicle(PlayerPedId()) and not IsPedRagdoll(PlayerPedId()) then
-                    local staminalevel = GetPlayerSprintStaminaRemaining(PlayerId())
-                    if tonumber(staminalevel) == tonumber(0.0) then
+                if not IsPedInAnyVehicle(PlayerPedId(), true)
+                    and not IsPedRagdoll(PlayerPedId())
+                    and not IsPedFalling(PlayerPedId())
+                    and not IsPedJumpingOutOfVehicle(PlayerPedId())
+                    and not IsPedInParachuteFreeFall(PlayerPedId())
+                    and GetEntitySpeed(PlayerPedId()) > 7
+                then
+                    local staminaLevel = GetPlayerSprintStaminaRemaining(PlayerId())
+                    if tonumber(staminaLevel) == 0.0 then
                         TriggerServerEvent('FIREAC:BanFromClient', FIREAC.InfinitePunishment, "Anti Infinite Stamina",
                             "Used stamina hacks")
                     end
                 end
             end
             if FIREAC.AntiRagdoll then
-                if SPAWN then
-                    if not CanPedRagdoll(PlayerPedId()) and not IsPedInAnyVehicle(PlayerPedId(), true) and not IsEntityDead(PlayerPedId()) and not IsPedJumpingOutOfVehicle(PlayerPedId()) and not IsPedJacking(PlayerPedId()) and IsPedRagdoll(PlayerPedId()) then
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.InfinitePunishment, "Anti Ragdoll",
-                            "Used ragdoll hack")
-                    end
+                if SPAWN and IsPedRagdoll(PlayerPedId()) and not CanPedRagdoll(PlayerPedId()) and not IsPedInAnyVehicle(PlayerPedId(), true)
+                    and not IsEntityDead(PlayerPedId()) and not IsPedJumpingOutOfVehicle(PlayerPedId()) and not IsPedJacking(PlayerPedId()) then
+                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.InfinitePunishment, "Anti Ragdoll",
+                        "Used ragdoll hack")
                 end
             end
             if FIREAC.AntiNightVision then
@@ -195,8 +202,6 @@ Citizen.CreateThread(function()
                     TriggerServerEvent('FIREAC:BanFromClient', FIREAC.VisionPunishment, "Anti Night Vision",
                         "Used night vision hack")
                 end
-            end
-            if FIREAC.AntiNightVision then
                 if GetUsingseethrough(true) and not IsPedInAnyHeli(PlayerPedId()) then
                     TriggerServerEvent('FIREAC:BanFromClient', FIREAC.VisionPunishment, "Anti Thermal Vision",
                         "Used thermal vision hack")
@@ -204,22 +209,20 @@ Citizen.CreateThread(function()
             end
             Wait(2000)
             if FIREAC.AntiInvisible then
-                if SPAWN then
-                    if (not IsEntityVisible(PlayerPedId()) and not IsEntityVisibleToScript(PlayerPedId())) or (GetEntityAlpha(PlayerPedId()) <= 150 and GetEntityAlpha(PlayerPedId()) ~= 0) then
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.InvisiblePunishment, "Anti Invisble",
-                            "Used invisibility hacks")
-                    end
-                else
-                    Wait(1000)
+                if SPAWN and (not IsEntityVisible(PlayerPedId()) and not IsEntityVisibleToScript(PlayerPedId()))
+                    or (GetEntityAlpha(PlayerPedId()) <= 150 and GetEntityAlpha(PlayerPedId()) ~= 0) then
+                    Citizen.Wait(1000)
+                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.InvisiblePunishment, "Anti Invisble",
+                        "Used invisibility hacks")
                 end
             end
             if FIREAC.AntiBlackListPlate then
                 if IsPedInAnyVehicle(PlayerPedId(), false) then
-                    for _, plate in ipairs(Plate) do
-                        NPLATE = GetVehicleNumberPlateText(GetVehiclePedIsIn(PlayerPedId(), false), false)
-                        if NPLATE == plate then
+                    local currentPlate = GetVehicleNumberPlateText(GetVehiclePedIsIn(PlayerPedId(), false), false)
+                    for i, plate in ipairs(Plate) do
+                        if currentPlate == plate then
                             TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PlatePunishment, "Anti Black List Plate",
-                                "Used blacklisted plate : " .. plate .. "") -- might work, needs check
+                                "Used blacklisted plate: " .. plate)
                         end
                     end
                 end
@@ -229,24 +232,34 @@ Citizen.CreateThread(function()
                     local VEH = GetVehiclePedIsIn(PlayerPedId(), false)
                     if DoesEntityExist(VEH) then
                         local C1r, C1g, C1b = GetVehicleCustomPrimaryColour(VEH)
-                        Wait(1000)
-                        local C2r, C2g, C2b = GetVehicleCustomPrimaryColour(VEH)
-                        Wait(2000)
-                        local C3r, C3g, C3b = GetVehicleCustomPrimaryColour(VEH)
                         if C1r ~= nil then
-                            if C1r ~= C2r and C2r ~= C3r and C1g ~= C2g and C3g ~= C2g and C1b ~= C2b and C3b ~= C2b then
-                                TriggerServerEvent('FIREAC:BanFromClient', FIREAC.RainbowPunishment, "Anti Rainbow",
-                                    "Used rainbow hacks")
+                            Wait(1000)
+                            local C2r, C2g, C2b = GetVehicleCustomPrimaryColour(VEH)
+                            if C2r ~= nil and C1r ~= C2r and C1g ~= C2g and C1b ~= C2b then
+                                Wait(2000)
+                                local C3r, C3g, C3b = GetVehicleCustomPrimaryColour(VEH)
+                                if C3r ~= nil and C2r ~= C3r and C3g ~= C2g and C3b ~= C2b and C1r ~= C3r and C1g ~= C3g and C1b ~= C3b then
+                                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.RainbowPunishment, "Anti Rainbow",
+                                        "Used rainbow hacks")
+                                end
                             end
                         end
                     end
-                else
-                    Wait(0)
                 end
             end
             if FIREAC.AntiNoclip then
-                if not IsPedInAnyVehicle(PlayerPedId(), false) and GetEntityHeightAboveGround(PlayerPedId()) > 4.0 and not IsPedFalling(PlayerPedId()) then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.NoclipPunishment, "Anti Noclip", "Used noclip hack")
+                if not IsPedInAnyVehicle(PlayerPedId(), false) then
+                    local coords = GetEntityCoords(PlayerPedId())
+                    if isFirstAttempt then
+                        lastCoords = coords
+                        isFirstAttempt = false
+                    end
+
+                    if #(coords - lastCoords) > 10.0 and GetEntityHeightAboveGround(PlayerPedId()) > 4.0 and not IsPedFalling(PlayerPedId()) then
+                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.NoclipPunishment, "Anti Noclip",
+                            "Used noclip hack")
+                    end
+                    lastCoords = coords
                 end
             end
             if FIREAC.AntiFreeCam then
