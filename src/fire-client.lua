@@ -263,8 +263,10 @@ Citizen.CreateThread(function()
                 end
             end
             if FIREAC.AntiFreeCam then
-                local x, y, z = table.unpack(GetEntityCoords(PlayerPedId()) - GetFinalRenderedCamCoord())
-                if (x > 50) or (y > 50) or (z > 50) or (x < -50) or (y < -50) or (z < -50) then
+                local playerCoords = GetEntityCoords(PlayerPedId())
+                local camCoords = GetFinalRenderedCamCoord()
+                local distance = #(playerCoords - camCoords)
+                if distance > 50 then
                     TriggerServerEvent('FIREAC:BanFromClient', FIREAC.CamPunishment, "Anti Free Cam",
                         "Used freecam hacks")
                 end
@@ -283,58 +285,75 @@ Citizen.CreateThread(function()
                 end
             end
             if FIREAC.AntiWeaponDamageChanger then
-                local WEAPON    = GetSelectedPedWeapon(PlayerPedId())
-                local WEPDAMAGE = math.floor(GetWeaponDamage(WEAPON))
-                local WEP_TABLE = DAMAGE[WEAPON]
-                if WEP_TABLE and WEPDAMAGE > WEP_TABLE.DAMAGE then
+                local weapon = GetSelectedPedWeapon(PlayerPedId())
+                local weaponDamage = math.floor(GetWeaponDamage(weapon))
+                local weaponData = DAMAGE[weapon]
+                if weaponData and weaponDamage > weaponData.DAMAGE then
+                    local weaponName = weaponData.name
+                    local normalDamage = weaponData.DAMAGE
+                    local message = string.format("Tried to change %s damage to %d (Normal damage is: %d)", weaponName,
+                        weaponDamage, normalDamage)
                     TriggerServerEvent('FIREAC:BanFromClient', FIREAC.WeaponPunishment, "Anti Weapon Damage Changer",
-                        "Tried to change" ..
-                        WEP_TABLE.name .. " damage to " .. WEPDAMAGE .. " (Normal damage is: " .. WEP_TABLE.DAMAGE .. ")")
+                        message)
                 end
             end
             if FIREAC.AntiWeaponsExplosive then
-                local WEAPON        = GetSelectedPedWeapon(PlayerPedId())
-                local WEAPON_DAMAEG = GetWeaponDamageType(WEAPON)
+                local weapon = GetSelectedPedWeapon(PlayerPedId())
+                local damageType = GetWeaponDamageType(weapon)
                 N_0x4757f00bc6323cfe(GetHashKey("WEAPON_EXPLOSION"), 0.0)
-                if WEAPON_DAMAEG == 4 or WEAPON_DAMAEG == 5 or WEAPON_DAMAEG == 6 or WEAPON_DAMAEG == 13 then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.WeaponPunishment, "Anti Weapon Explosive",
-                        "Tried to use explosive weapon damage")
+
+                local explosiveDamageTypes = { 4, 5, 6, 13 }
+                local isExplosive = false
+                for _, damage in ipairs(explosiveDamageTypes) do
+                    if damage == damageType then
+                        isExplosive = true
+                        break
+                    end
+                end
+
+                if isExplosive then
+                    local weaponName = GetWeapontypeModel(weapon)
+                    local message = string.format("Tried to use %s (explosive) weapon", weaponName)
+                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.WeaponPunishment, "Anti Weapon Explosive", message)
                 end
             end
             if FIREAC.AntiPedChanger then
-                for i, value in ipairs(WhiteListPeds) do
-                    if not GetEntityModel(PlayerPedId()) == GetHashKey(value) then
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PedChangePunishment, "Anti Ped Changer",
-                            "Tried to change ped to " .. value .. "!")
+                local playerPedModel = GetEntityModel(PlayerPedId())
+                local isWhitelisted = false
+                for _, whitelistedModel in ipairs(WhiteListPeds) do
+                    if playerPedModel == GetHashKey(whitelistedModel) then
+                        isWhitelisted = true
+                        break
                     end
+                end
+                if not isWhitelisted then
+                    local message = string.format("Tried to change ped to %s", tostring(playerPedModel))
+                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PedChangePunishment, "Anti Ped Changer", message)
                 end
             end
             if FIREAC.AntiBlacklistTasks then
-                for _, task in pairs(Tasks) do
-                    if GetIsTaskActive(PlayerPedId(), task) then
+                local playerPed = PlayerPedId()
+                for _, taskName in ipairs(Tasks) do
+                    if GetIsTaskActive(playerPed, taskName) then
+                        local message = string.format("Tried to play blacklisted task: %s", taskName)
                         TriggerServerEvent('FIREAC:BanFromClient', FIREAC.TasksPunishment, "Anti Black List Tasks",
-                            "Tried to play task in server " .. task .. "!")
+                            message)
                     end
                 end
             end
             if FIREAC.AntiBlacklistAnims then
-                for _, anim in pairs(Anims) do
-                    if IsEntityPlayingAnim(PlayerPedId(), anim[1], anim[2], 3) then
+                local playerPed = PlayerPedId()
+
+                for _, anim in ipairs(Anims) do
+                    local dict, animName = anim.dict, anim.anim
+                    if IsEntityPlayingAnim(playerPed, dict, animName, 3) then
+                        local message = string.format("Tried to play blacklisted animation %s and %s", dict, animName)
                         TriggerServerEvent('FIREAC:BanFromClient', FIREAC.AnimsPunishment, "Anti Black List Animation",
-                            "Tried to play blacklisted animation " .. anim[1] " and " .. anim[2] .. "")
-                        ClearPedTasksImmediately(PlayerPedId())
-                        ClearPedTasks(PlayerPedId())
-                        ClearPedSecondaryTask(PlayerPedId())
+                            message)
+                        ClearPedTasks(playerPed)
                     end
                 end
-                Wait(100)
-            end
-            if FIREAC.AntiTinyPed then
-                local Tiny = GetPedConfigFlag(PlayerPedId(), 223, true)
-                if Tiny then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PedFlagPunishment, "Anti Tiny Ped",
-                        "Tried to turn into tiny ped")
-                end
+
                 Wait(100)
             end
             if FIREAC.AntiTinyPed then
@@ -351,54 +370,66 @@ Citizen.CreateThread(function()
 end)
 
 --【 𝗖𝗵𝗲𝗰𝗸 𝗧𝗵𝗲𝗮𝗿𝗱 2 】--
-local PCOORDS = {}
 Citizen.CreateThread(function()
-    local WAIT = 3000
+    local waitTime = 3000
+
     while SPAWN do
-        Wait(WAIT)
+        Wait(waitTime)
+
         if FIREAC.SafePlayers then
             SetEntityProofs(PlayerPedId(), false, true, true, false, false, false, false, false)
         end
+
         if FIREAC.AntiInfinityAmmo then
             SetPedInfiniteAmmoClip(PlayerPedId(), false)
         end
-        local PED  = PlayerPedId()
-        local JUMP = IsPedJumping(PED)
+
         if FIREAC.AntiChangeSpeed then
-            if SPAWN then
-                if IsPedInAnyVehicle(PED, false) then
-                    local VEH       = GetVehiclePedIsIn(PED, false)
-                    local MAX_SPEED = GetVehicleEstimatedMaxSpeed(VEH)
-                    local VEHSPED   = GetEntitySpeed(VEH)
-                    local TOTAL     = MAX_SPEED + 10
-                    if VEHSPED > TOTAL then
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SpeedPunishment, "Anti Speed Changer",
-                            "Tried to change the vehicle speed : **" .. VEHSPED * 3.6 .. " KM**")
-                    end
-                else
-                    local ENSPEED = GetEntitySpeed(PED)
-                    if IsPedRunning(PED) and ENSPEED > 9 and not JUMP then
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SpeedPunishment, "Anti Fast Run",
-                            "Tried to change the walk speed : **" .. ENSPEED .. "**")
+            local ped = PlayerPedId()
+
+            if not IsPedInAnyVehicle(ped, false) then
+                local speed = GetEntitySpeed(ped)
+
+                if IsPedRunning(ped) and speed > 9 and not IsPedJumping(ped) then
+                    local message = string.format("Tried to change the walk speed: **%.2f**", speed)
+                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SpeedPunishment, "Anti Fast Run", message)
+                end
+            else
+                local vehicle = GetVehiclePedIsIn(ped, false)
+
+                if DoesEntityExist(vehicle) then
+                    local maxSpeed = GetVehicleEstimatedMaxSpeed(vehicle)
+                    local speed    = GetEntitySpeed(vehicle)
+                    local total    = maxSpeed + 10
+
+                    if speed > total then
+                        local message = string.format("Tried to change the vehicle speed: **%.2f KM**", speed * 3.6)
+                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SpeedPunishment, "Anti Speed Changer", message)
                     end
                 end
             end
         end
+
         if FIREAC.AntiTeleport then
             while IsPlayerSwitchInProgress() do
                 Wait(5000)
             end
-            local COORDS = GetEntityCoords(PlayerPedId())
+
+            local coords = GetEntityCoords(PlayerPedId())
+
             if IsPedInAnyVehicle(PlayerPedId(), false) and not IsPedFalling(PlayerPedId()) then
                 Wait(1000)
-                local NEW_COORDS = GetEntityCoords(PlayerPedId())
-                local DISTENCE = Vdist(COORDS.x, COORDS.y, COORDS.z, NEW_COORDS.x, NEW_COORDS.y, NEW_COORDS.z)
-                if IsPedInAnyVehicle(PlayerPedId(), false) and DISTENCE >= FIREAC.MaxVehicleDistance and not IsPedFalling(PlayerPedId()) then
+
+                local newCoords = GetEntityCoords(PlayerPedId())
+                local distance  = Vdist(coords, newCoords)
+
+                if distance >= FIREAC.MaxVehicleDistance then
                     TriggerServerEvent('FIREAC:BanFromClient', FIREAC.TeleportPunishment, "Anti Teleport",
-                        "Tried teleporting in vehicle")
+                        "Tried teleporting in a vehicle")
                 end
             end
         end
+
         Wait(0)
     end
 end)
@@ -406,54 +437,49 @@ end)
 --【 𝗦𝘁𝗼𝗽 𝗥𝗲𝘀𝗼𝘂𝗿𝗰𝗲 】--
 AddEventHandler('onResourceStop', function(resourceName)
     if FIREAC.AntiResourceStopper or FIREAC.AntiResourceRestarter then
-        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.ResourcePunishment, "Anti Resource Stopper",
-            "Tried to stop resource : **" .. resourceName .. "** !")
+        local message = string.format("Tried to stop resource: **%s**!", resourceName)
+        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.ResourcePunishment, "Anti Resource Stopper", message)
     end
 end)
 
 --【 𝗦𝘁𝗮𝗿𝘁 𝗥𝗲𝘀𝗼𝘂𝗿𝗰𝗲 】--
-AddEventHandler('onClientResourceStart', function(RES)
-    -- Admin Menu --
-    if RES == GetCurrentResourceName() then
-        TriggerServerEvent('FIREAC:CheckIsAdmin')
-    end
-    -- Resource Stopper --
+AddEventHandler('onClientResourceStart', function(resourceName)
     if FIREAC.AntiResourceStarter or FIREAC.AntiResourceRestarter then
         Citizen.CreateThread(function()
             while true do
                 Wait(1000)
                 if IsPedWalking(PlayerPedId()) or GetCamActiveViewModeContext() then
-                    TriggerServerEvent("FIREAC:BanFromClient", FIREAC.ResourcePunishment, "Anti Resource Starter",
-                        "Tried to start resource : **" .. RES .. "** !")
+                    local message = string.format("Tried to start resource: **%s**!", resourceName)
+                    TriggerServerEvent("FIREAC:BanFromClient", FIREAC.ResourcePunishment, "Anti Resource Starter", message)
                     break
                 end
             end
         end)
     end
+
+    if resourceName == GetCurrentResourceName() then
+        TriggerServerEvent('FIREAC:CheckIsAdmin')
+    end
 end)
 
 --【 𝗔𝗻𝘁𝗶 𝗦𝘂𝗶𝗰𝗶𝗱𝗲 】--
 AddEventHandler("gameEventTriggered", function(name, args)
-    local PLID     = PlayerId()
-    local PED      = PlayerPedId()
-    local ENOWNER  = GetPlayerServerId(NetworkGetEntityOwner(args[2]))
-    local ENOWNER1 = NetworkGetEntityOwner(args[1])
-    local ARMED    = false
-    while IsPlayerSwitchInProgress() do
-        Wait(7500)
-    end
-
     if FIREAC.AntiSuicide and name == "CEventNetworkEntityDamage" then
-        if args[1] == PlayerPedId() and args[2] == -1 and #args == 14 and
+        local playerPed = PlayerPedId()
+        local attacker  = NetworkGetEntityOwner(args[1])
+        local weapon    = args[7]
+        local isFall    = weapon == GetHashKey('WEAPON_FALL')
+
+        if args[1] == playerPed and args[2] == -1 and #args == 14 and
             args[3] == 0 and args[4] == 0 and args[5] == 0 and args[6] == 1 and
-            args[7] == GetHashKey('WEAPON_FALL') and args[8] == 0 and args[9] == 0 and
+            isFall and args[8] == 0 and args[9] == 0 and
             args[10] == 0 and args[11] == 0 and args[12] == 0 and args[13] == 0 then
             TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SuicidePunishment, "Anti Suicide", "Tried to suicide")
         end
     end
 
     if FIREAC.AntiPickupCollect and name == 'CEventNetworkPlayerCollectedPickup' then
-        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PickupPunishment, "Anti Collected Pickup",
-            "Tried to collect a pickup : " .. json.encode(args) .. "")
+        local message = string.format("Tried to collect a pickup: **%s**", json.encode(args))
+        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PickupPunishment, "Anti Collected Pickup", message)
     end
 end)
