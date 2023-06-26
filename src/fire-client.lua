@@ -450,7 +450,8 @@ AddEventHandler('onClientResourceStart', function(resourceName)
                 Wait(1000)
                 if IsPedWalking(PlayerPedId()) or GetCamActiveViewModeContext() then
                     local message = string.format("Tried to start resource: **%s**!", resourceName)
-                    TriggerServerEvent("FIREAC:BanFromClient", FIREAC.ResourcePunishment, "Anti Resource Starter", message)
+                    TriggerServerEvent("FIREAC:BanFromClient", FIREAC.ResourcePunishment, "Anti Resource Starter",
+                        message)
                     break
                 end
             end
