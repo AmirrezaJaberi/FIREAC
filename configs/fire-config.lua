@@ -169,7 +169,7 @@ FIREAC.AntiAimAssist            = false
 FIREAC.AimAssistPunishment      = "WARN"
 
 --【 𝗔𝗻𝘁𝗶 𝗥𝗲𝘀𝗼𝘂𝗿𝗰𝗲 】--
-FIREAC.AntiResourceStopper      = false
+FIREAC.AntiResourceStopper      = true
 FIREAC.AntiResourceStarter      = false
 FIREAC.AntiResourceRestarter    = false
 FIREAC.ResourcePunishment       = "WARN"

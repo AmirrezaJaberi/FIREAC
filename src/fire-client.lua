@@ -435,11 +435,9 @@ Citizen.CreateThread(function()
 end)
 
 --【 𝗦𝘁𝗼𝗽 𝗥𝗲𝘀𝗼𝘂𝗿𝗰𝗲 】--
-AddEventHandler('onResourceStop', function(resourceName)
-    if FIREAC.AntiResourceStopper or FIREAC.AntiResourceRestarter then
-        local message = string.format("Tried to stop resource: **%s**!", resourceName)
-        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.ResourcePunishment, "Anti Resource Stopper", message)
-    end
+RegisterNetEvent('FIREAC:checkStatus')
+AddEventHandler('FIREAC:checkStatus', function (data)
+    TriggerServerEvent('FIREAC:passScriptInfo', data.name, data.path)
 end)
 
 --【 𝗦𝘁𝗮𝗿𝘁 𝗥𝗲𝘀𝗼𝘂𝗿𝗰𝗲 】--

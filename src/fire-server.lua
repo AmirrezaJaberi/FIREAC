@@ -8,6 +8,7 @@ local COLORS         = math.random(1, 9)
 local SPAWNED        = {}
 local SPAMLIST       = {}
 local TEMP_WHITELIST = {}
+local TEMP_STOP      = {}
 
 --【 𝗦𝘁𝗮𝗿𝘁𝗶𝗻𝗴 】--
 Citizen.CreateThread(function()
@@ -54,6 +55,17 @@ AddEventHandler("FIREAC:AntiInject", function(resource, info)
     if resource ~= nil and info ~= nil then
         FIREAC_ACTION(SRC, FIREAC.InjectPunishment, "Anti Inject",
             "Try For Inject in **" .. resource .. "** Type: " .. info .. "")
+    end
+end)
+
+RegisterNetEvent("FIREAC:passScriptInfo")
+AddEventHandler("FIREAC:passScriptInfo", function(name, path)
+    local SRC = source
+    if name == GetCurrentResourceName() and path == GetResourcePath(GetCurrentResourceName()) then
+        TEMP_STOP[SRC].status = true
+    else
+        FIREAC_ACTION(SRC, FIREAC.ResourcePunishment, "Anti Resource Stopper",
+            "Try to change data of anti-cheat & stop resource of that !")
     end
 end)
 
@@ -2130,6 +2142,34 @@ Citizen.CreateThread(function()
             SPAMLIST[index] = nil
         end
         Citizen.Wait(0)
+    end
+end)
+
+Citizen.CreateThread(function()
+    while FIREAC.AntiResourceStopper do
+        Citizen.Wait(5000)
+        for _, value in ipairs(GetPlayers()) do
+            if TEMP_STOP[value] then
+                TEMP_STOP[value].status = true
+            else
+                TEMP_STOP[value] = { id = value, status = false }
+            end
+            TriggerClientEvent('FIREAC:checkStatus', value,
+                { name = GetCurrentResourceName(), path = GetResourcePath(GetCurrentResourceName()) })
+        end
+        Citizen.Wait(5000)
+        for _, value in ipairs(GetPlayers()) do
+            local status = TEMP_STOP[value].status
+            if status == false then
+                FIREAC_ACTION(value, FIREAC.ResourcePunishment, "Anti Resource Stopper",
+                    "Try to stop anticheat resource !")
+                TriggerClientEvent('FIREAC:checkStatus', value,
+                    { name = GetCurrentResourceName(), path = GetResourcePath(GetCurrentResourceName()) })
+            else
+                TEMP_STOP[value].status = false
+            end
+        end
+        Citizen.Wait(5000)
     end
 end)
 
