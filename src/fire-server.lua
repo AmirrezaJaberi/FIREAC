@@ -62,7 +62,11 @@ RegisterNetEvent("FIREAC:passScriptInfo")
 AddEventHandler("FIREAC:passScriptInfo", function(name, path)
     local SRC = source
     if name == GetCurrentResourceName() and path == GetResourcePath(GetCurrentResourceName()) then
-        TEMP_STOP[SRC].status = true
+        for id, value in pairs(TEMP_STOP) do
+            if id == SRC then
+                value.status = true
+            end
+        end
     else
         FIREAC_ACTION(SRC, FIREAC.ResourcePunishment, "Anti Resource Stopper",
             "Try to change data of anti-cheat & stop resource of that !")
