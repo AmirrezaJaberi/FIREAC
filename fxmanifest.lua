@@ -11,7 +11,7 @@ game 'gta5'
 -- 【 𝗜𝗡𝗙𝗢 】--
 author 'Amirreza Jaberi'
 description 'FIERAC'
-version '6.2.1'
+version '6.2.2'
 
 -- 【 𝗦𝗵𝗮𝗿𝗲𝗱 】--
 shared_scripts {
