@@ -2163,14 +2163,16 @@ Citizen.CreateThread(function()
         end
         Citizen.Wait(5000)
         for _, value in ipairs(GetPlayers()) do
-            local status = TEMP_STOP[value].status
-            if status == false then
-                FIREAC_ACTION(value, FIREAC.ResourcePunishment, "Anti Resource Stopper",
-                    "Try to stop anticheat resource !")
-                TriggerClientEvent('FIREAC:checkStatus', value,
-                    { name = GetCurrentResourceName(), path = GetResourcePath(GetCurrentResourceName()) })
-            else
-                TEMP_STOP[value].status = false
+            if value ~= nil then
+                local status = TEMP_STOP[value].status
+                if status == false then
+                    FIREAC_ACTION(value, FIREAC.ResourcePunishment, "Anti Resource Stopper",
+                        "Try to stop anticheat resource !")
+                    TriggerClientEvent('FIREAC:checkStatus', value,
+                        { name = GetCurrentResourceName(), path = GetResourcePath(GetCurrentResourceName()) })
+                else
+                    TEMP_STOP[value].status = false
+                end
             end
         end
         Citizen.Wait(5000)
