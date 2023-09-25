@@ -3,6 +3,13 @@
 
 FIREAC is the best FiveM anti-cheat made for free for you FiveM server owners and developers, this anti-cheat will help you get rid of cheaters and make a fair game for your players.
 
+# fiveguard.net
+For better **paid anticheat** check out **https://store.fiveguard.ac/**.
+
+We are **able to provide** this **free product** because of help of **https://fiveguard.net/**.
+
+**fiveguard is best fivem anticheat**
+
 ---
 
 ### Requirements :
