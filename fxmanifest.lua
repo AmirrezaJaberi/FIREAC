@@ -36,6 +36,12 @@ client_scripts {
 }
 
 -- 【 𝗘𝘅𝗽𝗼𝗿𝘁 】--
+exports {
+    'FIREAC_CHANGE_TEMP_WHHITELIST',
+    'FIREAC_CHECK_TEMP_WHITELIST',
+    'FIREAC_ACTION'
+}
+
 server_exports {
     'FIREAC_CHANGE_TEMP_WHHITELIST',
     'FIREAC_CHECK_TEMP_WHITELIST',
