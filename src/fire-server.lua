@@ -963,7 +963,7 @@ AddEventHandler("entityCreated", function(ENTITY)
         local MODEL      = GetEntityModel(ENTITY)
         local HWID       = GetPlayerToken(OWNER, 0)
         --【 𝗕𝗹𝗮𝗰𝗸 𝗟𝗶𝘀𝘁 𝗠𝗮𝗻𝗮𝗴𝗲 】--
-        if FIREAC.AntiBlackListObject and TYPE == 3 and POPULATION == 7 then
+        if FIREAC.AntiBlackListObject and TYPE == 3 and POPULATION == 0 then
             for index, value in ipairs(Objects) do
                 if MODEL == GetHashKey(value) then
                     if DoesEntityExist(ENTITY) then
@@ -974,7 +974,7 @@ AddEventHandler("entityCreated", function(ENTITY)
                 end
             end
         end
-        if FIREAC.AntiBlackListPed and TYPE == 1 and POPULATION == 7 then
+        if FIREAC.AntiBlackListPed and TYPE == 1 and POPULATION == 0 then
             for index, value in ipairs(Peds) do
                 if MODEL == GetHashKey(value) then
                     if DoesEntityExist(ENTITY) then
@@ -985,7 +985,7 @@ AddEventHandler("entityCreated", function(ENTITY)
                 end
             end
         end
-        if FIREAC.AntiBlackListVehicle and TYPE == 2 and POPULATION == 7 then
+        if FIREAC.AntiBlackListVehicle and TYPE == 2 and POPULATION == 0 then
             for index, value in ipairs(Vehicle) do
                 if MODEL == GetHashKey(value) then
                     if DoesEntityExist(ENTITY) then
@@ -997,7 +997,7 @@ AddEventHandler("entityCreated", function(ENTITY)
             end
         end
         --【 𝗦𝗽𝗮𝗺 𝗠𝗮𝗻𝗮𝗴𝗲𝗺𝗲𝗻𝘁 】--
-        if TYPE == 2 and FIREAC.AntiSpamVehicle and POPULATION == 7 then
+        if TYPE == 2 and FIREAC.AntiSpamVehicle and POPULATION == 0 then
             if SV_VEHICLES[HWID] ~= nil then
                 SV_VEHICLES[HWID].COUNT = SV_VEHICLES[HWID].COUNT + 1
                 if os.time() - SV_VEHICLES[HWID].TIME >= 10 then
@@ -1022,7 +1022,7 @@ AddEventHandler("entityCreated", function(ENTITY)
                     TIME  = os.time()
                 }
             end
-        elseif TYPE == 1 and FIREAC.AntiSpamPed and POPULATION == 7 then
+        elseif TYPE == 1 and FIREAC.AntiSpamPed and POPULATION == 0 then
             if SV_PEDS[HWID] ~= nil then
                 SV_PEDS[HWID].COUNT = SV_PEDS[HWID].COUNT + 1
                 if os.time() - SV_PEDS[HWID].TIME >= 10 then
@@ -1047,7 +1047,7 @@ AddEventHandler("entityCreated", function(ENTITY)
                     TIME  = os.time()
                 }
             end
-        elseif TYPE == 3 and FIREAC.AntiSpamObject and POPULATION == 7 then
+        elseif TYPE == 3 and FIREAC.AntiSpamObject and POPULATION == 0 then
             if SV_OBJECT[HWID] ~= nil then
                 SV_OBJECT[HWID].COUNT = SV_OBJECT[HWID].COUNT + 1
                 if os.time() - SV_OBJECT[HWID].TIME >= 10 then
