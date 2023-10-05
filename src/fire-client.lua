@@ -487,17 +487,15 @@ end)
 --【 𝗘𝘅𝗽𝗼𝗿𝘁𝘀 】--
 function FIREAC_ACTION(punishment, reason, details)
     if FIREAC_CHECK_TEMP_WHITELIST() == false then
-        FIREAC_ACTION(punishment, reason, details)
+        TriggerServerEvent('FIREAC:BanFromClient', punishment, reason, details)
     end
 end
 
-function FIREAC_CHANGE_TEMP_WHHITELIST(SRC, STATUS)
-    if tonumber(SRC) then
-        if STATUS == true then
-            WHITELIST = STATUS
-        elseif STATUS == false then
-            WHITELIST = STATUS
-        end
+function FIREAC_CHANGE_TEMP_WHHITELIST(STATUS)
+    if STATUS == true then
+        WHITELIST = STATUS
+    elseif STATUS == false then
+        WHITELIST = STATUS
     end
 end
 
