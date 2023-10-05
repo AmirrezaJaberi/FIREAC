@@ -7,6 +7,7 @@
 local SPAWN = false
 local CHECK_SPAWN = true
 local TRACK = 0
+local WHITELIST = false
 
 Citizen.CreateThread(function()
     while not NetworkIsPlayerActive(PlayerId()) or IsPlayerSwitchInProgress() do
@@ -48,7 +49,7 @@ Citizen.CreateThread(function()
             local distance = #(vector3(currentPosition) - vector3(newPosition))
 
             if distance > FIREAC.MaxFootDistance and not IsEntityDead(playerPed) and not IsPedInParachuteFreeFall(playerPed) and not IsPedJumpingOutOfVehicle(playerPed) and playerPed == newPlayerPed then
-                TriggerServerEvent('FIREAC:BanFromClient', FIREAC.TeleportPunishment, "Anti Teleport",
+                FIREAC_ACTION(FIREAC.TeleportPunishment, "Anti Teleport",
                     "Used teleport hacks")
             end
         end
@@ -85,7 +86,7 @@ Citizen.CreateThread(function()
             end
             if FIREAC.AntiSpectate then
                 if NetworkIsInSpectatorMode() then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SpectatePunishment, "Anti Spectate",
+                    FIREAC_ACTION(FIREAC.SpectatePunishment, "Anti Spectate",
                         "Spectated another player")
                 end
             end
@@ -107,19 +108,19 @@ Citizen.CreateThread(function()
                 end
 
                 if trackCount >= FIREAC.MaxTrack then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.TrackPunishment, "Anti Track Player",
+                    FIREAC_ACTION(FIREAC.TrackPunishment, "Anti Track Player",
                         "Tracked **" .. trackCount .. "** players")
                 end
             end
             if FIREAC.AntiHealthHack then
                 if HEALTH > FIREAC.MaxHealth then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.HealthPunishment, "Anti Health Hack",
+                    FIREAC_ACTION(FIREAC.HealthPunishment, "Anti Health Hack",
                         "Used health hacks : **" .. HEALTH .. "**")
                 end
             end
             if FIREAC.AntiArmorHack then
                 if ARMOR > FIREAC.MaxArmor then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.HealthPunishment, "Anti Armor Hack",
+                    FIREAC_ACTION(FIREAC.HealthPunishment, "Anti Armor Hack",
                         "Used armor hacks : **" .. ARMOR .. "**")
                 end
             end
@@ -128,7 +129,7 @@ Citizen.CreateThread(function()
                     local currentWeaponHash = GetSelectedPedWeapon(PlayerPedId())
                     if currentWeaponHash == GetHashKey(weapon) then
                         RemoveAllPedWeapons(PlayerPedId(), true)
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.WeaponPunishment, "Anti Black List Weapon",
+                        FIREAC_ACTION(FIREAC.WeaponPunishment, "Anti Black List Weapon",
                             "Used blacklisted weapon: " .. weapon)
                         break
                     end
@@ -142,16 +143,16 @@ Citizen.CreateThread(function()
                                 GetEntityProofs(PlayerPedId())
                             if GetPlayerInvincible(PlayerId()) or GetPlayerInvincible_2(PlayerId()) then
                                 if SPAWN then
-                                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode",
+                                    FIREAC_ACTION(FIREAC.GodPunishment, "Anti Godmode",
                                         "Used godmode hacks")
                                 end
                             end
                             if retval == 1 and bulletProof == 1 and fireProof == 1 and explosionProof == 1 and collisionProof == 1 and steamProof == 1 and p7 == 1 and drownProof == 1 then
-                                TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode",
+                                FIREAC_ACTION(FIREAC.GodPunishment, "Anti Godmode",
                                     "Used godmode hacks")
                             end
                             if not GetEntityCanBeDamaged(PlayerPedId()) then
-                                TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Godmode",
+                                FIREAC_ACTION(FIREAC.GodPunishment, "Anti Godmode",
                                     "Used godmode hacks")
                             end
                         end
@@ -165,7 +166,7 @@ Citizen.CreateThread(function()
                     local plate = GetVehicleNumberPlateText(vehicle)
                     local hash = GetHashKey(vehicle)
                     if plate and hash and VEH == vehicle and PLATE ~= plate then
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.GodPunishment, "Anti Plate Changer",
+                        FIREAC_ACTION(FIREAC.GodPunishment, "Anti Plate Changer",
                             "Changed the vehicle plate : **" .. PLATE .. " --> " .. plate .. "**")
                     end
                     VEH = vehicle
@@ -185,7 +186,7 @@ Citizen.CreateThread(function()
                 then
                     local staminaLevel = GetPlayerSprintStaminaRemaining(PlayerId())
                     if tonumber(staminaLevel) == 0.0 then
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.InfinitePunishment, "Anti Infinite Stamina",
+                        FIREAC_ACTION(FIREAC.InfinitePunishment, "Anti Infinite Stamina",
                             "Used stamina hacks")
                     end
                 end
@@ -193,17 +194,17 @@ Citizen.CreateThread(function()
             if FIREAC.AntiRagdoll then
                 if SPAWN and IsPedRagdoll(PlayerPedId()) and not CanPedRagdoll(PlayerPedId()) and not IsPedInAnyVehicle(PlayerPedId(), true)
                     and not IsEntityDead(PlayerPedId()) and not IsPedJumpingOutOfVehicle(PlayerPedId()) and not IsPedJacking(PlayerPedId()) then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.InfinitePunishment, "Anti Ragdoll",
+                    FIREAC_ACTION(FIREAC.InfinitePunishment, "Anti Ragdoll",
                         "Used ragdoll hack")
                 end
             end
             if FIREAC.AntiNightVision then
                 if GetUsingnightvision(true) and not IsPedInAnyHeli(PlayerPedId()) then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.VisionPunishment, "Anti Night Vision",
+                    FIREAC_ACTION(FIREAC.VisionPunishment, "Anti Night Vision",
                         "Used night vision hack")
                 end
                 if GetUsingseethrough(true) and not IsPedInAnyHeli(PlayerPedId()) then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.VisionPunishment, "Anti Thermal Vision",
+                    FIREAC_ACTION(FIREAC.VisionPunishment, "Anti Thermal Vision",
                         "Used thermal vision hack")
                 end
             end
@@ -212,7 +213,7 @@ Citizen.CreateThread(function()
                 if SPAWN and (not IsEntityVisible(PlayerPedId()) and not IsEntityVisibleToScript(PlayerPedId()))
                     or (GetEntityAlpha(PlayerPedId()) <= 150 and GetEntityAlpha(PlayerPedId()) ~= 0) then
                     Citizen.Wait(1000)
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.InvisiblePunishment, "Anti Invisble",
+                    FIREAC_ACTION(FIREAC.InvisiblePunishment, "Anti Invisble",
                         "Used invisibility hacks")
                 end
             end
@@ -221,7 +222,7 @@ Citizen.CreateThread(function()
                     local currentPlate = GetVehicleNumberPlateText(GetVehiclePedIsIn(PlayerPedId(), false), false)
                     for i, plate in ipairs(Plate) do
                         if currentPlate == plate then
-                            TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PlatePunishment, "Anti Black List Plate",
+                            FIREAC_ACTION(FIREAC.PlatePunishment, "Anti Black List Plate",
                                 "Used blacklisted plate: " .. plate)
                         end
                     end
@@ -239,7 +240,7 @@ Citizen.CreateThread(function()
                                 Wait(2000)
                                 local C3r, C3g, C3b = GetVehicleCustomPrimaryColour(VEH)
                                 if C3r ~= nil and C2r ~= C3r and C3g ~= C2g and C3b ~= C2b and C1r ~= C3r and C1g ~= C3g and C1b ~= C3b then
-                                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.RainbowPunishment, "Anti Rainbow",
+                                    FIREAC_ACTION(FIREAC.RainbowPunishment, "Anti Rainbow",
                                         "Used rainbow hacks")
                                 end
                             end
@@ -256,7 +257,7 @@ Citizen.CreateThread(function()
                     end
 
                     if #(coords - lastCoords) > 10.0 and GetEntityHeightAboveGround(PlayerPedId()) > 4.0 and not IsPedFalling(PlayerPedId()) then
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.NoclipPunishment, "Anti Noclip",
+                        FIREAC_ACTION(FIREAC.NoclipPunishment, "Anti Noclip",
                             "Used noclip hack")
                     end
                     lastCoords = coords
@@ -267,20 +268,20 @@ Citizen.CreateThread(function()
                 local camCoords = GetFinalRenderedCamCoord()
                 local distance = #(playerCoords - camCoords)
                 if distance > 50 then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.CamPunishment, "Anti Free Cam",
+                    FIREAC_ACTION(FIREAC.CamPunishment, "Anti Free Cam",
                         "Used freecam hacks")
                 end
             end
             if FIREAC.AntiMenyoo then
                 if IsPlayerCamControlDisabled() ~= false then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.MenyooPunishment, "Anti Menyoo",
+                    FIREAC_ACTION(FIREAC.MenyooPunishment, "Anti Menyoo",
                         "Used menyoo camera hack")
                 end
             end
             if FIREAC.AntiAimAssist then
                 local aimassiststatus = GetLocalPlayerAimState()
                 if aimassiststatus ~= 3 then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.AimAssistPunishment, "Anti Aim Assist",
+                    FIREAC_ACTION(FIREAC.AimAssistPunishment, "Anti Aim Assist",
                         "Used aim assist : **" .. aimassiststatus .. "**")
                 end
             end
@@ -293,7 +294,7 @@ Citizen.CreateThread(function()
                     local normalDamage = weaponData.DAMAGE
                     local message = string.format("Tried to change %s damage to %d (Normal damage is: %d)", weaponName,
                         weaponDamage, normalDamage)
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.WeaponPunishment, "Anti Weapon Damage Changer",
+                    FIREAC_ACTION(FIREAC.WeaponPunishment, "Anti Weapon Damage Changer",
                         message)
                 end
             end
@@ -314,7 +315,7 @@ Citizen.CreateThread(function()
                 if isExplosive then
                     local weaponName = GetWeapontypeModel(weapon)
                     local message = string.format("Tried to use %s (explosive) weapon", weaponName)
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.WeaponPunishment, "Anti Weapon Explosive", message)
+                    FIREAC_ACTION(FIREAC.WeaponPunishment, "Anti Weapon Explosive", message)
                 end
             end
             if FIREAC.AntiPedChanger then
@@ -328,7 +329,7 @@ Citizen.CreateThread(function()
                 end
                 if not isWhitelisted then
                     local message = string.format("Tried to change ped to %s", tostring(playerPedModel))
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PedChangePunishment, "Anti Ped Changer", message)
+                    FIREAC_ACTION(FIREAC.PedChangePunishment, "Anti Ped Changer", message)
                 end
             end
             if FIREAC.AntiBlacklistTasks then
@@ -336,7 +337,7 @@ Citizen.CreateThread(function()
                 for _, taskName in ipairs(Tasks) do
                     if GetIsTaskActive(playerPed, taskName) then
                         local message = string.format("Tried to play blacklisted task: %s", taskName)
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.TasksPunishment, "Anti Black List Tasks",
+                        FIREAC_ACTION(FIREAC.TasksPunishment, "Anti Black List Tasks",
                             message)
                     end
                 end
@@ -348,7 +349,7 @@ Citizen.CreateThread(function()
                     local dict, animName = anim.dict, anim.anim
                     if IsEntityPlayingAnim(playerPed, dict, animName, 3) then
                         local message = string.format("Tried to play blacklisted animation %s and %s", dict, animName)
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.AnimsPunishment, "Anti Black List Animation",
+                        FIREAC_ACTION(FIREAC.AnimsPunishment, "Anti Black List Animation",
                             message)
                         ClearPedTasks(playerPed)
                     end
@@ -359,7 +360,7 @@ Citizen.CreateThread(function()
             if FIREAC.AntiTinyPed then
                 local Tiny = GetPedConfigFlag(PlayerPedId(), 223, true)
                 if Tiny then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PedFlagPunishment, "Anti Tiny Ped",
+                    FIREAC_ACTION(FIREAC.PedFlagPunishment, "Anti Tiny Ped",
                         "Tried to turn into tiny ped")
                 end
                 Wait(100)
@@ -392,7 +393,7 @@ Citizen.CreateThread(function()
 
                 if IsPedRunning(ped) and speed > 9 and not IsPedJumping(ped) then
                     local message = string.format("Tried to change the walk speed: **%.2f**", speed)
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SpeedPunishment, "Anti Fast Run", message)
+                    FIREAC_ACTION(FIREAC.SpeedPunishment, "Anti Fast Run", message)
                 end
             else
                 local vehicle = GetVehiclePedIsIn(ped, false)
@@ -404,7 +405,7 @@ Citizen.CreateThread(function()
 
                     if speed > total then
                         local message = string.format("Tried to change the vehicle speed: **%.2f KM**", speed * 3.6)
-                        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SpeedPunishment, "Anti Speed Changer", message)
+                        FIREAC_ACTION(FIREAC.SpeedPunishment, "Anti Speed Changer", message)
                     end
                 end
             end
@@ -424,7 +425,7 @@ Citizen.CreateThread(function()
                 local distance  = Vdist(coords, newCoords)
 
                 if distance >= FIREAC.MaxVehicleDistance then
-                    TriggerServerEvent('FIREAC:BanFromClient', FIREAC.TeleportPunishment, "Anti Teleport",
+                    FIREAC_ACTION(FIREAC.TeleportPunishment, "Anti Teleport",
                         "Tried teleporting in a vehicle")
                 end
             end
@@ -436,7 +437,7 @@ end)
 
 --【 𝗦𝘁𝗼𝗽 𝗥𝗲𝘀𝗼𝘂𝗿𝗰𝗲 】--
 RegisterNetEvent('FIREAC:checkStatus')
-AddEventHandler('FIREAC:checkStatus', function (data)
+AddEventHandler('FIREAC:checkStatus', function(data)
     TriggerServerEvent('FIREAC:passScriptInfo', data.name, data.path)
 end)
 
@@ -473,12 +474,33 @@ AddEventHandler("gameEventTriggered", function(name, args)
             args[3] == 0 and args[4] == 0 and args[5] == 0 and args[6] == 1 and
             isFall and args[8] == 0 and args[9] == 0 and
             args[10] == 0 and args[11] == 0 and args[12] == 0 and args[13] == 0 then
-            TriggerServerEvent('FIREAC:BanFromClient', FIREAC.SuicidePunishment, "Anti Suicide", "Tried to suicide")
+            FIREAC_ACTION(FIREAC.SuicidePunishment, "Anti Suicide", "Tried to suicide")
         end
     end
 
     if FIREAC.AntiPickupCollect and name == 'CEventNetworkPlayerCollectedPickup' then
         local message = string.format("Tried to collect a pickup: **%s**", json.encode(args))
-        TriggerServerEvent('FIREAC:BanFromClient', FIREAC.PickupPunishment, "Anti Collected Pickup", message)
+        FIREAC_ACTION(FIREAC.PickupPunishment, "Anti Collected Pickup", message)
     end
 end)
+
+--【 𝗘𝘅𝗽𝗼𝗿𝘁𝘀 】--
+function FIREAC_ACTION(punishment, reason, details)
+    if FIREAC_CHECK_TEMP_WHITELIST() == false then
+        FIREAC_ACTION(punishment, reason, details)
+    end
+end
+
+function FIREAC_CHANGE_TEMP_WHHITELIST(SRC, STATUS)
+    if tonumber(SRC) then
+        if STATUS == true then
+            WHITELIST = STATUS
+        elseif STATUS == false then
+            WHITELIST = STATUS
+        end
+    end
+end
+
+function FIREAC_CHECK_TEMP_WHITELIST()
+    return WHITELIST
+end
