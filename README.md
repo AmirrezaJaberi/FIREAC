@@ -1,9 +1,10 @@
 <h1 align='center'><center><img src="https://github.com/AmirrezaJaberi/AmirrezaJaberi/blob/main/assist/logo/fireac.png" alt="what image shows" height="20" width="20"></center>   FIREAC   <center><img src="https://github.com/AmirrezaJaberi/AmirrezaJaberi/blob/main/assist/logo/fireac.png" alt="what image shows" height="20" width="20"></center></a></h1>
-<p align='center'><b><a href='https://discord.gg/uvccDWtqhv'>Discord</a></b></h5>
+<p align='center'><b><a href='https://discord.gg/uvccDWtqhv'>Discord</a> - <a href='https://amirrezajaberi.ir/fireac'>Website</a></b></h5>
 
 FIREAC is the best free FiveM anti-cheat made by Amirreza Jaberi for free for you FiveM server owners and developers, this anti-cheat will help you get rid of cheaters and make a fair game for your players.
 
 # fiveguard.net
+
 For better **paid anticheat** check out **https://store.fiveguard.ac/**.
 
 We are **able to provide** this **free product** because of help of **https://fiveguard.net/**.
