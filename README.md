@@ -278,7 +278,7 @@ You can install anti-cheat with tutorial of FIREAC website in **https://amirreza
 <tr><td>
 FIREAC
 
-Copyright (C) 2023 [FIREAC](https://github.com/AmirrezaJaberi/FIREAC/) by Amirreza Jaberi
+Copyright (C) 2022-2023 [FIREAC](https://github.com/AmirrezaJaberi/FIREAC/) by Amirreza Jaberi
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
