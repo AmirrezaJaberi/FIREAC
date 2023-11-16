@@ -36,7 +36,7 @@ We are **able to provide** this **free product** because of help of **https://fi
 
 ---
 
-### Features
+### Features :
 
 <table><tr><td><h4 align='center'>Client Side Protecet</h4></tr></td>
 <tr><td>
@@ -99,22 +99,35 @@ We are **able to provide** this **free product** because of help of **https://fi
 
 ---
 
-##### Inject Protect :
+### Inject Protect :
+
+<table align='center'><tr><td><h4 align='center'>Server Side Protecet</h4></tr></td>
+<tr><td>
 
 - Anti Resource Start / Stop / Restart
 - Anti Add Command
 
+</td></tr></table>
+
 ---
 
-##### Connection Protect:
+### Connection Protect :
+
+<table align='center'><tr><td><h4 align='center'>Server Side Protecet</h4></tr></td>
+<tr><td>
 
 - Anti VPN
 - Anti Hosting
 - Anti Black List Name
 
+</td></tr></table>
+
 ---
 
-#### Ban Method:
+### Ban Method :
+
+<table align='center'><tr><td><h4 align='center'>identifiers</h4></tr></td>
+<tr><td>
 
 - FiveM License
 - Steam Identifier
@@ -122,20 +135,27 @@ We are **able to provide** this **free product** because of help of **https://fi
 - Microsoft ID(LIVE ID)
 - Xbox Live ID (XBL ID)
 - Discord ID
-- [FiveM Player Token's](https://docs.fivem.net/natives/?_0x54C06897) (I call this option HWID because it is very powerful 💪)
+- FiveM Player Token's
+
+</td></tr></table>
 
 ---
 
-#### Log's:
+### Log's :
+
+<table align='center'>
+<tr><td>
 
 - Console
 - Discord
 - Chat
 - Screenshot
 
+</td></tr></table>
+
 ---
 
-### Installation
+### Installation :
 
 - Add this text in your `server.cfg` :
 
@@ -148,7 +168,7 @@ ensure discord-screenshot
 
 ---
 
-### Whitelist
+### Whitelist :
 
 - You can add your users identifiers in `FIREAC/whitelists/fire-white.lua`
   for example :
@@ -166,7 +186,9 @@ Admins = {
 
 ---
 
-### Exports (Server Side)
+#### Exports :
+
+### (Server Side) :
 
 - `FIREAC_CHANGE_TEMP_WHHITELIST` This export only for add and remove player from `Temporary whitelist`
   for example :
@@ -201,42 +223,75 @@ for WARN :
 exports['FIREAC']:FIREAC_ACTION(source, "WARN", reason, details)
 ```
 
+### (Client Side) :
+
+- `FIREAC_CHANGE_TEMP_WHHITELIST` This export only for add and remove player from `Temporary whitelist`
+  for example :
+
+```
+Add :
+exports['FIREAC']:FIREAC_CHANGE_TEMP_WHHITELIST(true)
+
+Remove :
+exports['FIREAC']:FIREAC_CHANGE_TEMP_WHHITELIST(false)
+```
+
+- `FIREAC_CHECK_TEMP_WHITELIST` This export only for check player from `Temporary whitelist` and get your result
+  for example :
+
+```
+for check :
+exports['FIREAC']:FIREAC_CHECK_TEMP_WHITELIST()
+```
+
+- `FIREAC_ACTION` This export is for `BAN` or `KICK` or `WARN` the player
+  for example :
+
+```
+for BAN :
+exports['FIREAC']:FIREAC_ACTION("BAN", reason, details)
+
+for KICK :
+exports['FIREAC']:FIREAC_ACTION("KICK", reason, details)
+
+for WARN :
+exports['FIREAC']:FIREAC_ACTION("WARN", reason, details)
+```
+
 ---
 
-### Command
+### Command :
 
 - `/funban [Ban ID]` This command add for unban players by ban id (with console for in game)
 
 ---
 
-### Information
+### Tutorial :
 
-FIREAC is an FiveM anti cheat developed by **Amirreza Jaberi** as a script in 2021 & due to the circumstances, it was decided to make it public
-
----
-
-### Guide Documentation
-
-Guide wiki will add in github soon ...
+You can install anti-cheat with tutorial of FIREAC website in **https://amirrezajaberi.ir/fireac**
 
 ---
 
-### License
+### License :
 
-```
-    FIREAC - FiveM Anti Cheat
-    Copyright (C) 2023  Amirreza Jaberi
+<table><tr><td><h4 align='center'>Legal Notices</h4></tr></td>
+<tr><td>
+FIREAC
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as
-    published by the Free Software Foundation, either version 3 of the
-    License, or (at your option) any later version.
+Copyright (C) 2023 [FIREAC](https://github.com/AmirrezaJaberi/FIREAC/) by Amirreza Jaberi
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-```
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.
+If not, see <https://www.gnu.org/licenses/>
+
+</td></tr></table>
