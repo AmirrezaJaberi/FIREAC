@@ -32,6 +32,10 @@ We are **able to provide** this **free product** because of help of **https://fi
 <a href="https://github.com/jaimeadf/discord-screenshot/releases">discord-screenshot</a><br>For take screenshot
 </td>
 </tr>
+<td align='center'>
+<a href="https://github.com/overextended/oxmysql/releases">oxmysql</a><br>For save sql data
+</td>
+</tr>
 </table>
 
 ---
@@ -170,19 +174,7 @@ ensure discord-screenshot
 
 ### Whitelist :
 
-- You can add your users identifiers in `FIREAC/whitelists/fire-white.lua`
-  for example :
-
-```
-Admins = {
-    '7835767148521717**',                                -- Discord ID
-    'steam:1100001476d05**',                             -- Steam Hex
-    '192.168.1.**',                                      -- IP Address
-    'license2:500a67097ce3c274569c773bc41974d3c28380**', -- FiveM License
-}
-```
-
-**Where can I find my identifiers ?** `From connecting (Log of Discord) to the server or...`
+- You can add your users identifiers by admin menu
 
 ---
 
@@ -262,7 +254,9 @@ exports['FIREAC']:FIREAC_ACTION("WARN", reason, details)
 
 ### Command :
 
-- `/funban [Ban ID]` This command add for unban players by ban id (with console for in game)
+- `/funban [Ban ID]` This command unban user from database by admins (with console for in game)
+- `/addadmin [ID]` This command add admin to database and so that can open admin menu (with console for in game)
+- `/addwhitelist [ID]` This command add admin to database and so that can do anything in server (with console for in game)
 
 ---
 
