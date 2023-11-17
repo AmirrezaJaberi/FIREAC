@@ -17,7 +17,6 @@ version '6.2.3'
 shared_scripts {
     -- 【 𝗔𝗻𝘁𝗶 𝗖𝗵𝗲𝗮𝘁 】--
     'tables/*.lua',
-    'whitelists/*.lua',
     'configs/*.lua'
 }
 
@@ -26,6 +25,7 @@ client_script 'src/fire-client.lua'
 
 -- 【 𝗦𝗲𝗿𝘃𝗲𝗿 】--
 server_scripts {
+    '@oxmysql/lib/MySQL.lua',
     'src/fire-server.lua',
 }
 
@@ -50,5 +50,6 @@ server_exports {
 
 -- 【 𝗗𝗲𝗽𝗲𝗻𝗱𝗲𝗻𝗰𝗶𝗲𝘀 】--
 dependencies {
+    'oxmysql',
     'menuv',
 }
