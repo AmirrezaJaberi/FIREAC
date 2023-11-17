@@ -117,25 +117,56 @@ end)
 -- MENU 2
 local menu2 = MenuV:CreateMenu(false, 'FIREAC Admin Tools', 'centerright', 51, 102, 255, 'size-125', 'default_native',
     'menuv', 'FIREAC: Admin Menu')
-local menu2_noclip = menu2:AddCheckbox({ icon = '' .. Emoji.Beard .. '', label = 'NoClip',
-    description = 'Activate/Deactivate NoClip', value = 'n' })
-local menu2_range = menu2:AddRange({ icon = '' .. Emoji.Speed .. '', label = 'NoClip Speed',
-    description = 'Set Noclip Speed', min = 0, max = 10, value = 0, saveOnUpdate = true })
-local menu2_godmode = menu2:AddCheckbox({ icon = '' .. Emoji.GodMode .. '', label = 'GodMode',
-    description = 'Activate/Deactivate GodMode', value = 'n' })
-local menu2_invisible = menu2:AddCheckbox({ icon = '' .. Emoji.Ghost .. '',
-    description = 'Activate/Deactivate Invisibility', label = 'Invisible', value = 'n' })
+local menu2_noclip = menu2:AddCheckbox({
+    icon = '' .. Emoji.Beard .. '',
+    label = 'NoClip',
+    description = 'Activate/Deactivate NoClip',
+    value = 'n'
+})
+local menu2_range = menu2:AddRange({
+    icon = '' .. Emoji.Speed .. '',
+    label = 'NoClip Speed',
+    description = 'Set Noclip Speed',
+    min = 0,
+    max = 10,
+    value = 0,
+    saveOnUpdate = true
+})
+local menu2_godmode = menu2:AddCheckbox({
+    icon = '' .. Emoji.GodMode .. '',
+    label = 'GodMode',
+    description = 'Activate/Deactivate GodMode',
+    value = 'n'
+})
+local menu2_invisible = menu2:AddCheckbox({
+    icon = '' .. Emoji.Ghost .. '',
+    description = 'Activate/Deactivate Invisibility',
+    label = 'Invisible',
+    value = 'n'
+})
 local menu2_suicide = menu2:AddButton({ icon = '' .. Emoji.Kill .. '', description = 'Kill player', label = 'Suicide' })
 local menu2_revive = menu2:AddButton({ icon = '' .. Emoji.RGB .. '️', description = 'Revive yourself', label = 'Revive' })
 local menu2_healplayer = menu2:AddButton({ icon = '' .. Emoji.Heal .. '', description = 'Heal yourself', label = 'Heal' })
-local menu2_givearmor = menu2:AddButton({ icon = '' .. Emoji.Armor .. '', description = 'Give Yourself Armor',
-    label = 'Give Armor' })
-local menu2_giveallweapons = menu2:AddButton({ icon = '' .. Emoji.Weapon .. '',
-    description = 'Give All Weapons to Yourself', label = 'Give All Weapons' })
-local menu2_removeallweapons = menu2:AddButton({ icon = '' .. Emoji.No .. '', description = 'Remove All of Your Weapons',
-    label = 'Remove All Weapons' })
-local menu2_showcoords = menu2:AddButton({ icon = '' .. Emoji.Coords .. '', description = 'Print Player Coords (F8)',
-    label = 'Print Coords (F8)' })
+local menu2_givearmor = menu2:AddButton({
+    icon = '' .. Emoji.Armor .. '',
+    description = 'Give Yourself Armor',
+    label = 'Give Armor'
+})
+local menu2_giveallweapons = menu2:AddButton({
+    icon = '' .. Emoji.Weapon .. '',
+    description = 'Give All Weapons to Yourself',
+    label = 'Give All Weapons'
+})
+local menu2_removeallweapons = menu2:AddButton({
+    icon = '' .. Emoji.No .. '',
+    description = 'Remove All of Your Weapons',
+    label = 'Remove All Weapons'
+})
+local menu2_showcoords = menu2:AddButton({
+    icon = '' .. Emoji.Coords .. '',
+    description = 'Print Player Coords (F8)',
+    label = 'Print Coords (F8)'
+})
 menu2_noclip:On('check', function(item)
     isusingfuncs = true
     isnoclipping = true
@@ -210,17 +241,51 @@ menu2_showcoords:On('select', function(item)
 end)
 
 -- MENU 7
-local menu7            = MenuV:CreateMenu(false, 'Player Menu', 'centerright', 51, 102, 255, 'size-125', 'default_native',
+local menu7              = MenuV:CreateMenu(false, 'Player Menu', 'centerright', 51, 102, 255, 'size-125',
+    'default_native',
     'menuv', 'Connected Players')
-local menu7_screenshot = menu7:AddButton({ icon = '' .. Emoji.Camera .. '', label = 'ScreenShot',
-    value = menu7_screenshot, description = 'Get Screenshot From Player By Menu' })
-local menu7_ban        = menu7:AddButton({ icon = '' .. Emoji.Ban .. '', label = 'Ban', value = menu7_ban,
-    description = 'Ban Player By Menu' })
-local menu7_Spectate   = menu7:AddCheckbox({ icon = '' .. Emoji.Glasses .. '', label = 'Spectate',
-    description = 'Spectate a Player', value = 'n' })
+local menu7_screenshot   = menu7:AddButton({
+    icon = '' .. Emoji.Camera .. '',
+    label = 'ScreenShot',
+    value = menu7_screenshot,
+    description = 'Get Screenshot From Player By Menu'
+})
+local menu7_ban          = menu7:AddButton({
+    icon = '' .. Emoji.Ban .. '',
+    label = 'Ban',
+    value = menu7_ban,
+    description = 'Ban Player By Menu'
+})
+local menu7_addadmin     = menu7:AddButton({
+    icon = '' .. Emoji.Ban .. '',
+    label = 'Ban',
+    value = menu7_addadmin,
+    description = 'Add admin by menu'
+})
+local menu7_addwhitelist = menu7:AddButton({
+    icon = '' .. Emoji.Ban .. '',
+    label = 'Ban',
+    value = menu7_addwhitelist,
+    description = 'Add whitelist user by menu'
+})
+local menu7_Spectate     = menu7:AddCheckbox({
+    icon = '' .. Emoji.Glasses .. '',
+    label = 'Spectate',
+    description = 'Spectate a Player',
+    value = 'n'
+})
 menu7_screenshot:On('select', function(item)
     TriggerServerEvent('FIREAC:GetScreenShot', playerid)
 end)
+
+menu7_addadmin:On('select', function(item)
+    TriggerServerEvent('FIREAC:AddAdminByMenu', playerid)
+end)
+
+menu7_addwhitelist:On('select', function(item)
+    TriggerServerEvent('FIREAC:AddWhitelistByMenu', playerid)
+end)
+
 menu7_ban:On('select', function(item)
     TriggerServerEvent('FIREAC:BanByMenu', playerid)
 end)
@@ -241,8 +306,12 @@ menu3:On('open', function(m)
     TriggerServerEvent('FIREAC:MenuOpened')
     Citizen.Wait(500)
     for k, v in pairs(Players) do
-        local player = menu3:AddButton({ icon = '' .. Emoji.Bot .. '', label = v.name, value = menu7,
-            description = 'Server ID: ' .. v.id })
+        local player = menu3:AddButton({
+            icon = '' .. Emoji.Bot .. '',
+            label = v.name,
+            value = menu7,
+            description = 'Server ID: ' .. v.id
+        })
         if player then
             playerid = v.id
         end
@@ -252,14 +321,30 @@ end)
 -- MENU 4
 local menu4 = MenuV:CreateMenu(false, 'FIREAC Server Tools', 'centerright', 51, 102, 255, 'size-125', 'default_native',
     'menuv', 'FIREAC: Server Tools')
-local menu4_deletevehicles = menu4:AddButton({ icon = '' .. Emoji.Car .. '', label = 'Delete All Vehicles',
-    description = 'Delete All Vehicles in Server', value = menu4_deletevehicles })
-local menu4_deleteprops = menu4:AddButton({ icon = '' .. Emoji.Buling .. '', label = 'Delete All Props',
-    value = deleteprops, description = 'Delete all Entities in Server' })
-local menu4_deletepeds = menu4:AddButton({ icon = '' .. Emoji.Peds .. '', label = 'Delete All Peds',
-    value = menu4_deletepeds, description = 'Delete all Peds in server' })
-local menu4_deleteall = menu4:AddButton({ icon = '' .. Emoji.RGB .. '', label = 'Delete All Enitiy',
-    value = menu4_deleteall, description = 'Delete all Entity in server' })
+local menu4_deletevehicles = menu4:AddButton({
+    icon = '' .. Emoji.Car .. '',
+    label = 'Delete All Vehicles',
+    description = 'Delete All Vehicles in Server',
+    value = menu4_deletevehicles
+})
+local menu4_deleteprops = menu4:AddButton({
+    icon = '' .. Emoji.Buling .. '',
+    label = 'Delete All Props',
+    value = deleteprops,
+    description = 'Delete all Entities in Server'
+})
+local menu4_deletepeds = menu4:AddButton({
+    icon = '' .. Emoji.Peds .. '',
+    label = 'Delete All Peds',
+    value = menu4_deletepeds,
+    description = 'Delete all Peds in server'
+})
+local menu4_deleteall = menu4:AddButton({
+    icon = '' .. Emoji.RGB .. '',
+    label = 'Delete All Enitiy',
+    value = menu4_deleteall,
+    description = 'Delete all Entity in server'
+})
 menu4_deletevehicles:On('select', function(item)
     TriggerServerEvent('FIREAC:DeleteEntitys', 'VEHCILE')
 end)
@@ -283,10 +368,13 @@ end)
 -- MENU 5
 local menu5 = MenuV:CreateMenu(false, 'FIREAC Teleport Options', 'centerright', 51, 102, 255, 'size-125',
     'default_native', 'menuv', 'FIREAC: Teleport Options')
-local menu5_tptowaypoint = menu5:AddButton({ icon = '' .. Emoji.Abnamat .. '', label = 'TP To Waypoint',
-    description = 'TP To Waypoint' })
+local menu5_tptowaypoint = menu5:AddButton({
+    icon = '' .. Emoji.Abnamat .. '',
+    label = 'TP To Waypoint',
+    description = 'TP To Waypoint'
+})
 menu5_tptowaypoint:On('select',
-    function(item)                             -- Thanks to Qalle (ESX_Marker for this :) (https://github.com/qalle-git/esx_marker)
+    function(item) -- Thanks to Qalle (ESX_Marker for this :) (https://github.com/qalle-git/esx_marker)
         local _waypoint = GetFirstBlipInfoId(8)
 
         if DoesBlipExist(_waypoint) then
@@ -311,14 +399,36 @@ menu5_tptowaypoint:On('select',
 local menu6 = MenuV:CreateMenu(false, 'FIREAC Vehicle Tools', 'centerright', 51, 102, 255, 'size-125', 'default_native',
     'menuv', 'FIREAC: Vehicle Tools')
 local menu6_fixcar = menu6:AddButton({ icon = '' .. Emoji.Fix .. '', label = 'Fix Car', description = 'Fix Car' })
-local menu6_godmode = menu6:AddCheckbox({ icon = '' .. Emoji.GodMode .. '', label = 'GodMode', description = 'GodMode',
-    value = 'n' })
-local menu6_noclip = menu6:AddCheckbox({ icon = '' .. Emoji.Beard .. '', label = 'NoClip (Vehicle)',
-    description = 'Noclip with a Vehicle', value = 'n' })
-local menu6_nocliprange = menu6:AddRange({ icon = '' .. Emoji.Speed .. '', label = 'Noclip Speed', min = 0, max = 10,
-    value = 0, saveOnUpdate = true, description = 'Set NoClip Speed' })
-local menu6_engineboost = menu6:AddRange({ icon = '' .. Emoji.Engine .. '', label = 'Speed Boost', min = 0, max = 10,
-    value = 0, saveOnUpdate = true, description = 'Set Vehicle Engine Boost (Speed Boost)' })
+local menu6_godmode = menu6:AddCheckbox({
+    icon = '' .. Emoji.GodMode .. '',
+    label = 'GodMode',
+    description = 'GodMode',
+    value = 'n'
+})
+local menu6_noclip = menu6:AddCheckbox({
+    icon = '' .. Emoji.Beard .. '',
+    label = 'NoClip (Vehicle)',
+    description = 'Noclip with a Vehicle',
+    value = 'n'
+})
+local menu6_nocliprange = menu6:AddRange({
+    icon = '' .. Emoji.Speed .. '',
+    label = 'Noclip Speed',
+    min = 0,
+    max = 10,
+    value = 0,
+    saveOnUpdate = true,
+    description = 'Set NoClip Speed'
+})
+local menu6_engineboost = menu6:AddRange({
+    icon = '' .. Emoji.Engine .. '',
+    label = 'Speed Boost',
+    min = 0,
+    max = 10,
+    value = 0,
+    saveOnUpdate = true,
+    description = 'Set Vehicle Engine Boost (Speed Boost)'
+})
 menu6_fixcar:On('select', function(item)
     local _ped = PlayerPedId()
     local _vehiclein = GetVehiclePedIsIn(_ped)
@@ -363,22 +473,37 @@ end)
 -- MENU 7
 local menu7 = MenuV:CreateMenu(false, 'FIREAC Admin Tools', 'centerright', 51, 102, 255, 'size-125', 'default_native',
     'menuv', 'FIREAC: TP Tools Tools')
-local menu7_acinfo = menu7:AddButton({ icon = '' .. Emoji.info .. '', label = 'Version: 6.0',
-    description = 'https://discord.gg/drwWFkfu6x' })
-local menu7_creatorac = menu7:AddButton({ icon = '' .. Emoji.info .. '', label = 'FIREAC Dev: Amirreza Jaberi',
-    description = 'https://discord.gg/drwWFkfu6x' })
+local menu7_acinfo = menu7:AddButton({
+    icon = '' .. Emoji.info .. '',
+    label = 'Version: 6.0',
+    description = 'https://discord.gg/drwWFkfu6x'
+})
+local menu7_creatorac = menu7:AddButton({
+    icon = '' .. Emoji.info .. '',
+    label = 'FIREAC Dev: Amirreza Jaberi',
+    description = 'https://discord.gg/drwWFkfu6x'
+})
 
 -- NEW MENUS (Augusto/Mopped7)
 
 -- Menu 8 (Skin do PED)
 local menu8 = MenuV:CreateMenu(false, 'Change PED Skin', 'centerright', 51, 102, 255, 'size-125', 'default_native',
     'menuv', 'Change Characters skin')
-local menu8_padraom = menu8:AddButton({ icon = '' .. Emoji.Boy .. '', label = 'MP Male',
-    description = 'Change skin to MP Male' })
-local menu8_padraof = menu8:AddButton({ icon = '' .. Emoji.Girl .. '', label = 'MP Female',
-    description = 'Change skin to MP Female' })
-local menu8_monkey = menu8:AddButton({ icon = '' .. Emoji.Monkey .. '', label = 'Monkey',
-    description = 'Change skin to Monkey' })
+local menu8_padraom = menu8:AddButton({
+    icon = '' .. Emoji.Boy .. '',
+    label = 'MP Male',
+    description = 'Change skin to MP Male'
+})
+local menu8_padraof = menu8:AddButton({
+    icon = '' .. Emoji.Girl .. '',
+    label = 'MP Female',
+    description = 'Change skin to MP Female'
+})
+local menu8_monkey = menu8:AddButton({
+    icon = '' .. Emoji.Monkey .. '',
+    label = 'Monkey',
+    description = 'Change skin to Monkey'
+})
 local menu8_rato = menu8:AddButton({ icon = '' .. Emoji.Mouse .. ' ', label = 'Rat', description = 'Change skin to Rat' })
 local menu8_dog = menu8:AddButton({ icon = '' .. Emoji.Dog .. ' ', label = 'Dog', description = 'Change skin to Dog' })
 local menu8_cat = menu8:AddButton({ icon = '' .. Emoji.Cat .. ' ', label = 'Cat', description = 'Change skin to Cat' })
@@ -465,10 +590,18 @@ end)
 
 local menu9 = MenuV:CreateMenu(false, 'Vision Menu', 'centerright', 51, 102, 255, 'size-125', 'default_native', 'menuv',
     'Activate/Deactivate Vision Menu')
-local menu9_visaonoturna = menu9:AddCheckbox({ icon = '' .. Emoji.Night .. '', label = 'Night Vision',
-    description = 'Activate/Deactivate Night Vision', value = 'n' })
-local menu9_visaotermica = menu9:AddCheckbox({ icon = '' .. Emoji.Fire .. '', label = 'Thermal Vision',
-    description = 'Activate/deactivate Thermal Vision', value = 'n' })
+local menu9_visaonoturna = menu9:AddCheckbox({
+    icon = '' .. Emoji.Night .. '',
+    label = 'Night Vision',
+    description = 'Activate/Deactivate Night Vision',
+    value = 'n'
+})
+local menu9_visaotermica = menu9:AddCheckbox({
+    icon = '' .. Emoji.Fire .. '',
+    label = 'Thermal Vision',
+    description = 'Activate/deactivate Thermal Vision',
+    value = 'n'
+})
 
 menu9_visaonoturna:On('check', function(item)
     SetNightvision(1)
@@ -487,22 +620,54 @@ end)
 -- PRINCIPAL MENU
 local menu = MenuV:CreateMenu(false, '' .. Emoji.Fire .. ' FIREAC Admin Menu ' .. Emoji.Fire .. '', 'centerright', 51,
     102, 255, 'size-125', 'default_native', 'menuv', 'FIREAC: Main Menu')
-local menu_admintools = menu:AddButton({ icon = '' .. Emoji.Fire .. '', label = 'Admin Tools', value = menu2,
-    description = 'Open Admin Tools' })
-local menu_connectedplayers = menu:AddButton({ icon = '' .. Emoji.Player .. '', label = 'Connected Players',
-    value = menu3, description = 'See the Player List' })
-local menu_servertools = menu:AddButton({ icon = '' .. Emoji.Bot .. '', label = 'Server Tools', value = menu4,
-    description = 'Open Server Tools' })
-local menu_tpoptions = menu:AddButton({ icon = '' .. Emoji.Abnamat .. '', label = 'Teleport Options', value = menu5,
-    description = 'Open Teleport Options' })
-local menu_skin = menu:AddButton({ icon = '' .. Emoji.Cloth .. '', label = 'Ped Menu', value = menu8,
-    description = 'Change your Ped/Skin' })
-local menu_visaoconfig = menu:AddButton({ icon = '' .. Emoji.Vision .. '', label = 'Vision Menu', value = menu9,
-    description = 'Activate/Deactivate Vision Mods' })
-local menu_vehicleoptions = menu:AddButton({ icon = '' .. Emoji.Vehicle .. '', label = 'Vehicle Options', value = menu6,
-    description = 'Open Vehicle Options' })
-local menu_infoanticheat = menu:AddButton({ icon = '' .. Emoji.info .. '', label = 'Information', value = menu7,
-    description = 'See the Anticheat Version' })
+local menu_admintools = menu:AddButton({
+    icon = '' .. Emoji.Fire .. '',
+    label = 'Admin Tools',
+    value = menu2,
+    description = 'Open Admin Tools'
+})
+local menu_connectedplayers = menu:AddButton({
+    icon = '' .. Emoji.Player .. '',
+    label = 'Connected Players',
+    value = menu3,
+    description = 'See the Player List'
+})
+local menu_servertools = menu:AddButton({
+    icon = '' .. Emoji.Bot .. '',
+    label = 'Server Tools',
+    value = menu4,
+    description = 'Open Server Tools'
+})
+local menu_tpoptions = menu:AddButton({
+    icon = '' .. Emoji.Abnamat .. '',
+    label = 'Teleport Options',
+    value = menu5,
+    description = 'Open Teleport Options'
+})
+local menu_skin = menu:AddButton({
+    icon = '' .. Emoji.Cloth .. '',
+    label = 'Ped Menu',
+    value = menu8,
+    description = 'Change your Ped/Skin'
+})
+local menu_visaoconfig = menu:AddButton({
+    icon = '' .. Emoji.Vision .. '',
+    label = 'Vision Menu',
+    value = menu9,
+    description = 'Activate/Deactivate Vision Mods'
+})
+local menu_vehicleoptions = menu:AddButton({
+    icon = '' .. Emoji.Vehicle .. '',
+    label = 'Vehicle Options',
+    value = menu6,
+    description = 'Open Vehicle Options'
+})
+local menu_infoanticheat = menu:AddButton({
+    icon = '' .. Emoji.info .. '',
+    label = 'Information',
+    value = menu7,
+    description = 'See the Anticheat Version'
+})
 
 
 function TeleportToPlayer(SV_ID)
