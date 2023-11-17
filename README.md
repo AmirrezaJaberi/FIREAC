@@ -254,9 +254,27 @@ exports['FIREAC']:FIREAC_ACTION("WARN", reason, details)
 
 ### Command :
 
-- `/funban [Ban ID]` This command unban user from database by admins (with console for in game)
-- `/addadmin [ID]` This command add admin to database and so that can open admin menu (with console for in game)
-- `/addwhitelist [ID]` This command add admin to database and so that can do anything in server (with console for in game)
+<table align='center'>
+<tr>
+<td align='center'>
+
+`/funban [Ban ID]`<br>This command unban user from database by admins (with console for in game)
+
+</td>
+<td align='center'>
+
+`/addadmin [ID]`<br>This command add admin to database and so that can open admin menu (with console for in game)
+
+</td>
+</tr>
+<td align='center'>
+
+`/addwhitelist [ID]`<br>This command add admin to database and so that can do anything in server (with console for in game)
+
+</td>
+</tr>
+</table>
+
 
 ---
 
