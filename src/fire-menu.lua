@@ -12,6 +12,10 @@ local isnoclippingveh = false
 local noclipveh       = 1
 local playerid        = nil
 local Players         = {}
+local Admins          = {}
+local Unban           = {}
+local bannedUsers     = {}
+local Whitelist       = {}
 local InSpectatorMode = false
 local SpacateCoords   = nil
 local TargetSpectate  = nil
@@ -303,7 +307,7 @@ local menu3 = MenuV:CreateMenu(false, 'FIREAC: Connected Players', 'centerright'
     'default_native', 'menuv', 'FIREAC: Connected Players')
 menu3:On('open', function(m)
     m:ClearItems()
-    TriggerServerEvent('FIREAC:MenuOpened')
+    TriggerServerEvent('FIREAC:GetAllPlayerData')
     Citizen.Wait(500)
     for k, v in pairs(Players) do
         local player = menu3:AddButton({
@@ -617,6 +621,111 @@ menu9_visaotermica:On('uncheck', function(item)
     SetSeethrough(0)
 end)
 
+-- MENU 10
+local menu10 = MenuV:CreateMenu(false, 'FIREAC Admin List', 'centerright', 51, 102, 255, 'size-125', 'default_native',
+    'menuv', 'FIREAC: Admin List')
+
+menu10:On('open', function(m)
+    m:ClearItems()
+    TriggerServerEvent('FIREAC:GetAllAdminsData')
+    Citizen.Wait(500)
+    for k, v in pairs(Admins) do
+        local menu10_removeAdmin = menu10:AddButton({
+            icon = '' .. Emoji.Bot .. '',
+            label = v.name,
+            value = menu10_removeAdmin,
+            description = 'Server ID: ' .. v.id
+        })
+        if menu10_removeAdmin then
+            playerid = v.id
+        end
+        menu10_removeAdmin:On('select', function(item)
+            TriggerServerEvent('FIREAC:RemoveAdminByMenu', playerid)
+            Citizen.Wait(500)
+            m:Open(menu10)
+        end)
+    end
+end)
+
+-- MENU 11
+local menu11 = MenuV:CreateMenu(false, 'FIREAC Unban List', 'centerright', 51, 102, 255, 'size-125', 'default_native',
+    'menuv', 'FIREAC: Unban List')
+
+menu11:On('open', function(m)
+    m:ClearItems()
+    TriggerServerEvent('FIREAC:GetAllUnbanData')
+    Citizen.Wait(500)
+    for k, v in pairs(Unban) do
+        local menu11_removeAdmin = menu11:AddButton({
+            icon = '' .. Emoji.Bot .. '',
+            label = v.name,
+            value = menu11_removeAdmin,
+            description = 'Server ID: ' .. v.id
+        })
+        if menu11_removeAdmin then
+            playerid = v.id
+        end
+        menu11_removeAdmin:On('select', function(item)
+            TriggerServerEvent('FIREAC:RemoveAdminByMenu', playerid)
+            Citizen.Wait(500)
+            m:Open(menu11)
+        end)
+    end
+end)
+
+-- MENU 12
+local menu12 = MenuV:CreateMenu(false, 'FIREAC Whitelist List', 'centerright', 51, 102, 255, 'size-125', 'default_native',
+    'menuv', 'FIREAC: Whitelist List')
+
+menu12:On('open', function(m)
+    m:ClearItems()
+    TriggerServerEvent('FIREAC:GetAllWhitelistData')
+    Citizen.Wait(500)
+    for k, v in pairs(Whitelist) do
+        local menu12_unbanUser = menu12:AddButton({
+            icon = '' .. Emoji.Bot .. '',
+            label = v.name,
+            value = menu12_unbanUser,
+            description = 'Server ID: ' .. v.id
+        })
+        if menu12_unbanUser then
+            playerid = v.id
+        end
+        menu12_unbanUser:On('select', function(item)
+            TriggerServerEvent('FIREAC:RemoveWhitelistByMenu', playerid)
+            Citizen.Wait(500)
+            m:Open(menu12)
+        end)
+    end
+end)
+
+-- MENU 13
+local menu13 = MenuV:CreateMenu(false, 'FIREAC Ban List', 'centerright', 51, 102, 255, 'size-125', 'default_native',
+    'menuv', 'FIREAC: Ban List')
+
+menu13:On('open', function(m)
+    m:ClearItems()
+    TriggerServerEvent('FIREAC:GetAllBanlistData')
+    Citizen.Wait(500)
+    for k, v in pairs(bannedUsers) do
+        local menu13_removeUnban = menu13:AddButton({
+            icon = '' .. Emoji.Bot .. '',
+            label = "" .. v.banid .. " |  " .. v.name .. "",
+            value = menu13_removeUnban,
+            description = 'Ban ID: ' .. v.banid
+        })
+        if menu13_removeUnban then
+            playerid = v.banid
+        end
+        menu13_removeUnban:On('select', function(item)
+            TriggerServerEvent('FIREAC:RemovePlayerFromBanList', playerid)
+            Citizen.Wait(500)
+            m:Open(menu12)
+        end)
+    end
+end)
+
+
 -- PRINCIPAL MENU
 local menu = MenuV:CreateMenu(false, '' .. Emoji.Fire .. ' FIREAC Admin Menu ' .. Emoji.Fire .. '', 'centerright', 51,
     102, 255, 'size-125', 'default_native', 'menuv', 'FIREAC: Main Menu')
@@ -662,13 +771,36 @@ local menu_vehicleoptions = menu:AddButton({
     value = menu6,
     description = 'Open Vehicle Options'
 })
+local menu_admins = menu:AddButton({
+    icon = '' .. Emoji.Connect .. '',
+    label = 'Admin List',
+    value = menu10,
+    description = 'Admin access list'
+})
+local menu_unbans = menu:AddButton({
+    icon = '' .. Emoji.Connect .. '',
+    label = 'Unban List',
+    value = menu11,
+    description = 'Unban access list'
+})
+local menu_whitelist = menu:AddButton({
+    icon = '' .. Emoji.GodMode .. '',
+    label = 'Whitelist Players',
+    value = menu12,
+    description = 'Whitelist access list'
+})
+local menu_banlist = menu:AddButton({
+    icon = '' .. Emoji.Ban .. '',
+    label = 'Banned users',
+    value = menu13,
+    description = 'Ban users list'
+})
 local menu_infoanticheat = menu:AddButton({
     icon = '' .. Emoji.info .. '',
     label = 'Information',
     value = menu7,
     description = 'See the Anticheat Version'
 })
-
 
 function TeleportToPlayer(SV_ID)
     TriggerServerEvent('FIREAC:TeleportToPlayer', SV_ID)
@@ -799,7 +931,7 @@ end
 
 RegisterCommand('fireacmenu', function()
     if Access then
-        TriggerServerEvent('FIREAC:MenuOpened')
+        TriggerServerEvent('FIREAC:GetAllPlayerData')
         menu:Open()
     end
 end, false)
