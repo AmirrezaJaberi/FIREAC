@@ -86,8 +86,8 @@ AddEventHandler("FIREAC:CheckIsAdmin", function()
     end
 end)
 
-RegisterNetEvent("FIREAC:MenuOpened")
-AddEventHandler("FIREAC:MenuOpened", function()
+RegisterNetEvent("FIREAC:GetAllPlayerData")
+AddEventHandler("FIREAC:GetAllPlayerData", function()
     local SRC = source
     if not FIREAC_GETADMINS(SRC) then
         FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu", "Try For Open Admin Menu (Not Admin)")
