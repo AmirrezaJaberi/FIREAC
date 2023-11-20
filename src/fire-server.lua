@@ -1239,11 +1239,18 @@ function FIREAC_WHITELIST(SRC)
                 XBL = DATA
             end
         end
-        for _, value in ipairs(WhiteList) do
-            if value == STEAM or value == DISCORD or value == FIVEML or value == LIVE or value == XBL or value == IP then
-                IS_WHITELIST = true
-            end
-        end
+        MySQL.Async.fetchAll(
+            'SELECT * FROM fireac_whitelist WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
+                ['@steam'] = STEAM,
+                ['@discord'] = DISCORD,
+                ['@fivem'] = FIVEML,
+                ['@live'] = LIVE,
+                ['@xbl'] = XBL
+            }, function(users)
+                if users and next(users) ~= nil then
+                    IS_WHITELIST = true
+                end
+            end)
         return IS_WHITELIST
     else
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_WHITELIST (SRC Not Found)")
@@ -1272,11 +1279,17 @@ function FIREAC_GETADMINS(SRC)
                 XBL = DATA
             end
         end
-        for _, value in ipairs(Admins) do
-            if value == STEAM or value == DISCORD or value == FIVEML or value == LIVE or value == XBL or value == IP then
+        MySQL.Async.fetchAll('SELECT * FROM fireac_admin WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
+            ['@steam'] = STEAM,
+            ['@discord'] = DISCORD,
+            ['@fivem'] = FIVEML,
+            ['@live'] = LIVE,
+            ['@xbl'] = XBL
+        }, function(users)
+            if users and next(users) ~= nil then
                 ISADMIN = true
             end
-        end
+        end)
         return ISADMIN
     else
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_GETADMINS (SRC Not Found)")
@@ -1305,11 +1318,17 @@ function FIREAC_UNBANACCESS(SRC)
                 XBL = DATA
             end
         end
-        for _, value in ipairs(UnBan) do
-            if value == STEAM or value == DISCORD or value == FIVEML or value == LIVE or value == XBL or value == IP then
+        MySQL.Async.fetchAll('SELECT * FROM fireac_unban WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
+            ['@steam'] = STEAM,
+            ['@discord'] = DISCORD,
+            ['@fivem'] = FIVEML,
+            ['@live'] = LIVE,
+            ['@xbl'] = XBL
+        }, function(users)
+            if users and next(users) ~= nil then
                 ISADMIN = true
             end
-        end
+        end)
         return ISADMIN
     else
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_UNBANACCESS (SRC Not Found)")
