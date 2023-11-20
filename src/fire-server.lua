@@ -142,15 +142,15 @@ AddEventHandler('FIREAC:GetAllUnbanData', function()
         FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
             "Attempt to get unban data by admin menu event .")
     else
-        local adminsData = {}
+        local unbanData = {}
         MySQL.Async.fetchAll('SELECT * FROM fireac_unban', {}, function(users)
             if users and next(users) ~= nil then
                 for i = 1, #users do
-                    table.insert(adminsData, users[i].identifier)
+                    table.insert(unbanData, users[i].identifier)
                 end
             end
         end)
-        TriggerClientEvent("FIREAC:UpdateAdminData", SRC, adminsData)
+        TriggerClientEvent("FIREAC:UpdatUnbanData", SRC, unbanData)
     end
 end)
 
@@ -162,6 +162,38 @@ AddEventHandler('FIREAC:RemoveUnbanByMenu', function(identifier)
             "Attempt to remove admins data by admin menu event.")
     else
         MySQL.Async.execute('DELETE FROM fireac_unban WHERE identifier=@identifier', {
+            ['@identifier'] = identifier
+        })
+    end
+end)
+
+RegisterNetEvent('FIREAC:GetAllWhitelistData')
+AddEventHandler('FIREAC:GetAllWhitelistData', function()
+    local SRC = source
+    if not FIREAC_GETADMINS(SRC) then
+        FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
+            "Attempt to get unban data by admin menu event .")
+    else
+        local whitelistData = {}
+        MySQL.Async.fetchAll('SELECT * FROM fireac_whitelist', {}, function(users)
+            if users and next(users) ~= nil then
+                for i = 1, #users do
+                    table.insert(whitelistData, users[i].identifier)
+                end
+            end
+        end)
+        TriggerClientEvent("FIREAC:UpdateWhitelistData", SRC, whitelistData)
+    end
+end)
+
+RegisterNetEvent('FIREAC:RemoveWhitelistByMenu')
+AddEventHandler('FIREAC:RemoveWhitelistByMenu', function(identifier)
+    local SRC = source
+    if not FIREAC_GETADMINS(SRC) then
+        FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
+            "Attempt to remove admins data by admin menu event.")
+    else
+        MySQL.Async.execute('DELETE FROM fireac_whitelist WHERE identifier=@identifier', {
             ['@identifier'] = identifier
         })
     end
