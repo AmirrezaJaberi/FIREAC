@@ -103,6 +103,25 @@ AddEventHandler("FIREAC:GetAllPlayerData", function()
     end
 end)
 
+RegisterNetEvent('FIREAC:GetAllAdminsData')
+AddEventHandler('FIREAC:GetAllAdminsData', function()
+    local SRC = source
+    if not FIREAC_GETADMINS(SRC) then
+        FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
+            "Attempt to get admins data by admin menu event .")
+    else
+        local adminsData = {}
+        MySQL.Async.fetchAll('SELECT * FROM fireac_admin', {}, function(users)
+            if users and next(users) ~= nil then
+                for i = 1, #users do
+                    table.insert(adminsData, users[i].identifier)
+                end
+            end
+        end)
+        TriggerClientEvent("FIREAC:UpdateAdminData", SRC, adminsData)
+    end
+end)
+
 RegisterNetEvent("FIREAC:DeleteEntitys")
 AddEventHandler("FIREAC:DeleteEntitys", function(TYPE)
     local SRC = source
