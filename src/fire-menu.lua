@@ -33,6 +33,11 @@ AddEventHandler('FIREAC:GetPlayerList', function(PLIST)
     Players = PLIST
 end)
 
+RegisterNetEvent('FIREAC:UpdateAdminData')
+AddEventHandler('FIREAC:UpdateAdminData', function (DATA)
+    Admins = DATA
+end)
+
 RegisterNetEvent('FIREAC:SpectatePlayer')
 AddEventHandler('FIREAC:SpectatePlayer', function(TARGET, COORDS)
     if COORDS ~= nil then
