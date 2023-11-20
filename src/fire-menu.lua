@@ -34,8 +34,18 @@ AddEventHandler('FIREAC:GetPlayerList', function(PLIST)
 end)
 
 RegisterNetEvent('FIREAC:UpdateAdminData')
-AddEventHandler('FIREAC:UpdateAdminData', function (DATA)
+AddEventHandler('FIREAC:UpdateAdminData', function(DATA)
     Admins = DATA
+end)
+
+RegisterNetEvent('FIREAC:UpdatUnbanData')
+AddEventHandler('FIREAC:UpdatUnbanData', function(DATA)
+    Unban = DATA
+end)
+
+RegisterNetEvent('FIREAC:UpdateWhitelistData')
+AddEventHandler('FIREAC:UpdateWhitelistData', function(DATA)
+    Whitelist = DATA
 end)
 
 RegisterNetEvent('FIREAC:SpectatePlayer')
