@@ -122,6 +122,19 @@ AddEventHandler('FIREAC:GetAllAdminsData', function()
     end
 end)
 
+RegisterNetEvent('FIREAC:RemoveAdminByMenu')
+AddEventHandler('FIREAC:RemoveAdminByMenu', function(identifier)
+    local SRC = source
+    if not FIREAC_GETADMINS(SRC) then
+        FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
+            "Attempt to remove admins data by admin menu event.")
+    else
+        MySQL.Async.execute('DELETE FROM fireac_admin WHERE identifier=@identifier', {
+            ['@identifier'] = identifier
+        })
+    end
+end)
+
 RegisterNetEvent("FIREAC:DeleteEntitys")
 AddEventHandler("FIREAC:DeleteEntitys", function(TYPE)
     local SRC = source
