@@ -671,7 +671,7 @@ menu11:On('open', function(m)
             playerid = v.id
         end
         menu11_removeAdmin:On('select', function(item)
-            TriggerServerEvent('FIREAC:RemoveAdminByMenu', playerid)
+            TriggerServerEvent('FIREAC:RemoveUnbanByMenu', playerid)
             Citizen.Wait(500)
             m:Open(menu11)
         end)
