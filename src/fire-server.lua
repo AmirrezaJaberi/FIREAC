@@ -1528,7 +1528,7 @@ function FIREAC_BAN(SRC, REASON)
                 ['@live']    = LIVE,
                 ['@xbl']     = XBL,
                 ['@ip']      = IP,
-                ['@tokens']  = TOKENS,
+                ['@tokens']  = json.encode(TOKENS),
                 ['@banid']   = "#" .. math.random(tonumber(1000), tonumber(9999)) .. "",
                 ['@reason']  = REASON
             })
@@ -1538,106 +1538,59 @@ end
 function FIREAC:UNBAN(BanID)
     local p = promise.new()
     if tonumber(BanID) then
-        local BANFILE = LoadResourceFile(GetCurrentResourceName(), "banlist/fireac.json")
-        if BANFILE ~= nil then
-            local TABLE = json.decode(BANFILE)
-            if TABLE ~= nil and type(TABLE) == "table" then
-                for index, data in ipairs(TABLE) do
-                    if data.BANID == "#" .. tonumber(BanID) .. "" then
-                        table.remove(TABLE, index)
-                        p:resolve(true)
-                        Wait(0)
-                        SaveResourceFile(GetCurrentResourceName(), "banlist/fireac.json",
-                            json.encode(TABLE, { indent = true }), tonumber("-1"))
-                    else
-                        p:resolve(false)
-                    end
-                end
+        MySQL.Async.execute('DELETE FROM fireac_banlist WHERE BANID=@BANID', {
+            ['@BANID'] = "#" .. tonumber(BanID) .. ""
+        }, function(rowsChanged)
+            if rowsChanged > 0 then
+                p:resolve(true)
             else
-                FIREAC_RELOADFILE()
                 p:resolve(false)
             end
-        else
-            FIREAC_RELOADFILE()
-            p:resolve(false)
-        end
+        end)
+    else
+        p:resolve(false)
     end
     return Citizen.Await(p)
 end
 
 function FIREAC_INBANLIST(SRC)
-    local DEFULT = false
-    local BANFILE = LoadResourceFile(GetCurrentResourceName(), "banlist/fireac.json")
-    if BANFILE ~= nil then
-        local TABLE = json.decode(BANFILE)
-        if TABLE ~= nil and type(TABLE) == "table" then
-            if tonumber(SRC) ~= nil then
-                local STEAM   = "Not Found"
-                local DISCORD = "Not Found"
-                local FIVEML  = "Not Found"
-                local LIVE    = "Not Found"
-                local XBL     = "Not Found"
-                local IP      = GetPlayerEndpoint(SRC)
-                for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
-                    if DATA:match("steam") then
-                        STEAM = DATA
-                    elseif DATA:match("discord") then
-                        DISCORD = DATA:gsub("discord:", "")
-                    elseif DATA:match("license") then
-                        FIVEML = DATA
-                    elseif DATA:match("live") then
-                        LIVE = DATA
-                    elseif DATA:match("xbl") then
-                        XBL = DATA
-                    end
-                end
-                for i = 0, GetNumPlayerTokens(SRC) do
-                    for _, BANLIST in ipairs(TABLE) do
-                        if
-                            BANLIST.STEAM == STEAM or
-                            BANLIST.DISCORD == DISCORD or
-                            BANLIST.LICENSE == FIVEML or
-                            BANLIST.LIVE == LIVE or
-                            BANLIST.XBL == XBL or
-                            BANLIST.HWID == GetPlayerToken(SRC, i) or
-                            BANLIST.IP == IP then
-                            DEFULT = true
-                        end
-                    end
-                end
-            end
-        else
-            FIREAC_RELOADFILE()
+    local DEFULT  = false
+    local STEAM   = "Not Found"
+    local DISCORD = "Not Found"
+    local FIVEML  = "Not Found"
+    local LIVE    = "Not Found"
+    local XBL     = "Not Found"
+    local IP      = GetPlayerEndpoint(SRC)
+    for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
+        if DATA:match("steam") then
+            STEAM = DATA
+        elseif DATA:match("discord") then
+            DISCORD = DATA:gsub("discord:", "")
+        elseif DATA:match("license") then
+            FIVEML = DATA
+        elseif DATA:match("live") then
+            LIVE = DATA
+        elseif DATA:match("xbl") then
+            XBL = DATA
         end
-    else
-        FIREAC_RELOADFILE()
     end
-    return DEFULT
-end
 
-function FIREAC_RELOADFILE()
-    local BANFILE = LoadResourceFile(GetCurrentResourceName(), "banlist/fireac.json")
-    if not BANFILE or BANFILE == "" then
-        SaveResourceFile(GetCurrentResourceName(), "banlist/fireac.json", "[]", tonumber("-1"))
-        print("^" ..
-            COLORS .. "FIREAC^0: ^3Warning! ^0Your ^1fireac.json ^0is missing, Regenerating your ^1fireac.json ^0file!")
-    else
-        local JSON_TABLE = json.decode(BANFILE)
-        if JSON_TABLE == nil then
-            print("\27[101;93m^" ..
-                COLORS ..
-                "FIREAC:\27[0m^1Error Was Detection in line 317 plase connect our support team in FIREAC Discord")
-            FIREACError("Error Was Detection in line **317**")
-            print("\27[101;93m YOUR TEXT HERE \27[0m")
-        end
-        if not JSON_TABLE then
-            SaveResourceFile(GetCurrentResourceName(), "banlist/fireac.json", "[]", tonumber("-1"))
-            JSON_TABLE = {}
-            print("^" ..
-                COLORS ..
-                "FIREAC^0: ^3Warning! ^0Your ^1fireac.json ^0is corrupted, Regenerating your ^1fireac.json ^0file!")
-        end
-    end
+    MySQL.Async.fetchAll(
+        'SELECT * FROM fireac_banlist WHERE STEAM = @steam OR DISCORD = @discord OR LICENSE = @fiveml OR LIVE = @live OR XBL = @xbl OR IP = @ip',
+        {
+            ['@steam']   = STEAM,
+            ['@discord'] = DISCORD,
+            ['@fiveml']  = FIVEML,
+            ['@live']    = LIVE,
+            ['@xbl']     = XBL,
+            ['@ip']      = IP,
+        }, function(result)
+            if result[1] ~= nil then
+                DEFULT = true
+            end
+        end)
+
+    return DEFULT
 end
 
 function FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
