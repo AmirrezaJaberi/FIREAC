@@ -225,8 +225,8 @@ AddEventHandler('FIREAC:RemovePlayerFromBanList', function(banid)
         FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
             "Attempt to remove player from banlist by admin menu event.")
     else
-        MySQL.Async.execute('DELETE FROM fireac_banlist WHERE BANID=@BANID', {
-            ['@identifier'] = banid
+        MySQL.Async.execute('DELETE FROM fireac_banlist WHERE BANID=@banid', {
+            ['@banid'] = banid
         })
     end
 end)
