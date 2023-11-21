@@ -159,7 +159,7 @@ AddEventHandler('FIREAC:RemoveUnbanByMenu', function(identifier)
     local SRC = source
     if not FIREAC_GETADMINS(SRC) then
         FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
-            "Attempt to remove admins data by admin menu event.")
+            "Attempt to remove unban access of users from data by admin menu event.")
     else
         MySQL.Async.execute('DELETE FROM fireac_unban WHERE identifier=@identifier', {
             ['@identifier'] = identifier
@@ -191,10 +191,42 @@ AddEventHandler('FIREAC:RemoveWhitelistByMenu', function(identifier)
     local SRC = source
     if not FIREAC_GETADMINS(SRC) then
         FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
-            "Attempt to remove admins data by admin menu event.")
+            "Attempt to remove whitelist users from data by admin menu event.")
     else
         MySQL.Async.execute('DELETE FROM fireac_whitelist WHERE identifier=@identifier', {
             ['@identifier'] = identifier
+        })
+    end
+end)
+
+RegisterNetEvent('FIREAC:GetAllBanlistData')
+AddEventHandler('FIREAC:GetAllBanlistData', function()
+    local SRC = source
+    if not FIREAC_GETADMINS(SRC) then
+        FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
+            "Attempt to get banlist data by admin menu event .")
+    else
+        local banData = {}
+        MySQL.Async.fetchAll('SELECT * FROM fireac_banlist', {}, function(data)
+            if data and next(data) ~= nil then
+                for i = 1, #data do
+                    table.insert(banData, data[i])
+                end
+            end
+        end)
+        TriggerClientEvent("FIREAC:UpdateBanlistData", SRC, banData)
+    end
+end)
+
+RegisterNetEvent('FIREAC:RemovePlayerFromBanList')
+AddEventHandler('FIREAC:RemovePlayerFromBanList', function(banid)
+    local SRC = source
+    if not FIREAC_GETADMINS(SRC) then
+        FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
+            "Attempt to remove player from banlist by admin menu event.")
+    else
+        MySQL.Async.execute('DELETE FROM fireac_banlist WHERE BANID=@BANID', {
+            ['@identifier'] = banid
         })
     end
 end)
