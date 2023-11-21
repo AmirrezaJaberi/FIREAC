@@ -1219,7 +1219,6 @@ function StartAntiCheat()
     local fire_task       = LoadResourceFile(GetCurrentResourceName(), "tables/fire-task.lua")
     local fire_anim       = LoadResourceFile(GetCurrentResourceName(), "tables/fire-anim.lua")
     local fire_emoji      = LoadResourceFile(GetCurrentResourceName(), "tables/fire-emoji.lua")
-    local fire_white      = LoadResourceFile(GetCurrentResourceName(), "whitelists/fire-white.lua")
     if
         fire_config and
         fire_event and
@@ -1231,7 +1230,6 @@ function StartAntiCheat()
         fire_vehicle and
         fire_weapon and
         fire_words and
-        fire_white and
         fire_task and
         fire_anim and
         fire_emoji
