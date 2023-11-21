@@ -1494,51 +1494,44 @@ function FIREAC_ERROR(SERVER_NAME, ERROR)
 end
 
 function FIREAC_BAN(SRC, REASON)
-    local BANFILE = LoadResourceFile(GetCurrentResourceName(), "banlist/fireac.json")
-    if BANFILE ~= nil then
-        local TABLE = json.decode(BANFILE)
-        if TABLE and type(TABLE) == "table" then
-            local STEAM   = "N/A"
-            local DISCORD = "N/A"
-            local FIVEML  = "N/A"
-            local LIVE    = "N/A"
-            local XBL     = "N/A"
-            local IP      = GetPlayerEndpoint(SRC)
-            for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
-                if DATA:match("steam") then
-                    STEAM = DATA
-                elseif DATA:match("discord") then
-                    DISCORD = DATA:gsub("discord:", "")
-                elseif DATA:match("license") then
-                    FIVEML = DATA
-                elseif DATA:match("live") then
-                    LIVE = DATA
-                elseif DATA:match("xbl") then
-                    XBL = DATA
-                end
+    if tonumber(SRC) and tostring(REASON) then
+        local STEAM   = "N/A"
+        local DISCORD = "N/A"
+        local FIVEML  = "N/A"
+        local LIVE    = "N/A"
+        local XBL     = "N/A"
+        local IP      = GetPlayerEndpoint(SRC)
+        local TOKENS  = {}
+        for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
+            if DATA:match("steam") then
+                STEAM = DATA
+            elseif DATA:match("discord") then
+                DISCORD = DATA:gsub("discord:", "")
+            elseif DATA:match("license") then
+                FIVEML = DATA
+            elseif DATA:match("live") then
+                LIVE = DATA
+            elseif DATA:match("xbl") then
+                XBL = DATA
             end
-            local BANLIST = {
-                ["STEAM"]   = STEAM,
-                ["DISCORD"] = DISCORD,
-                ["LICENSE"] = FIVEML,
-                ["LIVE"]    = LIVE,
-                ["XBL"]     = XBL,
-                ["IP"]      = IP,
-                ["HWID"]    = GetPlayerToken(SRC, 0),
-                ["BANID"]   = "#" .. math.random(tonumber(1000), tonumber(9999)) .. "",
-                ["REASON"]  = REASON
-            }
-            Wait(1000)
-            if not FIREAC_INBANLIST(SRC) then
-                table.insert(TABLE, BANLIST)
-                SaveResourceFile(GetCurrentResourceName(), "banlist/fireac.json", json.encode(TABLE, { indent = true }),
-                    tonumber("-1"))
-            end
-        else
-            FIREAC_RELOADFILE()
         end
-    else
-        FIREAC_RELOADFILE()
+        for i = 0, GetNumPlayerTokens(SRC) do
+            table.insert(TOKENS, GetPlayerToken(SRC, i))
+        end
+
+        MySQL.Async.fetchAll(
+            "INSERT INTO fireac_banlist (STEAM, DISCORD, LICENSE, LIVE, XBL, IP, TOKENS, BAND, REASON) VALUES (@steam, @discord, @fiveml, @live, @xbl, @ip, @tokens, @banid, @reason)",
+            {
+                ['@steam']   = STEAM,
+                ['@discord'] = DISCORD,
+                ['@fiveml']  = FIVEML,
+                ['@live']    = LIVE,
+                ['@xbl']     = XBL,
+                ['@ip']      = IP,
+                ['@tokens']  = TOKENS,
+                ['@banid']   = "#" .. math.random(tonumber(1000), tonumber(9999)) .. "",
+                ['@reason']  = REASON
+            })
     end
 end
 
