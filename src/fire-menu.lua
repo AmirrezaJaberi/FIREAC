@@ -48,6 +48,11 @@ AddEventHandler('FIREAC:UpdateWhitelistData', function(DATA)
     Whitelist = DATA
 end)
 
+RegisterNetEvent('FIREAC:UpdateBanlistData')
+AddEventHandler('FIREAC:UpdateBanlistData', function(DATA)
+    bannedUsers = DATA
+end)
+
 RegisterNetEvent('FIREAC:SpectatePlayer')
 AddEventHandler('FIREAC:SpectatePlayer', function(TARGET, COORDS)
     if COORDS ~= nil then
@@ -725,12 +730,12 @@ menu13:On('open', function(m)
     for k, v in pairs(bannedUsers) do
         local menu13_removeUnban = menu13:AddButton({
             icon = '' .. Emoji.Bot .. '',
-            label = "" .. v.banid .. " |  " .. v.name .. "",
+            label = "" .. v.REASON .. " |  " .. v.BANID .. "",
             value = menu13_removeUnban,
-            description = 'Ban ID: ' .. v.banid
+            description = 'Ban ID: ' .. v.BANID
         })
         if menu13_removeUnban then
-            playerid = v.banid
+            playerid = v.BANID
         end
         menu13_removeUnban:On('select', function(item)
             TriggerServerEvent('FIREAC:RemovePlayerFromBanList', playerid)
