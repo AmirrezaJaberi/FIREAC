@@ -1557,7 +1557,7 @@ function FIREAC:ADDADMIN(Player_ID)
     local p      = promise.new()
     local FIVEML = "Not Found"
     for _, DATA in ipairs(GetPlayerIdentifiers(Player_ID)) do
-        if ("license") then
+        if DATA:match("license") then
             FIVEML = DATA
         end
     end
@@ -1582,7 +1582,7 @@ function FIREAC:ADDWHITELIST(Player_ID)
     local p      = promise.new()
     local FIVEML = "Not Found"
     for _, DATA in ipairs(GetPlayerIdentifiers(Player_ID)) do
-        if ("license") then
+        if DATA:match("license") then
             FIVEML = DATA
         end
     end
