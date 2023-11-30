@@ -1553,6 +1553,56 @@ function FIREAC:UNBAN(BanID)
     return Citizen.Await(p)
 end
 
+function FIREAC:ADDADMIN(Player_ID)
+    local p      = promise.new()
+    local FIVEML = "Not Found"
+    for _, DATA in ipairs(GetPlayerIdentifiers(Player_ID)) do
+        if ("license") then
+            FIVEML = DATA
+        end
+    end
+
+    if FIVEML then
+        MySQL.Async.execute('INSERT INTO fireac_admin (`identifier`) VALUES (@identifier)', {
+            ['@identifier'] = FIVEML
+        }, function(rowsChanged)
+            if rowsChanged > 0 then
+                p:resolve(true)
+            else
+                p:resolve(false)
+            end
+        end)
+    else
+        p:resolve(false)
+    end
+    return Citizen.Await(p)
+end
+
+function FIREAC:ADDWHITELIST(Player_ID)
+    local p      = promise.new()
+    local FIVEML = "Not Found"
+    for _, DATA in ipairs(GetPlayerIdentifiers(Player_ID)) do
+        if ("license") then
+            FIVEML = DATA
+        end
+    end
+
+    if FIVEML then
+        MySQL.Async.execute('INSERT INTO fireac_admin (`identifier`) VALUES (@identifier)', {
+            ['@identifier'] = FIVEML
+        }, function(rowsChanged)
+            if rowsChanged > 0 then
+                p:resolve(true)
+            else
+                p:resolve(false)
+            end
+        end)
+    else
+        p:resolve(false)
+    end
+    return Citizen.Await(p)
+end
+
 function FIREAC_INBANLIST(SRC)
     local DEFULT  = false
     local STEAM   = "Not Found"
@@ -2495,6 +2545,45 @@ RegisterCommand('funban', function(source, args)
         else
             TriggerClientEvent("chatMessage", source, "[FIREAC]", { 255, 0, 0 },
                 "You don't have access for unban players !")
+        end
+    end
+end)
+
+
+RegisterCommand('addadmin', function(source, args)
+    local PLAYER_ID = args[1]
+    if source == 0 then
+        if PLAYER_ID then
+            local addedAdmin = FIREAC:ADDADMIN(PLAYER_ID)
+            if addedAdmin then
+                print("^" ..
+                    COLORS ..
+                    "[FIREAC]^0: You added ^2" .. GetPlayerName(PLAYER_ID) .. "(" .. PLAYER_ID .. ") to admin list^0 !")
+            else
+                print("^" .. COLORS .. "[FIREAC]^0: ^1 our unbanned failed !^0")
+            end
+        else
+            print("^" .. COLORS .. "[FIREAC]^0: ^1 This player isn't online !^0")
+        end
+    end
+end)
+
+
+
+RegisterCommand('addwhitelist', function(source, args)
+    local PLAYER_ID = tonumber(args[1])
+    if source == 0 then
+        if GetPlayerName(PLAYER_ID) then
+            local addedAdmin = FIREAC:ADDWHITELIST(PLAYER_ID)
+            if addedAdmin then
+                print("^" ..
+                    COLORS ..
+                    "[FIREAC]^0: You added ^2" .. GetPlayerName(PLAYER_ID) .. "(" .. PLAYER_ID .. ") to whitelist^0 !")
+            else
+                print("^" .. COLORS .. "[FIREAC]^0: ^1 failed to add whitelist !^0")
+            end
+        else
+            print("^" .. COLORS .. "[FIREAC]^0: ^1 This player isn't online !^0")
         end
     end
 end)
