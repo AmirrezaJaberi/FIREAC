@@ -2553,12 +2553,12 @@ end)
 RegisterCommand('addadmin', function(source, args)
     local PLAYER_ID = args[1]
     if source == 0 then
-        if PLAYER_ID then
+        if GetPlayerName(PLAYER_ID) then
             local addedAdmin = FIREAC:ADDADMIN(PLAYER_ID)
             if addedAdmin then
                 print("^" ..
                     COLORS ..
-                    "[FIREAC]^0: You added ^2" .. GetPlayerName(PLAYER_ID) .. "(" .. PLAYER_ID .. ") to admin list^0 !")
+                    "[FIREAC]^0: You added ^2" .. GetPlayerName(PLAYER_ID) .. "(" .. PLAYER_ID .. ")^0 to admin list^0 !")
             else
                 print("^" .. COLORS .. "[FIREAC]^0: ^1 our unbanned failed !^0")
             end
@@ -2578,7 +2578,7 @@ RegisterCommand('addwhitelist', function(source, args)
             if addedAdmin then
                 print("^" ..
                     COLORS ..
-                    "[FIREAC]^0: You added ^2" .. GetPlayerName(PLAYER_ID) .. "(" .. PLAYER_ID .. ") to whitelist^0 !")
+                    "[FIREAC]^0: You added ^2" .. GetPlayerName(PLAYER_ID) .. "(" .. PLAYER_ID .. ")^0 to whitelist^0 !")
             else
                 print("^" .. COLORS .. "[FIREAC]^0: ^1 failed to add whitelist !^0")
             end
