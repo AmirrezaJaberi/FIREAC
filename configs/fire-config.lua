@@ -62,7 +62,7 @@ FIREAC.Message                  = {
 --【 𝗔𝗱𝗺𝗶𝗻 𝗠𝗲𝗻𝘂 】--
 FIREAC.AdminMenu                = {
     Enable         = true,
-    Key            = "INSERT",
+    Key            = "F9",
     MenuPunishment = "BAN",
 }
 
