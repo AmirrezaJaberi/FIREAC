@@ -1365,19 +1365,22 @@ function FIREAC_WHITELIST(SRC)
                 XBL = DATA
             end
         end
-        MySQL.Async.fetchAll(
-            'SELECT * FROM fireac_whitelist WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
-                ['@steam'] = STEAM,
-                ['@discord'] = DISCORD,
-                ['@fivem'] = FIVEML,
-                ['@live'] = LIVE,
-                ['@xbl'] = XBL
-            }, function(users)
-                if users and next(users) ~= nil then
-                    IS_WHITELIST = true
-                end
-            end)
-        return IS_WHITELIST
+        local p = promise.new()
+
+        MySQL.Async.fetchAll('SELECT * FROM fireac_admin WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
+            ['@steam'] = STEAM,
+            ['@discord'] = DISCORD,
+            ['@fivem'] = FIVEML,
+            ['@live'] = LIVE,
+            ['@xbl'] = XBL
+        }, function(users)
+            if users and next(users) ~= nil then
+                IS_WHITELIST = true
+            end
+            p:resolve(IS_WHITELIST)
+        end)
+
+        return Citizen.Await(p)
     else
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_WHITELIST (SRC Not Found)")
     end
@@ -1405,6 +1408,9 @@ function FIREAC_GETADMINS(SRC)
                 XBL = DATA
             end
         end
+
+        local p = promise.new()
+
         MySQL.Async.fetchAll('SELECT * FROM fireac_admin WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
             ['@steam'] = STEAM,
             ['@discord'] = DISCORD,
@@ -1415,8 +1421,10 @@ function FIREAC_GETADMINS(SRC)
             if users and next(users) ~= nil then
                 ISADMIN = true
             end
+            p:resolve(ISADMIN)
         end)
-        return ISADMIN
+
+        return Citizen.Await(p)
     else
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_GETADMINS (SRC Not Found)")
     end
@@ -1444,6 +1452,8 @@ function FIREAC_UNBANACCESS(SRC)
                 XBL = DATA
             end
         end
+        local p = promise.new()
+
         MySQL.Async.fetchAll('SELECT * FROM fireac_unban WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
             ['@steam'] = STEAM,
             ['@discord'] = DISCORD,
@@ -1454,8 +1464,10 @@ function FIREAC_UNBANACCESS(SRC)
             if users and next(users) ~= nil then
                 ISADMIN = true
             end
+            p:resolve(ISADMIN)
         end)
-        return ISADMIN
+
+        return Citizen.Await(p)
     else
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_UNBANACCESS (SRC Not Found)")
     end
@@ -2583,6 +2595,7 @@ RegisterCommand('addadmin', function(source, args)
                 print("^" ..
                     COLORS ..
                     "[FIREAC]^0: You added ^2" .. GetPlayerName(PLAYER_ID) .. "(" .. PLAYER_ID .. ")^0 to admin list^0 !")
+                TriggerEvent('FIREAC:CheckIsAdmin', PLAYER_ID)
             else
                 print("^" .. COLORS .. "[FIREAC]^0: ^1 our unbanned failed !^0")
             end
