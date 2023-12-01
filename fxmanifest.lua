@@ -31,7 +31,6 @@ server_scripts {
 
 -- 【 𝗔𝗱𝗺𝗶𝗻 𝗠𝗲𝗻𝘂 】--
 client_scripts {
-    '@menuv/menuv.lua',
     'src/fire-menu.lua',
 }
 
@@ -51,5 +50,4 @@ server_exports {
 -- 【 𝗗𝗲𝗽𝗲𝗻𝗱𝗲𝗻𝗰𝗶𝗲𝘀 】--
 dependencies {
     'oxmysql',
-    'menuv',
 }
