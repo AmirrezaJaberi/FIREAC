@@ -13,9 +13,21 @@ author 'Amirreza Jaberi'
 description 'FIERAC'
 version '6.2.3'
 
+-- 【 𝗨𝗜 】--
+ui_page {
+	'ui/index.html'
+}
+
+files {
+    'ui/*.html',
+    'ui/css/*.css',
+    'ui/js/*.js',
+
+    'ui/assists/**/*.*'
+}
+
 -- 【 𝗦𝗵𝗮𝗿𝗲𝗱 】--
 shared_scripts {
-    -- 【 𝗔𝗻𝘁𝗶 𝗖𝗵𝗲𝗮𝘁 】--
     'tables/*.lua',
     'configs/fire-config.lua'
 }
