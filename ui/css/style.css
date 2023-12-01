@@ -1,0 +1,140 @@
+/*
+    FIREAC (https://github.com/AmirrezaJaberi/FIREAC)
+    Copyright 2022-2023 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
+    Licensed under the GNU Affero General Public License v3.0
+
+
+    Fonts by Google Fonts
+
+    font-family: 'Chakra Petch', sans-serif;
+    font-family: 'Ephesis', cursive;
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-family: 'Vazirmatn', sans-serif;
+*/
+
+body {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+}
+
+.main-card {
+  color: white;
+
+  background-color: #0c0201;
+
+  border: 5px #591208 solid;
+  border-radius: 30px;
+
+  padding: 5px;
+
+  width: 60%;
+  height: 50%;
+}
+
+.main-card .header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+
+  height: 20%;
+  width: 100%;
+
+  border-bottom: #4b0b08 solid 2px;
+  border-radius: 5px;
+}
+
+.main-card .header .title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+
+  width: 40%;
+  height: 100%;
+}
+
+.main-card .header .right-logo,
+.main-card .header .left-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+
+  width: 30%;
+  height: 100%;
+}
+
+.main-card .header .right-logo img,
+.main-card .header .left-logo img {
+  width: 15%;
+}
+
+.main-card .header .titleText {
+  font-size: x-large;
+  font-weight: 700;
+  font-family: "Ephesis", cursive;
+}
+
+.main-card .body {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+
+  height: 70%;
+  width: 100%;
+}
+
+.main-card .body .content {
+  display: flex;
+
+  width: 100%;
+  height: 100%;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.main-card .footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-content: center;
+  flex-direction: column;
+
+  height: 10%;
+  width: 100%;
+}
+
+.main-card .footer .footerText {
+  font-size: x-small;
+  font-family: "Saira Extra Condensed", sans-serif;
+}
+
+.main-card .footer .footerText a {
+  color: #fff285;
+  text-decoration: none;
+}
