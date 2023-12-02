@@ -118,6 +118,7 @@ body {
   flex-wrap: nowrap;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
   height: 70%;
   width: 100%;
@@ -133,6 +134,69 @@ body {
   overflow-y: auto;
 }
 
+.main-card .body .main-menu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  width: 90%;
+  height: 80%;
+
+  padding: 10px;
+}
+
+.main-card .body .main-menu::-webkit-scrollbar {
+  width: 5px;
+}
+
+.main-card .body .main-menu::-webkit-scrollbar-thumb {
+  background: #fff285;
+  border-radius: 50px;
+}
+
+.main-card .body .main-menu button {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-evenly;
+  align-items: center;
+
+  width: 15%;
+  height: 40%;
+
+  background: #fff285;
+  border: 2.5px #cc851a solid;
+
+  border-radius: 30px;
+
+  transition: 0.5s all;
+
+  margin: 10px;
+}
+
+.main-card .body .main-menu button:hover {
+  background: #ffbc85;
+  border: 2.5px #cc701a solid;
+
+  width: 15%;
+  height: 50%;
+
+  cursor: pointer;
+
+  transition: 0.5s all;
+}
+
+.main-card .body .main-menu span {
+  font-family: "Chakra Petch", sans-serif;
+  font-size: x-small;
+  font-weight: 700;
+}
+
 .main-card .footer {
   display: flex;
   align-items: center;
@@ -146,11 +210,25 @@ body {
 }
 
 .main-card .footer .footerText {
-  font-size: x-small;
+  font-size: small;
   font-family: "Saira Extra Condensed", sans-serif;
+
+  text-align: center;
 }
 
-.main-card .footer .footerText a {
+.main-card .footer .footerText button {
   color: #fff285;
   text-decoration: none;
+
+  font-size: small;
+  font-family: "Saira Extra Condensed", sans-serif;
+
+  background: transparent;
+  border: transparent;
+
+  padding: 1px;
+}
+
+.main-card .footer .footerText button:hover {
+  cursor: pointer;
 }
