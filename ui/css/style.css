@@ -73,8 +73,24 @@ body {
   height: 100%;
 }
 
+.main-card .header .close-button {
+  position: absolute;
+
+  background: transparent;
+  border: transparent;
+
+  right: 5%;
+  top: 5%;
+}
+
+.main-card .header .close-button:hover {
+  cursor: pointer;
+}
+
 .main-card .header .right-logo,
 .main-card .header .left-logo {
+  position: relative;
+
   display: flex;
   align-items: center;
   justify-content: center;
