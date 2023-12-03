@@ -183,9 +183,6 @@ body {
   background: #ffbc85;
   border: 2.5px #cc701a solid;
 
-  width: 15%;
-  height: 50%;
-
   cursor: pointer;
 
   transition: 0.5s all;
