@@ -7,12 +7,15 @@ function closeUI() {
 }
 
 function openUI() {
+  $("#title").text("Welcome to admin menu !");
+
   $("#main-ui").fadeIn();
 }
 
 function openAdminToolMenu() {
   closeMainMenu();
 
+  $("#title").text("Admin Tool");
   $("#admin-menu").fadeIn();
 }
 
@@ -22,6 +25,8 @@ function closeMainMenu() {
 
 function backToMainMenu() {
   $("#main-menu").fadeIn();
+
+  $("#title").text("Welcome to admin menu !");
 
   $("#admin-menu").fadeOut();
 }
