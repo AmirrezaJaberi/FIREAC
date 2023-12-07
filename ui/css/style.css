@@ -150,11 +150,13 @@ body {
   padding: 10px;
 }
 
-.main-card .body .main-menu::-webkit-scrollbar {
+.main-card .body .main-menu::-webkit-scrollbar,
+.main-card .body .admin-menu .mainbar::-webkit-scrollbar {
   width: 5px;
 }
 
-.main-card .body .main-menu::-webkit-scrollbar-thumb {
+.main-card .body .main-menu::-webkit-scrollbar-thumb,
+.main-card .body .admin-menu .mainbar::-webkit-scrollbar-thumb {
   background: #fff285;
   border-radius: 50px;
 }
@@ -276,6 +278,9 @@ body {
 .main-card .body .admin-menu .mainbar {
   width: 85%;
   height: 100%;
+
+  overflow-x: hidden;
+  overflow-y: auto;
 
   display: flex;
   flex-direction: column;
