@@ -11,11 +11,11 @@ game 'gta5'
 -- 【 𝗜𝗡𝗙𝗢 】--
 author 'Amirreza Jaberi'
 description 'FIERAC'
-version '6.2.3'
+version '7.0.0'
 
 -- 【 𝗨𝗜 】--
 ui_page {
-	'ui/index.html'
+    'ui/index.html'
 }
 
 files {
