@@ -288,3 +288,27 @@ body {
   align-items: center;
   align-content: center;
 }
+
+.main-card .body .admin-menu .mainbar .stautsBtns,
+.main-card .body .admin-menu .mainbar .actionBtns {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-evenly;
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  width: 100%;
+}
+
+.main-card .body .admin-menu .mainbar .coordsDisplay {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
