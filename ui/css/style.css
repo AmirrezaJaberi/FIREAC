@@ -274,7 +274,12 @@ body {
 }
 
 .main-card .body .admin-menu .mainbar {
-  display: flex;
   width: 85%;
   height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  align-content: center;
 }
