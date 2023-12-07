@@ -134,7 +134,8 @@ body {
   overflow-y: auto;
 }
 
-.main-card .body .main-menu {
+.main-card .body .main-menu,
+.main-card .body .admin-menu {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -228,4 +229,52 @@ body {
 
 .main-card .footer .footerText button:hover {
   cursor: pointer;
+}
+
+.main-card .body .admin-menu .closebar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+
+  width: 15%;
+  height: 100%;
+}
+
+.main-card .body .admin-menu .closebar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+
+  background: rgba(255, 13, 0, 0.329);
+  border: #4b0b08 solid 2px;
+  border-radius: 30px;
+
+  font-family: "Saira Extra Condensed", sans-serif;
+  font-size: x-small;
+  color: #ff9f9fff;
+
+  transition: all 0.5s;
+
+  width: 50%;
+  height: 100%;
+}
+
+.main-card .body .admin-menu .closebar button:hover {
+  width: 35%;
+  font-size: small;
+  cursor: pointer;
+
+  transition: all 0.5s;
+}
+
+.main-card .body .admin-menu .mainbar {
+  display: flex;
+  width: 85%;
+  height: 100%;
 }
