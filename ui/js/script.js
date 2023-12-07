@@ -13,6 +13,7 @@ function openUI() {
 function openAdminToolMenu() {
   setTimeout(() => {
     $("#admin-menu").fadeIn();
+    $("#title").text("Admin Tool");
   }, 500);
 
   closeMainMenu();
@@ -27,6 +28,7 @@ function backToMainMenu() {
 
   setTimeout(() => {
     $("#main-menu").fadeIn();
+    $("#title").text("Admin Menu");
   }, 500);
 }
 
