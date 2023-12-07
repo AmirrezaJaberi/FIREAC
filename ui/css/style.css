@@ -311,4 +311,9 @@ body {
   align-content: center;
   justify-content: center;
   align-items: center;
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  width: 100%;
 }
