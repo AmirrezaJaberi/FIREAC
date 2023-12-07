@@ -7,16 +7,15 @@ function closeUI() {
 }
 
 function openUI() {
-  $("#title").text("Welcome to admin menu !");
-
   $("#main-ui").fadeIn();
 }
 
 function openAdminToolMenu() {
-  closeMainMenu();
+  setTimeout(() => {
+    $("#admin-menu").fadeIn();
+  }, 500);
 
-  $("#title").text("Admin Tool");
-  $("#admin-menu").fadeIn();
+  closeMainMenu();
 }
 
 function closeMainMenu() {
@@ -24,11 +23,11 @@ function closeMainMenu() {
 }
 
 function backToMainMenu() {
-  $("#main-menu").fadeIn();
-
-  $("#title").text("Welcome to admin menu !");
-
   $("#admin-menu").fadeOut();
+
+  setTimeout(() => {
+    $("#main-menu").fadeIn();
+  }, 500);
 }
 
 $(document).keydown(function (e) {
