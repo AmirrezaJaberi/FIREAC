@@ -317,3 +317,54 @@ body {
 
   width: 100%;
 }
+
+.main-card .body .admin-menu .mainbar .stautsBtns button {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  align-content: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  border: 2px solid #ff6b64;
+  border-radius: 30px;
+
+  background: #ffa19c;
+
+  transition: all 0.5s;
+
+  height: 100%;
+  width: 37.5%;
+}
+
+.main-card .body .admin-menu .mainbar .stautsBtns button:hover {
+  width: 40%;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.main-card .body .admin-menu .mainbar .stautsBtns button .informaton {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+
+  font-family: "Chakra Petch", sans-serif;
+  font-size: x-small;
+  font-weight: 700;
+
+  padding: 10px;
+
+  height: 100%;
+}
+
+.main-card .body .admin-menu .mainbar .stautsBtns button .status {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
