@@ -253,7 +253,7 @@
                     </div>
                     <div class="mainbar">
                         <div class="stautsBtns">
-                            <button id="godmode" onclick="adminMenu({action: 'godmode'})">
+                            <button id="godmode" onclick="doAction('godmode')">
                                 <div class="informaton">
                                     <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -303,7 +303,7 @@
                                     </div>
                                 </div>
                             </button>
-                            <button id="invisble" onclick="adminMenu({action: 'invisble'})">
+                            <button id="invisble" onclick="doAction('invisble')">
                                 <div class="informaton">
                                     <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -425,14 +425,14 @@
                             </button>
                         </div>
                         <div class="coordsDisplay">
-                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                            <svg width="80px" height="80px" viewBox="0 0 24 24" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <g id="Stockholm-icons-/-Map-/-Location-arrow" stroke="none" stroke-width="1"
                                     fill="none" fill-rule="evenodd">
                                     <rect id="bound" x="0" y="0" width="24" height="24"></rect>
                                     <path
                                         d="M4.88230018,17.2353996 L13.2844582,0.431083506 C13.4820496,0.0359007077 13.9625881,-0.12427877 14.3577709,0.0733126292 C14.5125928,0.15072359 14.6381308,0.276261584 14.7155418,0.431083506 L23.1176998,17.2353996 C23.3152912,17.6305824 23.1551117,18.1111209 22.7599289,18.3087123 C22.5664522,18.4054506 22.3420471,18.4197165 22.1378777,18.3482572 L14,15.5 L5.86212227,18.3482572 C5.44509941,18.4942152 4.98871325,18.2744737 4.84275525,17.8574509 C4.77129597,17.6532815 4.78556182,17.4288764 4.88230018,17.2353996 Z"
-                                        id="Path-99" fill="#000000" fill-rule="nonzero"
+                                        id="Path-99" fill="#ff4c4c" fill-rule="nonzero"
                                         transform="translate(14.000087, 9.191034) rotate(-315.000000) translate(-14.000087, -9.191034) ">
                                     </path>
                                 </g>
@@ -440,20 +440,20 @@
                             <span class="coords-text">Your coords loaction :</span>
                             <span class="coords-loaction">vector4(0.0, 0.0, 0.0, 0.0)</span>
                             <button id="copyCoords" onclick="doAction('copyLiveCoords')">
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                                <svg width="30px" height="30px" viewBox="0 0 24 24" version="1.1"
                                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <g id="Stockholm-icons-/-General-/-Clipboard" stroke="none" stroke-width="1"
                                         fill="none" fill-rule="evenodd">
                                         <rect id="bound" x="0" y="0" width="24" height="24"></rect>
                                         <path
                                             d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z"
-                                            id="Combined-Shape" fill="#000000" opacity="0.3"></path>
+                                            id="Combined-Shape" fill="#9ff5ff" opacity="0.3"></path>
                                         <path
                                             d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z"
-                                            id="Combined-Shape" fill="#000000"></path>
-                                        <rect id="Rectangle-152" fill="#000000" opacity="0.3" x="7" y="10" width="5"
+                                            id="Combined-Shape" fill="#9ff5ff"></path>
+                                        <rect id="Rectangle-152" fill="#9ff5ff" opacity="0.3" x="7" y="10" width="5"
                                             height="2" rx="1"></rect>
-                                        <rect id="Rectangle-152-Copy" fill="#000000" opacity="0.3" x="7" y="14"
+                                        <rect id="Rectangle-152-Copy" fill="#9ff5ff" opacity="0.3" x="7" y="14"
                                             width="9" height="2" rx="1"></rect>
                                     </g>
                                 </svg>
