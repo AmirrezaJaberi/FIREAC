@@ -298,8 +298,11 @@ body {
   align-content: center;
   justify-content: space-evenly;
 
+  border-bottom: #301800 solid 2px;
+  border-radius: 30px;
+
   padding-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
 
   width: 100%;
 }
@@ -367,4 +370,33 @@ body {
   align-content: center;
   justify-content: center;
   align-items: center;
+}
+
+.main-card .body .admin-menu .mainbar .actionBtns button {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+
+  background: #cba3ff;
+
+  border: #9646ff solid 2px;
+  border-radius: 30px;
+
+  width: 37.5%;
+
+  padding: 10px;
+  margin: 10px;
+
+  transition: all 0.5s;
+}
+
+.main-card .body .admin-menu .mainbar .actionBtns button:hover {
+  transition: all 0.5s;
+
+  cursor: pointer;
+
+  width: 40%;
 }
