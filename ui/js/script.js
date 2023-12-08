@@ -32,6 +32,10 @@ function backToMainMenu() {
   }, 500);
 }
 
+function doAction(actionName) {
+  $.post(`https://FIREAC/${actionName}`);
+}
+
 $(document).keydown(function (e) {
   if (e.keyCode == 27) {
     closeUI();
