@@ -135,7 +135,8 @@ body {
 }
 
 .main-card .body .main-menu,
-.main-card .body .admin-menu {
+.main-card .body .admin-menu,
+.main-card .body .player-menu {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -151,12 +152,14 @@ body {
 }
 
 .main-card .body .main-menu::-webkit-scrollbar,
-.main-card .body .admin-menu .mainbar::-webkit-scrollbar {
+.main-card .body .admin-menu .mainbar::-webkit-scrollbar,
+.main-card .body .player-menu .mainbar::-webkit-scrollbar {
   width: 5px;
 }
 
 .main-card .body .main-menu::-webkit-scrollbar-thumb,
-.main-card .body .admin-menu .mainbar::-webkit-scrollbar-thumb {
+.main-card .body .admin-menu .mainbar::-webkit-scrollbar-thumb,
+.main-card .body .player-menu .mainbar::-webkit-scrollbar-thumb {
   background: #fff285;
   border-radius: 50px;
 }
@@ -233,7 +236,8 @@ body {
   cursor: pointer;
 }
 
-.main-card .body .admin-menu .closebar {
+.main-card .body .admin-menu .closebar,
+.main-card .body .player-menu .closebar {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -245,7 +249,8 @@ body {
   height: 100%;
 }
 
-.main-card .body .admin-menu .closebar button {
+.main-card .body .admin-menu .closebar button,
+.main-card .body .player-menu .closebar button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -267,7 +272,8 @@ body {
   height: 100%;
 }
 
-.main-card .body .admin-menu .closebar button:hover {
+.main-card .body .admin-menu .closebar button:hover,
+.main-card .body .player-menu .closebar button:hover {
   width: 35%;
   font-size: small;
   cursor: pointer;
@@ -275,7 +281,8 @@ body {
   transition: all 0.5s;
 }
 
-.main-card .body .admin-menu .mainbar {
+.main-card .body .admin-menu .mainbar,
+.main-card .body .player-menu .mainbar {
   width: 85%;
   height: 100%;
 
