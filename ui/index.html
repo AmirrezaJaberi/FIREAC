@@ -50,7 +50,7 @@
             </div>
             <div class="body">
                 <!-- Selection Menu -->
-                <div class="main-menu" id="main-menu">
+                <div class="main-menu" id="main-menu" style="display: none;">
                     <!-- Admin Menu -->
                     <button class="select-button" onclick="openAdminToolMenu()">
                         <svg width="50px" height="50px" viewBox="0 0 24 24" version="1.1"
@@ -462,15 +462,17 @@
                     </div>
                 </div>
                 <!-- Players List -->
+                <div class="player-menu" id="player-menu">
+                </div>
+                <div class="footer">
+                    <span class="footerText">This anti-cheat developed by <button
+                            onclick="openUrl('https://amirrezajaberi.ir/')">Amirreza
+                            Jaberi</button> as <button
+                            onclick="openUrl('https://amirrezajaberi.ir/fireac')">FIREAC</button>
+                        on
+                        github & it's public to use for all users .</span>
+                </div>
             </div>
-            <div class="footer">
-                <span class="footerText">This anti-cheat developed by <button
-                        onclick="openUrl('https://amirrezajaberi.ir/')">Amirreza
-                        Jaberi</button> as <button onclick="openUrl('https://amirrezajaberi.ir/fireac')">FIREAC</button>
-                    on
-                    github & it's public to use for all users .</span>
-            </div>
-        </div>
     </section>
     <script defer src="./js/script.js"></script>
 </body>
