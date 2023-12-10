@@ -19,12 +19,22 @@ function openAdminToolMenu() {
   closeMainMenu();
 }
 
+function openPlayersMenu() {
+  setTimeout(() => {
+    $("#player-menu").fadeIn();
+    $("#title").text("Player List Menu");
+  }, 500);
+
+  closeMainMenu();
+}
+
 function closeMainMenu() {
   $("#main-menu").fadeOut();
 }
 
 function backToMainMenu() {
   $("#admin-menu").fadeOut();
+  $("#player-menu").fadeOut();
 
   setTimeout(() => {
     $("#main-menu").fadeIn();
