@@ -46,6 +46,10 @@ function doAction(actionName) {
   $.post(`https://FIREAC/${actionName}`);
 }
 
+function openPlayerActionList() {
+  
+}
+
 $(document).keydown(function (e) {
   if (e.keyCode == 27) {
     closeUI();
