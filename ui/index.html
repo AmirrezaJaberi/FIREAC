@@ -488,9 +488,8 @@
                         </button>
                     </div>
                     <div class="mainbar">
-                        <div class="playerList">
+                        <div class="playerList" style="display: none;">
                             <button class="row" id="player-2" onclick="openPlayerActionList()">
-                                <?xml version="1.0" encoding="UTF-8"?>
                                 <svg width="40px" height="40px" viewBox="0 0 24 24" version="1.1"
                                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                     <g id="Stockholm-icons-/-General-/-User" stroke="none" stroke-width="1" fill="none"
@@ -515,6 +514,150 @@
                             </button>
                         </div>
                         <div class="playerAction">
+                            <div class="head">
+                                <div class="titleBar">
+                                    <span>Player Action Menu</span>
+                                </div>
+                                <div class="closeBar">
+                                    <button class="closeBtn">
+                                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <defs></defs>
+                                            <g id="Stockholm-icons-/-Navigation-/-Close" stroke="none" stroke-width="1"
+                                                fill="none" fill-rule="evenodd">
+                                                <g id="Group"
+                                                    transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)"
+                                                    fill="#000000">
+                                                    <rect id="Rectangle-185" x="0" y="7" width="16" height="2" rx="1">
+                                                    </rect>
+                                                    <rect id="Rectangle-185-Copy" opacity="0.3"
+                                                        transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000) "
+                                                        x="0" y="7" width="16" height="2" rx="1"></rect>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                        <span>Close</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="information">
+                                <div class="textInfromation">
+                                    <span id="playerName">AmIrReZa</span>(<span id="playerId">1</span>)
+                                </div>
+                                <div class="statusInfromation">
+                                    <div class="heartStatus">
+                                        <div class="icon">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <g id="Stockholm-icons-/-General-/-Heart" stroke="none" stroke-width="1"
+                                                    fill="none" fill-rule="evenodd">
+                                                    <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+                                                    <path
+                                                        d="M16.5,4.5 C14.8905,4.5 13.00825,6.32463215 12,7.5 C10.99175,6.32463215 9.1095,4.5 7.5,4.5 C4.651,4.5 3,6.72217984 3,9.55040872 C3,12.6834696 6,16 12,19.5 C18,16 21,12.75 21,9.75 C21,6.92177112 19.349,4.5 16.5,4.5 Z"
+                                                        id="Shape" fill="#000000" fill-rule="nonzero"></path>
+                                                </g>
+                                            </svg>
+                                        </div>
+                                        <div class="text">
+                                            <span id="armourCount">255</span>/255
+                                        </div>
+                                    </div>
+                                    <div class="armourStatus">
+                                        <div class="icon">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <g id="Stockholm-icons-/-Communication-/-Shield-user" stroke="none"
+                                                    stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+                                                    <path
+                                                        d="M4,4 L11.6314229,2.5691082 C11.8750185,2.52343403 12.1249815,2.52343403 12.3685771,2.5691082 L20,4 L20,13.2830094 C20,16.2173861 18.4883464,18.9447835 16,20.5 L12.5299989,22.6687507 C12.2057287,22.8714196 11.7942713,22.8714196 11.4700011,22.6687507 L8,20.5 C5.51165358,18.9447835 4,16.2173861 4,13.2830094 L4,4 Z"
+                                                        id="Path-50" fill="#000000" opacity="0.3"></path>
+                                                    <path
+                                                        d="M12,11 C10.8954305,11 10,10.1045695 10,9 C10,7.8954305 10.8954305,7 12,7 C13.1045695,7 14,7.8954305 14,9 C14,10.1045695 13.1045695,11 12,11 Z"
+                                                        id="Mask" fill="#000000" opacity="0.3"></path>
+                                                    <path
+                                                        d="M7.00036205,16.4995035 C7.21569918,13.5165724 9.36772908,12 11.9907452,12 C14.6506758,12 16.8360465,13.4332455 16.9988413,16.5 C17.0053266,16.6221713 16.9988413,17 16.5815,17 C14.5228466,17 11.463736,17 7.4041679,17 C7.26484009,17 6.98863236,16.6619875 7.00036205,16.4995035 Z"
+                                                        id="Mask-Copy" fill="#000000" opacity="0.3"></path>
+                                                </g>
+                                            </svg>
+                                        </div>
+                                        <div class="text">
+                                            <span id="armourCount">255</span>/255
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="actions">
+                                <button onclick="doActionOnTargetPlayer('spectate')">
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g id="Stockholm-icons-/-Devices-/-Camera" stroke="none" stroke-width="1"
+                                            fill="none" fill-rule="evenodd">
+                                            <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+                                            <path
+                                                d="M5,7 L19,7 C20.1045695,7 21,7.8954305 21,9 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,9 C3,7.8954305 3.8954305,7 5,7 Z M12,17 C14.209139,17 16,15.209139 16,13 C16,10.790861 14.209139,9 12,9 C9.790861,9 8,10.790861 8,13 C8,15.209139 9.790861,17 12,17 Z"
+                                                id="Combined-Shape" fill="#000000"></path>
+                                            <rect id="Rectangle" fill="#000000" opacity="0.3" x="9" y="4" width="6"
+                                                height="2" rx="1"></rect>
+                                            <circle id="Oval-2" fill="#000000" opacity="0.3" cx="12" cy="13" r="2">
+                                            </circle>
+                                        </g>
+                                    </svg>
+                                    <span class="actionText">Spectate Player</span>
+                                </button>
+                                <button onclick="doActionOnTargetPlayer('ban')">
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g id="Stockholm-icons-/-Communication-/-Spam" stroke="none" stroke-width="1"
+                                            fill="none" fill-rule="evenodd">
+                                            <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+                                            <path
+                                                d="M4.5,3 L19.5,3 C20.3284271,3 21,3.67157288 21,4.5 L21,19.5 C21,20.3284271 20.3284271,21 19.5,21 L4.5,21 C3.67157288,21 3,20.3284271 3,19.5 L3,4.5 C3,3.67157288 3.67157288,3 4.5,3 Z M8,5 C7.44771525,5 7,5.44771525 7,6 C7,6.55228475 7.44771525,7 8,7 L16,7 C16.5522847,7 17,6.55228475 17,6 C17,5.44771525 16.5522847,5 16,5 L8,5 Z M10.5857864,14 L9.17157288,15.4142136 C8.78104858,15.8047379 8.78104858,16.4379028 9.17157288,16.8284271 C9.56209717,17.2189514 10.1952621,17.2189514 10.5857864,16.8284271 L12,15.4142136 L13.4142136,16.8284271 C13.8047379,17.2189514 14.4379028,17.2189514 14.8284271,16.8284271 C15.2189514,16.4379028 15.2189514,15.8047379 14.8284271,15.4142136 L13.4142136,14 L14.8284271,12.5857864 C15.2189514,12.1952621 15.2189514,11.5620972 14.8284271,11.1715729 C14.4379028,10.7810486 13.8047379,10.7810486 13.4142136,11.1715729 L12,12.5857864 L10.5857864,11.1715729 C10.1952621,10.7810486 9.56209717,10.7810486 9.17157288,11.1715729 C8.78104858,11.5620972 8.78104858,12.1952621 9.17157288,12.5857864 L10.5857864,14 Z"
+                                                id="Combined-Shape" fill="#000000"></path>
+                                        </g>
+                                    </svg>
+                                    <span class="actionText">Ban Player</span>
+                                </button>
+                                <button onclick="doActionOnTargetPlayer('addToAdmin')">
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g id="Stockholm-icons-/-Communication-/-Add-user" stroke="none"
+                                            stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+                                            <path
+                                                d="M18,8 L16,8 C15.4477153,8 15,7.55228475 15,7 C15,6.44771525 15.4477153,6 16,6 L18,6 L18,4 C18,3.44771525 18.4477153,3 19,3 C19.5522847,3 20,3.44771525 20,4 L20,6 L22,6 C22.5522847,6 23,6.44771525 23,7 C23,7.55228475 22.5522847,8 22,8 L20,8 L20,10 C20,10.5522847 19.5522847,11 19,11 C18.4477153,11 18,10.5522847 18,10 L18,8 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z"
+                                                id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3">
+                                            </path>
+                                            <path
+                                                d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
+                                                id="Mask-Copy" fill="#000000" fill-rule="nonzero"></path>
+                                        </g>
+                                    </svg>
+                                    <span class="actionText">Add to Admin</span>
+                                </button>
+                                <button onclick="doActionOnTargetPlayer('addToWhiteList')">
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g id="Stockholm-icons-/-Communication-/-Clipboard-check" stroke="none"
+                                            stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+                                            <path
+                                                d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z"
+                                                id="Combined-Shape" fill="#000000" opacity="0.3"></path>
+                                            <path
+                                                d="M10.875,15.75 C10.6354167,15.75 10.3958333,15.6541667 10.2041667,15.4625 L8.2875,13.5458333 C7.90416667,13.1625 7.90416667,12.5875 8.2875,12.2041667 C8.67083333,11.8208333 9.29375,11.8208333 9.62916667,12.2041667 L10.875,13.45 L14.0375,10.2875 C14.4208333,9.90416667 14.9958333,9.90416667 15.3791667,10.2875 C15.7625,10.6708333 15.7625,11.2458333 15.3791667,11.6291667 L11.5458333,15.4625 C11.3541667,15.6541667 11.1145833,15.75 10.875,15.75 Z"
+                                                id="check-path" fill="#000000"></path>
+                                            <path
+                                                d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z"
+                                                id="Combined-Shape" fill="#000000"></path>
+                                        </g>
+                                    </svg>
+                                    <span class="actionText">Add to Whitelist</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
