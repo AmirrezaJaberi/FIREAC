@@ -539,7 +539,7 @@ body {
   flex-direction: row;
   flex-wrap: nowrap;
   align-content: center;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 
   width: 100%;
@@ -563,9 +563,11 @@ body {
   font-size: large;
   font-weight: 700;
 
-  background: #82c7ff;
-  border: #81c6ff solid 2px;
-  border-radius: 30px;
+  background: #ff8282;
+  border: #ff8181 solid 2px;
+  border-radius: 15px;
+
+  width: 100%;
 
   color: #000000;
 
@@ -580,13 +582,173 @@ body {
   .head
   .closeBar
   .closeBtn:hover {
-  background: #dbefff;
-  border: #d0eaff solid 2px;
-  border-radius: 30px;
+  background: #ffbfbf;
+  border: #ffc1c1 solid 2px;
+  border-radius: 10px;
 
   color: #000;
 
   transition: all 0.5s;
+
+  cursor: pointer;
+}
+
+.main-card .body .player-menu .mainbar .playerAction .information {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+}
+
+.main-card
+  .body
+  .player-menu
+  .mainbar
+  .playerAction
+  .information
+  .textInfromation {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  border-bottom: 1px solid red;
+
+  border-radius: 30px;
+
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 700;
+  font-size: larger;
+
+  width: 100%;
+}
+
+.main-card
+  .body
+  .player-menu
+  .mainbar
+  .playerAction
+  .information
+  .statusInfromation {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: flex-start;
+
+  margin-top: 10px;
+
+  width: 100%;
+}
+
+.main-card
+  .body
+  .player-menu
+  .mainbar
+  .playerAction
+  .information
+  .statusInfromation
+  .heartStatus,
+.main-card
+  .body
+  .player-menu
+  .mainbar
+  .playerAction
+  .information
+  .statusInfromation
+  .armourStatus {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+
+  font-family: "Saira Extra Condensed", sans-serif;
+  font-size: medium;
+  font-weight: 700;
+}
+
+.main-card
+  .body
+  .player-menu
+  .mainbar
+  .playerAction
+  .information
+  .statusInfromation
+  .heartStatus
+  .icon,
+.main-card
+  .body
+  .player-menu
+  .mainbar
+  .playerAction
+  .information
+  .statusInfromation
+  .armourStatus
+  .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+
+  margin-right: 10px;
+}
+
+.main-card .body .player-menu .mainbar .playerAction .actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+}
+
+.main-card .body .player-menu .mainbar .playerAction .actions button {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+
+  width: 20%;
+  height: fit-content;
+
+  margin: 10px;
+  padding: 10px;
+
+  font-family: "Saira Extra Condensed", sans-serif;
+  font-weight: 700;
+
+  background: #82c7ff;
+
+  border: #81c6ff solid 2px;
+  border-radius: 30px;
+
+  color: #000000;
+  transition: all 0.5s;
+}
+
+.main-card .body .player-menu .mainbar .playerAction .actions button:hover {
+  background: #d3ceff;
+
+  border: #81c6ff solid 2px;
+  border-radius: 15px;
 
   cursor: pointer;
 }
