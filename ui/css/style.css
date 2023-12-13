@@ -477,6 +477,11 @@ body {
   justify-content: center;
   align-items: center;
 
+  border: 2px solid #ffc164;
+  border-radius: 30px;
+  background: #ffd79c;
+  transition: all 0.5s;
+
   width: 30%;
   height: 40%;
 
@@ -484,6 +489,37 @@ body {
   padding: 10px;
 }
 
-.main-card .body .player-menu .mainbar .playerList .row svg {
-  padding: 10px;
+.main-card .body .player-menu .mainbar .playerList .row:hover {
+  border: 2px solid #ffd900;
+  border-radius: 30px;
+  background: #ffe190;
+  transition: all 0.5s;
+
+  cursor: pointer;
+}
+
+.main-card .body .player-menu .mainbar .playerList .row .playerID,
+.main-card .body .player-menu .mainbar .playerList .row .playerName {
+  display: flex;
+  align-content: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  height: fit-content;
+}
+
+.main-card .body .player-menu .mainbar .playerList .row .playerID .title,
+.main-card .body .player-menu .mainbar .playerList .row .playerName .title {
+  font-weight: 700;
+  font-size: x-small;
+  font-family: "Chakra Petch", sans-serif;
+}
+
+.main-card .body .player-menu .mainbar .playerList .row .playerID .value,
+.main-card .body .player-menu .mainbar .playerList .row .playerName .value {
+  font-weight: 700;
+  font-family: "Saira Extra Condensed", sans-serif;
 }
