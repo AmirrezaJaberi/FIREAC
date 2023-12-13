@@ -458,7 +458,8 @@ body {
   display: flex;
 }
 
-.main-card .body .player-menu .mainbar .playerList {
+.main-card .body .player-menu .mainbar .playerList,
+.main-card .body .player-menu .mainbar .playerAction {
   width: 100%;
   height: 100%;
 
@@ -522,4 +523,70 @@ body {
 .main-card .body .player-menu .mainbar .playerList .row .playerName .value {
   font-weight: 700;
   font-family: "Saira Extra Condensed", sans-serif;
+}
+
+.main-card .body .player-menu .mainbar .playerAction {
+  display: flex;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main-card .body .player-menu .mainbar .playerAction .head {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+}
+
+.main-card .body .player-menu .mainbar .playerAction .head .titleBar {
+  font-weight: 500;
+  font-size: x-large;
+  font-family: "Saira Extra Condensed", sans-serif;
+}
+
+.main-card .body .player-menu .mainbar .playerAction .head .closeBar .closeBtn {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+
+  font-family: "Saira Extra Condensed", sans-serif;
+  font-size: large;
+  font-weight: 700;
+
+  background: #82c7ff;
+  border: #81c6ff solid 2px;
+  border-radius: 30px;
+
+  color: #000000;
+
+  transition: all 0.5s;
+}
+
+.main-card
+  .body
+  .player-menu
+  .mainbar
+  .playerAction
+  .head
+  .closeBar
+  .closeBtn:hover {
+  background: #dbefff;
+  border: #d0eaff solid 2px;
+  border-radius: 30px;
+
+  color: #000;
+
+  transition: all 0.5s;
+
+  cursor: pointer;
 }
