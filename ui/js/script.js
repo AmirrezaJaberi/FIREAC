@@ -68,6 +68,9 @@ function doAction(actionName) {
 
 function openPlayerActionList() {}
 
+function teleportToWaypoint() {}
+function teleportToCoords() {}
+
 $(document).keydown(function (e) {
   if (e.keyCode == 27) {
     closeUI();
