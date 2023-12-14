@@ -55,6 +55,15 @@ function openVisionMenu() {
   closeMainMenu();
 }
 
+function openVehicleMenu() {
+  setTimeout(() => {
+    $("#vehicle-menu").fadeIn();
+    $("#title").text("Vehicle Spawner");
+  }, 500);
+
+  closeMainMenu();
+}
+
 function closeMainMenu() {
   $("#main-menu").fadeOut();
 }
@@ -65,6 +74,7 @@ function backToMainMenu() {
   $("#server-menu").fadeOut();
   $("#teleport-menu").fadeOut();
   $("#vision-menu").fadeOut();
+  $("#vehicle-menu").fadeOut();
 
   setTimeout(() => {
     $("#main-menu").fadeIn();
