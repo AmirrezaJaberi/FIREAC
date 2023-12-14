@@ -139,7 +139,8 @@ body {
 .main-card .body .player-menu,
 .main-card .body .server-menu,
 .main-card .body .teleport-menu,
-.main-card .body .vision-menu {
+.main-card .body .vision-menu,
+.main-card .body .vehicle-menu {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -243,7 +244,8 @@ body {
 .main-card .body .player-menu .closebar,
 .main-card .body .server-menu .closebar,
 .main-card .body .teleport-menu .closebar,
-.main-card .body .vision-menu .closebar {
+.main-card .body .vision-menu .closebar,
+.main-card .body .vehicle-menu .closebar {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -259,7 +261,8 @@ body {
 .main-card .body .player-menu .closebar button,
 .main-card .body .server-menu .closebar button,
 .main-card .body .teleport-menu .closebar button,
-.main-card .body .vision-menu .closebar button {
+.main-card .body .vision-menu .closebar button,
+.main-card .body .vehicle-menu .closebar button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -285,7 +288,8 @@ body {
 .main-card .body .player-menu .closebar button:hover,
 .main-card .body .server-menu .closebar button:hover,
 .main-card .body .teleport-menu .closebar button:hover,
-.main-card .body .vision-menu .closebar button:hover {
+.main-card .body .vision-menu .closebar button:hover,
+.main-card .body .vehicle-menu .closebar button:hover {
   width: 35%;
   font-size: small;
   cursor: pointer;
@@ -297,7 +301,8 @@ body {
 .main-card .body .player-menu .mainbar,
 .main-card .body .server-menu .mainbar,
 .main-card .body .teleport-menu .mainbar,
-.main-card .body .vision-menu .mainbar {
+.main-card .body .vision-menu .mainbar,
+.main-card .body .vehicle-menu .mainbar {
   width: 85%;
   height: 100%;
 
