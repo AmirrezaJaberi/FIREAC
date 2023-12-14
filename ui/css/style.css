@@ -928,3 +928,50 @@ body {
 
   cursor: pointer;
 }
+
+.main-card .body .vision-menu .mainbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.main-card .body .vision-menu .mainbar button {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-evenly;
+  align-items: center;
+
+  font-family: "Saira Extra Condensed", sans-serif;
+  font-weight: 700;
+  border-radius: 30px;
+
+  transition: all 0.5s;
+
+  width: 35%;
+  height: 50%;
+}
+
+.main-card .body .vision-menu .mainbar button:hover {
+  transition: all 0.5s;
+
+  background-color: #fff;
+  color: #000;
+
+  cursor: pointer;
+}
+
+.main-card .body .vision-menu .mainbar .night {
+  border: #fff solid 1px;
+  color: #fff;
+  background: #4b4b4b;
+}
+
+.main-card .body .vision-menu .mainbar .thermal {
+  border: #d7ffb6 solid 1px;
+  color: #000;
+  background: #ffae52;
+}
