@@ -757,3 +757,43 @@ body {
 
   cursor: pointer;
 }
+
+.main-card .body .server-menu .mainbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-card .body .server-menu .mainbar button {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-evenly;
+  align-items: center;
+
+  background: #fff285;
+
+  font-family: "Saira Extra Condensed", sans-serif;
+  font-weight: 700;
+
+  border: 2.5px #cc851a solid;
+  border-radius: 30px;
+
+  transition: 0.5s all;
+
+  margin: 10px;
+  padding: 10px;
+
+  width: 35%;
+  height: 20%;
+}
+
+.main-card .body .server-menu .mainbar button:hover {
+  transition: 0.5s all;
+  background: #b0fffb;
+  border: 2.5px #00fff2 solid;
+  cursor: pointer;
+}
