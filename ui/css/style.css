@@ -137,7 +137,8 @@ body {
 .main-card .body .main-menu,
 .main-card .body .admin-menu,
 .main-card .body .player-menu,
-.main-card .body .server-menu {
+.main-card .body .server-menu,
+.main-card .body .teleport-menu {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -239,7 +240,8 @@ body {
 
 .main-card .body .admin-menu .closebar,
 .main-card .body .player-menu .closebar,
-.main-card .body .server-menu .closebar {
+.main-card .body .server-menu .closebar,
+.main-card .body .teleport-menu .closebar {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -253,7 +255,8 @@ body {
 
 .main-card .body .admin-menu .closebar button,
 .main-card .body .player-menu .closebar button,
-.main-card .body .server-menu .closebar button {
+.main-card .body .server-menu .closebar button,
+.main-card .body .teleport-menu .closebar button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -277,7 +280,8 @@ body {
 
 .main-card .body .admin-menu .closebar button:hover,
 .main-card .body .player-menu .closebar button:hover,
-.main-card .body .server-menu .closebar button:hover {
+.main-card .body .server-menu .closebar button:hover,
+.main-card .body .teleport-menu .closebar button:hover {
   width: 35%;
   font-size: small;
   cursor: pointer;
@@ -287,7 +291,8 @@ body {
 
 .main-card .body .admin-menu .mainbar,
 .main-card .body .player-menu .mainbar,
-.main-card .body .server-menu .mainbar {
+.main-card .body .server-menu .mainbar,
+.main-card .body .teleport-menu .mainbar {
   width: 85%;
   height: 100%;
 
