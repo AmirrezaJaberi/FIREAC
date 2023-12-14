@@ -37,6 +37,15 @@ function openServerMenu() {
   closeMainMenu();
 }
 
+function openTeleportMenu() {
+  setTimeout(() => {
+    $("#teleport-menu").fadeIn();
+    $("#title").text("Teleport Options");
+  }, 500);
+
+  closeMainMenu();
+}
+
 function closeMainMenu() {
   $("#main-menu").fadeOut();
 }
@@ -45,6 +54,7 @@ function backToMainMenu() {
   $("#admin-menu").fadeOut();
   $("#player-menu").fadeOut();
   $("#server-menu").fadeOut();
+  $("#teleport-menu").fadeOut();
 
   setTimeout(() => {
     $("#main-menu").fadeIn();
