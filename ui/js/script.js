@@ -28,6 +28,15 @@ function openPlayersMenu() {
   closeMainMenu();
 }
 
+function openServerMenu() {
+  setTimeout(() => {
+    $("#server-menu").fadeIn();
+    $("#title").text("Server Tool");
+  }, 500);
+
+  closeMainMenu();
+}
+
 function closeMainMenu() {
   $("#main-menu").fadeOut();
 }
@@ -35,6 +44,7 @@ function closeMainMenu() {
 function backToMainMenu() {
   $("#admin-menu").fadeOut();
   $("#player-menu").fadeOut();
+  $("#server-menu").fadeOut();
 
   setTimeout(() => {
     $("#main-menu").fadeIn();
@@ -46,9 +56,7 @@ function doAction(actionName) {
   $.post(`https://FIREAC/${actionName}`);
 }
 
-function openPlayerActionList() {
-  
-}
+function openPlayerActionList() {}
 
 $(document).keydown(function (e) {
   if (e.keyCode == 27) {
