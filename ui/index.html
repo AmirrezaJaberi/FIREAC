@@ -801,17 +801,57 @@
                         </button>
                     </div>
                     <div class="mainbar">
+                        <div class="waypoint">
+                            <button onclick="teleportToWaypoint()">
+                                <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <g id="Stockholm-icons-/-Map-/-Marker#2" stroke="none" stroke-width="1" fill="none"
+                                        fill-rule="evenodd">
+                                        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+                                        <path
+                                            d="M9.82829464,16.6565893 C7.02541569,15.7427556 5,13.1079084 5,10 C5,6.13400675 8.13400675,3 12,3 C15.8659932,3 19,6.13400675 19,10 C19,13.1079084 16.9745843,15.7427556 14.1717054,16.6565893 L12,21 L9.82829464,16.6565893 Z M12,12 C13.1045695,12 14,11.1045695 14,10 C14,8.8954305 13.1045695,8 12,8 C10.8954305,8 10,8.8954305 10,10 C10,11.1045695 10.8954305,12 12,12 Z"
+                                            id="Combined-Shape" fill="#000000"></path>
+                                    </g>
+                                </svg>
+                                <span>Teleport to waypoint</span>
+                            </button>
+                        </div>
+                        <div class="coordinate">
+                            <div class="inputBar">
+                                <label for="x-coords">x :</label>
+                                <input type="text" id="x-coords" name="x-coords" value="0.0">
+                                <label for="y-cooords">y:</label>
+                                <input type="text" id="y-coords" name="y-coords" value="0.0">
+                                <label for="z-coords">z:</label>
+                                <input type="text" id="z-coords" name="z-coords" value="0.0">
+                            </div>
+                            <div class="buttonBar">
+                                <button onclick="teleportToCoords()">
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g id="Stockholm-icons-/-Map-/-Marker#1" stroke="none" stroke-width="1"
+                                            fill="none" fill-rule="evenodd">
+                                            <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+                                            <path
+                                                d="M5,10.5 C5,6 8,3 12.5,3 C17,3 20,6.75 20,10.5 C20,12.8325623 17.8236613,16.03566 13.470984,20.1092932 C12.9154018,20.6292577 12.0585054,20.6508331 11.4774555,20.1594925 C7.15915182,16.5078313 5,13.2880005 5,10.5 Z M12.5,12 C13.8807119,12 15,10.8807119 15,9.5 C15,8.11928813 13.8807119,7 12.5,7 C11.1192881,7 10,8.11928813 10,9.5 C10,10.8807119 11.1192881,12 12.5,12 Z"
+                                                id="Combined-Shape" fill="#000000" fill-rule="nonzero"></path>
+                                        </g>
+                                    </svg>
+                                    <span>Teleport to coords</span>
+                                </button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <span class="footerText">This anti-cheat developed by <button
+                                onclick="openUrl('https://amirrezajaberi.ir/')">Amirreza
+                                Jaberi</button> as <button
+                                onclick="openUrl('https://amirrezajaberi.ir/fireac')">FIREAC</button>
+                            on
+                            github & it's public to use for all users .</span>
                     </div>
                 </div>
-                <div class="footer">
-                    <span class="footerText">This anti-cheat developed by <button
-                            onclick="openUrl('https://amirrezajaberi.ir/')">Amirreza
-                            Jaberi</button> as <button
-                            onclick="openUrl('https://amirrezajaberi.ir/fireac')">FIREAC</button>
-                        on
-                        github & it's public to use for all users .</span>
-                </div>
-            </div>
     </section>
     <script defer src="./js/script.js"></script>
 </body>
