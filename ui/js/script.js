@@ -46,6 +46,15 @@ function openTeleportMenu() {
   closeMainMenu();
 }
 
+function openVisionMenu() {
+  setTimeout(() => {
+    $("#vision-menu").fadeIn();
+    $("#title").text("Vision View");
+  }, 500);
+
+  closeMainMenu();
+}
+
 function closeMainMenu() {
   $("#main-menu").fadeOut();
 }
@@ -55,6 +64,7 @@ function backToMainMenu() {
   $("#player-menu").fadeOut();
   $("#server-menu").fadeOut();
   $("#teleport-menu").fadeOut();
+  $("#vision-menu").fadeOut();
 
   setTimeout(() => {
     $("#main-menu").fadeIn();
