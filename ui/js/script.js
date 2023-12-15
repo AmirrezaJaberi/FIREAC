@@ -64,6 +64,15 @@ function openVehicleMenu() {
   closeMainMenu();
 }
 
+function openBanListMenu() {
+  setTimeout(() => {
+    $("#banlist-menu").fadeIn();
+    $("#title").text("Ban List");
+  }, 500);
+
+  closeMainMenu();
+}
+
 function closeMainMenu() {
   $("#main-menu").fadeOut();
 }
@@ -75,6 +84,7 @@ function backToMainMenu() {
   $("#teleport-menu").fadeOut();
   $("#vision-menu").fadeOut();
   $("#vehicle-menu").fadeOut();
+  $("#banlist-menu").fadeOut();
 
   setTimeout(() => {
     $("#main-menu").fadeIn();
