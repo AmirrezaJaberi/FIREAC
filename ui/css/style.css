@@ -157,14 +157,12 @@ body {
 }
 
 .main-card .body .main-menu::-webkit-scrollbar,
-.main-card .body .admin-menu .mainbar::-webkit-scrollbar,
-.main-card .body .player-menu .mainbar::-webkit-scrollbar {
+.main-card .body .mainbar::-webkit-scrollbar {
   width: 5px;
 }
 
 .main-card .body .main-menu::-webkit-scrollbar-thumb,
-.main-card .body .admin-menu .mainbar::-webkit-scrollbar-thumb,
-.main-card .body .player-menu .mainbar::-webkit-scrollbar-thumb {
+.main-card .body .mainbar::-webkit-scrollbar-thumb {
   background: #fff285;
   border-radius: 50px;
 }
@@ -1069,4 +1067,52 @@ body {
   transition: all 0.5s;
 
   width: 35%;
+}
+
+.main-card .body .banlist-menu .mainbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: flex-start;
+  justify-content: center;
+}
+
+.main-card .body .banlist-menu .mainbar button {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-evenly;
+  align-items: center;
+
+  background: #ff8585;
+  border: 2.5px #cc1a1a solid;
+  border-radius: 30px;
+  transition: 0.5s all;
+
+  margin: 7.5px;
+
+  width: 30%;
+  height: 40%;
+}
+
+.main-card .body .banlist-menu .mainbar button:hover {
+  background: #c0ff85;
+  border: 2.5px #9dcc1a solid;
+  border-radius: 30px;
+  transition: 0.5s all;
+
+  cursor: pointer;
+}
+
+.main-card .body .banlist-menu .mainbar button .banid {
+  font-family: "Chakra Petch", sans-serif;
+  font-size: x-small;
+  font-weight: 700;
+}
+
+.main-card .body .banlist-menu .mainbar button .reason {
+  font-family: "Saira Extra Condensed", sans-serif;
+  font-size: small;
 }
