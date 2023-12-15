@@ -141,7 +141,8 @@ body {
 .main-card .body .teleport-menu,
 .main-card .body .vision-menu,
 .main-card .body .vehicle-menu,
-.main-card .body .banlist-menu {
+.main-card .body .banlist-menu,
+.main-card .body .adminlist-menu {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -245,7 +246,8 @@ body {
 .main-card .body .teleport-menu .closebar,
 .main-card .body .vision-menu .closebar,
 .main-card .body .vehicle-menu .closebar,
-.main-card .body .banlist-menu .closebar {
+.main-card .body .banlist-menu .closebar,
+.main-card .body .adminlist-menu .closebar {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -263,7 +265,8 @@ body {
 .main-card .body .teleport-menu .closebar button,
 .main-card .body .vision-menu .closebar button,
 .main-card .body .vehicle-menu .closebar button,
-.main-card .body .banlist-menu .closebar button {
+.main-card .body .banlist-menu .closebar button,
+.main-card .body .adminlist-menu .closebar button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -291,7 +294,8 @@ body {
 .main-card .body .teleport-menu .closebar button:hover,
 .main-card .body .vision-menu .closebar button:hover,
 .main-card .body .vehicle-menu .closebar button:hover,
-.main-card .body .banlist-menu .closebar button:hover {
+.main-card .body .banlist-menu .closebar button:hover,
+.main-card .body .adminlist-menu .closebar button:hover {
   width: 35%;
   font-size: small;
   cursor: pointer;
@@ -305,7 +309,8 @@ body {
 .main-card .body .teleport-menu .mainbar,
 .main-card .body .vision-menu .mainbar,
 .main-card .body .vehicle-menu .mainbar,
-.main-card .body .banlist-menu .mainbar {
+.main-card .body .banlist-menu .mainbar,
+.main-card .body .adminlist-menu .mainbar {
   width: 85%;
   height: 100%;
 
@@ -1069,7 +1074,8 @@ body {
   width: 35%;
 }
 
-.main-card .body .banlist-menu .mainbar {
+.main-card .body .banlist-menu .mainbar,
+.main-card .body .adminlist-menu .mainbar {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -1078,7 +1084,8 @@ body {
   justify-content: center;
 }
 
-.main-card .body .banlist-menu .mainbar button {
+.main-card .body .banlist-menu .mainbar button,
+.main-card .body .adminlist-menu .mainbar button {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -1097,7 +1104,8 @@ body {
   height: 40%;
 }
 
-.main-card .body .banlist-menu .mainbar button:hover {
+.main-card .body .banlist-menu .mainbar button:hover,
+.main-card .body .adminlist-menu .mainbar button:hover {
   background: #c0ff85;
   border: 2.5px #9dcc1a solid;
   border-radius: 30px;
@@ -1106,7 +1114,18 @@ body {
   cursor: pointer;
 }
 
-.main-card .body .banlist-menu .mainbar button .banid {
+.main-card .body .adminlist-menu .mainbar button {
+  background: #c0ff85;
+  border: 2.5px #9dcc1a solid;
+}
+
+.main-card .body .adminlist-menu .mainbar button:hover {
+  background: #ff8585;
+  border: 2.5px #cc1a1a solid;
+}
+
+.main-card .body .banlist-menu .mainbar button .banid,
+.main-card .body .adminlist-menu .mainbar button .identifier {
   font-family: "Chakra Petch", sans-serif;
   font-size: x-small;
   font-weight: 700;
