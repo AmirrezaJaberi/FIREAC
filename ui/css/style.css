@@ -980,3 +980,88 @@ body {
   color: #000;
   background: #ffae52;
 }
+
+.main-card .body .vehicle-menu .mainbar .myself,
+.main-card .body .vehicle-menu .mainbar .other {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-evenly;
+
+  width: 100%;
+  height: 50%;
+}
+
+.main-card .body .vehicle-menu .mainbar .myself .inputBar,
+.main-card .body .vehicle-menu .mainbar .other .inputBar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: center;
+
+  font-family: "Saira Extra Condensed", sans-serif;
+  font-weight: 700;
+
+  width: 100%;
+}
+
+.main-card .body .vehicle-menu .mainbar .inputBar input {
+  height: 100%;
+  width: 20%;
+
+  background: #fff285;
+  border: 2.5px #cc851a solid;
+  border-radius: 30px;
+
+  font-family: "Chakra Petch", sans-serif;
+
+  text-align: center;
+}
+
+.main-card .body .vehicle-menu .mainbar .buttonBar {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 50%;
+}
+
+.main-card .body .vehicle-menu .mainbar .buttonBar button {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+
+  font-family: "Saira Extra Condensed", sans-serif;
+  font-weight: 700;
+
+  background: #ffc085;
+  border: 2.5px #cc521a solid;
+  border-radius: 15px;
+
+  transition: all 0.5s;
+
+  width: 25%;
+  height: 50%;
+}
+
+.main-card .body .vehicle-menu .mainbar .buttonBar button:hover {
+  background: #ffc085;
+  border: 2.5px #cc521a solid;
+  border-radius: 15px;
+
+  cursor: pointer;
+
+  transition: all 0.5s;
+
+  width: 35%;
+}
