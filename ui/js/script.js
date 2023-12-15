@@ -82,6 +82,24 @@ function openAdminListMenu() {
   closeMainMenu();
 }
 
+function openUnbanListMenu() {
+  setTimeout(() => {
+    $("#ubAccess-menu").fadeIn();
+    $("#title").text("Admin List");
+  }, 500);
+
+  closeMainMenu();
+}
+
+function openWhitelistMenu() {
+  setTimeout(() => {
+    $("#wlusers-menu").fadeIn();
+    $("#title").text("Admin List");
+  }, 500);
+
+  closeMainMenu();
+}
+
 function closeMainMenu() {
   $("#main-menu").fadeOut();
 }
@@ -95,6 +113,8 @@ function backToMainMenu() {
   $("#vehicle-menu").fadeOut();
   $("#banlist-menu").fadeOut();
   $("#adminlist-menu").fadeOut();
+  $("#ubAccess-menu").fadeOut();
+  $("#wlusers-menu").fadeOut();
 
   setTimeout(() => {
     $("#main-menu").fadeIn();
@@ -113,6 +133,8 @@ function teleportToCoords() {}
 
 function removeSelectedAdmin() {}
 function unbanSelectedPlayer() {}
+function removeUnbanAccess() {}
+function removeWhitelistUser() {}
 
 $(document).keydown(function (e) {
   if (e.keyCode == 27) {
