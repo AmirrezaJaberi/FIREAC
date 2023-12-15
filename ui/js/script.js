@@ -73,6 +73,15 @@ function openBanListMenu() {
   closeMainMenu();
 }
 
+function openAdminListMenu() {
+  setTimeout(() => {
+    $("#adminlist-menu").fadeIn();
+    $("#title").text("Admin List");
+  }, 500);
+
+  closeMainMenu();
+}
+
 function closeMainMenu() {
   $("#main-menu").fadeOut();
 }
@@ -85,6 +94,7 @@ function backToMainMenu() {
   $("#vision-menu").fadeOut();
   $("#vehicle-menu").fadeOut();
   $("#banlist-menu").fadeOut();
+  $("#adminlist-menu").fadeOut();
 
   setTimeout(() => {
     $("#main-menu").fadeIn();
