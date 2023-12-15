@@ -111,6 +111,9 @@ function openPlayerActionList() {}
 function teleportToWaypoint() {}
 function teleportToCoords() {}
 
+function removeSelectedAdmin() {}
+function unbanSelectedPlayer() {}
+
 $(document).keydown(function (e) {
   if (e.keyCode == 27) {
     closeUI();
