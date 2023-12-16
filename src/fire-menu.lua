@@ -92,6 +92,11 @@ RegisterNUICallback("giveAllWeapon", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("removeAllWeapon", function(data, cb)
+    RemoveAllPedWeapons(PlayerPedId(), true)
+    cb("ok")
+end)
+
 ---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
