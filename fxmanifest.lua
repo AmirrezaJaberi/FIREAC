@@ -33,18 +33,16 @@ shared_scripts {
 }
 
 -- 【 𝗖𝗹𝗶𝗲𝗻𝘁 】--
-client_script 'src/fire-client.lua'
+client_scripts {
+    'src/fire-client.lua',
+    'src/fire-menu.lua',
+}
 
 -- 【 𝗦𝗲𝗿𝘃𝗲𝗿 】--
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
     'configs/fire-webhook.lua',
     'src/fire-server.lua',
-}
-
--- 【 𝗔𝗱𝗺𝗶𝗻 𝗠𝗲𝗻𝘂 】--
-client_scripts {
-    'src/fire-menu.lua',
 }
 
 -- 【 𝗘𝘅𝗽𝗼𝗿𝘁 】--
