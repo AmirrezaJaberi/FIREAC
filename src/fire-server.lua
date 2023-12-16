@@ -74,15 +74,11 @@ AddEventHandler("FIREAC:passScriptInfo", function(name, path)
 end)
 
 --【 𝗔𝗱𝗺𝗶𝗻 𝗠𝗲𝗻𝘂 】--
-RegisterNetEvent("FIREAC:CheckIsAdmin")
-AddEventHandler("FIREAC:CheckIsAdmin", function()
-    local SRC = source
-    if FIREAC_GETADMINS(SRC) then
-        local DATA = {
-            NAME = GetPlayerName(SRC),
-            ID   = SRC
-        }
-        TriggerClientEvent("FIREAC:AddAdminOption", SRC, DATA)
+RegisterNetEvent("FIREAC:checkIsAdmin")
+AddEventHandler("FIREAC:checkIsAdmin", function()
+    local source = source
+    if FIREAC_GETADMINS(source) then
+        TriggerClientEvent("FIREAC:allowToOpen", source)
     end
 end)
 
