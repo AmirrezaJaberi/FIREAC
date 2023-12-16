@@ -7,12 +7,14 @@
 local isAdmin = false
 local isSpawn = false
 
-RegisterNetEvent('FIREAC:allowToOpen')
-AddEventHandler('FIREAC:allowToOpen', function()
+---------------- Net Events ----------------
+RegisterNetEvent("FIREAC:allowToOpen")
+AddEventHandler("FIREAC:allowToOpen", function()
     isAdmin = true
 end)
 
-RegisterCommand('fireacmenu', function()
+---------------- Open Menu ----------------
+RegisterCommand("fireacmenu", function()
     if isAdmin then
         openAdminMenu()
     end
@@ -20,32 +22,57 @@ end, false)
 
 RegisterKeyMapping("fireacmenu", "FIREAC admin menu", "keyboard", FIREAC.AdminMenu.Key)
 
-RegisterNUICallback('onCloseMenu', function()
+---------------- NUI Call Backs ----------------
+RegisterNUICallback("onCloseMenu", function(data, cb)
     SetNuiFocus(false, false)
+
+    cb("ok")
 end)
 
-RegisterNUICallback('getAdminStatus', function()
+RegisterNUICallback("getAdminStatus", function(data, cb)
     updateAdminStatus()
+
+    cb("ok")
 end)
 
+RegisterNUICallback("godmode", function(data, cb)
+    local playerPed = PlayerPedId()
+    local invincible = not GetPlayerInvincible(PlayerId())
+
+    SetEntityInvincible(playerPed, invincible)
+
+    cb("ok")
+end)
+
+RegisterNUICallback("invisible", function(data, cb)
+    local playerPed = PlayerPedId()
+    local visible = IsEntityVisible(playerPed)
+
+    SetEntityVisible(playerPed, not visible)
+
+    cb("ok")
+end)
+
+---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
-        action = 'openUI',
+        action = "openUI",
     })
     SetNuiFocus(true, true)
 end
 
 function updateAdminStatus()
     SendNUIMessage({
-        action = 'updateData',
+        action = "updateData",
         godmode = GetPlayerInvincible(PlayerId()),
-        invisible = IsEntityVisible(PlayerPedId())
+        visible = IsEntityVisible(PlayerPedId())
     })
 end
 
+---------------- Thread ----------------
 Citizen.CreateThread(function()
     if not isSpawn then
         isSpawn = true
-        TriggerServerEvent('FIREAC:checkIsAdmin')
+        TriggerServerEvent("FIREAC:checkIsAdmin")
     end
 end)
