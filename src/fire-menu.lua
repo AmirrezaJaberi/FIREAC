@@ -6,7 +6,6 @@
 
 local isAdmin = false
 
-
 RegisterCommand('fireacmenu', function()
     if isAdmin then
 
@@ -14,3 +13,11 @@ RegisterCommand('fireacmenu', function()
 end, false)
 
 RegisterKeyMapping("fireacmenu", "FIREAC admin menu", "keyboard", FIREAC.AdminMenu.Key)
+
+
+function openAdminMenu()
+    SendNUIMessage({
+        action = 'openUI',
+    })
+    SetNuiFocus(true, true)
+end
