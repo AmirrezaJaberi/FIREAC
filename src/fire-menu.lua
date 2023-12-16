@@ -53,6 +53,13 @@ RegisterNUICallback("invisible", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("suicide", function(data, cb)
+    local playerPed = PlayerPedId()
+
+    SetEntityHealth(playerPed, 0)
+    cb("ok")
+end)
+
 ---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
