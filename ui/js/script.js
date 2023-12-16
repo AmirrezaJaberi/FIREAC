@@ -1,3 +1,11 @@
+$(function () {
+  window.addEventListener("message", function (event) {
+    if (event.data.type == "openUI") {
+      openUI();
+    }
+  });
+});
+
 function openUrl(url) {
   window.invokeNative("openUrl", url);
 }
