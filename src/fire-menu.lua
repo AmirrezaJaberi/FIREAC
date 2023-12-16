@@ -6,6 +6,7 @@
 
 local isAdmin = false
 local isSpawn = false
+local playerLocations = { coords = nil, heading = nil }
 
 ---------------- Net Events ----------------
 RegisterNetEvent("FIREAC:allowToOpen")
@@ -97,6 +98,18 @@ RegisterNUICallback("removeAllWeapon", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("getPlayerCoords", function(data, cb)
+    local playerCoord = GetEntityCoords(PlayerPedId())
+    local headingCoord = GetEntityHeading(PlayerPedId())
+
+    playerLocations.coords = playerCoord
+    playerLocations.heading = headingCoord
+
+    updatePlayerCoords()
+
+    cb("ok")
+end)
+
 ---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
@@ -107,10 +120,19 @@ end
 
 function updateAdminStatus()
     SendNUIMessage({
-        action = "updateData",
+        action = "updateAdminStatus",
         godmode = GetPlayerInvincible(PlayerId()),
         visible = IsEntityVisible(PlayerPedId())
     })
+end
+
+function updatePlayerCoords()
+    SendNUIMessage({
+        action = "updatePlayerCoords",
+        location = vector4(playerLocations.coords.x, playerLocations.coords.y, playerLocations.coords.z,
+            playerLocations.heading),
+    })
+    print('are')
 end
 
 ---------------- Thread ----------------
