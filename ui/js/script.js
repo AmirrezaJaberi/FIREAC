@@ -1,6 +1,6 @@
 $(function () {
   window.addEventListener("message", function (event) {
-    if (event.data.type == "openUI") {
+    if (event.data.action == "openUI") {
       openUI();
     }
   });
@@ -12,6 +12,7 @@ function openUrl(url) {
 
 function closeUI() {
   $("#main-ui").fadeOut();
+  $.post(`https://FIREAC/onCloseMenu`);
 }
 
 function openUI() {
@@ -23,6 +24,8 @@ function openAdminToolMenu() {
     $("#admin-menu").fadeIn();
     $("#title").text("Admin Tool");
   }, 500);
+
+  $.post(`https://FIREAC/getAdminStatus`);
 
   closeMainMenu();
 }
