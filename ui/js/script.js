@@ -2,6 +2,8 @@ $(function () {
   window.addEventListener("message", function (event) {
     if (event.data.action == "openUI") {
       openUI();
+    } else if (event.data.action == "updateData") {
+      updateAdminData(event.data.godmode, event.data.visible);
     }
   });
 });
@@ -17,6 +19,8 @@ function closeUI() {
 
 function openUI() {
   $("#main-ui").fadeIn();
+
+  getAdminStatus();
 }
 
 function openAdminToolMenu() {
@@ -25,9 +29,13 @@ function openAdminToolMenu() {
     $("#title").text("Admin Tool");
   }, 500);
 
-  $.post(`https://FIREAC/getAdminStatus`);
+  getAdminStatus();
 
   closeMainMenu();
+}
+
+function getAdminStatus() {
+  $.post(`https://FIREAC/getAdminStatus`);
 }
 
 function openPlayersMenu() {
@@ -135,6 +143,41 @@ function backToMainMenu() {
 
 function doAction(actionName) {
   $.post(`https://FIREAC/${actionName}`);
+
+  getAdminStatus();
+}
+
+function updateAdminData(godmode, visible) {
+  if (godmode) {
+    // Status when (Godmode)
+    document.getElementById("disable-godmode").style.display = "none";
+    document.getElementById("enable-godmode").style.display = "flex";
+
+    document.getElementById("godmode").style.backgroundColor = "#bdff9c";
+    document.getElementById("godmode").style.border = "2px solid #a7ff64";
+  } else {
+    // Status when (Not Godmode)
+    document.getElementById("enable-godmode").style.display = "none";
+    document.getElementById("disable-godmode").style.display = "flex";
+
+    document.getElementById("godmode").style.backgroundColor = "#ffa19c";
+    document.getElementById("godmode").style.border = "2px solid #ff6b64";
+  }
+  if (visible) {
+    // Status when (Invisible)
+    document.getElementById("enable-invisible").style.display = "none";
+    document.getElementById("disable-invisible").style.display = "flex";
+
+    document.getElementById("invisible").style.backgroundColor = "#ffa19c";
+    document.getElementById("invisible").style.border = "2px solid #ff6b64";
+  } else {
+    // Status when (Not Invisible)
+    document.getElementById("disable-invisible").style.display = "none";
+    document.getElementById("enable-invisible").style.display = "flex";
+
+    document.getElementById("invisible").style.backgroundColor = "#bdff9c";
+    document.getElementById("invisible").style.border = "2px solid #a7ff64";
+  }
 }
 
 function openPlayerActionList() {}
