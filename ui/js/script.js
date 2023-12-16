@@ -1,9 +1,13 @@
+let playerCoords = null;
+
 $(function () {
   window.addEventListener("message", function (event) {
     if (event.data.action == "openUI") {
       openUI();
-    } else if (event.data.action == "updateData") {
+    } else if (event.data.action == "updateAdminStatus") {
       updateAdminData(event.data.godmode, event.data.visible);
+    } else if (event.data.action == "updatePlayerCoords") {
+      updateAdminCoords(event.data.location);
     }
   });
 });
@@ -21,6 +25,7 @@ function openUI() {
   $("#main-ui").fadeIn();
 
   getAdminStatus();
+  getAdminCoords();
 }
 
 function openAdminToolMenu() {
@@ -30,12 +35,17 @@ function openAdminToolMenu() {
   }, 500);
 
   getAdminStatus();
+  getAdminCoords();
 
   closeMainMenu();
 }
 
 function getAdminStatus() {
   $.post(`https://FIREAC/getAdminStatus`);
+}
+
+function getAdminCoords() {
+  $.post(`https://FIREAC/getPlayerCoords`);
 }
 
 function openPlayersMenu() {
@@ -145,6 +155,11 @@ function doAction(actionName) {
   $.post(`https://FIREAC/${actionName}`);
 
   getAdminStatus();
+
+  if (actionName == "copyLiveCoords") {
+    copyTextToClipboard(playerCoords);
+    $(".coords-loaction").html("Coords copied successfully !");
+  }
 }
 
 function updateAdminData(godmode, visible) {
@@ -178,6 +193,30 @@ function updateAdminData(godmode, visible) {
     document.getElementById("invisible").style.backgroundColor = "#bdff9c";
     document.getElementById("invisible").style.border = "2px solid #a7ff64";
   }
+}
+
+function updateAdminCoords(location) {
+  const xFormatted = location.x.toFixed(2);
+  const yFormatted = location.y.toFixed(2);
+  const zFormatted = location.z.toFixed(2);
+  const wFormatted = location.w.toFixed(2);
+
+  playerCoords = `vector4(${xFormatted}, ${yFormatted}, ${zFormatted}, ${wFormatted})`;
+  $(".coords-loaction").html(playerCoords);
+}
+
+function copyTextToClipboard(text) {
+  var copyText = document.createElement("textarea");
+
+  copyText.value = text;
+
+  document.body.appendChild(copyText);
+
+  copyText.select();
+
+  document.execCommand("copy");
+
+  document.body.removeChild(copyText);
 }
 
 function openPlayerActionList() {}
