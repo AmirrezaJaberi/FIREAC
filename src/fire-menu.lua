@@ -60,6 +60,13 @@ RegisterNUICallback("suicide", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("heal", function(data, cb)
+    local playerPed = PlayerPedId()
+
+    SetEntityHealth(playerPed, GetPedMaxHealth(playerPed))
+    cb("ok")
+end)
+
 ---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
