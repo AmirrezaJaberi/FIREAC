@@ -348,18 +348,17 @@ AddEventHandler("FIREAC:BanByMenu", function(P_ID)
     end
 end)
 
-RegisterServerEvent("FIREAC:ReqSpectate")
-AddEventHandler("FIREAC:ReqSpectate", function(id)
-    local SRC    = source
-    local Target = id
-    local TPED   = GetPlayerPed(Target)
-    local COORDS = GetEntityCoords(TPED)
-    if tonumber(SRC) then
-        if tonumber(Target) then
-            if FIREAC_GETADMINS(SRC) then
-                TriggerClientEvent("FIREAC:SpectatePlayer", SRC, Target, COORDS)
+RegisterServerEvent("FIREAC:requestSpectate")
+AddEventHandler("FIREAC:requestSpectate", function(id)
+    local source    = source
+    local targetPed = GetPlayerPed(id)
+    local tcoords   = GetEntityCoords(targetPed)
+    if tonumber(source) then
+        if tonumber(id) then
+            if FIREAC_GETADMINS(source) then
+                TriggerClientEvent("FIREAC:spectatePlayer", source, id, tcoords)
             else
-                FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Spectate Players",
+                FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Spectate Players",
                     "Try For Spectate Player By Admin Menu (not admin)")
             end
         end
