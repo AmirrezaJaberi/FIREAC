@@ -100,6 +100,25 @@ AddEventHandler("FIREAC:getAllPlayerData", function()
     end
 end)
 
+RegisterNetEvent("FIREAC:getPlayerData")
+AddEventHandler("FIREAC:getPlayerData", function(playerId)
+    local source = source
+    if not FIREAC_GETADMINS(source) then
+        FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
+            "Try for get a player data")
+    else
+        if GetPlayerName(playerId) then
+            local data = {
+                id = playerId,
+                name = GetPlayerName(playerId),
+                health = GetEntityHealth(GetPlayerPed(playerId)),
+                armour = GetPedArmour(GetPlayerPed(playerId)),
+            }
+            TriggerClientEvent("FIREAC:openPlayerData", source, data)
+        end
+    end
+end)
+
 RegisterNetEvent('FIREAC:GetAllAdminsData')
 AddEventHandler('FIREAC:GetAllAdminsData', function()
     local SRC = source
