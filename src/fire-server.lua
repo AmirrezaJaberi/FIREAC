@@ -82,11 +82,12 @@ AddEventHandler("FIREAC:checkIsAdmin", function()
     end
 end)
 
-RegisterNetEvent("FIREAC:GetAllPlayerData")
-AddEventHandler("FIREAC:GetAllPlayerData", function()
-    local SRC = source
-    if not FIREAC_GETADMINS(SRC) then
-        FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu", "Try For Open Admin Menu (Not Admin)")
+RegisterNetEvent("FIREAC:getAllPlayerData")
+AddEventHandler("FIREAC:getAllPlayerData", function()
+    local source = source
+    if not FIREAC_GETADMINS(source) then
+        FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
+            "Try For Open Admin Menu (Not Admin)")
     else
         local PlayerList = {}
         for _, value in pairs(GetPlayers()) do
@@ -95,7 +96,7 @@ AddEventHandler("FIREAC:GetAllPlayerData", function()
                 id   = value
             })
         end
-        TriggerClientEvent("FIREAC:GetPlayerList", SRC, PlayerList)
+        TriggerClientEvent("FIREAC:sendAllPlayerData", source, PlayerList)
     end
 end)
 
