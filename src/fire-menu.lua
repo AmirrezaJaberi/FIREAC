@@ -8,6 +8,15 @@ local isAdmin = false
 local isSpawn = false
 local playerLocations = { coords = nil, heading = nil }
 
+local cam = nil
+local InSpectatorMode = false
+local TargetSpectate = nil
+local targetPed = nil
+local currentVoiceChannel = nil
+local health, maxhealth, armor = nil, nil, nil
+local radius = -1
+local polarAngleDeg, azimuthAngleDeg = 0, 0
+
 ---------------- Net Events ----------------
 RegisterNetEvent("FIREAC:allowToOpen")
 AddEventHandler("FIREAC:allowToOpen", function()
@@ -22,6 +31,13 @@ end)
 RegisterNetEvent("FIREAC:openPlayerData")
 AddEventHandler("FIREAC:openPlayerData", function(data)
     openPlayerAction(data)
+end)
+
+RegisterNetEvent("FIREAC:spectatePlayer")
+AddEventHandler("FIREAC:spectatePlayer", function(target, coords)
+    if target and coords then
+        spectatePlayer(target, coords)
+    end
 end)
 
 ---------------- Open Menu ----------------
@@ -130,6 +146,15 @@ RegisterNUICallback("getPlayerData", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("spectate", function(data, cb)
+    if InSpectatorMode then
+        exitSpectate()
+    else
+        TriggerServerEvent('FIREAC:requestSpectate', data.playerId)
+    end
+    cb("ok")
+end)
+
 ---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
@@ -166,6 +191,130 @@ function updatePlayerList(playerList)
         action = "updatePlayerList",
         playerList = playerList,
     })
+end
+
+function spectatePlayer(target, coords)
+    cam = cam or CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
+    SetCamCoord(cam, coords.x, coords.y, coords.z)
+    SetCamActive(cam, true)
+    RenderScriptCams(true, false, 0, true, true)
+    Wait(500)
+
+    local player = GetPlayerFromServerId(target)
+    if player == -1 then return end
+
+    local ped = GetPlayerPed(player)
+    NetworkSetInSpectatorMode(true, ped)
+    InSpectatorMode = true
+    TargetSpectate = target
+    handelSpectate(player, ped)
+end
+
+function updateTargetChecks()
+    Citizen.CreateThread(function()
+        while InSpectatorMode do
+            Citizen.Wait(1000)
+            health, maxhealth, armor = GetEntityHealth(targetPed), GetEntityMaxHealth(targetPed), GetPedArmour(targetPed)
+            handleVoiceChannel(TargetSpectate)
+        end
+    end)
+end
+
+function handleVoiceChannel(target)
+    local channel = MumbleGetVoiceChannelFromServerId(target)
+    if currentVoiceChannel ~= channel then
+        currentVoiceChannel = channel
+        MumbleAddVoiceChannelListen(channel)
+    end
+end
+
+function handelSpectate(player, ped)
+    Citizen.CreateThread(function()
+        targetPed = GetPlayerPed(player)
+        updateTargetChecks()
+
+        while InSpectatorMode do
+            Citizen.Wait(5)
+            local coords = GetEntityCoords(targetPed)
+
+            if not DoesEntityExist(ped) then
+                exitSpectate()
+            end
+
+            DisableControlAction(2, 37, true)
+
+            if IsControlPressed(2, 241) then
+                radius = radius + 2.0
+            end
+
+            if IsControlPressed(2, 242) then
+                radius = radius - 2.0
+            end
+
+            radius = math.max(radius, -1)
+
+            local xMagnitude, yMagnitude = GetDisabledControlNormal(0, 1), GetDisabledControlNormal(0, 2)
+            polarAngleDeg, azimuthAngleDeg = polarAngleDeg + xMagnitude * 10, azimuthAngleDeg + yMagnitude * 10
+
+            polarAngleDeg = (polarAngleDeg >= 360) and 0 or polarAngleDeg
+            azimuthAngleDeg = (azimuthAngleDeg >= 360) and 0 or azimuthAngleDeg
+
+            local nextCamLocation = polar3DToWorld3D(coords, radius, polarAngleDeg, azimuthAngleDeg)
+
+            SetCamCoord(cam, nextCamLocation.x, nextCamLocation.y, nextCamLocation.z)
+            PointCamAtEntity(cam, targetPed)
+
+            if health and maxhealth and armor then
+                Draw({
+                    'Health' .. ': ~g~' .. health .. '/' .. maxhealth,
+                    'Armor' .. ': ~b~' .. armor,
+                    "To ~r~ exit ~s~ press spectate button again"
+                })
+            end
+        end
+    end)
+end
+
+function polar3DToWorld3D(entityPosition, radius, polarAngleDeg, azimuthAngleDeg)
+    local polarAngleRad, azimuthAngleRad = polarAngleDeg * math.pi / 180.0, azimuthAngleDeg * math.pi / 180.0
+
+    local pos = {
+        x = entityPosition.x + radius * (math.sin(azimuthAngleRad) * math.cos(polarAngleRad)),
+        y = entityPosition.y - radius * (math.sin(azimuthAngleRad) * math.sin(polarAngleRad)),
+        z = entityPosition.z - radius * math.cos(azimuthAngleRad)
+    }
+
+    return pos
+end
+
+function Draw(text)
+    for i, theText in pairs(text) do
+        SetTextFont(0)
+        SetTextProportional(1)
+        SetTextScale(0.0, 0.30)
+        SetTextDropshadow(0, 0, 0, 0, 255)
+        SetTextEdge(1, 0, 0, 0, 255)
+        SetTextDropShadow()
+        SetTextOutline()
+        SetTextEntry("STRING")
+        AddTextComponentString(theText)
+        EndTextCommandDisplayText(0.3, 0.7 + (i / 30))
+    end
+end
+
+function exitSpectate()
+    if InSpectatorMode then
+        InSpectatorMode, TargetSpectate, targetPed = false, nil, nil
+        SetCamActive(cam, false)
+        RenderScriptCams(false, false, 0, true, true)
+        NetworkSetInSpectatorMode(false)
+
+        if currentVoiceChannel then
+            local serverId = GetPlayerServerId(ply)
+            MumbleRemoveVoiceChannelListen(serverId)
+            currentVoiceChannel = nil
+        end
+    end
 end
 
 ---------------- Thread ----------------
