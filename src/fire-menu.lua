@@ -155,6 +155,11 @@ RegisterNUICallback("spectate", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("ban", function(data, cb)
+    TriggerServerEvent("FIREAC:banPlayerByAdmin", data.playerId)
+    cb("ok")
+end)
+
 ---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
