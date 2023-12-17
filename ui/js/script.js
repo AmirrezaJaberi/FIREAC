@@ -10,6 +10,8 @@ $(function () {
       updateAdminCoords(event.data.location);
     } else if (event.data.action == "updatePlayerList") {
       updatePlayerList(event.data.playerList);
+    } else if (event.data.action == "openPlayerActionMenu") {
+      openPlayerActionMenu(event.data.data);
     }
   });
 });
@@ -261,7 +263,35 @@ function updatePlayerList(playersList) {
   });
 }
 
-function openPlayerActionList(id) {}
+function openPlayerActionList(id) {
+  if (id) {
+    $.post(
+      `https://FIREAC/getPlayerData`,
+      JSON.stringify({
+        playerId: id,
+      })
+    );
+  }
+}
+
+function openPlayerActionMenu(data) {
+  $(".playerList").fadeOut();
+  setTimeout(() => {
+    $(".playerAction").fadeIn();
+
+    $("#playerName").text(data.name);
+    $("#playerId").text(data.id);
+    $("#armourCount").text(data.armour);
+    $("#heartCount").text(data.health);
+  }, 500);
+}
+
+function closePlayerActionMenu() {
+  $(".playerAction").fadeOut();
+  setTimeout(() => {
+    $(".playerList").fadeIn();
+  }, 500);
+}
 
 function teleportToWaypoint() {}
 function teleportToCoords() {}
