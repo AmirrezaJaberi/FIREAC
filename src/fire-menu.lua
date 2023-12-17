@@ -14,6 +14,11 @@ AddEventHandler("FIREAC:allowToOpen", function()
     isAdmin = true
 end)
 
+RegisterNetEvent("FIREAC:sendAllPlayerData")
+AddEventHandler("FIREAC:sendAllPlayerData", function(playerList)
+    updatePlayerList(playerList)
+end)
+
 ---------------- Open Menu ----------------
 RegisterCommand("fireacmenu", function()
     if isAdmin then
@@ -110,6 +115,11 @@ RegisterNUICallback("getPlayerCoords", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("getAllPlayersData", function(data, cb)
+    TriggerServerEvent("FIREAC:getAllPlayerData")
+    cb("ok")
+end)
+
 ---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
@@ -132,7 +142,13 @@ function updatePlayerCoords()
         location = vector4(playerLocations.coords.x, playerLocations.coords.y, playerLocations.coords.z,
             playerLocations.heading),
     })
-    print('are')
+end
+
+function updatePlayerList(playerList)
+    SendNUIMessage({
+        action = "updatePlayerList",
+        playerList = playerList,
+    })
 end
 
 ---------------- Thread ----------------
