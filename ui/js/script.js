@@ -1,4 +1,5 @@
 let playerCoords = null;
+let selectedPlayer = null;
 
 $(function () {
   window.addEventListener("message", function (event) {
@@ -275,6 +276,7 @@ function openPlayerActionList(id) {
 }
 
 function openPlayerActionMenu(data) {
+  selectedPlayer = data.id;
   $(".playerList").fadeOut();
   setTimeout(() => {
     $(".playerAction").fadeIn();
@@ -291,6 +293,18 @@ function closePlayerActionMenu() {
   setTimeout(() => {
     $(".playerList").fadeIn();
   }, 500);
+}
+
+function doActionOnTargetPlayer(actionName) {
+  if (actionName && selectedPlayer) {
+    $.post(
+      `https://FIREAC/${actionName}`,
+      JSON.stringify({
+        playerId: selectedPlayer,
+      })
+    );
+    closeUI();
+  }
 }
 
 function teleportToWaypoint() {}
