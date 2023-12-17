@@ -332,14 +332,14 @@ AddEventHandler("FIREAC:GetScreenShot", function(P_ID)
     end
 end)
 
-RegisterNetEvent("FIREAC:BanByMenu")
-AddEventHandler("FIREAC:BanByMenu", function(P_ID)
-    local SRC = source
-    local Target = P_ID
-    if tonumber(SRC) then
-        if tonumber(Target) then
-            if FIREAC_GETADMINS(SRC) then
-                FIREAC_ACTION(Target, "BAN", "Ban By Admin Menu", "Player Ban By Menu : **" .. GetPlayerName(SRC) .. "**")
+RegisterNetEvent("FIREAC:banPlayerByAdmin")
+AddEventHandler("FIREAC:banPlayerByAdmin", function(target)
+    local source = source
+    if tonumber(source) then
+        if tonumber(target) then
+            if FIREAC_GETADMINS(source) then
+                FIREAC_ACTION(target, "BAN", "Ban By Admin Menu",
+                    "Player Ban By Menu : **" .. GetPlayerName(source) .. "**")
             else
                 FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Ban Players",
                     "Try For Ban Player By Admin Menu (not admin)")
