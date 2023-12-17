@@ -19,6 +19,11 @@ AddEventHandler("FIREAC:sendAllPlayerData", function(playerList)
     updatePlayerList(playerList)
 end)
 
+RegisterNetEvent("FIREAC:openPlayerData")
+AddEventHandler("FIREAC:openPlayerData", function(data)
+    openPlayerAction(data)
+end)
+
 ---------------- Open Menu ----------------
 RegisterCommand("fireacmenu", function()
     if isAdmin then
@@ -120,12 +125,24 @@ RegisterNUICallback("getAllPlayersData", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("getPlayerData", function(data, cb)
+    TriggerServerEvent("FIREAC:getPlayerData", data.playerId)
+    cb("ok")
+end)
+
 ---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
         action = "openUI",
     })
     SetNuiFocus(true, true)
+end
+
+function openPlayerAction(data)
+    SendNUIMessage({
+        action = "openPlayerActionMenu",
+        data = data
+    })
 end
 
 function updateAdminStatus()
