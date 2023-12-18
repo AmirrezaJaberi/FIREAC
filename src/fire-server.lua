@@ -119,6 +119,52 @@ AddEventHandler("FIREAC:getPlayerData", function(playerId)
     end
 end)
 
+RegisterNetEvent("FIREAC:addPlayerAsAdmin")
+AddEventHandler("FIREAC:addPlayerAsAdmin", function(playerId)
+    local source = source
+    if not FIREAC_GETADMINS(source) then
+        FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
+            "Try to set player as admin")
+    else
+        if GetPlayerName(playerId) then
+            if FIREAC_GETADMINS(playerId) then
+                FIREAC:ADDADMIN(playerId)
+                TriggerClientEvent("FIREAC:allowToOpen", playerId)
+            end
+        end
+    end
+end)
+
+RegisterNetEvent("FIREAC:addPlayerAsWhiteList")
+AddEventHandler("FIREAC:addPlayerAsWhiteList", function(playerId)
+    local source = source
+    if not FIREAC_GETADMINS(source) then
+        FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
+            "Try to set player as admin")
+    else
+        if GetPlayerName(playerId) then
+            if FIREAC_WHITELIST(playerId) then
+                FIREAC:ADDWHITELIST(playerId)
+            end
+        end
+    end
+end)
+
+RegisterNetEvent("FIREAC:addPlayerUnbanAccess")
+AddEventHandler("FIREAC:addPlayerUnbanAccess", function(playerId)
+    local source = source
+    if not FIREAC_GETADMINS(source) then
+        FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
+            "Try to add player unban access")
+    else
+        if GetPlayerName(playerId) then
+            if FIREAC_UNBANACCESS(playerId) then
+                FIREAC:ADDWHITELIST(playerId)
+            end
+        end
+    end
+end)
+
 RegisterNetEvent('FIREAC:GetAllAdminsData')
 AddEventHandler('FIREAC:GetAllAdminsData', function()
     local SRC = source
