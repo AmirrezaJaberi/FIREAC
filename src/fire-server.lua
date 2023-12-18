@@ -1320,10 +1320,6 @@ function StartAntiCheat()
     888          888   888  T88b  888         d8888888888 Y88b  d88P
     888        8888888 888   T88b 8888888888 d88P     888  "Y8888P"
 
-
-    ^2     __                ^0      ______   ^1 _____  ___ ___ __  __     ^0
-    ^2|  |/  \|\/| /\ |\ |   ^0|   ||__|__    ^1|__|__)|__ |__ |  \/  \|\/|^0
-    ^2|/\|\__/|  |/~~\| \|   ^0|___||  |___   ^1|  |  \|___|___|__/\__/|  |^0
                     ]])
         PerformHttpRequest("http://localhost:" .. FIREAC.ServerConfig.Port .. "/info.json", function(ERROR, DATA, RESULT)
             if DATA ~= nil then
