@@ -293,32 +293,32 @@ AddEventHandler('FIREAC:RemovePlayerFromBanList', function(banid)
     end
 end)
 
-RegisterNetEvent("FIREAC:DeleteEntitys")
-AddEventHandler("FIREAC:DeleteEntitys", function(TYPE)
-    local SRC = source
-    if TYPE ~= nil then
-        if FIREAC_GETADMINS(SRC) then
-            if TYPE == "VEHCILE" then
-                for _, VEH in ipairs(GetAllVehicles()) do
-                    if DoesEntityExist(VEH) then
-                        DeleteEntity(VEH)
+RegisterNetEvent("FIREAC:deleteEntitys")
+AddEventHandler("FIREAC:deleteEntitys", function(entityType)
+    local source = source
+    if entityType ~= nil then
+        if FIREAC_GETADMINS(source) then
+            if entityType == "vehicles" then
+                for index, vehicles in ipairs(GetAllVehicles()) do
+                    if DoesEntityExist(vehicles) then
+                        DeleteEntity(vehicles)
                     end
                 end
-            elseif TYPE == "PEDS" then
-                for _, PEDS in ipairs(GetAllPeds()) do
-                    if DoesEntityExist(PEDS) then
-                        DeleteEntity(PEDS)
+            elseif entityType == "peds" then
+                for index, peds in ipairs(GetAllPeds()) do
+                    if DoesEntityExist(peds) then
+                        DeleteEntity(peds)
                     end
                 end
-            elseif TYPE == "PROP" then
-                for _, OBJ in ipairs(GetAllObjects()) do
-                    if DoesEntityExist(OBJ) then
-                        DeleteEntity(OBJ)
+            elseif entityType == "props" then
+                for index, objects in ipairs(GetAllObjects()) do
+                    if DoesEntityExist(objects) then
+                        DeleteEntity(objects)
                     end
                 end
             end
         else
-            FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Delete Entity", "Try For Delete Entitys")
+            FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Delete Entity", "Try For Delete Entitys")
         end
     end
 end)
