@@ -175,6 +175,28 @@ RegisterNUICallback("addToUnban", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("delete_vehicles", function(data, cb)
+    TriggerServerEvent("FIREAC:deleteEntitys", "vehicles")
+    cb("ok")
+end)
+
+RegisterNUICallback("delete_objects", function(data, cb)
+    TriggerServerEvent("FIREAC:deleteEntitys", "props")
+    cb("ok")
+end)
+
+RegisterNUICallback("delete_peds", function(data, cb)
+    TriggerServerEvent("FIREAC:deleteEntitys", "peds")
+    cb("ok")
+end)
+
+RegisterNUICallback("delete_all_entity", function(data, cb)
+    TriggerServerEvent("FIREAC:deleteEntitys", "vehicles")
+    TriggerServerEvent("FIREAC:deleteEntitys", "props")
+    TriggerServerEvent("FIREAC:deleteEntitys", "peds")
+    cb("ok")
+end)
+
 ---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
