@@ -307,6 +307,13 @@ function doActionOnTargetPlayer(actionName) {
   }
 }
 
+function doOnServer(actionName) {
+  if (actionName) {
+    $.post(`https://FIREAC/${actionName}`);
+    closeUI();
+  }
+}
+
 function teleportToWaypoint() {}
 function teleportToCoords() {}
 
