@@ -160,6 +160,21 @@ RegisterNUICallback("ban", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("addToAdmin", function(data, cb)
+    TriggerServerEvent("FIREAC:addPlayerAsAdmin", data.playerId)
+    cb("ok")
+end)
+
+RegisterNUICallback("addToWhiteList", function(data, cb)
+    TriggerServerEvent("FIREAC:addPlayerAsWhiteList", data.playerId)
+    cb("ok")
+end)
+
+RegisterNUICallback("addToUnban", function(data, cb)
+    TriggerServerEvent("FIREAC:addPlayerUnbanAccess", data.playerId)
+    cb("ok")
+end)
+
 ---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
