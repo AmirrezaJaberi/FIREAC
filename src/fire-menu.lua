@@ -210,6 +210,24 @@ RegisterNUICallback("teleportToCoords", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("night", function(data, cb)
+    if not GetUsingnightvision() then
+        SetNightvision(1)
+    else
+        SetNightvision(0)
+    end
+    cb("ok")
+end)
+
+RegisterNUICallback("thermal", function(data, cb)
+    if not GetUsingseethrough() then
+        SetSeethrough(1)
+    else
+        SetSeethrough(0)
+    end
+    cb("ok")
+end)
+
 ---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
