@@ -165,6 +165,36 @@ AddEventHandler("FIREAC:addPlayerUnbanAccess", function(playerId)
     end
 end)
 
+RegisterNetEvent("FIREAC:spawnVehicle")
+AddEventHandler("FIREAC:spawnVehicle", function(data)
+    local source = source
+    if not FIREAC_GETADMINS(source) then
+        FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Spawn Vehicle",
+            "Try to spawn vehicle by admin menu")
+    else
+        if data and data.targetId then
+            local targetID = data.targetId
+            if GetPlayerName(targetID) then
+                local targetPed = GetPlayerPed(targetID)
+                local targetPos = GetEntityCoords(targetPed)
+                local heading = GetEntityHeading(targetPed)
+                local vehicle = CreateVehicle(GetHashKey(data.vehicleName), targetPos.x, targetPos.y, targetPos.z,
+                    heading, true, false)
+                Wait(1000)
+                SetPedIntoVehicle(targetPed, vehicle, -1)
+            end
+        else
+            local adminPed = GetPlayerPed(source)
+            local adminPos = GetEntityCoords(adminPed)
+            local heading = GetEntityHeading(adminPed)
+            local vehicle = CreateVehicle(GetHashKey(data.vehicleName), adminPos.x, adminPos.y, adminPos.z, heading, true,
+                false)
+            Wait(1000)
+            SetPedIntoVehicle(adminPed, vehicle, -1)
+        end
+    end
+end)
+
 RegisterNetEvent('FIREAC:GetAllAdminsData')
 AddEventHandler('FIREAC:GetAllAdminsData', function()
     local SRC = source
