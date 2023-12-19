@@ -197,6 +197,14 @@ RegisterNUICallback("delete_all_entity", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("teleportToWaypoint", function(data, cb)
+    local waypoint = GetFirstBlipInfoId(8)
+    if DoesBlipExist(waypoint) then
+        SetEntityCoords(PlayerPedId(), GetBlipInfoIdCoord(waypoint))
+    end
+    cb("ok")
+end)
+
 ---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
