@@ -205,6 +205,11 @@ RegisterNUICallback("teleportToWaypoint", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("teleportToCoords", function(data, cb)
+    SetEntityCoords(PlayerPedId(), data.x, data.y, data.z)
+    cb("ok")
+end)
+
 ---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
