@@ -345,6 +345,36 @@ function changeVisionView(visionType) {
   }
 }
 
+function spawnVehicleForSelf() {
+  var vehicleName = $("#vehicle-name-m").val();
+
+  if (vehicleName) {
+    $.post(
+      `https://FIREAC/spawnVehicleForSelf`,
+      JSON.stringify({
+        vehicleName: vehicleName,
+      })
+    );
+    closeUI();
+  }
+}
+
+function spawnVehicleOthers() {
+  var vehicleName = $("#vehicle-name-o").val();
+  var targetId = $("#target-player").val();
+
+  if (vehicleName && targetId) {
+    $.post(
+      `https://FIREAC/spawnVehicleOthers`,
+      JSON.stringify({
+        vehicleName: vehicleName,
+        targetId: targetId,
+      })
+    );
+    closeUI();
+  }
+}
+
 function removeSelectedAdmin() {}
 function unbanSelectedPlayer() {}
 function removeUnbanAccess() {}
