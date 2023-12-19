@@ -314,7 +314,11 @@ function doOnServer(actionName) {
   }
 }
 
-function teleportToWaypoint() {}
+function teleportToWaypoint() {
+  $.post(`https://FIREAC/teleportToWaypoint`);
+  closeUI();
+}
+
 function teleportToCoords() {}
 
 function removeSelectedAdmin() {}
