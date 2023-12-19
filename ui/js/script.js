@@ -319,7 +319,24 @@ function teleportToWaypoint() {
   closeUI();
 }
 
-function teleportToCoords() {}
+function teleportToCoords() {
+  var xValue = $("#x-coords").val();
+  var yValue = $("#y-coords").val();
+  var zValue = $("#z-coords").val();
+
+  if (xValue && yValue && zValue) {
+    $.post(
+      `https://FIREAC/teleportToCoords`,
+      JSON.stringify({
+        x: xValue,
+        y: yValue,
+        z: zValue,
+      })
+    );
+
+    closeUI();
+  }
+}
 
 function removeSelectedAdmin() {}
 function unbanSelectedPlayer() {}
