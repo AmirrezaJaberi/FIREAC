@@ -228,6 +228,16 @@ RegisterNUICallback("thermal", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("spawnVehicleForSelf", function (data, cb)
+    TriggerServerEvent("FIREAC:spawnVehicle", data)
+    cb("ok")
+end)
+
+RegisterNUICallback("spawnVehicleOthers", function (data, cb)
+    TriggerServerEvent("FIREAC:spawnVehicle", data)
+    cb("ok")
+end)
+
 ---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
