@@ -338,6 +338,13 @@ function teleportToCoords() {
   }
 }
 
+function changeVisionView(visionType) {
+  if (visionType) {
+    $.post(`https://FIREAC/${actionName}`);
+    closeUI();
+  }
+}
+
 function removeSelectedAdmin() {}
 function unbanSelectedPlayer() {}
 function removeUnbanAccess() {}
