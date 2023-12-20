@@ -118,7 +118,7 @@ RegisterNUICallback("giveAllWeapon", function(data, cb)
         'WEAPON_RAILGUN', 'WEAPON_POOLCUE', 'WEAPON_BZGAS', 'WEAPON_SMOKEGRENADE', 'WEAPON_MOLOTOV',
         'WEAPON_FIREEXTINGUISHER', 'WEAPON_PETROLCAN', 'WEAPON_SNOWBALL', 'WEAPON_FLARE', 'WEAPON_BALL' }
     for index, weapon in ipairs(weapons) do
-        local weaponHash = GetHashKey(weapon)
+        local weaponHash = joaat(weapon)
         GiveWeaponToPed(PlayerPedId(), weaponHash, 3000)
     end
     cb("ok")

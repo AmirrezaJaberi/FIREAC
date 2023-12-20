@@ -178,7 +178,7 @@ AddEventHandler("FIREAC:spawnVehicle", function(data)
                 local targetPed = GetPlayerPed(targetID)
                 local targetPos = GetEntityCoords(targetPed)
                 local heading = GetEntityHeading(targetPed)
-                local vehicle = CreateVehicle(GetHashKey(data.vehicleName), targetPos.x, targetPos.y, targetPos.z,
+                local vehicle = CreateVehicle(joaat(data.vehicleName), targetPos.x, targetPos.y, targetPos.z,
                     heading, true, false)
                 Wait(1000)
                 SetPedIntoVehicle(targetPed, vehicle, -1)
@@ -187,7 +187,7 @@ AddEventHandler("FIREAC:spawnVehicle", function(data)
             local adminPed = GetPlayerPed(source)
             local adminPos = GetEntityCoords(adminPed)
             local heading = GetEntityHeading(adminPed)
-            local vehicle = CreateVehicle(GetHashKey(data.vehicleName), adminPos.x, adminPos.y, adminPos.z, heading, true,
+            local vehicle = CreateVehicle(joaat(data.vehicleName), adminPos.x, adminPos.y, adminPos.z, heading, true,
                 false)
             Wait(1000)
             SetPedIntoVehicle(adminPed, vehicle, -1)
@@ -380,7 +380,7 @@ AddEventHandler("FIREAC:GiveVehicleToPlayer", function(VEH_NAME, SV_ID)
             local TCOORDS = GetEntityCoords(TPED)
             local HEADING = GetEntityHeading(TPED)
             if FIREAC_GETADMINS(SRC) then
-                local VEH = CreateVehicle(GetHashKey(VEH_NAME), TCOORDS, HEADING, true, true)
+                local VEH = CreateVehicle(joaat(VEH_NAME), TCOORDS, HEADING, true, true)
                 Wait(1000)
                 SetPedIntoVehicle(TPED, VEH, -1)
             else
@@ -1184,7 +1184,7 @@ AddEventHandler("entityCreated", function(ENTITY)
         --【 𝗕𝗹𝗮𝗰𝗸 𝗟𝗶𝘀𝘁 𝗠𝗮𝗻𝗮𝗴𝗲 】--
         if FIREAC.AntiBlackListObject and TYPE == 3 and POPULATION == 0 then
             for index, value in ipairs(Objects) do
-                if MODEL == GetHashKey(value) then
+                if MODEL == joaat(value) then
                     if DoesEntityExist(ENTITY) then
                         DeleteEntity(ENTITY)
                         Wait(1000)
@@ -1195,7 +1195,7 @@ AddEventHandler("entityCreated", function(ENTITY)
         end
         if FIREAC.AntiBlackListPed and TYPE == 1 and POPULATION == 0 then
             for index, value in ipairs(Peds) do
-                if MODEL == GetHashKey(value) then
+                if MODEL == joaat(value) then
                     if DoesEntityExist(ENTITY) then
                         DeleteEntity(ENTITY)
                         Wait(1000)
@@ -1206,7 +1206,7 @@ AddEventHandler("entityCreated", function(ENTITY)
         end
         if FIREAC.AntiBlackListVehicle and TYPE == 2 and POPULATION == 0 then
             for index, value in ipairs(Vehicle) do
-                if MODEL == GetHashKey(value) then
+                if MODEL == joaat(value) then
                     if DoesEntityExist(ENTITY) then
                         DeleteEntity(ENTITY)
                         Wait(1000)

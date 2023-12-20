@@ -68,6 +68,7 @@ end)
 Citizen.CreateThread(function()
     local lastCoords = nil
     local isFirstAttempt = true
+    local explosionHash = `WEAPON_EXPLOSION`
     while true do
         Wait(5000)
         local PED     = PlayerPedId()
@@ -82,7 +83,7 @@ Citizen.CreateThread(function()
             if IsPedInAnyVehicle(PED, false) then
                 VEH     = GetVehiclePedIsIn(PED, false)
                 PLATE   = GetVehicleNumberPlateText(VEH)
-                VEHHASH = GetHashKey(VEH)
+                VEHHASH = joaat(VEH)
             end
             if FIREAC.AntiSpectate then
                 if NetworkIsInSpectatorMode() then
@@ -127,7 +128,7 @@ Citizen.CreateThread(function()
             if FIREAC.AntiBlackListWeapon then
                 for _, weapon in ipairs(Weapon) do
                     local currentWeaponHash = GetSelectedPedWeapon(PlayerPedId())
-                    if currentWeaponHash == GetHashKey(weapon) then
+                    if currentWeaponHash == joaat(weapon) then
                         RemoveAllPedWeapons(PlayerPedId(), true)
                         FIREAC_ACTION(FIREAC.WeaponPunishment, "Anti Black List Weapon",
                             "Used blacklisted weapon: " .. weapon)
@@ -164,7 +165,7 @@ Citizen.CreateThread(function()
                 if IsPedInAnyVehicle(ped, false) then
                     local vehicle = GetVehiclePedIsIn(ped, false)
                     local plate = GetVehicleNumberPlateText(vehicle)
-                    local hash = GetHashKey(vehicle)
+                    local hash = joaat(vehicle)
                     if plate and hash and VEH == vehicle and PLATE ~= plate then
                         FIREAC_ACTION(FIREAC.GodPunishment, "Anti Plate Changer",
                             "Changed the vehicle plate : **" .. PLATE .. " --> " .. plate .. "**")
@@ -301,7 +302,7 @@ Citizen.CreateThread(function()
             if FIREAC.AntiWeaponsExplosive then
                 local weapon = GetSelectedPedWeapon(PlayerPedId())
                 local damageType = GetWeaponDamageType(weapon)
-                N_0x4757f00bc6323cfe(GetHashKey("WEAPON_EXPLOSION"), 0.0)
+                N_0x4757f00bc6323cfe(explosionHash, 0.0)
 
                 local explosiveDamageTypes = { 4, 5, 6, 13 }
                 local isExplosive = false
@@ -322,7 +323,7 @@ Citizen.CreateThread(function()
                 local playerPedModel = GetEntityModel(PlayerPedId())
                 local isWhitelisted = false
                 for _, whitelistedModel in ipairs(WhiteListPeds) do
-                    if playerPedModel == GetHashKey(whitelistedModel) then
+                    if playerPedModel == joaat(whitelistedModel) then
                         isWhitelisted = true
                         break
                     end
@@ -463,12 +464,13 @@ AddEventHandler('onClientResourceStart', function(resourceName)
 end)
 
 --【 𝗔𝗻𝘁𝗶 𝗦𝘂𝗶𝗰𝗶𝗱𝗲 】--
+local fallHash = `WEAPON_FALL`
 AddEventHandler("gameEventTriggered", function(name, args)
     if FIREAC.AntiSuicide and name == "CEventNetworkEntityDamage" then
         local playerPed = PlayerPedId()
         local attacker  = NetworkGetEntityOwner(args[1])
         local weapon    = args[7]
-        local isFall    = weapon == GetHashKey('WEAPON_FALL')
+        local isFall    = weapon == fallHash
 
         if args[1] == playerPed and args[2] == -1 and #args == 14 and
             args[3] == 0 and args[4] == 0 and args[5] == 0 and args[6] == 1 and
