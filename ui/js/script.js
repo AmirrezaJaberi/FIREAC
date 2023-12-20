@@ -116,6 +116,8 @@ function openBanListMenu() {
     $("#title").text("Ban List");
   }, 500);
 
+  getBanListData();
+
   closeMainMenu();
 }
 
@@ -396,7 +398,7 @@ function updateBanList(bannedPlayers) {
 
   $.each(bannedPlayers, function (index, banData) {
     var newRow =
-      $(`                        <button onclick="unbanSelectedPlayer(${banData.banID})">
+      $(`                        <button onclick="unbanSelectedPlayer(${banData.BANID})">
     <svg width="34px" height="34px" viewBox="0 0 24 24" version="1.1"
         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g id="Stockholm-icons-/-Communication-/-Delete-user" stroke="none" stroke-width="1"
@@ -410,8 +412,8 @@ function updateBanList(bannedPlayers) {
                 id="Mask-Copy" fill="#000000" fill-rule="nonzero"></path>
         </g>
     </svg>
-    <span class="banid">#${banData.banID}</span>
-    <span class="reason">${banData.reason}</span>
+    <span class="banid">#${banData.BANID}</span>
+    <span class="reason">${banData.REASON}</span>
 </button>`);
     banlist.append(newRow);
   });
