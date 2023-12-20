@@ -296,7 +296,7 @@ AddEventHandler('FIREAC:getBanListData', function()
     local source = source
     if not FIREAC_GETADMINS(source) then
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
-            "Attempt to get banlist data by admin menu event .")
+            "Attempt to get banlist data by admin menu event.")
     else
         local banData = {}
         MySQL.Async.fetchAll('SELECT * FROM fireac_banlist', {}, function(data)
@@ -305,8 +305,8 @@ AddEventHandler('FIREAC:getBanListData', function()
                     table.insert(banData, data[i])
                 end
             end
+            TriggerClientEvent("FIREAC:updateBanListData", source, banData)
         end)
-        TriggerClientEvent("FIREAC:updateBanListData", source, banData)
     end
 end)
 
