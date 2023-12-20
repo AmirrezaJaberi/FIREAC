@@ -9,6 +9,7 @@ local SPAWNED        = {}
 local SPAMLIST       = {}
 local TEMP_WHITELIST = {}
 local TEMP_STOP      = {}
+local RESOURCE_NAME = GetCurrentResourceName()
 
 --【 𝗦𝘁𝗮𝗿𝘁𝗶𝗻𝗴 】--
 Citizen.CreateThread(function()
@@ -61,7 +62,7 @@ end)
 RegisterNetEvent("FIREAC:passScriptInfo")
 AddEventHandler("FIREAC:passScriptInfo", function(name, path)
     local SRC = source
-    if name == GetCurrentResourceName() and path == GetResourcePath(GetCurrentResourceName()) then
+    if name == RESOURCE_NAME and path == GetResourcePath(RESOURCE_NAME) then
         for id, value in pairs(TEMP_STOP) do
             if id == SRC then
                 value.status = true
@@ -949,7 +950,7 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
     end
     print("^" .. COLORS .. "FIREAC^0: ^2Player ^3" .. name .. " ^2Connecting ...^0")
     --【 𝗕𝗮𝗻 𝗣𝗹𝗮𝘆𝗲𝗿 】--
-    local BANFILE = LoadResourceFile(GetCurrentResourceName(), "banlist/fireac.json")
+    local BANFILE = LoadResourceFile(RESOURCE_NAME, "banlist/fireac.json")
     if BANFILE ~= nil then
         local TABLE = json.decode(BANFILE)
         if TABLE ~= nil and type(TABLE) == "table" then
@@ -1297,19 +1298,19 @@ end)
 
 --【 𝗙𝘂𝗻𝗰𝘁𝗶𝗼𝗻 】--
 function StartAntiCheat()
-    local fire_config     = LoadResourceFile(GetCurrentResourceName(), "configs/fire-config.lua")
-    local fire_event      = LoadResourceFile(GetCurrentResourceName(), "tables/fire-event.lua")
-    local fire_explosions = LoadResourceFile(GetCurrentResourceName(), "tables/fire-explosions.lua")
-    local fire_name       = LoadResourceFile(GetCurrentResourceName(), "tables/fire-name.lua")
-    local fire_object     = LoadResourceFile(GetCurrentResourceName(), "tables/fire-object.lua")
-    local fire_peds       = LoadResourceFile(GetCurrentResourceName(), "tables/fire-peds.lua")
-    local fire_plate      = LoadResourceFile(GetCurrentResourceName(), "tables/fire-plate.lua")
-    local fire_vehicle    = LoadResourceFile(GetCurrentResourceName(), "tables/fire-vehicle.lua")
-    local fire_weapon     = LoadResourceFile(GetCurrentResourceName(), "tables/fire-weapon.lua")
-    local fire_words      = LoadResourceFile(GetCurrentResourceName(), "tables/fire-words.lua")
-    local fire_task       = LoadResourceFile(GetCurrentResourceName(), "tables/fire-task.lua")
-    local fire_anim       = LoadResourceFile(GetCurrentResourceName(), "tables/fire-anim.lua")
-    local fire_emoji      = LoadResourceFile(GetCurrentResourceName(), "tables/fire-emoji.lua")
+    local fire_config     = LoadResourceFile(RESOURCE_NAME, "configs/fire-config.lua")
+    local fire_event      = LoadResourceFile(RESOURCE_NAME, "tables/fire-event.lua")
+    local fire_explosions = LoadResourceFile(RESOURCE_NAME, "tables/fire-explosions.lua")
+    local fire_name       = LoadResourceFile(RESOURCE_NAME, "tables/fire-name.lua")
+    local fire_object     = LoadResourceFile(RESOURCE_NAME, "tables/fire-object.lua")
+    local fire_peds       = LoadResourceFile(RESOURCE_NAME, "tables/fire-peds.lua")
+    local fire_plate      = LoadResourceFile(RESOURCE_NAME, "tables/fire-plate.lua")
+    local fire_vehicle    = LoadResourceFile(RESOURCE_NAME, "tables/fire-vehicle.lua")
+    local fire_weapon     = LoadResourceFile(RESOURCE_NAME, "tables/fire-weapon.lua")
+    local fire_words      = LoadResourceFile(RESOURCE_NAME, "tables/fire-words.lua")
+    local fire_task       = LoadResourceFile(RESOURCE_NAME, "tables/fire-task.lua")
+    local fire_anim       = LoadResourceFile(RESOURCE_NAME, "tables/fire-anim.lua")
+    local fire_emoji      = LoadResourceFile(RESOURCE_NAME, "tables/fire-emoji.lua")
     if
         fire_config and
         fire_event and
@@ -2424,7 +2425,7 @@ Citizen.CreateThread(function()
                 TEMP_STOP[value] = { id = value, status = false }
             end
             TriggerClientEvent('FIREAC:checkStatus', value,
-                { name = GetCurrentResourceName(), path = GetResourcePath(GetCurrentResourceName()) })
+                { name = RESOURCE_NAME, path = GetResourcePath(RESOURCE_NAME) })
         end
         Citizen.Wait(5000)
         local players = GetPlayers()
@@ -2436,7 +2437,7 @@ Citizen.CreateThread(function()
                         FIREAC_ACTION(value, FIREAC.ResourcePunishment, "Anti Resource Stopper",
                             "Try to stop anticheat resource !")
                         TriggerClientEvent('FIREAC:checkStatus', value,
-                            { name = GetCurrentResourceName(), path = GetResourcePath(GetCurrentResourceName()) })
+                            { name = RESOURCE_NAME, path = GetResourcePath(RESOURCE_NAME) })
                     else
                         TEMP_STOP[value].status = false
                     end

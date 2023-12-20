@@ -423,7 +423,7 @@ Citizen.CreateThread(function()
                 Wait(1000)
 
                 local newCoords = GetEntityCoords(PlayerPedId())
-                local distance  = Vdist(coords, newCoords)
+                local distance  = #(coords - newCoords)
 
                 if distance >= FIREAC.MaxVehicleDistance then
                     FIREAC_ACTION(FIREAC.TeleportPunishment, "Anti Teleport",
