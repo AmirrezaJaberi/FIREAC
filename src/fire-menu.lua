@@ -40,6 +40,11 @@ AddEventHandler("FIREAC:spectatePlayer", function(target, coords)
     end
 end)
 
+RegisterNetEvent("FIREAC:updateBanListData")
+AddEventHandler("FIREAC:updateBanListData", function(banList)
+    updateBanListData(banList)
+end)
+
 ---------------- Open Menu ----------------
 RegisterCommand("fireacmenu", function()
     if isAdmin then
@@ -228,13 +233,23 @@ RegisterNUICallback("thermal", function(data, cb)
     cb("ok")
 end)
 
-RegisterNUICallback("spawnVehicleForSelf", function (data, cb)
+RegisterNUICallback("spawnVehicleForSelf", function(data, cb)
     TriggerServerEvent("FIREAC:spawnVehicle", data)
     cb("ok")
 end)
 
-RegisterNUICallback("spawnVehicleOthers", function (data, cb)
+RegisterNUICallback("spawnVehicleOthers", function(data, cb)
     TriggerServerEvent("FIREAC:spawnVehicle", data)
+    cb("ok")
+end)
+
+RegisterNUICallback("getBanListData", function(data, cb)
+    TriggerServerEvent("FIREAC:getBanListData")
+    cb("ok")
+end)
+
+RegisterNUICallback("unbanSelectedPlayer", function(data, cb)
+    TriggerServerEvent("FIREAC:unbanSelectedPlayer", data.banID)
     cb("ok")
 end)
 
@@ -273,6 +288,13 @@ function updatePlayerList(playerList)
     SendNUIMessage({
         action = "updatePlayerList",
         playerList = playerList,
+    })
+end
+
+function updateBanListData(banList)
+    SendNUIMessage({
+        action = "updateBanList",
+        banList = banList,
     })
 end
 
