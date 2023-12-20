@@ -291,11 +291,11 @@ AddEventHandler('FIREAC:RemoveWhitelistByMenu', function(identifier)
     end
 end)
 
-RegisterNetEvent('FIREAC:GetAllBanlistData')
-AddEventHandler('FIREAC:GetAllBanlistData', function()
-    local SRC = source
-    if not FIREAC_GETADMINS(SRC) then
-        FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
+RegisterNetEvent('FIREAC:getBanListData')
+AddEventHandler('FIREAC:getBanListData', function()
+    local source = source
+    if not FIREAC_GETADMINS(source) then
+        FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
             "Attempt to get banlist data by admin menu event .")
     else
         local banData = {}
@@ -306,19 +306,19 @@ AddEventHandler('FIREAC:GetAllBanlistData', function()
                 end
             end
         end)
-        TriggerClientEvent("FIREAC:UpdateBanlistData", SRC, banData)
+        TriggerClientEvent("FIREAC:updateBanListData", source, banData)
     end
 end)
 
-RegisterNetEvent('FIREAC:RemovePlayerFromBanList')
-AddEventHandler('FIREAC:RemovePlayerFromBanList', function(banid)
-    local SRC = source
-    if not FIREAC_GETADMINS(SRC) then
-        FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
+RegisterNetEvent('FIREAC:unbanSelectedPlayer')
+AddEventHandler('FIREAC:unbanSelectedPlayer', function(banID)
+    local source = source
+    if not FIREAC_GETADMINS(source) then
+        FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
             "Attempt to remove player from banlist by admin menu event.")
     else
         MySQL.Async.execute('DELETE FROM fireac_banlist WHERE BANID=@banid', {
-            ['@banid'] = banid
+            ['@banid'] = banID
         })
     end
 end)
