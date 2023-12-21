@@ -15,7 +15,7 @@ FIREAC                          = {}
 --                                 Add this resource to your server
 
 --【 𝗩𝗲𝗿𝘀𝗶𝗼𝗻 𝗖𝗵𝗲𝗰𝗸 】--
-FIREAC.Version                  = "6.2.3"
+FIREAC.Version                  = "7.0.0"
 
 --【 𝗦𝗲𝗿𝘃𝗲𝗿 𝗦𝗲𝘁𝘁𝗶𝗻𝗴𝘀 】--
 FIREAC.ServerConfig             = {
