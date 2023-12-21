@@ -95,7 +95,7 @@ FIREAC.AntiWeaponsExplosive     = true
 FIREAC.WeaponPunishment         = "BAN"
 
 --【 𝗔𝗻𝘁𝗶 𝗚𝗼𝗱𝗠𝗼𝗱𝗲 】--
-FIREAC.AntiGodMode              = false
+FIREAC.AntiGodMode              = true
 FIREAC.GodPunishment            = "BAN"
 
 --【 𝗔𝗻𝘁𝗶 𝗜𝗻𝘃𝗶𝘀𝗶𝗯𝗹𝗲 】--
