@@ -1,25 +1,31 @@
+CREATE TABLE IF NOT EXISTS `fireac_admin` (
+  `id` int(11) NOT NULL DEFAULT 1,
+  `identifier` longtext NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 CREATE TABLE IF NOT EXISTS `fireac_banlist` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL DEFAULT 1,
   `STEAM` longtext NOT NULL,
   `DISCORD` longtext NOT NULL,
   `LICENSE` longtext NOT NULL,
   `LIVE` longtext NOT NULL,
   `XBL` longtext NOT NULL,
   `IP` longtext NOT NULL,
-  `HWID` longtext NOT NULL,
+  `TOKENS` longtext NOT NULL,
   `BANID` longtext NOT NULL,
   `REASON` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE IF NOT EXISTS `fireac_unban` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `identifire` longtext NOT NULL,
+  `id` int(11) NOT NULL DEFAULT 1,
+  `identifier` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE IF NOT EXISTS `fireac_whitelist` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `identifire` longtext NOT NULL,
+  `id` int(11) NOT NULL DEFAULT 1,
+  `identifier` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_persian_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
