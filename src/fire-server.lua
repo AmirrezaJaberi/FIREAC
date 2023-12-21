@@ -593,7 +593,7 @@ AddEventHandler("playerDropped", function(REASON)
         COLORS .. "FIREAC^0: ^1Player ^3" .. GetPlayerName(SRC) .. " ^1Disconnected ...  |  Reason : ^0(^6" ..
         REASON .. "^0)^0")
     if GetPlayerName(SRC) and REASON ~= nil then
-        FIREAC_SENDLOG(SRC, FIREAC.Log.Disconnect, "DISCONNECT", REASON)
+        FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Disconnect, "DISCONNECT", REASON)
     else
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "playerDropped : REASON or SRC (Not Found)")
     end
@@ -771,7 +771,7 @@ AddEventHandler("explosionEvent", function(SRC, DATA)
             if TABLE ~= nil then
                 local NAME = TABLE.NAME
                 if TABLE.Log then
-                    FIREAC_SENDLOG(SRC, FIREAC.Log.Exoplosion, "EXPLOSION", NAME)
+                    FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Exoplosion, "EXPLOSION", NAME)
                 end
                 if TABLE.Punishment ~= nil and TABLE.Punishment ~= false then
                     if TABLE.Punishment == "WARN" then
@@ -1024,7 +1024,7 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
                         COLORS ..
                         "FIREAC^0: ^1Player ^3" .. GetPlayerName(SRC) .. " ^3Try For Join But ^0| ^3Ban ID: ^3 " ..
                         BANID .. "^0")
-                    FIREAC_SENDLOG(SRC, FIREAC.Log.Connect, "TFJ", BANID, REASON)
+                    FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Connect, "TFJ", BANID, REASON)
                 end
             end
         else
@@ -1043,7 +1043,7 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
                     COLORS ..
                     "FIREAC^0: ^1Player ^3" ..
                     name .. " ^3Try For Join ^0| ^3Black List Word in name: ^3 " .. value .. "^0")
-                FIREAC_SENDLOG(SRC, FIREAC.Log.Connect, "BLN", "Black List Name",
+                FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Connect, "BLN", "Black List Name",
                     "We are Found " .. value .. " in the name off this player")
                 setKickReason("\n[" ..
                     Emoji.Fire ..
@@ -1124,7 +1124,7 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
                             GetPlayerName(SRC) ..
                             " ^3Try For Join ^0| ^3VPN Availble ^3 ISP: " ..
                             ISP .. "/ Country:" .. COUNTRY .. "/ City: " .. CITY .. "^0")
-                        FIREAC_SENDLOG(SRC, FIREAC.Log.Connect, "VPN")
+                        FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Connect, "VPN")
                         deferrals.presentCard(card, "XD")
                         Wait(15000)
                         deferrals.done("[" ..
@@ -1140,7 +1140,7 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
                             if FIREAC.Connection.HideIP then
                                 IP = "* HIDE BY OWNER *"
                             end
-                            FIREAC_SENDLOG(SRC, FIREAC.Log.Connect, "CONNECT")
+                            FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Connect, "CONNECT")
                             deferrals.update("\n[" ..
                                 Emoji.Fire ..
                                 "FIREAC" ..
@@ -1166,7 +1166,7 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
             end
         end)
     else
-        FIREAC_SENDLOG(SRC, FIREAC.Log.Connect, "CONNECT")
+        FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Connect, "CONNECT")
         deferrals.update("\n[" ..
             Emoji.Fire ..
             "FIREAC" ..
@@ -1375,7 +1375,7 @@ function StartAntiCheat()
                 print("^" .. COLORS .. "[FIREAC]^0: ^3Server Build : " .. ARTIFACT .. "")
 
                 -- Send Log --
-                PerformHttpRequest(FIREAC.Log.Ban, function(ERROR, DATA, RESULT)
+                PerformHttpRequest(FIREAC.Webhooks.Ban, function(ERROR, DATA, RESULT)
                 end, "POST", json.encode({
                     embeds = {
                         {
@@ -1577,7 +1577,7 @@ end
 function FIREAC_ERROR(SERVER_NAME, ERROR)
     if SERVER_NAME ~= nil then
         if ERROR ~= nil then
-            PerformHttpRequest(FIREAC.Log.Error, function(ERROR, DATA, RESULT)
+            PerformHttpRequest(FIREAC.Webhooks.Error, function(ERROR, DATA, RESULT)
             end, "POST", json.encode({
                 embeds = {
                     {
@@ -1795,14 +1795,14 @@ function FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
                         end
                     end
                     if ACTION == "WARN" then
-                        FIREAC_SENDLOG(SRC, FIREAC.Log.Ban, ACTION, REASON, DETAILS)
+                        FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Ban, ACTION, REASON, DETAILS)
                         FIREAC_MEESAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
                     elseif ACTION == "KICK" then
                         print("^" ..
                             COLORS ..
                             "FIREAC^0: ^1Player ^3" ..
                             GetPlayerName(SRC) .. " ^3Kicked From Server ^0| ^3Reason: ^3 " .. REASON .. "^0")
-                        FIREAC_SENDLOG(SRC, FIREAC.Log.Ban, ACTION, REASON, DETAILS)
+                        FIREAC_SENDLOG(SRC,FIREAC.Webhooks.Ban, ACTION, REASON, DETAILS)
                         FIREAC_MEESAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
                         DropPlayer(SRC,
                             "\n[" ..
@@ -1813,7 +1813,7 @@ function FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
                             COLORS ..
                             "FIREAC^0: ^1Player ^3" ..
                             GetPlayerName(SRC) .. " ^1Banned From Server ^0| ^1Reason: ^3 " .. REASON .. "^0")
-                        FIREAC_SENDLOG(SRC, FIREAC.Log.Ban, ACTION, REASON, DETAILS)
+                        FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Ban, ACTION, REASON, DETAILS)
                         FIREAC_MEESAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
                         FIREAC_BAN(SRC, REASON)
                         DropPlayer(SRC,
