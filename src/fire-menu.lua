@@ -45,6 +45,21 @@ AddEventHandler("FIREAC:updateBanListData", function(banList)
     updateBanListData(banList)
 end)
 
+RegisterNetEvent("FIREAC:updateAdminData")
+AddEventHandler("FIREAC:updateAdminData", function(adminList)
+    updateAdminData(adminList)
+end)
+
+RegisterNetEvent("FIREAC:updateUnbanAccess")
+AddEventHandler("FIREAC:updateUnbanAccess", function(unbanList)
+    updateUnbanAccess(unbanList)
+end)
+
+RegisterNetEvent("FIREAC:updateWhiteList")
+AddEventHandler("FIREAC:updateWhiteList", function(whiteList)
+    updateWhiteList(whiteList)
+end)
+
 ---------------- Open Menu ----------------
 RegisterCommand("fireacmenu", function()
     if isAdmin then
@@ -253,6 +268,36 @@ RegisterNUICallback("unbanSelectedPlayer", function(data, cb)
     cb("ok")
 end)
 
+RegisterNUICallback("getAdminListData", function(data, cb)
+    TriggerServerEvent("FIREAC:getAdminListData")
+    cb("ok")
+end)
+
+RegisterNUICallback("removeSelectedAdmin", function(data, cb)
+    TriggerServerEvent("FIREAC:removeSelectedAdmin", data.id)
+    cb("ok")
+end)
+
+RegisterNUICallback("getUnbanAccessData", function(data, cb)
+    TriggerServerEvent("FIREAC:getUnbanAccessData")
+    cb("ok")
+end)
+
+RegisterNUICallback("removeUnbanAccess", function(data, cb)
+    TriggerServerEvent("FIREAC:removeUnbanAccess", data.id)
+    cb("ok")
+end)
+
+RegisterNUICallback("getWhitelistData", function(data, cb)
+    TriggerServerEvent("FIREAC:getWhitelistData")
+    cb("ok")
+end)
+
+RegisterNUICallback("removeWhitelistUser", function(data, cb)
+    TriggerServerEvent("FIREAC:removeWhitelistUser", data.id)
+    cb("ok")
+end)
+
 ---------------- Functions ----------------
 function openAdminMenu()
     SendNUIMessage({
@@ -295,6 +340,27 @@ function updateBanListData(banList)
     SendNUIMessage({
         action = "updateBanList",
         banList = banList,
+    })
+end
+
+function updateAdminData(adminList)
+    SendNUIMessage({
+        action = "updateAdminData",
+        adminList = adminList,
+    })
+end
+
+function updateUnbanAccess(unbanList)
+    SendNUIMessage({
+        action = "updateUnbanAccess",
+        unbanList = unbanList,
+    })
+end
+
+function updateWhiteList(whiteList)
+    SendNUIMessage({
+        action = "updateWhiteList",
+        whiteList = whiteList,
     })
 end
 

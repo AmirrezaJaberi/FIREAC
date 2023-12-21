@@ -6,7 +6,7 @@ $(function () {
     if (event.data.action == "openUI") {
       openUI();
     } else if (event.data.action == "updateAdminStatus") {
-      updateAdminData(event.data.godmode, event.data.visible);
+      updateAdminStatus(event.data.godmode, event.data.visible);
     } else if (event.data.action == "updatePlayerCoords") {
       updateAdminCoords(event.data.location);
     } else if (event.data.action == "updatePlayerList") {
@@ -15,6 +15,12 @@ $(function () {
       openPlayerActionMenu(event.data.data);
     } else if (event.data.action == "updateBanList") {
       updateBanList(event.data.banList);
+    } else if (event.data.action == "updateAdminData") {
+      updateAdminList(event.data.adminList);
+    } else if (event.data.action == "updateUnbanAccess") {
+      updateUnbanAccess(event.data.unbanList);
+    } else if (event.data.action == "updateWhiteList") {
+      updateWhiteList(event.data.whiteList);
     }
   });
 });
@@ -61,6 +67,18 @@ function getPlayersData() {
 
 function getBanListData() {
   $.post(`https://FIREAC/getBanListData`);
+}
+
+function getAdminListData() {
+  $.post(`https://FIREAC/getAdminListData`);
+}
+
+function getUnbanAccessData() {
+  $.post(`https://FIREAC/getUnbanAccessData`);
+}
+
+function getWhitelistData() {
+  $.post(`https://FIREAC/getWhitelistData`);
 }
 
 function openPlayersMenu() {
@@ -127,6 +145,8 @@ function openAdminListMenu() {
     $("#title").text("Admin List");
   }, 500);
 
+  getAdminListData();
+
   closeMainMenu();
 }
 
@@ -136,6 +156,8 @@ function openUnbanListMenu() {
     $("#title").text("Admin List");
   }, 500);
 
+  getUnbanAccessData();
+
   closeMainMenu();
 }
 
@@ -144,6 +166,8 @@ function openWhitelistMenu() {
     $("#wlusers-menu").fadeIn();
     $("#title").text("Admin List");
   }, 500);
+
+  getWhitelistData();
 
   closeMainMenu();
 }
@@ -181,7 +205,7 @@ function doAction(actionName) {
   }
 }
 
-function updateAdminData(godmode, visible) {
+function updateAdminStatus(godmode, visible) {
   if (godmode) {
     // Status when (Godmode)
     document.getElementById("disable-godmode").style.display = "none";
@@ -390,6 +414,7 @@ function unbanSelectedPlayer(banID) {
     })
   );
   closeUI();
+  openBanListMenu();
 }
 
 function updateBanList(bannedPlayers) {
@@ -419,9 +444,116 @@ function updateBanList(bannedPlayers) {
   });
 }
 
-function removeSelectedAdmin() {}
-function removeUnbanAccess() {}
-function removeWhitelistUser() {}
+function removeSelectedAdmin(id) {
+  $.post(
+    `https://FIREAC/removeSelectedAdmin`,
+    JSON.stringify({
+      id: id,
+    })
+  );
+  closeUI();
+  openAdminListMenu();
+}
+
+function updateAdminList(adminList) {
+  var adminlist = $(".adminlist-menu .mainbar");
+  adminlist.empty();
+
+  $.each(adminList, function (index, adminData) {
+    var newRow =
+      $(`                        <button onclick="removeSelectedAdmin(${adminData.id})">
+    <svg width="34px" height="34px" viewBox="0 0 24 24" version="1.1"
+        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <g id="Stockholm-icons-/-Communication-/-Delete-user" stroke="none" stroke-width="1"
+            fill="none" fill-rule="evenodd">
+            <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+            <path
+                d="M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z M21,8 L17,8 C16.4477153,8 16,7.55228475 16,7 C16,6.44771525 16.4477153,6 17,6 L21,6 C21.5522847,6 22,6.44771525 22,7 C22,7.55228475 21.5522847,8 21,8 Z"
+                id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+            <path
+                d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
+                id="Mask-Copy" fill="#000000" fill-rule="nonzero"></path>
+        </g>
+    </svg>
+    <span class="identifier">${adminData.identifier}</span>
+</button>`);
+    adminlist.append(newRow);
+  });
+}
+
+function removeUnbanAccess(id) {
+  $.post(
+    `https://FIREAC/removeUnbanAccess`,
+    JSON.stringify({
+      id: id,
+    })
+  );
+  closeUI();
+  openUnbanListMenu();
+}
+
+function updateUnbanAccess(unbanAccessList) {
+  var unbanAcess = $(".ubAccess-menu .mainbar");
+  unbanAcess.empty();
+
+  $.each(unbanAccessList, function (index, unbanAccessData) {
+    var newRow =
+      $(`                        <button onclick="removeUnbanAccess(${unbanAccessData.id})">
+      <svg width="34px" height="34px" viewBox="0 0 24 24" version="1.1"
+          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <g id="Stockholm-icons-/-Communication-/-Delete-user" stroke="none" stroke-width="1"
+              fill="none" fill-rule="evenodd">
+              <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+              <path
+                  d="M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z M21,8 L17,8 C16.4477153,8 16,7.55228475 16,7 C16,6.44771525 16.4477153,6 17,6 L21,6 C21.5522847,6 22,6.44771525 22,7 C22,7.55228475 21.5522847,8 21,8 Z"
+                  id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+              <path
+                  d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
+                  id="Mask-Copy" fill="#000000" fill-rule="nonzero"></path>
+          </g>
+      </svg>
+      <span class="identifier">${unbanAccessData.identifier}</span>
+  </button>`);
+    unbanAcess.append(newRow);
+  });
+}
+
+function removeWhitelistUser(id) {
+  $.post(
+    `https://FIREAC/removeWhitelistUser`,
+    JSON.stringify({
+      id: id,
+    })
+  );
+  closeUI();
+  openWhitelistMenu();
+}
+
+function updateWhiteList(whiteLists) {
+  var whiteList = $(".wlusers-menu .mainbar");
+  whiteList.empty();
+
+  $.each(whiteLists, function (index, whiteListData) {
+    var newRow =
+      $(`                        <button onclick="removeWhitelistUser(${whiteListData.id})">
+      <svg width="34px" height="34px" viewBox="0 0 24 24" version="1.1"
+          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <g id="Stockholm-icons-/-Communication-/-Delete-user" stroke="none" stroke-width="1"
+              fill="none" fill-rule="evenodd">
+              <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+              <path
+                  d="M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z M21,8 L17,8 C16.4477153,8 16,7.55228475 16,7 C16,6.44771525 16.4477153,6 17,6 L21,6 C21.5522847,6 22,6.44771525 22,7 C22,7.55228475 21.5522847,8 21,8 Z"
+                  id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+              <path
+                  d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
+                  id="Mask-Copy" fill="#000000" fill-rule="nonzero"></path>
+          </g>
+      </svg>
+      <span class="identifier">${whiteListData.identifier}</span>
+  </button>`);
+    whiteList.append(newRow);
+  });
+}
 
 $(document).keydown(function (e) {
   if (e.keyCode == 27) {
