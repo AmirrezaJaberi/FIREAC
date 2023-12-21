@@ -267,7 +267,7 @@ Citizen.CreateThread(function()
                 local playerCoords = GetEntityCoords(PlayerPedId())
                 local camCoords = GetFinalRenderedCamCoord()
                 local distance = #(playerCoords - camCoords)
-                if distance > 50 then
+                if distance > 50 and not IsCinematicCamRendering() then
                     FIREAC_ACTION(FIREAC.CamPunishment, "Anti Free Cam",
                         "Used freecam hacks")
                 end
