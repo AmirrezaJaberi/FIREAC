@@ -18,17 +18,17 @@ end)
 --【 𝗕𝗮𝗻 𝗘𝘃𝗲𝗻𝘁 𝗙𝗼𝗿 𝗖𝗹𝗶𝗲𝗻𝘁 】--
 RegisterNetEvent("FIREAC:BanFromClient")
 AddEventHandler("FIREAC:BanFromClient", function(ACTION, REASON, DETAILS)
-    local SRC = source
+    local source = source
     if REASON ~= nil and ACTION ~= nil then
-        if not FIREAC_WHITELIST(SRC) then
+        if not FIREAC_WHITELIST(source) then
             if REASON == "Anti Teleport" then
-                if (not FIREAC_ISNEARADMIN(SRC)) then
-                    FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
-                    FIREAC_ADD_SPAMLIST(SRC, ACTION, REASON, DETAILS)
+                if (not FIREAC_ISNEARADMIN(source)) then
+                    FIREAC_ACTION(source, ACTION, REASON, DETAILS)
+                    FIREAC_ADD_SPAMLIST(source, ACTION, REASON, DETAILS)
                 end
             else
-                FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
-                FIREAC_ADD_SPAMLIST(SRC, ACTION, REASON, DETAILS)
+                FIREAC_ACTION(source, ACTION, REASON, DETAILS)
+                FIREAC_ADD_SPAMLIST(source, ACTION, REASON, DETAILS)
             end
         end
     else
@@ -962,76 +962,21 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
         end
     end
     print("^" .. COLORS .. "FIREAC^0: ^2Player ^3" .. name .. " ^2Connecting ...^0")
+    deferrals.defer()
     --【 𝗕𝗮𝗻 𝗣𝗹𝗮𝘆𝗲𝗿 】--
-    local BANFILE = LoadResourceFile(GetCurrentResourceName(), "banlist/fireac.json")
-    if BANFILE ~= nil then
-        local TABLE = json.decode(BANFILE)
-        if TABLE ~= nil and type(TABLE) == "table" then
-            if tonumber(SRC) ~= nil then
-                local STEAM   = "Not Found"
-                local DISCORD = "Not Found"
-                local FIVEML  = "Not Found"
-                local LIVE    = "Not Found"
-                local XBL     = "Not Found"
-                local IP      = GetPlayerEndpoint(SRC)
-                local BANID   = "Not Found"
-                local REASON  = "Not Found"
-                local BANNED  = false
-                IP            = (string.gsub(string.gsub(string.gsub(IP, "-", ""), ",", ""), " ", ""):lower())
-                local g, f    = IP:find(string.lower("192.168"))
-                if g or f then
-                    IP = "178.131.122.181"
-                end
-                for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
-                    if DATA:match("steam") then
-                        STEAM = DATA
-                    elseif DATA:match("discord") then
-                        DISCORD = DATA:gsub("discord:", "")
-                    elseif DATA:match("license") then
-                        FIVEML = DATA
-                    elseif DATA:match("live") then
-                        LIVE = DATA
-                    elseif DATA:match("xbl") then
-                        XBL = DATA
-                    end
-                end
-                for i = 0, GetNumPlayerTokens(SRC) do
-                    for _, BANLIST in ipairs(TABLE) do
-                        if
-                            BANLIST.STEAM == STEAM or
-                            BANLIST.DISCORD == DISCORD or
-                            BANLIST.LICENSE == FIVEML or
-                            BANLIST.LIVE == LIVE or
-                            BANLIST.XBL == XBL or
-                            BANLIST.HWID == GetPlayerToken(SRC, i) or
-                            BANLIST.IP == IP then
-                            BANID  = BANLIST.BANID
-                            REASON = BANLIST.REASON
-                            BANNED = true
-                            setKickReason("\n[" ..
-                                Emoji.Fire ..
-                                "FIREAC" ..
-                                Emoji.Fire ..
-                                "]\n" .. FIREAC.Message.Ban .. "\nReason: " ..
-                                BANLIST.REASON .. "\nBan ID: " .. BANLIST.BANID .. "")
-                            CancelEvent()
-                            break
-                        end
-                    end
-                end
-                if BANNED then
-                    print("^" ..
-                        COLORS ..
-                        "FIREAC^0: ^1Player ^3" .. GetPlayerName(SRC) .. " ^3Try For Join But ^0| ^3Ban ID: ^3 " ..
-                        BANID .. "^0")
-                    FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Connect, "TFJ", BANID, REASON)
-                end
-            end
-        else
-            FIREAC_RELOADFILE()
-        end
-    else
-        FIREAC_RELOADFILE()
+    local isInBanList = FIREAC_INBANLIST(SRC)
+    if isInBanList then
+        print("^" ..
+            COLORS ..
+            "FIREAC^0: ^1Player ^3" .. GetPlayerName(SRC) .. " ^3Try For Join But ^0| ^3Ban ID: ^3 " ..
+            isInBanList[1].BANID .. "^0")
+        FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Connect, "TFJ", isInBanList[1].BANID, isInBanList[1].REASON)
+        deferrals.done("\n[" ..
+            Emoji.Fire ..
+            "FIREAC" ..
+            Emoji.Fire ..
+            "]\n" .. FIREAC.Message.Ban .. "\nReason: " ..
+            isInBanList[1].REASON .. "\nBan ID: " .. isInBanList[1].BANID .. "")
     end
     --【 𝗕𝗹𝗮𝗰𝗸 𝗟𝗶𝘀𝘁 𝗡𝗮𝗺𝗲 】--
     if FIREAC.Connection.AntiBlackListName == true then
@@ -1045,17 +990,15 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
                     name .. " ^3Try For Join ^0| ^3Black List Word in name: ^3 " .. value .. "^0")
                 FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Connect, "BLN", "Black List Name",
                     "We are Found " .. value .. " in the name off this player")
-                setKickReason("\n[" ..
+                deferrals.done("\n[" ..
                     Emoji.Fire ..
                     "FIREAC" ..
                     Emoji.Fire ..
                     "]\nYou Can not Join Server:\n We Are Find (" ..
                     value .. ") in your Name Please Remove That Or Change Your Name ☺️")
-                CancelEvent()
             end
         end
     end
-    deferrals.defer()
     --【 𝗔𝗻𝘁𝗶 𝗩𝗣𝗡 】--
     if FIREAC.Connection.AntiVPN then
         PerformHttpRequest("http://ip-api.com/json/" .. IP .. "?fields=66846719", function(ERROR, DATA, RESULT)
@@ -1468,18 +1411,19 @@ function FIREAC_WHITELIST(SRC)
         end
         local p = promise.new()
 
-        MySQL.Async.fetchAll('SELECT * FROM fireac_admin WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
-            ['@steam'] = STEAM,
-            ['@discord'] = DISCORD,
-            ['@fivem'] = FIVEML,
-            ['@live'] = LIVE,
-            ['@xbl'] = XBL
-        }, function(users)
-            if users and next(users) ~= nil then
-                IS_WHITELIST = true
-            end
-            p:resolve(IS_WHITELIST)
-        end)
+        MySQL.Async.fetchAll(
+            'SELECT * FROM fireac_whitelist WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
+                ['@steam'] = STEAM,
+                ['@discord'] = DISCORD,
+                ['@fivem'] = FIVEML,
+                ['@live'] = LIVE,
+                ['@xbl'] = XBL
+            }, function(users)
+                if users and next(users) ~= nil then
+                    IS_WHITELIST = true
+                end
+                p:resolve(IS_WHITELIST)
+            end)
 
         return Citizen.Await(p)
     else
@@ -1633,7 +1577,7 @@ function FIREAC_BAN(SRC, REASON)
         end
 
         MySQL.Async.fetchAll(
-            "INSERT INTO fireac_banlist (STEAM, DISCORD, LICENSE, LIVE, XBL, IP, TOKENS, BAND, REASON) VALUES (@steam, @discord, @fiveml, @live, @xbl, @ip, @tokens, @banid, @reason)",
+            "INSERT INTO fireac_banlist (STEAM, DISCORD, LICENSE, LIVE, XBL, IP, TOKENS, BANID, REASON) VALUES (@steam, @discord, @fiveml, @live, @xbl, @ip, @tokens, @banid, @reason)",
             {
                 ['@steam']   = STEAM,
                 ['@discord'] = DISCORD,
@@ -1642,7 +1586,7 @@ function FIREAC_BAN(SRC, REASON)
                 ['@xbl']     = XBL,
                 ['@ip']      = IP,
                 ['@tokens']  = json.encode(TOKENS),
-                ['@banid']   = "#" .. math.random(tonumber(1000), tonumber(9999)) .. "",
+                ['@banid']   = math.random(tonumber(1000), tonumber(9999)),
                 ['@reason']  = REASON
             })
     end
@@ -1652,7 +1596,7 @@ function FIREAC:UNBAN(BanID)
     local p = promise.new()
     if tonumber(BanID) then
         MySQL.Async.execute('DELETE FROM fireac_banlist WHERE BANID=@BANID', {
-            ['@BANID'] = "#" .. tonumber(BanID) .. ""
+            ['@BANID'] = tonumber(BanID)
         }, function(rowsChanged)
             if rowsChanged > 0 then
                 p:resolve(true)
@@ -1742,13 +1686,14 @@ function FIREAC:ADDUNBAN(Player_ID)
 end
 
 function FIREAC_INBANLIST(SRC)
-    local DEFULT  = false
+    local p       = promise.new()
     local STEAM   = "Not Found"
     local DISCORD = "Not Found"
     local FIVEML  = "Not Found"
     local LIVE    = "Not Found"
     local XBL     = "Not Found"
     local IP      = GetPlayerEndpoint(SRC)
+    local TOKEN   = GetPlayerToken(SRC, 0)
     for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
         if DATA:match("steam") then
             STEAM = DATA
@@ -1764,7 +1709,7 @@ function FIREAC_INBANLIST(SRC)
     end
 
     MySQL.Async.fetchAll(
-        'SELECT * FROM fireac_banlist WHERE STEAM = @steam OR DISCORD = @discord OR LICENSE = @fiveml OR LIVE = @live OR XBL = @xbl OR IP = @ip',
+        'SELECT * FROM fireac_banlist WHERE STEAM = @steam OR DISCORD = @discord OR LICENSE = @fiveml OR LIVE = @live OR XBL = @xbl OR IP = @ip OR TOKENS LIKE @token',
         {
             ['@steam']   = STEAM,
             ['@discord'] = DISCORD,
@@ -1772,18 +1717,23 @@ function FIREAC_INBANLIST(SRC)
             ['@live']    = LIVE,
             ['@xbl']     = XBL,
             ['@ip']      = IP,
-        }, function(result)
-            if result[1] ~= nil then
-                DEFULT = true
+            ["@token"]   = "%" .. TOKEN .. "%",
+        },
+        function(result)
+            if result and #result > 0 then
+                p:resolve(result)
+            else
+                p:resolve(false)
             end
-        end)
+        end
+    )
 
-    return DEFULT
+    return Citizen.Await(p)
 end
 
 function FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
     if REASON ~= nil and DETAILS ~= nil then
-        if tonumber(SRC) ~= nil and tonumber(SRC) > 0 and GetPlayerName(SRC) ~= nil then
+        if tonumber(SRC) ~= nil and tonumber(SRC) > 0 and GetPlayerName(SRC) ~= nsl then
             if not FIREAC_WHITELIST(SRC) and not FIREAC_CHECK_TEMP_WHITELIST(SRC) and not FIREAC_IS_SPAMLIST(SRC, ACTION, REASON, DETAILS) then
                 if ACTION == "WARN" or ACTION == "KICK" or ACTION == "BAN" then
                     if FIREAC.ScreenShot.Enable == true then
@@ -1802,7 +1752,7 @@ function FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
                             COLORS ..
                             "FIREAC^0: ^1Player ^3" ..
                             GetPlayerName(SRC) .. " ^3Kicked From Server ^0| ^3Reason: ^3 " .. REASON .. "^0")
-                        FIREAC_SENDLOG(SRC,FIREAC.Webhooks.Ban, ACTION, REASON, DETAILS)
+                        FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Ban, ACTION, REASON, DETAILS)
                         FIREAC_MEESAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
                         DropPlayer(SRC,
                             "\n[" ..
