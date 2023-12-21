@@ -33,7 +33,7 @@ We are **able to provide** this **free product** because of help of **https://fi
 </td>
 </tr>
 <td align='center'>
-<a href="https://github.com/overextended/oxmysql/releases">oxmysql</a><br>For save sql data
+<a href="https://github.com/overextended/oxmysql/releases">oxmysql</a><br>For save SQL data
 </td>
 </tr>
 </table>
