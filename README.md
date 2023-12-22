@@ -26,9 +26,6 @@ We are **able to provide** this **free product** because of help of **https://fi
 <table align='center'>
 <tr>
 <td align='center'>
-<a href="https://github.com/ThymonA/menuv/releases">menuv</a><br>For admin menu
-</td>
-<td align='center'>
 <a href="https://github.com/jaimeadf/discord-screenshot/releases">discord-screenshot</a><br>For take screenshot
 </td>
 </tr>
@@ -165,7 +162,6 @@ We are **able to provide** this **free product** because of help of **https://fi
 
 ```
 ensure FIREAC
-ensure menuv
 ensure screenshot-basic
 ensure discord-screenshot
 ```
