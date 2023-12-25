@@ -43,6 +43,11 @@ FIREAC.Connection               = {
     HideIP            = true,
 }
 
+--【 𝗦𝗽𝗮𝘄𝗻 】--
+FIREAC.Spawn                    = {
+    LongSpawnMode = true
+}
+
 --【 𝗠𝗲𝘀𝘀𝗮𝗴𝗲 】--
 FIREAC.Message                  = {
     Kick = "You Are ⚡️ Kicked From Server Protection By FIREAC® Don't Try For Cheat in this Server",
