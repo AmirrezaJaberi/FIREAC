@@ -10,11 +10,21 @@ local TRACK = 0
 local WHITELIST = false
 
 Citizen.CreateThread(function()
-    while not NetworkIsPlayerActive(PlayerId()) or IsPlayerSwitchInProgress() do
-        Citizen.Wait(0)
+    if FIREAC.Spawn.LongSpawnMode then
+        Citizen.Wait(2000)
+        while not NetworkIsPlayerActive(PlayerId()) or IsPlayerSwitchInProgress() do
+            Citizen.Wait(1000)
+        end
+        Citizen.Wait(4000)
+        SPAWN = true
+        CHECK_SPAWN = false
+    else
+        while not NetworkIsPlayerActive(PlayerId()) or IsPlayerSwitchInProgress() do
+            Citizen.Wait(0)
+        end
+        SPAWN = true
+        CHECK_SPAWN = false
     end
-    SPAWN = true
-    CHECK_SPAWN = false
 end)
 
 Citizen.CreateThread(function()
