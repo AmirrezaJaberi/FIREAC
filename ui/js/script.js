@@ -372,7 +372,7 @@ function teleportToCoords() {
 
 function changeVisionView(visionType) {
   if (visionType) {
-    $.post(`https://FIREAC/${actionName}`);
+    $.post(`https://FIREAC/${visionType}`);
     closeUI();
   }
 }
