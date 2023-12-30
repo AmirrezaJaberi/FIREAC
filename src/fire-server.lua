@@ -966,17 +966,89 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
     --【 𝗕𝗮𝗻 𝗣𝗹𝗮𝘆𝗲𝗿 】--
     local isInBanList = FIREAC_INBANLIST(SRC)
     if isInBanList then
+        local card = {
+            type = "AdaptiveCard",
+            version = "1.2",
+            body = {
+                {
+                    type = "TextBlock",
+                    text = "You are banned from our server !",
+                    wrap = true,
+                    horizontalAlignment = "Center",
+                    separator = true,
+                    height = "stretch",
+                    fontType = "Default",
+                    size = "Large",
+                    weight = "Bolder",
+                    color = "Orange"
+                },
+                {
+                    type = "TextBlock",
+                    text = "Ban Information :\nReason: " ..
+                        isInBanList[1].REASON .. "\nBan ID: #" .. isInBanList[1].BANID .. "",
+                    wrap = true,
+                    horizontalAlignment = "Center",
+                    separator = true,
+                    height = "stretch",
+                    fontType = "Default",
+                    size = "Medium",
+                    weight = "Bolder",
+                    color = "Light"
+                },
+                {
+                    type = "ActionSet",
+                    horizontalAlignment = "Center",
+                    actions = {
+                        {
+                            type = "Action.OpenUrl",
+                            title = "Join Discord",
+                            url = "https://discord.gg/qU7Hug7F2y",
+                            iconUrl =
+                            "https://icons.getbootstrap.com/assets/icons/discord.svg"
+                        }
+                    }
+                },
+                {
+                    type = "Container",
+                    items = {
+                        {
+                            type = "ActionSet",
+                            horizontalAlignment = "Center",
+                            actions = {
+                                {
+                                    type = "Action.OpenUrl",
+                                    title = "Visit our website",
+                                    url = "https://amirrezajaberi.ir/fireac",
+                                    iconUrl =
+                                    "https://icons.getbootstrap.com/assets/icons/globe.svg"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    type = "TextBlock",
+                    text = "This server protected by FIREAC®",
+                    wrap = true,
+                    horizontalAlignment = "Center",
+                    separator = true,
+                    height = "stretch",
+                    fontType = "Default",
+                    size = "Small",
+                    weight = "Bolder",
+                    color = "Light"
+                },
+            }
+        }
         print("^" ..
             COLORS ..
             "FIREAC^0: ^1Player ^3" .. GetPlayerName(SRC) .. " ^3Try For Join But ^0| ^3Ban ID: ^3 " ..
             isInBanList[1].BANID .. "^0")
         FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Connect, "TFJ", isInBanList[1].BANID, isInBanList[1].REASON)
-        deferrals.done("\n[" ..
-            Emoji.Fire ..
-            "FIREAC" ..
-            Emoji.Fire ..
-            "]\n" .. FIREAC.Message.Ban .. "\nReason: " ..
-            isInBanList[1].REASON .. "\nBan ID: " .. isInBanList[1].BANID .. "")
+        while true do
+            Wait(0)
+            deferrals.presentCard(card, "XD")
+        end
     end
     --【 𝗕𝗹𝗮𝗰𝗸 𝗟𝗶𝘀𝘁 𝗡𝗮𝗺𝗲 】--
     if FIREAC.Connection.AntiBlackListName == true then
