@@ -19,8 +19,9 @@ FIREAC.Version                  = "7.0.0"
 
 --【 𝗦𝗲𝗿𝘃𝗲𝗿 𝗦𝗲𝘁𝘁𝗶𝗻𝗴𝘀 】--
 FIREAC.ServerConfig             = {
-    Name = "YOUR SERVER NAME",
-    Port = "30120",
+    Name  = "YOUR SERVER NAME",
+    Port  = "30120",
+    Linux = false
 }
 
 --【 𝗖𝗵𝗮𝘁 𝗦𝗲𝘁𝘁𝗶𝗻𝗴𝘀 】--
