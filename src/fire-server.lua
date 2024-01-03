@@ -506,81 +506,128 @@ AddEventHandler("FIREAC:ScreenShotFromClient", function(URL, REASON, DETAILS)
         else
             DISCORD = "Not Found"
         end
-        PerformHttpRequest("http://ip-api.com/json/" .. IP .. "?fields=66846719", function(ERROR, DATA, RESULT)
-            if DATA ~= nil then
-                local TABLE = json.decode(DATA)
-                if TABLE ~= nil then
-                    ISP     = TABLE["isp"]
-                    CITY    = TABLE["city"]
-                    COUNTRY = TABLE["country"]
-                    if TABLE["proxy"] == true then
-                        PROXY = "ON"
-                    else
-                        PROXY = "OFF"
-                    end
-                    if TABLE["hosting"] == true then
-                        HOSTING = "ON"
-                    else
-                        HOSTING = "OFF"
-                    end
-                    if FIREAC.Connection.HideIP then
-                        IP = "* HIDE BY OWNER *"
-                    end
-                    if URL ~= nil then
-                        PerformHttpRequest(FIREAC.ScreenShot.Log, function(ERROR, DATA, RESULT)
-                        end, "POST", json.encode({
-                            embeds = {
-                                {
-                                    author = {
-                                        name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
-                                        url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
-                                    },
-                                    image = {
-                                        url = URL,
-                                    },
-                                    footer = {
-                                        text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
-                                    },
-                                    title = "" .. Emoji.VPN .. " ScreenShot " .. Emoji.VPN .. "",
-                                    description = "**Player:** " ..
-                                        NAME ..
-                                        "\n**Reason:** " ..
-                                        REASON ..
-                                        "\n**Details:** " ..
-                                        DETAILS ..
-                                        "\n**Coords:** " ..
-                                        COORDS ..
-                                        "\n**Steam Hex:** " ..
-                                        STEAM ..
-                                        "\n**Discord:** " ..
-                                        DISCORD ..
-                                        "\n**License:** " ..
-                                        FIVEML ..
-                                        "\n**Live:** " ..
-                                        LIVE ..
-                                        "\n**Xbox:** " ..
-                                        XBL ..
-                                        "\n**ISP:** " ..
-                                        ISP ..
-                                        "\n**Country:** " ..
-                                        COUNTRY ..
-                                        "\n**City:** " ..
-                                        CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
-                                        "\n**Hosting:** " .. HOSTING .. "",
-                                    color = 10181046
+        if not FIREAC.ServerConfig.Linux then
+            PerformHttpRequest("http://ip-api.com/json/" .. IP .. "?fields=66846719", function(ERROR, DATA, RESULT)
+                if DATA ~= nil then
+                    local TABLE = json.decode(DATA)
+                    if TABLE ~= nil then
+                        ISP     = TABLE["isp"]
+                        CITY    = TABLE["city"]
+                        COUNTRY = TABLE["country"]
+                        if TABLE["proxy"] == true then
+                            PROXY = "ON"
+                        else
+                            PROXY = "OFF"
+                        end
+                        if TABLE["hosting"] == true then
+                            HOSTING = "ON"
+                        else
+                            HOSTING = "OFF"
+                        end
+                        if FIREAC.Connection.HideIP then
+                            IP = "* HIDE BY OWNER *"
+                        end
+                        if URL ~= nil then
+                            PerformHttpRequest(FIREAC.ScreenShot.Log, function(ERROR, DATA, RESULT)
+                            end, "POST", json.encode({
+                                embeds = {
+                                    {
+                                        author = {
+                                            name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                            url = "https://discord.gg/drwWFkfu6x",
+                                            icon_url =
+                                            "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                                        },
+                                        image = {
+                                            url = URL,
+                                        },
+                                        footer = {
+                                            text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                            icon_url =
+                                            "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                                        },
+                                        title = "" .. Emoji.VPN .. " ScreenShot " .. Emoji.VPN .. "",
+                                        description = "**Player:** " ..
+                                            NAME ..
+                                            "\n**Reason:** " ..
+                                            REASON ..
+                                            "\n**Details:** " ..
+                                            DETAILS ..
+                                            "\n**Coords:** " ..
+                                            COORDS ..
+                                            "\n**Steam Hex:** " ..
+                                            STEAM ..
+                                            "\n**Discord:** " ..
+                                            DISCORD ..
+                                            "\n**License:** " ..
+                                            FIVEML ..
+                                            "\n**Live:** " ..
+                                            LIVE ..
+                                            "\n**Xbox:** " ..
+                                            XBL ..
+                                            "\n**ISP:** " ..
+                                            ISP ..
+                                            "\n**Country:** " ..
+                                            COUNTRY ..
+                                            "\n**City:** " ..
+                                            CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
+                                            "\n**Hosting:** " .. HOSTING .. "",
+                                        color = 10181046
+                                    }
                                 }
-                            }
-                        }), {
-                            ["Content-Type"] = "application/json"
-                        })
+                            }), {
+                                ["Content-Type"] = "application/json"
+                            })
+                        end
                     end
                 end
-            end
-        end)
+            end)
+        else
+            PerformHttpRequest(FIREAC.ScreenShot.Log, function(ERROR, DATA, RESULT)
+            end, "POST", json.encode({
+                embeds = {
+                    {
+                        author = {
+                            name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                            url = "https://discord.gg/drwWFkfu6x",
+                            icon_url =
+                            "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                        },
+                        image = {
+                            url = URL,
+                        },
+                        footer = {
+                            text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                            icon_url =
+                            "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                        },
+                        title = "" .. Emoji.VPN .. " ScreenShot " .. Emoji.VPN .. "",
+                        description = "**Player:** " ..
+                            NAME ..
+                            "\n**Reason:** " ..
+                            REASON ..
+                            "\n**Details:** " ..
+                            DETAILS ..
+                            "\n**Coords:** " ..
+                            COORDS ..
+                            "\n**Steam Hex:** " ..
+                            STEAM ..
+                            "\n**Discord:** " ..
+                            DISCORD ..
+                            "\n**License:** " ..
+                            FIVEML ..
+                            "\n**Live:** " ..
+                            LIVE ..
+                            "\n**Xbox:** " ..
+                            XBL ..
+                            "",
+                        color = 10181046
+                    }
+                }
+            }), {
+                ["Content-Type"] = "application/json"
+            })
+        end
     else
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "FIREAC:ScreenShotFromClient (SRC not found)")
     end
@@ -1072,7 +1119,7 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
         end
     end
     --【 𝗔𝗻𝘁𝗶 𝗩𝗣𝗡 】--
-    if FIREAC.Connection.AntiVPN then
+    if FIREAC.Connection.AntiVPN and not FIREAC.ServerConfig.Linux then
         PerformHttpRequest("http://ip-api.com/json/" .. IP .. "?fields=66846719", function(ERROR, DATA, RESULT)
             if DATA ~= nil then
                 local TABLE = json.decode(DATA)
@@ -1961,448 +2008,777 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
         else
             DISCORD = "Not Found"
         end
-        PerformHttpRequest("http://ip-api.com/json/" .. IP .. "?fields=66846719", function(ERROR, DATA, RESULT)
-            if DATA ~= nil then
-                local TABLE = json.decode(DATA)
-                if TABLE ~= nil then
-                    ISP     = tostring(TABLE["isp"])
-                    CITY    = tostring(TABLE["city"])
-                    COUNTRY = tostring(TABLE["country"])
-                    if TABLE["proxy"] == true then
-                        PROXY = "ON"
-                    else
-                        PROXY = "OFF"
+        if not FIREAC.ServerConfig.Linux then
+            PerformHttpRequest("http://ip-api.com/json/" .. IP .. "?fields=66846719", function(ERROR, DATA, RESULT)
+                if DATA ~= nil then
+                    local TABLE = json.decode(DATA)
+                    if TABLE ~= nil then
+                        ISP     = tostring(TABLE["isp"])
+                        CITY    = tostring(TABLE["city"])
+                        COUNTRY = tostring(TABLE["country"])
+                        if TABLE["proxy"] == true then
+                            PROXY = "ON"
+                        else
+                            PROXY = "OFF"
+                        end
+                        if TABLE["hosting"] == true then
+                            HOSTING = "ON"
+                        else
+                            HOSTING = "OFF"
+                        end
+                        LON = TABLE["lon"]
+                        LAT = TABLE["lat"]
+                        if FIREAC.Connection.HideIP then
+                            IP = "* HIDE BY OWNER *"
+                        end
                     end
-                    if TABLE["hosting"] == true then
-                        HOSTING = "ON"
-                    else
-                        HOSTING = "OFF"
-                    end
-                    LON = TABLE["lon"]
-                    LAT = TABLE["lat"]
-                    if FIREAC.Connection.HideIP then
-                        IP = "* HIDE BY OWNER *"
-                    end
-                    if TYPE == "CONNECT" and CITY ~= nil then
-                        PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
-                        end, "POST", json.encode({
-                            embeds = {
-                                {
-                                    author = {
-                                        name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
-                                        url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
-                                    },
-                                    footer = {
-                                        text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
-                                    },
-                                    title = "" .. Emoji.Connect .. " Connecting " .. Emoji.Connect .. "",
-                                    description = "**Player:** " ..
-                                        NAME ..
-                                        "\n**Steam Hex:** " ..
-                                        STEAM ..
-                                        "\n**Discord:** " ..
-                                        DISCORD ..
-                                        "\n**License:** " ..
-                                        FIVEML ..
-                                        "\n**Live:** " ..
-                                        LIVE ..
-                                        "\n**Xbox:** " ..
-                                        XBL ..
-                                        "\n**ISP:** " ..
-                                        ISP ..
-                                        "\n**Country:** " ..
-                                        COUNTRY ..
-                                        "\n**City:** " ..
-                                        CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
-                                        "\n**Hosting:** " .. HOSTING .. "",
-                                    color = 1769216
-                                }
-                            }
-                        }), {
-                            ["Content-Type"] = "application/json"
-                        })
-                    elseif TYPE == "DISCONNECT" then
-                        PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
-                        end, "POST", json.encode({
-                            embeds = {
-                                {
-                                    author = {
-                                        name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
-                                        url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
-                                    },
-                                    footer = {
-                                        text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
-                                    },
-                                    title = "" .. Emoji.Disconnect .. " Disconnect " .. Emoji.Disconnect .. "",
-                                    description = "**Player:** " ..
-                                        NAME ..
-                                        "\n**Reason:**: " ..
-                                        REASON ..
-                                        "\n**Steam Hex:** " ..
-                                        STEAM ..
-                                        "\n**Discord:** " ..
-                                        DISCORD ..
-                                        "\n**License:** " ..
-                                        FIVEML ..
-                                        "\n**Live:** " ..
-                                        LIVE ..
-                                        "\n**Xbox:** " ..
-                                        XBL ..
-                                        "\n**ISP:** " ..
-                                        ISP ..
-                                        "\n**Country:** " ..
-                                        COUNTRY ..
-                                        "\n**City:** " ..
-                                        CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
-                                        "\n**Hosting:** " .. HOSTING .. "",
-                                    color = 16711680
-                                }
-                            }
-                        }), {
-                            ["Content-Type"] = "application/json"
-                        })
-                    elseif TYPE == "BAN" then
-                        PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
-                        end, "POST", json.encode({
-                            embeds = {
-                                {
-                                    author = {
-                                        name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
-                                        url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
-                                    },
-                                    footer = {
-                                        text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
-                                    },
-                                    title = "" .. Emoji.Ban .. " Banned " .. Emoji.Ban .. "",
-                                    description = "**Player:** " ..
-                                        NAME ..
-                                        "\n**Reason:**: " ..
-                                        REASON ..
-                                        "\n**Details:** " ..
-                                        DETAILS ..
-                                        "\n**Steam Hex:** " ..
-                                        STEAM ..
-                                        "\n**Discord:** " ..
-                                        DISCORD ..
-                                        "\n**License:** " ..
-                                        FIVEML ..
-                                        "\n**Live:** " ..
-                                        LIVE ..
-                                        "\n**Xbox:** " ..
-                                        XBL ..
-                                        "\n**ISP:** " ..
-                                        ISP ..
-                                        "\n**Country:** " ..
-                                        COUNTRY ..
-                                        "\n**City:** " ..
-                                        CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
-                                        "\n**Hosting:** " .. HOSTING .. "",
-                                    color = 16711680
-                                }
-                            }
-                        }), {
-                            ["Content-Type"] = "application/json"
-                        })
-                    elseif TYPE == "KICK" then
-                        PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
-                        end, "POST", json.encode({
-                            embeds = {
-                                {
-                                    author = {
-                                        name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
-                                        url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
-                                    },
-                                    footer = {
-                                        text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
-                                    },
-                                    title = "" .. Emoji.Kick .. " Kicked " .. Emoji.Kick .. "",
-                                    description = "**Player:** " ..
-                                        NAME ..
-                                        "\n**Reason:**: " ..
-                                        REASON ..
-                                        "\n**Details:** " ..
-                                        DETAILS ..
-                                        "\n**Steam Hex:** " ..
-                                        STEAM ..
-                                        "\n**Discord:** " ..
-                                        DISCORD ..
-                                        "\n**License:** " ..
-                                        FIVEML ..
-                                        "\n**Live:** " ..
-                                        LIVE ..
-                                        "\n**Xbox:** " ..
-                                        XBL ..
-                                        "\n**ISP:** " ..
-                                        ISP ..
-                                        "\n**Country:** " ..
-                                        COUNTRY ..
-                                        "\n**City:** " ..
-                                        CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
-                                        "\n**Hosting:** " .. HOSTING .. "",
-                                    color = 16760576
-                                }
-                            }
-                        }), {
-                            ["Content-Type"] = "application/json"
-                        })
-                    elseif TYPE == "WARN" then
-                        PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
-                        end, "POST", json.encode({
-                            embeds = {
-                                {
-                                    author = {
-                                        name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
-                                        url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
-                                    },
-                                    footer = {
-                                        text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
-                                    },
-                                    title = "" .. Emoji.Warn .. " Warning " .. Emoji.Warn .. "",
-                                    description = "**Player:** " ..
-                                        NAME ..
-                                        "\n**Reason:**: " ..
-                                        REASON ..
-                                        "\n**Details:** " ..
-                                        DETAILS ..
-                                        "\n**Steam Hex:** " ..
-                                        STEAM ..
-                                        "\n**Discord:** " ..
-                                        DISCORD ..
-                                        "\n**License:** " ..
-                                        FIVEML ..
-                                        "\n**Live:** " ..
-                                        LIVE ..
-                                        "\n**Xbox:** " ..
-                                        XBL ..
-                                        "\n**ISP:** " ..
-                                        ISP ..
-                                        "\n**Country:** " ..
-                                        COUNTRY ..
-                                        "\n**City:** " ..
-                                        CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
-                                        "\n**Hosting:** " .. HOSTING .. "",
-                                    color = 1769216
-                                }
-                            }
-                        }), {
-                            ["Content-Type"] = "application/json"
-                        })
-                    elseif TYPE == "EXPLOSION" then
-                        PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
-                        end, "POST", json.encode({
-                            embeds = {
-                                {
-                                    author = {
-                                        name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
-                                        url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
-                                    },
-                                    footer = {
-                                        text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
-                                    },
-                                    title = "" .. Emoji.Exoplosion .. " Explosion " .. Emoji.Exoplosion .. "",
-                                    description = "**Player:** " ..
-                                        NAME ..
-                                        "\n**Explosion Type:**: " ..
-                                        REASON ..
-                                        "\n**Coords:** " ..
-                                        COORDS ..
-                                        "\n**Steam Hex:** " ..
-                                        STEAM ..
-                                        "\n**Discord:** " ..
-                                        DISCORD ..
-                                        "\n**License:** " ..
-                                        FIVEML ..
-                                        "\n**Live:** " ..
-                                        LIVE ..
-                                        "\n**Xbox:** " ..
-                                        XBL ..
-                                        "\n**ISP:** " ..
-                                        ISP ..
-                                        "\n**Country:** " ..
-                                        COUNTRY ..
-                                        "\n**City:** " ..
-                                        CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
-                                        "\n**Hosting:** " .. HOSTING .. "",
-                                    color = 16711680
-                                }
-                            }
-                        }), {
-                            ["Content-Type"] = "application/json"
-                        })
-                    elseif TYPE == "TFJ" then
-                        PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
-                        end, "POST", json.encode({
-                            embeds = {
-                                {
-                                    author = {
-                                        name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
-                                        url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
-                                    },
-                                    image = {
-                                        url = "https://cache.ip-api.com/" .. LON .. "," .. LAT .. ",10",
-                                    },
-                                    footer = {
-                                        text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
-                                    },
-                                    title = "" .. Emoji.TFJ .. " Try For Join " .. Emoji.TFJ .. "",
-                                    description = "**Player:** " ..
-                                        NAME ..
-                                        "\n**Ban ID:** " ..
-                                        REASON ..
-                                        "\n**Details:** " ..
-                                        DETAILS ..
-                                        "\n**Steam Hex:** " ..
-                                        STEAM ..
-                                        "\n**Discord:** " ..
-                                        DISCORD ..
-                                        "\n**License:** " ..
-                                        FIVEML ..
-                                        "\n**Live:** " ..
-                                        LIVE ..
-                                        "\n**Xbox:** " ..
-                                        XBL ..
-                                        "\n**ISP:** " ..
-                                        ISP ..
-                                        "\n**Country:** " ..
-                                        COUNTRY ..
-                                        "\n**City:** " ..
-                                        CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
-                                        "\n**Hosting:** " .. HOSTING .. "",
-                                    color = 15844367
-                                }
-                            }
-                        }), {
-                            ["Content-Type"] = "application/json"
-                        })
-                    elseif TYPE == "BLN" then
-                        PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
-                        end, "POST", json.encode({
-                            embeds = {
-                                {
-                                    author = {
-                                        name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
-                                        url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
-                                    },
-                                    image = {
-                                        url = "https://cache.ip-api.com/" .. LON .. "," .. LAT .. ",10",
-                                    },
-                                    footer = {
-                                        text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
-                                    },
-                                    title = "" .. Emoji.BLN .. " Black List Name Found ! " .. Emoji.BLN .. "",
-                                    description = "**Player:** " ..
-                                        NAME ..
-                                        "\n**Reason:** " ..
-                                        REASON ..
-                                        "\n**Details:** " ..
-                                        DETAILS ..
-                                        "\n**Steam Hex:** " ..
-                                        STEAM ..
-                                        "\n**Discord:** " ..
-                                        DISCORD ..
-                                        "\n**License:** " ..
-                                        FIVEML ..
-                                        "\n**Live:** " ..
-                                        LIVE ..
-                                        "\n**Xbox:** " ..
-                                        XBL ..
-                                        "\n**ISP:** " ..
-                                        ISP ..
-                                        "\n**Country:** " ..
-                                        COUNTRY ..
-                                        "\n**City:** " ..
-                                        CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
-                                        "\n**Hosting:** " .. HOSTING .. "",
-                                    color = 16711680
-                                }
-                            }
-                        }), {
-                            ["Content-Type"] = "application/json"
-                        })
-                    elseif TYPE == "VPN" then
-                        PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
-                        end, "POST", json.encode({
-                            embeds = {
-                                {
-                                    author = {
-                                        name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
-                                        url = "https://discord.gg/drwWFkfu6x",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
-                                    },
-                                    image = {
-                                        url = "https://cache.ip-api.com/" .. LON .. "," .. LAT .. ",10",
-                                    },
-                                    footer = {
-                                        text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
-                                        icon_url =
-                                        "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
-                                    },
-                                    title = "" .. Emoji.VPN .. " VPN Blocked " .. Emoji.VPN .. "",
-                                    description = "**Player:** " ..
-                                        NAME ..
-                                        "\n**Details:** Try For Join By VPN\n**Steam Hex:** " ..
-                                        STEAM ..
-                                        "\n**Discord:** " ..
-                                        DISCORD ..
-                                        "\n**License:** " ..
-                                        FIVEML ..
-                                        "\n**Live:** " ..
-                                        LIVE ..
-                                        "\n**Xbox:** " ..
-                                        XBL ..
-                                        "\n**ISP:** " ..
-                                        ISP ..
-                                        "\n**Country:** " ..
-                                        COUNTRY ..
-                                        "\n**City:** " ..
-                                        CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
-                                        "\n**Hosting:** " .. HOSTING .. "",
-                                    color = 10181046
-                                }
-                            }
-                        }), {
-                            ["Content-Type"] = "application/json"
-                        })
-                    end
-                else
-                    FIREAC_ERROR(FIREAC.ServerConfig.Name,
-                        " FIREAC_SENDLOG (Our code can't connect to ip-api.com api's please check your connection !)")
                 end
+            end)
+            if TYPE == "CONNECT" and CITY ~= nil then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.Connect .. " Connecting " .. Emoji.Connect .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "\n**ISP:** " ..
+                                ISP ..
+                                "\n**Country:** " ..
+                                COUNTRY ..
+                                "\n**City:** " ..
+                                CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
+                                "\n**Hosting:** " .. HOSTING .. "",
+                            color = 1769216
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "DISCONNECT" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.Disconnect .. " Disconnect " .. Emoji.Disconnect .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Reason:**: " ..
+                                REASON ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "\n**ISP:** " ..
+                                ISP ..
+                                "\n**Country:** " ..
+                                COUNTRY ..
+                                "\n**City:** " ..
+                                CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
+                                "\n**Hosting:** " .. HOSTING .. "",
+                            color = 16711680
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "BAN" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.Ban .. " Banned " .. Emoji.Ban .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Reason:**: " ..
+                                REASON ..
+                                "\n**Details:** " ..
+                                DETAILS ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "\n**ISP:** " ..
+                                ISP ..
+                                "\n**Country:** " ..
+                                COUNTRY ..
+                                "\n**City:** " ..
+                                CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
+                                "\n**Hosting:** " .. HOSTING .. "",
+                            color = 16711680
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "KICK" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.Kick .. " Kicked " .. Emoji.Kick .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Reason:**: " ..
+                                REASON ..
+                                "\n**Details:** " ..
+                                DETAILS ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "\n**ISP:** " ..
+                                ISP ..
+                                "\n**Country:** " ..
+                                COUNTRY ..
+                                "\n**City:** " ..
+                                CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
+                                "\n**Hosting:** " .. HOSTING .. "",
+                            color = 16760576
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "WARN" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.Warn .. " Warning " .. Emoji.Warn .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Reason:**: " ..
+                                REASON ..
+                                "\n**Details:** " ..
+                                DETAILS ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "\n**ISP:** " ..
+                                ISP ..
+                                "\n**Country:** " ..
+                                COUNTRY ..
+                                "\n**City:** " ..
+                                CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
+                                "\n**Hosting:** " .. HOSTING .. "",
+                            color = 1769216
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "EXPLOSION" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.Exoplosion .. " Explosion " .. Emoji.Exoplosion .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Explosion Type:**: " ..
+                                REASON ..
+                                "\n**Coords:** " ..
+                                COORDS ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "\n**ISP:** " ..
+                                ISP ..
+                                "\n**Country:** " ..
+                                COUNTRY ..
+                                "\n**City:** " ..
+                                CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
+                                "\n**Hosting:** " .. HOSTING .. "",
+                            color = 16711680
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "TFJ" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            image = {
+                                url = "https://cache.ip-api.com/" .. LON .. "," .. LAT .. ",10",
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.TFJ .. " Try For Join " .. Emoji.TFJ .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Ban ID:** " ..
+                                REASON ..
+                                "\n**Details:** " ..
+                                DETAILS ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "\n**ISP:** " ..
+                                ISP ..
+                                "\n**Country:** " ..
+                                COUNTRY ..
+                                "\n**City:** " ..
+                                CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
+                                "\n**Hosting:** " .. HOSTING .. "",
+                            color = 15844367
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "BLN" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            image = {
+                                url = "https://cache.ip-api.com/" .. LON .. "," .. LAT .. ",10",
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.BLN .. " Black List Name Found ! " .. Emoji.BLN .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Reason:** " ..
+                                REASON ..
+                                "\n**Details:** " ..
+                                DETAILS ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "\n**ISP:** " ..
+                                ISP ..
+                                "\n**Country:** " ..
+                                COUNTRY ..
+                                "\n**City:** " ..
+                                CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
+                                "\n**Hosting:** " .. HOSTING .. "",
+                            color = 16711680
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "VPN" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            image = {
+                                url = "https://cache.ip-api.com/" .. LON .. "," .. LAT .. ",10",
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.VPN .. " VPN Blocked " .. Emoji.VPN .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Details:** Try For Join By VPN\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "\n**ISP:** " ..
+                                ISP ..
+                                "\n**Country:** " ..
+                                COUNTRY ..
+                                "\n**City:** " ..
+                                CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
+                                "\n**Hosting:** " .. HOSTING .. "",
+                            color = 10181046
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
             end
-        end)
+        else
+            if TYPE == "CONNECT" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.Connect .. " Connecting " .. Emoji.Connect .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "",
+                            color = 1769216
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "DISCONNECT" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.Disconnect .. " Disconnect " .. Emoji.Disconnect .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "",
+                            color = 16711680
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "BAN" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.Ban .. " Banned " .. Emoji.Ban .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "",
+                            color = 16711680
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "KICK" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.Kick .. " Kicked " .. Emoji.Kick .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "",
+                            color = 16760576
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "WARN" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.Warn .. " Warning " .. Emoji.Warn .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "",
+                            color = 1769216
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "EXPLOSION" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.Exoplosion .. " Explosion " .. Emoji.Exoplosion .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "",
+                            color = 16711680
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "TFJ" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.TFJ .. " Try For Join " .. Emoji.TFJ .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "",
+                            color = 15844367
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "BLN" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.BLN .. " Black List Name Found ! " .. Emoji.BLN .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Reason:** " ..
+                                REASON ..
+                                "\n**Details:** " ..
+                                DETAILS ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "",
+                            color = 16711680
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            elseif TYPE == "VPN" then
+                PerformHttpRequest(URL, function(ERROR, DATA, RESULT)
+                end, "POST", json.encode({
+                    embeds = {
+                        {
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                url = "https://discord.gg/drwWFkfu6x",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                            title = "" .. Emoji.VPN .. " VPN Blocked " .. Emoji.VPN .. "",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**Details:** Try For Join By VPN\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "",
+                            color = 10181046
+                        }
+                    }
+                }), {
+                    ["Content-Type"] = "application/json"
+                })
+            end
+        end
     else
         print("^" .. COLORS .. "FIREAC^0: ^3Your discord webhook not set for send it!")
     end
@@ -2572,75 +2948,119 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
             else
                 DISCORD = "Not Found"
             end
-            PerformHttpRequest("http://ip-api.com/json/" .. IP .. "?fields=66846719", function(ERROR, DATA, RESULT)
-                if DATA ~= nil then
-                    local TABLE = json.decode(DATA)
-                    if TABLE ~= nil then
-                        ISP     = TABLE["isp"]
-                        CITY    = TABLE["city"]
-                        COUNTRY = TABLE["country"]
-                        if TABLE["proxy"] == true then
-                            PROXY = "ON"
-                        else
-                            PROXY = "OFF"
-                        end
-                        if TABLE["hosting"] == true then
-                            HOSTING = "ON"
-                        else
-                            HOSTING = "OFF"
-                        end
-                        if FIREAC.Connection.HideIP then
-                            IP = "* HIDE BY OWNER *"
-                        end
-                        exports["discord-screenshot"]:requestCustomClientScreenshotUploadToDiscord(SRC,
-                            FIREAC.ScreenShot.Log, SSO, {
-                                username = "" .. Emoji.Fire .. " FIREAC " .. Emoji.Fire .. "",
-                                avatar_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
-                                embeds = {
-                                    {
-                                        color = COLORS[ACTION],
-                                        author = {
-                                            name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
-                                            icon_url =
-                                            "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
-                                        },
-                                        title = "Screenshot",
-                                        description = "**Player:** " ..
-                                            NAME ..
-                                            "\n**ID:** " ..
-                                            SRC ..
-                                            "\n**Reason:** " ..
-                                            REASON ..
-                                            "\n**Steam Hex:** " ..
-                                            STEAM ..
-                                            "\n**Discord:** " ..
-                                            DISCORD ..
-                                            "\n**License:** " ..
-                                            FIVEML ..
-                                            "\n**Live:** " ..
-                                            LIVE ..
-                                            "\n**Xbox:** " ..
-                                            XBL ..
-                                            "\n**ISP:** " ..
-                                            ISP ..
-                                            "\n**Country:** " ..
-                                            COUNTRY ..
-                                            "\n**City:** " ..
-                                            CITY ..
-                                            "\n**Ping:** " ..
-                                            PING .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
-                                            "\n**Hosting:** " .. HOSTING .. "",
-                                        footer = {
-                                            text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
-                                            icon_url =
-                                            "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
-                                        },
+            if not FIREAC.ChatSettings.Linux then
+                PerformHttpRequest("http://ip-api.com/json/" .. IP .. "?fields=66846719", function(ERROR, DATA, RESULT)
+                    if DATA ~= nil then
+                        local TABLE = json.decode(DATA)
+                        if TABLE ~= nil then
+                            ISP     = TABLE["isp"]
+                            CITY    = TABLE["city"]
+                            COUNTRY = TABLE["country"]
+                            if TABLE["proxy"] == true then
+                                PROXY = "ON"
+                            else
+                                PROXY = "OFF"
+                            end
+                            if TABLE["hosting"] == true then
+                                HOSTING = "ON"
+                            else
+                                HOSTING = "OFF"
+                            end
+                            if FIREAC.Connection.HideIP then
+                                IP = "* HIDE BY OWNER *"
+                            end
+                            exports["discord-screenshot"]:requestCustomClientScreenshotUploadToDiscord(SRC,
+                                FIREAC.ScreenShot.Log, SSO, {
+                                    username = "" .. Emoji.Fire .. " FIREAC " .. Emoji.Fire .. "",
+                                    avatar_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                                    embeds = {
+                                        {
+                                            color = COLORS[ACTION],
+                                            author = {
+                                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                                icon_url =
+                                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                                            },
+                                            title = "Screenshot",
+                                            description = "**Player:** " ..
+                                                NAME ..
+                                                "\n**ID:** " ..
+                                                SRC ..
+                                                "\n**Reason:** " ..
+                                                REASON ..
+                                                "\n**Steam Hex:** " ..
+                                                STEAM ..
+                                                "\n**Discord:** " ..
+                                                DISCORD ..
+                                                "\n**License:** " ..
+                                                FIVEML ..
+                                                "\n**Live:** " ..
+                                                LIVE ..
+                                                "\n**Xbox:** " ..
+                                                XBL ..
+                                                "\n**ISP:** " ..
+                                                ISP ..
+                                                "\n**Country:** " ..
+                                                COUNTRY ..
+                                                "\n**City:** " ..
+                                                CITY ..
+                                                "\n**Ping:** " ..
+                                                PING .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
+                                                "\n**Hosting:** " .. HOSTING .. "",
+                                            footer = {
+                                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                                icon_url =
+                                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                                            },
+                                        }
                                     }
-                                }
-                            })
+                                })
+                        end
                     end
+                end)
+            else
+                if FIREAC.Connection.HideIP then
+                    IP = "* HIDE BY OWNER *"
                 end
-            end)
+                exports["discord-screenshot"]:requestCustomClientScreenshotUploadToDiscord(SRC,
+                FIREAC.ScreenShot.Log, SSO, {
+                    username = "" .. Emoji.Fire .. " FIREAC " .. Emoji.Fire .. "",
+                    avatar_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                    embeds = {
+                        {
+                            color = COLORS[ACTION],
+                            author = {
+                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                            },
+                            title = "Screenshot",
+                            description = "**Player:** " ..
+                                NAME ..
+                                "\n**ID:** " ..
+                                SRC ..
+                                "\n**Reason:** " ..
+                                REASON ..
+                                "\n**Steam Hex:** " ..
+                                STEAM ..
+                                "\n**Discord:** " ..
+                                DISCORD ..
+                                "\n**License:** " ..
+                                FIVEML ..
+                                "\n**Live:** " ..
+                                LIVE ..
+                                "\n**Xbox:** " ..
+                                XBL ..
+                                "",
+                            footer = {
+                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                icon_url =
+                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                            },
+                        }
+                    }
+                })
+            end
         end
     end
 end
