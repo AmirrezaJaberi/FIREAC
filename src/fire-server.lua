@@ -3008,7 +3008,8 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
                                                 PING .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
                                                 "\n**Hosting:** " .. HOSTING .. "",
                                             footer = {
-                                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                                text = "FIREAC V6 " ..
+                                                Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
                                                 icon_url =
                                                 "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                             },
@@ -3023,43 +3024,43 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
                     IP = "* HIDE BY OWNER *"
                 end
                 exports["discord-screenshot"]:requestCustomClientScreenshotUploadToDiscord(SRC,
-                FIREAC.ScreenShot.Log, SSO, {
-                    username = "" .. Emoji.Fire .. " FIREAC " .. Emoji.Fire .. "",
-                    avatar_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
-                    embeds = {
-                        {
-                            color = COLORS[ACTION],
-                            author = {
-                                name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
-                                icon_url =
-                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
-                            },
-                            title = "Screenshot",
-                            description = "**Player:** " ..
-                                NAME ..
-                                "\n**ID:** " ..
-                                SRC ..
-                                "\n**Reason:** " ..
-                                REASON ..
-                                "\n**Steam Hex:** " ..
-                                STEAM ..
-                                "\n**Discord:** " ..
-                                DISCORD ..
-                                "\n**License:** " ..
-                                FIVEML ..
-                                "\n**Live:** " ..
-                                LIVE ..
-                                "\n**Xbox:** " ..
-                                XBL ..
-                                "",
-                            footer = {
-                                text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
-                                icon_url =
-                                "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
-                            },
+                    FIREAC.ScreenShot.Log, SSO, {
+                        username = "" .. Emoji.Fire .. " FIREAC " .. Emoji.Fire .. "",
+                        avatar_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                        embeds = {
+                            {
+                                color = COLORS[ACTION],
+                                author = {
+                                    name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                                    icon_url =
+                                    "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                                },
+                                title = "Screenshot",
+                                description = "**Player:** " ..
+                                    NAME ..
+                                    "\n**ID:** " ..
+                                    SRC ..
+                                    "\n**Reason:** " ..
+                                    REASON ..
+                                    "\n**Steam Hex:** " ..
+                                    STEAM ..
+                                    "\n**Discord:** " ..
+                                    DISCORD ..
+                                    "\n**License:** " ..
+                                    FIVEML ..
+                                    "\n**Live:** " ..
+                                    LIVE ..
+                                    "\n**Xbox:** " ..
+                                    XBL ..
+                                    "",
+                                footer = {
+                                    text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                    icon_url =
+                                    "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                                },
+                            }
                         }
-                    }
-                })
+                    })
             end
         end
     end
