@@ -1,245 +1,245 @@
---
--- FIREAC (https://github.com/AmirrezaJaberi/FIREAC)
+-- FIREAC Configuration
 -- Copyright 2022-2023 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
 -- Licensed under the GNU Affero General Public License v3.0
---
 
-FIREAC                          = {}
---                                           * 𝗧𝗜𝗣 𝟭 *
---                               Type of Punishment : BAN | KICK | WARN
---
---                                           * 𝗧𝗜𝗣 𝟮 *
---                                           Screenshot
---                            For enable screenshot download this resources
---                     (https://github.com/jaimeadf/discord-screenshot/releases)
---                                 Add this resource to your server
+FIREAC              = {}
 
---【 𝗩𝗲𝗿𝘀𝗶𝗼𝗻 𝗖𝗵𝗲𝗰𝗸 】--
-FIREAC.Version                  = "7.0.0"
+-- FIREAC Version
+FIREAC.Version      = "7.1.0"
 
---【 𝗦𝗲𝗿𝘃𝗲𝗿 𝗦𝗲𝘁𝘁𝗶𝗻𝗴𝘀 】--
-FIREAC.ServerConfig             = {
+-- Server Configuration
+FIREAC.ServerConfig = {
+    -- Server Name: Set your server name here.
+    -- Example: Name = "My Awesome Server"
     Name  = "YOUR SERVER NAME",
+
+    -- Server Port: Enter your server port here.
+    -- Example: Port = "30120"
     Port  = "30120",
+
+    -- Operating System: If your OS is Linux, set this to true; otherwise, keep it false.
+    -- Example: Linux = true
     Linux = false
 }
 
---【 𝗖𝗵𝗮𝘁 𝗦𝗲𝘁𝘁𝗶𝗻𝗴𝘀 】--
+
+-- Chat Settings
 FIREAC.ChatSettings             = {
-    Enable      = true,
-    PrivateWarn = true,
+    Enable      = true, -- Enable chat features
+    PrivateWarn = true  -- Warn players for private messages
 }
 
---【 𝗦𝗰𝗿𝗲𝗲𝗻𝗦𝗵𝗼𝘁 】--
+-- Screenshot Settings
 FIREAC.ScreenShot               = {
-    Enable  = true,
-    Format  = "PNG",
-    Quality = 1,
+    Enable  = true,  -- Enable screenshot feature
+    Format  = "PNG", -- Screenshot format
+    Quality = 1      -- Screenshot quality
 }
 
---【 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗶𝗼𝗻 𝗦𝗲𝘁𝘁𝗶𝗻𝗴𝘀 】--
+-- Connection Settings
 FIREAC.Connection               = {
-    AntiBlackListName = true,
-    AntiVPN           = true,
-    HideIP            = true,
+    AntiBlackListName = true, -- Anti-blacklist server name
+    AntiVPN           = true, -- Anti-VPN
+    HideIP            = true  -- Hide player's IP
 }
 
---【 𝗦𝗽𝗮𝘄𝗻 】--
+-- Spawn Settings
 FIREAC.Spawn                    = {
-    LongSpawnMode = true
+    LongSpawnMode = true -- Enable long spawn mode
 }
 
---【 𝗠𝗲𝘀𝘀𝗮𝗴𝗲 】--
+-- Message Settings
 FIREAC.Message                  = {
-    Kick = "You Are ⚡️ Kicked From Server Protection By FIREAC® Don't Try For Cheat in this Server",
-    Ban  = "You Are ⛔️ Banned Form Server Please Make Ticket in Our Server ",
+    Kick = "⚡️ You've been kicked from the server protection by FIREAC®. Avoid cheating on this server.",
+    Ban  = "⛔️ You've been banned from the server. Please create a support ticket for assistance.",
 }
 
---【 𝗔𝗱𝗺𝗶𝗻 𝗠𝗲𝗻𝘂 】--
+-- Admin Menu Settings
 FIREAC.AdminMenu                = {
-    Enable         = true,
-    Key            = "F9",
-    MenuPunishment = "BAN",
+    Enable         = true, -- Enable admin menu
+    Key            = "F9", -- Admin menu activation key
+    MenuPunishment = "BAN" -- Punishment for unauthorized access
 }
 
---【 𝗔𝗻𝘁𝗶 𝗧𝗿𝗮𝗰𝗸 𝗣𝗹𝗮𝘆𝗲𝗿 】--
+-- Anti-Track Player Settings
 FIREAC.AntiTrackPlayer          = false
 FIREAC.MaxTrack                 = 10
 FIREAC.TrackPunishment          = "WARN"
 
---【 𝗔𝗻𝘁𝗶 𝗛𝗲𝗮𝗹𝘁𝗵 𝗛𝗮𝗰𝗸 】--
+-- Anti-Health Hack Settings
 FIREAC.AntiHealthHack           = true
 FIREAC.MaxHealth                = 200
 FIREAC.HealthPunishment         = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗔𝗿𝗺𝗼𝗿 𝗛𝗮𝗰𝗸 】--
+-- Anti-Armor Hack Settings
 FIREAC.AntiArmorHack            = true
 FIREAC.MaxArmor                 = 100
 FIREAC.ArmorPunishment          = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗧𝗮𝘀𝗸𝘀 】--
+-- Anti-Blacklist Tasks Settings
 FIREAC.AntiBlacklistTasks       = true
 FIREAC.TasksPunishment          = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗣𝗹𝗮𝘆 𝗔𝗻𝗶𝗺𝘀 】--
+-- Anti-Blacklist Anims Settings
 FIREAC.AntiBlacklistAnims       = true
 FIREAC.AnimsPunishment          = "BAN"
 
---【 𝗦𝗮𝗳𝗲 𝗣𝗹𝗮𝘆𝗲𝗿𝘀 】--
+-- Safe Players Settings
 FIREAC.SafePlayers              = true
 FIREAC.AntiInfinityAmmo         = true
 
---【 𝗔𝗻𝘁𝗶 𝗦𝗽𝗲𝗰𝘁𝗮𝘁𝗲 】--
+-- Anti-Spectate Settings
 FIREAC.AntiSpectate             = true
 FIREAC.SpactatePunishment       = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗪𝗲𝗮𝗽𝗼𝗻 】--
+-- Anti-BlackList Weapon Settings
 FIREAC.AntiBlackListWeapon      = true
 FIREAC.AntiAddWeapon            = true
 FIREAC.AntiRemoveWeapon         = true
 FIREAC.AntiWeaponsExplosive     = true
 FIREAC.WeaponPunishment         = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗚𝗼𝗱𝗠𝗼𝗱𝗲 】--
+-- Anti-God Mode Settings
 FIREAC.AntiGodMode              = true
 FIREAC.GodPunishment            = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗜𝗻𝘃𝗶𝘀𝗶𝗯𝗹𝗲 】--
+-- Anti-Invisible Settings
 FIREAC.AntiInvisible            = true
 FIREAC.InvisiblePunishment      = "KICK"
 
---【 𝗔𝗻𝘁𝗶 𝗖𝗵𝗮𝗻𝗴𝗲 𝗦𝗽𝗲𝗲𝗱 】--
+-- Anti-Change Speed Settings
 FIREAC.AntiChangeSpeed          = true
 FIREAC.SpeedPunishment          = "KICK"
 
---【 𝗔𝗻𝘁𝗶 𝗙𝗿𝗲𝗲 𝗖𝗮𝗺 】--
+-- Anti-Free Cam Settings
 FIREAC.AntiFreeCam              = false
 FIREAC.CamPunishment            = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗥𝗮𝗶𝗻𝗯𝗼𝘄 𝗩𝗲𝗵𝗶𝗰𝗹𝗲 】--
+-- Anti-Rainbow Vehicle Settings
 FIREAC.AntiRainbowVehicle       = true
 FIREAC.RainbowPunishment        = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗣𝗹𝗮𝘁𝗲 】--
+-- Anti-Plate Changer Settings
 FIREAC.AntiPlateChanger         = true
 FIREAC.AntiBlackListPlate       = true
 FIREAC.PlatePunishment          = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗩𝗶𝘀𝗶𝗼𝗻 】--
+-- Anti-Vision Settings
 FIREAC.AntiNightVision          = true
 FIREAC.AntiThermalVision        = true
 FIREAC.VisionPunishment         = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗦𝘂𝗽𝗲𝗿 𝗝𝘂𝗺𝗽 】--
+-- Anti-Super Jump Settings
 FIREAC.AntiSuperJump            = true
 FIREAC.JumpPunishment           = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗧𝗲𝗹𝗲𝗽𝗼𝗿𝘁 】--
+-- Anti-Teleport Settings
 FIREAC.AntiTeleport             = true
 FIREAC.MaxFootDistance          = 200
 FIREAC.MaxVehicleDistance       = 600
 FIREAC.TeleportPunishment       = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗡𝗼𝗰𝗹𝗶𝗽 】--
+-- Anti-Noclip Settings
 FIREAC.AntiNoclip               = false
 FIREAC.NoclipPunishment         = "KICK"
 
---【 𝗔𝗻𝘁𝗶 𝗣𝗲𝗱 𝗖𝗵𝗮𝗻𝗴𝗲𝗿 】--
+-- Anti-Ped Changer Settings
 FIREAC.AntiPedChanger           = true
 FIREAC.PedChangePunishment      = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗜𝗻𝗳𝗶𝗻𝗶𝘁𝗲 𝗦𝘁𝗮𝗺𝗶𝗻𝗮 】--
+-- Anti-Infinite Stamina Settings
 FIREAC.AntiInfiniteStamina      = false
 FIREAC.InfinitePunishment       = "WARN"
 
---【 𝗔𝗻𝘁𝗶 𝗥𝗮𝗴𝗱𝗼𝗹𝗹 】--
+-- Anti-Ragdoll Settings
 FIREAC.AntiRagdoll              = false
 FIREAC.RagdollPunishment        = "WARN"
 
---【 𝗔𝗻𝘁𝗶 𝗠𝗲𝗻𝘆𝗼𝗼 】--
+-- Anti-Menyoo Settings
 FIREAC.AntiMenyoo               = false
 FIREAC.MenyooPunishment         = "WARN"
 
---【 𝗔𝗻𝘁𝗶 𝗔𝗶𝗺 𝗔𝘀𝘀𝗶𝘀𝘁 】--
+-- Anti-Aim Assist Settings
 FIREAC.AntiAimAssist            = false
 FIREAC.AimAssistPunishment      = "WARN"
 
---【 𝗔𝗻𝘁𝗶 𝗥𝗲𝘀𝗼𝘂𝗿𝗰𝗲 】--
+-- Anti-Resource Stopper Settings
 FIREAC.AntiResourceStopper      = true
 FIREAC.AntiResourceStarter      = false
 FIREAC.AntiResourceRestarter    = false
 FIREAC.ResourcePunishment       = "WARN"
 
---【 𝗔𝗻𝘁𝗶 𝗖𝗵𝗮𝗻𝗴𝗲 𝗙𝗹𝗮𝗴 】--
+-- Anti-Tiny Ped Settings
 FIREAC.AntiTinyPed              = true
 FIREAC.PedFlagPunishment        = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗦𝘂𝗶𝗰𝗶𝗱𝗲 】--
+-- Anti-Suicide Settings
 FIREAC.AntiSuicide              = false
 FIREAC.SuicidePunishment        = "WARN"
 
---【 𝗔𝗻𝘁𝗶 𝗖𝗼𝗹𝗹𝗲𝗰𝘁𝗲𝗱 𝗣𝗶𝗰𝗸𝘂𝗽 】--
+-- Anti-Pickup Collect Settings
 FIREAC.AntiPickupCollect        = true
 FIREAC.PickupPunishment         = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗖𝗵𝗮𝘁 】--
+-- Anti-Spam Chat Settings
 FIREAC.AntiSpamChat             = true
 FIREAC.MaxMessage               = 10
 FIREAC.CoolDownSec              = 3
 FIREAC.ChatPunishment           = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗖𝗼𝗺𝗺𝗮𝗻𝗱 】--
+-- Anti-BlackList Commands Settings
 FIREAC.AntiBlackListCommands    = true
 FIREAC.CMDPunishment            = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗖𝗵𝗮𝗻𝗴𝗲 𝗗𝗮𝗺𝗮𝗴𝗲 】--
+-- Anti-Change Damage Settings
 FIREAC.AntiWeaponDamageChanger  = true
 FIREAC.AntiVehicleDamageChanger = true
 FIREAC.DamagePunishment         = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗪𝗼𝗿𝗱 】--
+-- Anti-BlackList Word Settings
 FIREAC.AntiBlackListWord        = true
 FIREAC.WordPunishment           = "KICK"
 
---【 𝗔𝗻𝘁𝗶 𝗕𝗿𝗶𝗻𝗴 𝗔𝗹𝗹 】--
+-- Anti-Bring All Settings
 FIREAC.AntiBringAll             = true
 FIREAC.BringAllPunishment       = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗧𝗿𝗶𝗴𝗴𝗲𝗿 】--
+-- Anti-Trigger Settings
 FIREAC.AntiBlackListTrigger     = true
 FIREAC.AntiSpamTrigger          = true
 FIREAC.TriggerPunishment        = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗖𝗹𝗲𝗮𝗿 𝗣𝗲𝗱 𝗧𝗮𝘀𝗸𝘀 】--
+-- Anti-Clear Ped Tasks Settings
 FIREAC.AntiClearPedTasks        = true
 FIREAC.MaxClearPedTasks         = 5
 FIREAC.CPTPunishment            = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗧𝗮𝘇𝗲 𝗣𝗹𝗮𝘆𝗲𝗿𝘀 】--
+-- Anti-Taze Players Settings
 FIREAC.AntiTazePlayers          = true
 FIREAC.MaxTazeSpam              = 3
 FIREAC.TazePunishment           = "KICK"
 
---【 𝗔𝗻𝘁𝗶 𝗜𝗻𝗷𝗲𝗰𝘁 】--
+-- Anti-Inject Settings
 FIREAC.AntiInject               = false
 FIREAC.InjectPunishment         = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗘𝘅𝗽𝗹𝗼𝘀𝗶𝗼𝗻 】--
+-- Anti-Explosion Settings
 FIREAC.AntiBlackListExplosion   = true
 FIREAC.AntiExplosionSpam        = true
 FIREAC.MaxExplosion             = 10
 FIREAC.ExplosionSpamPunishment  = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗘𝗻𝘁𝗶𝘁𝘆 𝗦𝗽𝗮𝘄𝗻𝗲𝗿 】--
+-- Anti-Entity Spawn Settings
 FIREAC.AntiBlackListObject      = true
 FIREAC.AntiBlackListPed         = true
 FIREAC.AntiBlackListBuilding    = true
 FIREAC.AntiBlackListVehicle     = true
 FIREAC.EntityPunishment         = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗘𝗻𝘁𝗶𝘁𝘆 𝗦𝗽𝗮𝗺𝗲𝗿 】--
+-- Anti-NPC Spawn Settings
 FIREAC.AntiSpawnNPC             = false
 
+-- Anti-Spam Entity Settings
 FIREAC.AntiSpamVehicle          = true
 FIREAC.MaxVehicle               = 10
 
@@ -251,10 +251,10 @@ FIREAC.MaxObject                = 15
 
 FIREAC.SpamPunishment           = "KICK"
 
---【 𝗔𝗻𝘁𝗶 𝗖𝗵𝗮𝗻𝗴𝗲 𝗣𝗲𝗿𝗺 】--
+-- Anti-Change Permission Settings
 FIREAC.AntiChangePerm           = true
 FIREAC.PermPunishment           = "BAN"
 
---【 𝗔𝗻𝘁𝗶 𝗣𝗹𝗮𝘆 𝗦𝗼𝘂𝗻𝗱 】--
+-- Anti-Play Sound Settings
 FIREAC.AntiPlaySound            = true
 FIREAC.SoundPunishment          = "KICK"
