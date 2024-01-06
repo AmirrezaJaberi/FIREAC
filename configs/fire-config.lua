@@ -1,5 +1,5 @@
 -- FIREAC Configuration
--- Copyright 2022-2023 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
+-- Copyright 2022-2024 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
 -- Licensed under the GNU Affero General Public License v3.0
 
 FIREAC              = {}
