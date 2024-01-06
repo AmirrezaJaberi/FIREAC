@@ -7,7 +7,7 @@
 
 ---
 
-### Advertisement:
+### Advertisement
 
 <p align='center'>
   For an enhanced <b>paid anticheat</b>, visit <a href="https://store.fiveguard.ac">https://store.fiveguard.ac</a>.
@@ -21,7 +21,7 @@
 
 ---
 
-### Requirements:
+### Requirements
 
 <table align='center'>
   <tr>
@@ -36,9 +36,9 @@
 
 ---
 
-### Features:
+### Features
 
-**Client Side Protection:**
+**Client Side Protection**
 
 - Anti-Track Players
 - Anti-Health Hack
@@ -67,7 +67,7 @@
 - Anti-Super Jump
 - Anti-Suicide
 
-**Server Side Protection:**
+**Server Side Protection**
 
 - Anti-Spam Chat
 - Anti-Blacklist Commands
@@ -93,18 +93,18 @@
 
 ---
 
-### Inject Protection:
+### Inject Protection
 
-**Server Side Protection:**
+**Server Side Protection**
 
 - Anti-Resource Start/Stop/Restart
 - Anti-Add Command
 
 ---
 
-### Connection Protection:
+### Connection Protection
 
-**Server Side Protection:**
+**Server Side Protection**
 
 - Anti-VPN
 - Anti-Hosting
@@ -112,9 +112,9 @@
 
 ---
 
-### Ban Method:
+### Ban Method
 
-**Identifiers:**
+**Identifiers**
 
 - FiveM License
 - Steam Identifier
@@ -126,7 +126,7 @@
 
 ---
 
-### Logs:
+### Logs
 
 - Console
 - Discord
@@ -135,7 +135,7 @@
 
 ---
 
-### Installation:
+### Installation
 
 Add the following lines to your `server.cfg`:
 
@@ -147,13 +147,13 @@ ensure discord-screenshot
 
 ---
 
-### Whitelist:
+### Whitelist
 
 To manage authorized users, utilize the admin menu in-game..
 
 ---
 
-### Exports (Server Side):
+### Exports (Server Side)
 
 - `FIREAC_CHANGE_TEMP_WHITELIST`: This export enables you to add or remove a player from the `Temporary Whitelist`s. For example:
 
@@ -186,7 +186,7 @@ exports['FIREAC']:FIREAC_ACTION(source, "KICK", reason, details)
 exports['FIREAC']:FIREAC_ACTION(source, "WARN", reason, details)
 ```
 
-### (Client Side) :
+### (Client Side)
 
 - `FIREAC_CHANGE_TEMP_WHHITELIST`: This export is designed for adding or removing a player from the `Temporary Whitelist` on the client side:
 
@@ -220,7 +220,7 @@ exports['FIREAC']:FIREAC_ACTION("WARN", reason, details)
 
 ---
 
-### Command:
+### Command
 
 | Command                                 | Description                                                                                       |
 | --------------------------------------- | ------------------------------------------------------------------------------------------------- |
@@ -230,13 +230,13 @@ exports['FIREAC']:FIREAC_ACTION("WARN", reason, details)
 
 ---
 
-### Tutorial :
+### Tutorial
 
 For a step-by-step guide on installing the anti-cheat, refer to the FIREAC website tutorial at **https://amirrezajaberi.ir/fireac**.
 
 ---
 
-### License :
+### License
 
 <table>
   <tr>
