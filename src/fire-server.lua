@@ -1,28 +1,40 @@
---
 -- FIREAC (https://github.com/AmirrezaJaberi/FIREAC)
 -- Copyright 2022-2024 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
 -- Licensed under the GNU Affero General Public License v3.0
 --
 
+-- Randomize COLORS variable for diversity
 local COLORS         = math.random(1, 9)
+
+-- Track spawned entities and prevent duplicates
 local SPAWNED        = {}
+
+-- List to track repetitive actions for spam detection
 local SPAMLIST       = {}
+
+-- Temporary whitelist to allow certain actions for a limited time
 local TEMP_WHITELIST = {}
+
+-- Temporary stop list to prevent specific actions temporarily
 local TEMP_STOP      = {}
 
---【 𝗦𝘁𝗮𝗿𝘁𝗶𝗻𝗴 】--
+-- Start the AntiCheat thread
 Citizen.CreateThread(function()
     StartAntiCheat()
 end)
 
---【 𝗕𝗮𝗻 𝗘𝘃𝗲𝗻𝘁 𝗙𝗼𝗿 𝗖𝗹𝗶𝗲𝗻𝘁 】--
+-- Handle banning from the client side
 RegisterNetEvent("FIREAC:BanFromClient")
 AddEventHandler("FIREAC:BanFromClient", function(ACTION, REASON, DETAILS)
     local source = source
+
+    -- Check if reason and action are provided
     if REASON ~= nil and ACTION ~= nil then
+        -- Check if the source is not whitelisted
         if not FIREAC_WHITELIST(source) then
+            -- Check if the reason is "Anti Teleport" and the player is not near an admin
             if REASON == "Anti Teleport" then
-                if (not FIREAC_ISNEARADMIN(source)) then
+                if not FIREAC_ISNEARADMIN(source) then
                     FIREAC_ACTION(source, ACTION, REASON, DETAILS)
                     FIREAC_ADD_SPAMLIST(source, ACTION, REASON, DETAILS)
                 end
@@ -36,11 +48,14 @@ AddEventHandler("FIREAC:BanFromClient", function(ACTION, REASON, DETAILS)
     end
 end)
 
---【𝗕𝗮𝗻 𝗘𝘃𝗲𝗻𝘁 𝗙𝗼𝗿 𝗜𝗻𝗷𝗲𝗰𝘁 】--
+-- Handle banning for injection attempts
 RegisterNetEvent("FIREAC:BanForInject")
 AddEventHandler("FIREAC:BanForInject", function(REASON, DETAILS, RESOURCE)
     local SRC = source
+
+    -- Check if reason and resource are provided
     if REASON ~= nil and RESOURCE ~= nil then
+        -- Check if the source is not whitelisted
         if not FIREAC_WHITELIST(SRC) then
             FIREAC_ACTION(SRC, FIREAC.InjectPunishment, "Anti Inject", DETAILS)
         end
@@ -49,18 +64,24 @@ AddEventHandler("FIREAC:BanForInject", function(REASON, DETAILS, RESOURCE)
     end
 end)
 
+-- Handle anti-inject events
 RegisterNetEvent("FIREAC:AntiInject")
 AddEventHandler("FIREAC:AntiInject", function(resource, info)
     local SRC = source
+
+    -- Check if resource and info are provided
     if resource ~= nil and info ~= nil then
         FIREAC_ACTION(SRC, FIREAC.InjectPunishment, "Anti Inject",
             "Try For Inject in **" .. resource .. "** Type: " .. info .. "")
     end
 end)
 
+-- Pass script information to identify potential threats
 RegisterNetEvent("FIREAC:passScriptInfo")
 AddEventHandler("FIREAC:passScriptInfo", function(name, path)
     local SRC = source
+
+    -- Check if name and path match the current resource
     if name == GetCurrentResourceName() and path == GetResourcePath(GetCurrentResourceName()) then
         for id, value in pairs(TEMP_STOP) do
             if id == SRC then
@@ -73,22 +94,28 @@ AddEventHandler("FIREAC:passScriptInfo", function(name, path)
     end
 end)
 
---【 𝗔𝗱𝗺𝗶𝗻 𝗠𝗲𝗻𝘂 】--
+-- Check if the player is an admin
 RegisterNetEvent("FIREAC:checkIsAdmin")
 AddEventHandler("FIREAC:checkIsAdmin", function()
     local source = source
+
+    -- Check if the player is an admin and allow opening
     if FIREAC_GETADMINS(source) then
         TriggerClientEvent("FIREAC:allowToOpen", source)
     end
 end)
 
+-- Get data of all players for admin menu
 RegisterNetEvent("FIREAC:getAllPlayerData")
 AddEventHandler("FIREAC:getAllPlayerData", function()
     local source = source
+
+    -- Check if the player is not an admin and punish for attempting to open admin menu
     if not FIREAC_GETADMINS(source) then
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
             "Try For Open Admin Menu (Not Admin)")
     else
+        -- Fetch data of all players and send to the requesting admin
         local PlayerList = {}
         for _, value in pairs(GetPlayers()) do
             table.insert(PlayerList, {
@@ -100,17 +127,21 @@ AddEventHandler("FIREAC:getAllPlayerData", function()
     end
 end)
 
+-- Get data of a specific player for admin menu
 RegisterNetEvent("FIREAC:getPlayerData")
 AddEventHandler("FIREAC:getPlayerData", function(playerId)
     local source = source
+
+    -- Check if the player is not an admin and punish for attempting to open admin menu
     if not FIREAC_GETADMINS(source) then
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
             "Try for get a player data")
     else
+        -- Check if the player exists and send their data to the requesting admin
         if GetPlayerName(playerId) then
             local data = {
-                id = playerId,
-                name = GetPlayerName(playerId),
+                id     = playerId,
+                name   = GetPlayerName(playerId),
                 health = GetEntityHealth(GetPlayerPed(playerId)),
                 armour = GetPedArmour(GetPlayerPed(playerId)),
             }
@@ -119,13 +150,17 @@ AddEventHandler("FIREAC:getPlayerData", function(playerId)
     end
 end)
 
+-- Add a player as an admin
 RegisterNetEvent("FIREAC:addPlayerAsAdmin")
 AddEventHandler("FIREAC:addPlayerAsAdmin", function(playerId)
     local source = source
+
+    -- Check if the player is not an admin and punish for attempting to set player as admin
     if not FIREAC_GETADMINS(source) then
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
             "Try to set player as admin")
     else
+        -- Check if the player exists and is not already an admin, then add as admin
         if GetPlayerName(playerId) then
             if FIREAC_GETADMINS(playerId) then
                 FIREAC:ADDADMIN(playerId)
@@ -135,45 +170,63 @@ AddEventHandler("FIREAC:addPlayerAsAdmin", function(playerId)
     end
 end)
 
+-- Event triggered when attempting to add a player to the whitelist
 RegisterNetEvent("FIREAC:addPlayerAsWhiteList")
 AddEventHandler("FIREAC:addPlayerAsWhiteList", function(playerId)
     local source = source
+
+    -- Check if the source is an admin
     if not FIREAC_GETADMINS(source) then
+        -- Log unauthorized admin menu access
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
             "Try to set player as admin")
     else
+        -- Check if the player exists and is not already whitelisted
         if GetPlayerName(playerId) then
             if FIREAC_WHITELIST(playerId) then
+                -- Add the player to the whitelist
                 FIREAC:ADDWHITELIST(playerId)
             end
         end
     end
 end)
 
+-- Event triggered when attempting to add unban access to a player
 RegisterNetEvent("FIREAC:addPlayerUnbanAccess")
 AddEventHandler("FIREAC:addPlayerUnbanAccess", function(playerId)
     local source = source
+
+    -- Check if the source is an admin
     if not FIREAC_GETADMINS(source) then
+        -- Log unauthorized admin menu access
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
             "Try to add player unban access")
     else
+        -- Check if the player exists and has unban access
         if GetPlayerName(playerId) then
             if FIREAC_UNBANACCESS(playerId) then
+                -- Add the player to the whitelist
                 FIREAC:ADDWHITELIST(playerId)
             end
         end
     end
 end)
 
+-- Event triggered when attempting to spawn a vehicle
 RegisterNetEvent("FIREAC:spawnVehicle")
 AddEventHandler("FIREAC:spawnVehicle", function(data)
     local source = source
+
+    -- Check if the source is an admin
     if not FIREAC_GETADMINS(source) then
+        -- Log unauthorized admin menu access
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Spawn Vehicle",
             "Try to spawn vehicle by admin menu")
     else
+        -- Check if data and targetId are provided
         if data and data.targetId then
             local targetID = data.targetId
+            -- Check if the target player exists
             if GetPlayerName(targetID) then
                 local targetPed = GetPlayerPed(targetID)
                 local targetPos = GetEntityCoords(targetPed)
@@ -184,6 +237,7 @@ AddEventHandler("FIREAC:spawnVehicle", function(data)
                 SetPedIntoVehicle(targetPed, vehicle, -1)
             end
         else
+            -- If no targetId is provided, spawn the vehicle for the admin
             local adminPed = GetPlayerPed(source)
             local adminPos = GetEntityCoords(adminPed)
             local heading = GetEntityHeading(adminPed)
@@ -195,91 +249,125 @@ AddEventHandler("FIREAC:spawnVehicle", function(data)
     end
 end)
 
+-- Event triggered when attempting to get admin list data
 RegisterNetEvent('FIREAC:getAdminListData')
 AddEventHandler('FIREAC:getAdminListData', function()
     local source = source
+
+    -- Check if the source is an admin
     if not FIREAC_GETADMINS(source) then
+        -- Log unauthorized admin menu access
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
-            "Attempt to get admins data by admin menu event .")
+            "Attempt to get admins data by admin menu event.")
     else
+        -- Retrieve admins data from the database
         local adminsData = {}
         MySQL.Async.fetchAll('SELECT * FROM fireac_admin', {}, function(data)
             if data and next(data) ~= nil then
+                -- Insert data into adminsData table
                 for i = 1, #data do
                     table.insert(adminsData, data[i])
                 end
             end
+
+            -- Trigger client event to update admin data
             TriggerClientEvent("FIREAC:updateAdminData", source, adminsData)
         end)
     end
 end)
 
+-- Event triggered when attempting to remove a selected admin
 RegisterNetEvent('FIREAC:removeSelectedAdmin')
 AddEventHandler('FIREAC:removeSelectedAdmin', function(id)
     local source = source
+
+    -- Check if the source is an admin
     if not FIREAC_GETADMINS(source) then
+        -- Log unauthorized admin menu access
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
             "Attempt to remove admins data by admin menu event.")
     else
+        -- Execute SQL query to remove selected admin from the database
         MySQL.Async.execute('DELETE FROM fireac_admin WHERE id=@id', {
             ['@id'] = id
         })
     end
 end)
 
+-- Event triggered when attempting to get unban access data
 RegisterNetEvent('FIREAC:getUnbanAccessData')
 AddEventHandler('FIREAC:getUnbanAccessData', function()
     local source = source
+
+    -- Check if the source is an admin
     if not FIREAC_GETADMINS(source) then
+        -- Log unauthorized admin menu access
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
-            "Attempt to get unban data by admin menu event .")
+            "Attempt to get unban data by admin menu event.")
     else
+        -- Fetch unban data from the database
         local unbanData = {}
         MySQL.Async.fetchAll('SELECT * FROM fireac_unban', {}, function(data)
+            -- Check if data is not empty and insert into table
             if data and next(data) ~= nil then
                 for i = 1, #data do
                     table.insert(unbanData, data[i])
                 end
             end
+            -- Trigger client event to update unban access data
             TriggerClientEvent("FIREAC:updateUnbanAccess", source, unbanData)
         end)
     end
 end)
 
-
+-- Event triggered when attempting to remove a player from the unban access list
 RegisterNetEvent('FIREAC:removeUnbanAccess')
 AddEventHandler('FIREAC:removeUnbanAccess', function(id)
     local source = source
+
+    -- Check if the source is an admin
     if not FIREAC_GETADMINS(source) then
+        -- Log unauthorized admin menu access
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
-            "Attempt to remove player from unban access list .")
+            "Attempt to remove player from unban access list.")
     else
+        -- Execute SQL query to remove the player from the unban access list
         MySQL.Async.execute('DELETE FROM fireac_unban WHERE id=@id', {
             ['@id'] = id
         })
     end
 end)
 
+-- Event triggered when attempting to remove a user from the whitelist
 RegisterNetEvent('FIREAC:removeWhitelistUser')
 AddEventHandler('FIREAC:removeWhitelistUser', function(id)
     local source = source
+
+    -- Check if the source is an admin
     if not FIREAC_GETADMINS(source) then
+        -- Log unauthorized admin menu access
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
-            "Attempt to remove unban access of users from data by admin menu event.")
+            "Attempt to remove user from whitelist by admin menu event.")
     else
-        MySQL.Async.execute('DELETE FROM fireac_unban WHERE id=@id', {
+        -- Execute SQL query to remove the user from the whitelist
+        MySQL.Async.execute('DELETE FROM fireac_whitelist WHERE id=@id', {
             ['@id'] = id
         })
     end
 end)
 
+-- Event triggered when attempting to get whitelist data
 RegisterNetEvent('FIREAC:getWhitelistData')
 AddEventHandler('FIREAC:getWhitelistData', function()
     local source = source
+
+    -- Check if the source is an admin
     if not FIREAC_GETADMINS(source) then
+        -- Log unauthorized admin menu access
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
-            "Attempt to get unban data by admin menu event .")
+            "Attempt to get whitelist data by admin menu event.")
     else
+        -- Fetch whitelist data from the database
         local whitelistData = {}
         MySQL.Async.fetchAll('SELECT * FROM fireac_whitelist', {}, function(data)
             if data and next(data) ~= nil then
@@ -287,61 +375,85 @@ AddEventHandler('FIREAC:getWhitelistData', function()
                     table.insert(whitelistData, data[i])
                 end
             end
+
+            -- Trigger the client event to update whitelist data
             TriggerClientEvent("FIREAC:updateWhiteList", source, whitelistData)
         end)
     end
 end)
 
+-- Event triggered when attempting to remove a whitelist user
 RegisterNetEvent('FIREAC:removeWhitelistUser')
 AddEventHandler('FIREAC:removeWhitelistUser', function(id)
     local source = source
+
+    -- Check if the source is an admin
     if not FIREAC_GETADMINS(source) then
+        -- Log unauthorized admin menu access
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
             "Attempt to remove whitelist users from data by admin menu event.")
     else
+        -- Execute database query to remove the whitelist user
         MySQL.Async.execute('DELETE FROM fireac_whitelist WHERE id=@id', {
             ['@id'] = id
         })
     end
 end)
 
+-- Event triggered when attempting to get banlist data by admin menu event
 RegisterNetEvent('FIREAC:getBanListData')
 AddEventHandler('FIREAC:getBanListData', function()
     local source = source
+
+    -- Check if the source is an admin
     if not FIREAC_GETADMINS(source) then
+        -- Log unauthorized admin menu access
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
             "Attempt to get banlist data by admin menu event.")
     else
+        -- Fetch banlist data from the database
         local banData = {}
         MySQL.Async.fetchAll('SELECT * FROM fireac_banlist', {}, function(data)
+            -- Check if there is data and process it
             if data and next(data) ~= nil then
                 for i = 1, #data do
                     table.insert(banData, data[i])
                 end
             end
+            -- Trigger client event to update banlist data on the admin's side
             TriggerClientEvent("FIREAC:updateBanListData", source, banData)
         end)
     end
 end)
 
+-- Event triggered when attempting to unban a selected player from the banlist by admin menu event
 RegisterNetEvent('FIREAC:unbanSelectedPlayer')
 AddEventHandler('FIREAC:unbanSelectedPlayer', function(banID)
     local source = source
+
+    -- Check if the source is an admin
     if not FIREAC_GETADMINS(source) then
+        -- Log unauthorized admin menu access
         FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Open Admin Menu",
             "Attempt to remove player from banlist by admin menu event.")
     else
+        -- Execute a database query to delete the selected player from the banlist
         MySQL.Async.execute('DELETE FROM fireac_banlist WHERE BANID=@banid', {
             ['@banid'] = banID
         })
     end
 end)
 
+-- Event triggered when attempting to delete entities by admin menu event
 RegisterNetEvent("FIREAC:deleteEntitys")
 AddEventHandler("FIREAC:deleteEntitys", function(entityType)
     local source = source
+
+    -- Check if entityType is not nil
     if entityType ~= nil then
+        -- Check if the source is an admin
         if FIREAC_GETADMINS(source) then
+            -- Delete entities based on the specified entityType
             if entityType == "vehicles" then
                 for index, vehicles in ipairs(GetAllVehicles()) do
                     if DoesEntityExist(vehicles) then
@@ -362,132 +474,151 @@ AddEventHandler("FIREAC:deleteEntitys", function(entityType)
                 end
             end
         else
+            -- Log unauthorized admin menu access
             FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Delete Entity", "Try For Delete Entitys")
         end
     end
 end)
 
+-- Event triggered when attempting to teleport to a player by admin menu
 RegisterNetEvent("FIREAC:TeleportToPlayer")
 AddEventHandler("FIREAC:TeleportToPlayer", function(SV_ID)
     local SRC = source
-    if tonumber(SRC) then
-        if tonumber(SV_ID) then
-            local TPED    = GetPlayerPed(SV_ID)
-            local PED     = GetPlayerPed(SRC)
-            local TCOORDS = GetEntityCoords(TPED)
-            if FIREAC_GETADMINS(SRC) then
-                SetEntityCoords(PED, TCOORDS.x, TCOORDS.y, TCOORDS.z, true, true, true)
-            else
-                FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Teleport",
-                    "Try For Teleport to ped by admin menu (not admin)")
-            end
+
+    -- Check if SRC and SV_ID are valid numbers
+    if tonumber(SRC) and tonumber(SV_ID) then
+        local TPED    = GetPlayerPed(SV_ID)
+        local PED     = GetPlayerPed(SRC)
+        local TCOORDS = GetEntityCoords(TPED)
+
+        -- Check if the source is an admin
+        if FIREAC_GETADMINS(SRC) then
+            SetEntityCoords(PED, TCOORDS.x, TCOORDS.y, TCOORDS.z, true, true, true)
+        else
+            -- Log unauthorized admin menu access
+            FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Teleport",
+                "Try For Teleport to ped by admin menu (not admin)")
         end
     end
 end)
 
+-- Event triggered when attempting to give a vehicle to a player by admin menu
 RegisterNetEvent("FIREAC:GiveVehicleToPlayer")
 AddEventHandler("FIREAC:GiveVehicleToPlayer", function(VEH_NAME, SV_ID)
     local SRC = source
-    if tonumber(SRC) then
-        if tonumber(SV_ID) then
-            local TPED    = GetPlayerPed(SV_ID)
-            local TCOORDS = GetEntityCoords(TPED)
-            local HEADING = GetEntityHeading(TPED)
-            if FIREAC_GETADMINS(SRC) then
-                local VEH = CreateVehicle(GetHashKey(VEH_NAME), TCOORDS, HEADING, true, true)
-                Wait(1000)
-                SetPedIntoVehicle(TPED, VEH, -1)
-            else
-                FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Spawn Vehicle",
-                    "Try For Spawn Vehicle By Admin Menu (not admin)")
-            end
+
+    -- Check if SRC and SV_ID are valid numbers
+    if tonumber(SRC) and tonumber(SV_ID) then
+        local TPED    = GetPlayerPed(SV_ID)
+        local TCOORDS = GetEntityCoords(TPED)
+        local HEADING = GetEntityHeading(TPED)
+
+        -- Check if the source is an admin
+        if FIREAC_GETADMINS(SRC) then
+            local VEH = CreateVehicle(GetHashKey(VEH_NAME), TCOORDS, HEADING, true, true)
+            Wait(1000)
+            SetPedIntoVehicle(TPED, VEH, -1)
+        else
+            -- Log unauthorized admin menu access
+            FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Spawn Vehicle",
+                "Try For Spawn Vehicle By Admin Menu (not admin)")
         end
     end
 end)
 
+-- Event triggered when attempting to get a screenshot through admin menu
 RegisterNetEvent("FIREAC:GetScreenShot")
 AddEventHandler("FIREAC:GetScreenShot", function(P_ID)
     local SRC = source
-    if tonumber(SRC) then
-        if tonumber(P_ID) then
-            if FIREAC_GETADMINS(SRC) then
-                if FIREAC.ScreenShot.Log ~= "" and FIREAC.ScreenShot.Log ~= nil then
-                    FIREAC_SCREENSHOT(P_ID, "By Admin Menu", "By " .. GetPlayerName(SRC) .. "", "WARN")
-                end
-            else
-                FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Get ScreenShot",
-                    "Try For Get Screen Shot By Menu (not admin)")
+
+    -- Check if SRC and P_ID are valid numbers
+    if tonumber(SRC) and tonumber(P_ID) then
+        -- Check if the source is an admin
+        if FIREAC_GETADMINS(SRC) then
+            -- Check if there is a screenshot log
+            if FIREAC.ScreenShot.Log ~= "" and FIREAC.ScreenShot.Log ~= nil then
+                FIREAC_SCREENSHOT(P_ID, "By Admin Menu", "By " .. GetPlayerName(SRC) .. "", "WARN")
             end
+        else
+            -- Log unauthorized admin menu access
+            FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Get ScreenShot",
+                "Try For Get Screen Shot By Menu (not admin)")
         end
     end
 end)
 
+-- Event triggered when attempting to ban a player through admin menu
 RegisterNetEvent("FIREAC:banPlayerByAdmin")
 AddEventHandler("FIREAC:banPlayerByAdmin", function(target)
     local source = source
-    if tonumber(source) then
-        if tonumber(target) then
-            if FIREAC_GETADMINS(source) then
-                FIREAC_ACTION(target, "BAN", "Ban By Admin Menu",
-                    "Player Ban By Menu : **" .. GetPlayerName(source) .. "**")
-            else
-                FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Ban Players",
-                    "Try For Ban Player By Admin Menu (not admin)")
-            end
+
+    -- Check if source and target are valid numbers
+    if tonumber(source) and tonumber(target) then
+        -- Check if the source is an admin
+        if FIREAC_GETADMINS(source) then
+            FIREAC_ACTION(target, "BAN", "Ban By Admin Menu", "Player Ban By Menu: **" .. GetPlayerName(source) .. "**")
+        else
+            -- Log unauthorized admin menu access
+            FIREAC_ACTION(SRC, FIREAC.AdminMenu.MenuPunishment, "Anti Ban Players",
+                "Try For Ban Player By Admin Menu (not admin)")
         end
     end
 end)
 
+-- Server event triggered when requesting to spectate a player through admin menu
 RegisterServerEvent("FIREAC:requestSpectate")
 AddEventHandler("FIREAC:requestSpectate", function(id)
     local source    = source
     local targetPed = GetPlayerPed(id)
     local tcoords   = GetEntityCoords(targetPed)
-    if tonumber(source) then
-        if tonumber(id) then
-            if FIREAC_GETADMINS(source) then
-                TriggerClientEvent("FIREAC:spectatePlayer", source, id, tcoords)
-            else
-                FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Spectate Players",
-                    "Try For Spectate Player By Admin Menu (not admin)")
-            end
+
+    -- Check if source and id are valid numbers
+    if tonumber(source) and tonumber(id) then
+        -- Check if the source is an admin
+        if FIREAC_GETADMINS(source) then
+            -- Trigger the client event to spectate the player
+            TriggerClientEvent("FIREAC:spectatePlayer", source, id, tcoords)
+        else
+            -- Log unauthorized admin menu access
+            FIREAC_ACTION(source, FIREAC.AdminMenu.MenuPunishment, "Anti Spectate Players",
+                "Try For Spectate Player By Admin Menu (not admin)")
         end
     end
 end)
 
---【 𝗦𝘂𝗽𝗲𝗿𝗝𝘂𝗺𝗽 𝗖𝗵𝗲𝗰𝗸 】--
+-- Event triggered to check if a player is using super jump
 RegisterNetEvent("FIREAC:CheckJumping")
 AddEventHandler("FIREAC:CheckJumping", function(ACTION, REASON, DETAILS)
     local SRC = source
+
+    -- Check if the player is using super jump and SRC is a valid number
     if IsPlayerUsingSuperJump(SRC) and tonumber(SRC) then
+        -- Check if the player is not whitelisted
         if not FIREAC_WHITELIST(SRC) then
+            -- Log the action if the conditions are met
             FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
         end
     end
 end)
 
+-- Event triggered when receiving a screenshot from the client
 RegisterNetEvent("FIREAC:ScreenShotFromClient")
 AddEventHandler("FIREAC:ScreenShotFromClient", function(URL, REASON, DETAILS)
     local SRC = source
-    if tonumber(SRC) ~= nil and GetPlayerName(SRC) ~= nil then
-        local NAME    = GetPlayerName(SRC)
-        local COORDS  = GetEntityCoords(GetPlayerPed(SRC))
-        local STEAM   = "Not Found"
-        local DISCORD = "Not Found"
-        local FIVEML  = "Not Found"
-        local LIVE    = "Not Found"
-        local XBL     = "Not Found"
-        local ISP     = "Not Found"
-        local CITY    = "Not Found"
-        local COUNTRY = "Not Found"
-        local PROXY   = "Not Found"
-        local HOSTING = "Not Found"
-        local IP      = GetPlayerEndpoint(SRC)
-        IP            = (string.gsub(string.gsub(string.gsub(IP, "-", ""), ",", ""), " ", ""):lower())
-        local g, f    = IP:find(string.lower("192.168"))
-        if g or f then
-            IP = "178.131.122.181"
-        end
+
+    -- Check if SRC is a valid number and GetPlayerName(SRC) is not nil
+    if tonumber(SRC) and GetPlayerName(SRC) then
+        local NAME                               = GetPlayerName(SRC)
+        local COORDS                             = GetEntityCoords(GetPlayerPed(SRC))
+        local STEAM, DISCORD, FIVEML, LIVE, XBL  = "Not Found", "Not Found", "Not Found", "Not Found", "Not Found"
+        local ISP, CITY, COUNTRY, PROXY, HOSTING = "Not Found", "Not Found", "Not Found", "Not Found", "Not Found"
+        local IP                                 = (string.gsub(string.gsub(string.gsub(GetPlayerEndpoint(SRC), "-", ""), ",", ""), " ", ""):lower())
+
+        -- Replace private IP with a default public IP
+        local g, f                               = IP:find(string.lower("192.168"))
+        IP                                       = g or f and "178.131.122.181" or IP
+
+        -- Extract player identifiers
         for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
             if DATA:match("steam") then
                 STEAM = DATA
@@ -501,211 +632,193 @@ AddEventHandler("FIREAC:ScreenShotFromClient", function(URL, REASON, DETAILS)
                 XBL = DATA
             end
         end
-        if DISCORD ~= "Not Found" then
-            DISCORD = "<@" .. DISCORD .. ">"
-        else
-            DISCORD = "Not Found"
-        end
+
+        -- Format Discord mention
+        DISCORD = DISCORD ~= "Not Found" and "<@" .. DISCORD .. ">" or "Not Found"
+
+        -- Perform HTTP request to gather additional information
         if not FIREAC.ServerConfig.Linux then
             PerformHttpRequest("http://ip-api.com/json/" .. IP .. "?fields=66846719", function(ERROR, DATA, RESULT)
-                if DATA ~= nil then
+                if DATA then
                     local TABLE = json.decode(DATA)
-                    if TABLE ~= nil then
-                        ISP     = TABLE["isp"]
-                        CITY    = TABLE["city"]
-                        COUNTRY = TABLE["country"]
-                        if TABLE["proxy"] == true then
-                            PROXY = "ON"
-                        else
-                            PROXY = "OFF"
-                        end
-                        if TABLE["hosting"] == true then
-                            HOSTING = "ON"
-                        else
-                            HOSTING = "OFF"
-                        end
-                        if FIREAC.Connection.HideIP then
-                            IP = "* HIDE BY OWNER *"
-                        end
-                        if URL ~= nil then
-                            PerformHttpRequest(FIREAC.ScreenShot.Log, function(ERROR, DATA, RESULT)
-                            end, "POST", json.encode({
-                                embeds = {
-                                    {
+                    if TABLE then
+                        ISP, CITY, COUNTRY = TABLE["isp"], TABLE["city"], TABLE["country"]
+
+                        -- Check if the player is using a proxy
+                        PROXY = TABLE["proxy"] and "ON" or "OFF"
+
+                        -- Check if the player is hosting
+                        HOSTING = TABLE["hosting"] and "ON" or "OFF"
+
+                        -- Hide IP if configured to do so
+                        IP = FIREAC.Connection.HideIP and "* HIDE BY OWNER *" or IP
+
+                        -- Perform screenshot posting
+                        if URL then
+                            PerformHttpRequest(FIREAC.ScreenShot.Log, function(ERROR, DATA, RESULT) end, "POST",
+                                json.encode({
+                                    embeds = { {
                                         author = {
                                             name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
                                             url = "https://discord.gg/drwWFkfu6x",
                                             icon_url =
                                             "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
                                         },
-                                        image = {
-                                            url = URL,
-                                        },
+                                        image = { url = URL },
                                         footer = {
                                             text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
                                             icon_url =
                                             "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                         },
                                         title = "" .. Emoji.VPN .. " ScreenShot " .. Emoji.VPN .. "",
-                                        description = "**Player:** " ..
-                                            NAME ..
-                                            "\n**Reason:** " ..
-                                            REASON ..
-                                            "\n**Details:** " ..
-                                            DETAILS ..
-                                            "\n**Coords:** " ..
-                                            COORDS ..
-                                            "\n**Steam Hex:** " ..
-                                            STEAM ..
-                                            "\n**Discord:** " ..
-                                            DISCORD ..
-                                            "\n**License:** " ..
-                                            FIVEML ..
-                                            "\n**Live:** " ..
-                                            LIVE ..
-                                            "\n**Xbox:** " ..
-                                            XBL ..
-                                            "\n**ISP:** " ..
-                                            ISP ..
-                                            "\n**Country:** " ..
-                                            COUNTRY ..
-                                            "\n**City:** " ..
-                                            CITY .. "\n**IP:** " .. IP .. "\n**VPN:** " .. PROXY ..
+                                        description = "**Player:** " .. NAME ..
+                                            "\n**Reason:** " .. REASON ..
+                                            "\n**Details:** " .. DETAILS ..
+                                            "\n**Coords:** " .. COORDS ..
+                                            "\n**Steam Hex:** " .. STEAM ..
+                                            "\n**Discord:** " .. DISCORD ..
+                                            "\n**License:** " .. FIVEML ..
+                                            "\n**Live:** " .. LIVE ..
+                                            "\n**Xbox:** " .. XBL ..
+                                            "\n**ISP:** " .. ISP ..
+                                            "\n**Country:** " .. COUNTRY ..
+                                            "\n**City:** " .. CITY ..
+                                            "\n**IP:** " .. IP ..
+                                            "\n**VPN:** " .. PROXY ..
                                             "\n**Hosting:** " .. HOSTING .. "",
                                         color = 10181046
-                                    }
-                                }
-                            }), {
-                                ["Content-Type"] = "application/json"
-                            })
+                                    } }
+                                }), { ["Content-Type"] = "application/json" })
                         end
                     end
                 end
             end)
         else
-            PerformHttpRequest(FIREAC.ScreenShot.Log, function(ERROR, DATA, RESULT)
-            end, "POST", json.encode({
-                embeds = {
-                    {
-                        author = {
-                            name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
-                            url = "https://discord.gg/drwWFkfu6x",
-                            icon_url =
-                            "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
-                        },
-                        image = {
-                            url = URL,
-                        },
-                        footer = {
-                            text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
-                            icon_url =
-                            "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
-                        },
-                        title = "" .. Emoji.VPN .. " ScreenShot " .. Emoji.VPN .. "",
-                        description = "**Player:** " ..
-                            NAME ..
-                            "\n**Reason:** " ..
-                            REASON ..
-                            "\n**Details:** " ..
-                            DETAILS ..
-                            "\n**Coords:** " ..
-                            COORDS ..
-                            "\n**Steam Hex:** " ..
-                            STEAM ..
-                            "\n**Discord:** " ..
-                            DISCORD ..
-                            "\n**License:** " ..
-                            FIVEML ..
-                            "\n**Live:** " ..
-                            LIVE ..
-                            "\n**Xbox:** " ..
-                            XBL ..
-                            "",
-                        color = 10181046
-                    }
-                }
-            }), {
-                ["Content-Type"] = "application/json"
-            })
+            -- Perform screenshot posting for Linux servers
+            PerformHttpRequest(FIREAC.ScreenShot.Log, function(ERROR, DATA, RESULT) end, "POST", json.encode({
+                embeds = { {
+                    author = {
+                        name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
+                        url = "https://discord.gg/drwWFkfu6x",
+                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                    },
+                    image = { url = URL },
+                    footer = {
+                        text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                        icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                    },
+                    title = "" .. Emoji.VPN .. " ScreenShot " .. Emoji.VPN .. "",
+                    description = "**Player:** " .. NAME ..
+                        "\n**Reason:** " .. REASON ..
+                        "\n**Details:** " .. DETAILS ..
+                        "\n**Coords:** " .. COORDS ..
+                        "\n**Steam Hex:** "
+
+                        .. STEAM ..
+                        "\n**Discord:** " .. DISCORD ..
+                        "\n**License:** " .. FIVEML ..
+                        "\n**Live:** " .. LIVE ..
+                        "\n**Xbox:** " .. XBL .. "",
+                    color = 10181046
+                } }
+            }), { ["Content-Type"] = "application/json" })
         end
     else
+        -- Log an error if SRC is not found
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "FIREAC:ScreenShotFromClient (SRC not found)")
     end
 end)
 
---【 𝗗𝗿𝗼𝗽𝗣𝗹𝗮𝘆𝗲𝗿 𝗘𝘃𝗲𝗻𝘁 】--
+-- Add playerDropped event handler to monitor player disconnections
 AddEventHandler("playerDropped", function(REASON)
     local SRC = source
     print("^" ..
         COLORS .. "FIREAC^0: ^1Player ^3" .. GetPlayerName(SRC) .. " ^1Disconnected ...  |  Reason : ^0(^6" ..
         REASON .. "^0)^0")
+    -- Check if player name and reason are available
     if GetPlayerName(SRC) and REASON ~= nil then
+        -- Send disconnect log to webhook
         FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Disconnect, "DISCONNECT", REASON)
     else
+        -- Log an error if player name or reason is not found
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "playerDropped : REASON or SRC (Not Found)")
     end
 end)
 
---【 𝗪𝗲𝗮𝗽𝗼𝗻 𝗘𝘃𝗲𝗻𝘁 】--
+-- Add giveWeaponEvent event handler to monitor weapon additions
 AddEventHandler("giveWeaponEvent", function(SRC, DATA)
     if FIREAC.AntiAddWeapon then
+        -- Check if SRC is a valid number and GetPlayerName is not nil
         if tonumber(SRC) ~= nil and GetPlayerName(SRC) ~= nil then
+            -- Check if player is not whitelisted
             if not FIREAC_WHITELIST(SRC) then
+                -- Cancel the event and take appropriate action
                 CancelEvent()
                 FIREAC_ACTION(SRC, FIREAC.WeaponPunishment, "Anti Add Weapon", "Try for add weapon for player")
             end
         else
+            -- Log an error if SRC is not found
             FIREAC_ERROR(FIREAC.ServerConfig.Name, "giveWeaponEvent : SRC (Not Found)")
         end
     end
 end)
 
---【 𝗥𝗲𝗺𝗼𝘃𝗲 𝗪𝗲𝗮𝗽𝗼𝗻 】--
+-- Add RemoveWeaponEvent event handler to monitor weapon removals
 AddEventHandler("RemoveWeaponEvent", function(SRC, DATA)
     if FIREAC.AntiRemoveWeapon then
+        -- Check if SRC is a valid number and GetPlayerName is not nil
         if tonumber(SRC) ~= nil and GetPlayerName(SRC) ~= nil then
+            -- Check if player is not whitelisted
             if not FIREAC_WHITELIST(SRC) then
+                -- Cancel the event and take appropriate action
                 CancelEvent()
                 FIREAC_ACTION(SRC, FIREAC.WeaponPunishment, "Anti Remove Weapon", "Try for remove weapon for player")
             end
         else
+            -- Log an error if SRC is not found
             FIREAC_ERROR(FIREAC.ServerConfig.Name, "giveWeaponEvent : SRC (Not Found)")
         end
     end
 end)
 
---【 𝗥𝗲𝗺𝗼𝘃𝗲 𝗔𝗹𝗹 𝗪𝗲𝗮𝗽𝗼𝗻 】--
+-- Add RemoveAllWeaponsEvent event handler to monitor removal of all weapons
 AddEventHandler("RemoveAllWeaponsEvent", function(SRC, DATA)
     if FIREAC.AntiRemoveWeapon then
+        -- Check if SRC is a valid number and GetPlayerName is not nil
         if tonumber(SRC) ~= nil and GetPlayerName(SRC) ~= nil then
+            -- Check if player is not whitelisted
             if not FIREAC_WHITELIST(SRC) then
+                -- Cancel the event and take appropriate action
                 CancelEvent()
                 FIREAC_ACTION(SRC, FIREAC.WeaponPunishment, "Anti Remove All Weapon",
                     "Try for remove all weapon for player")
             end
         else
+            -- Log an error if SRC is not found
             FIREAC_ERROR(FIREAC.ServerConfig.Name, "giveWeaponEvent : SRC (Not Found)")
         end
     end
 end)
 
+-- Register AddToSpawnList event to handle player spawn tracking
 RegisterNetEvent("FIREAC:AddToSpawnList")
 AddEventHandler("FIREAC:AddToSpawnList", function()
     local SRC = tonumber(source)
     if SRC ~= nil then
+        -- Add player to spawn list if not already present
         if SPAWNED[SRC] == nil then
             SPAWNED[SRC] = true
         end
     end
 end)
 
---【 𝗧𝗿𝗶𝗴𝗴𝗲𝗿 𝗠𝗮𝗻𝗮𝗴𝗲𝗺𝗲𝗻𝘁 】--
-local EVENTS = {}
-local isSpamTrigger = false
+-- Add event handlers for triggering prevention based on spam checks
+local EVENTS = {}           -- Table to store event data for spam prevention
+local isSpamTrigger = false -- Flag to track spam triggers
 if FIREAC.AntiSpamTigger then
     for i = 1, #SpamCheck do
-        local TNAME = SpamCheck[i].EVENT
-        local MTIME = SpamCheck[i].MAX_TIME
+        local TNAME = SpamCheck[i].EVENT    -- Name of the event to check for spam
+        local MTIME = SpamCheck[i].MAX_TIME -- Maximum time allowed between events
         RegisterNetEvent(TNAME)
         AddEventHandler(TNAME, function()
             local SRC = source
@@ -734,8 +847,8 @@ if FIREAC.AntiSpamTigger then
     end
 end
 
---【 𝗖𝗼𝗺𝗺𝗮𝗻𝗱 𝗠𝗮𝗻𝗮𝗴𝗲𝗺𝗲𝘁 】--
-local SERVER_CMDS = {}
+-- Add event handlers for blacklisted commands
+local SERVER_CMDS = {} -- Table to store server commands
 for index, bcmd in ipairs(Commands) do
     RegisterCommand(bcmd, function(SRC, ARGS)
         if FIREAC.AntiBlackListCommands then
@@ -746,8 +859,8 @@ for index, bcmd in ipairs(Commands) do
     end)
 end
 
---【 𝗖𝗵𝗮𝘁 𝗠𝗮𝗻𝗮𝗴𝗲𝗺𝗲𝗻𝘁 】--
-local MESSAGE = {}
+-- Add event handler for monitoring chat messages
+local MESSAGE = {} -- Table to store chat message data
 AddEventHandler("chatMessage", function(SRC, NA, WORD)
     local HWID = SRC
     if FIREAC.AntiBlackListWord then
@@ -766,7 +879,7 @@ AddEventHandler("chatMessage", function(SRC, NA, WORD)
             else
                 TriggerClientEvent("chatMessage", SRC, "[FIREAC]", { 255, 0, 0 },
                     "You are spam message for " ..
-                    MESSAGE[HWID].COUNT .. ", Please Wait for " .. FIREAC.CoolDownSec .. " secend")
+                    MESSAGE[HWID].COUNT .. ", Please Wait for " .. FIREAC.CoolDownSec .. " seconds")
                 if MESSAGE[HWID].COUNT >= FIREAC.MaxMessage then
                     FIREAC_ACTION(SRC, FIREAC.ChatPunishment, "Anti Spam Chat", "Try For Spam in chat : **" .. WORD ..
                         "**")
@@ -782,6 +895,7 @@ AddEventHandler("chatMessage", function(SRC, NA, WORD)
     end
 end)
 
+-- Add event handlers for blacklisted triggers
 if FIREAC.AntiBlackListTrigger then
     for i = 1, #Events do
         RegisterNetEvent(Events[i])
@@ -795,7 +909,7 @@ if FIREAC.AntiBlackListTrigger then
     end
 end
 
---【 𝗔𝗻𝘁𝗶 𝗖𝗵𝗮𝗻𝗴𝗲 𝗣𝗲𝗿𝗺 】--
+-- Add event handler for database updates to prevent unauthorized changes
 AddEventHandler("db:updateUser", function(data)
     local SRC = source
     if FIREAC.AntiChangePerm then
@@ -807,8 +921,8 @@ AddEventHandler("db:updateUser", function(data)
     end
 end)
 
---【 𝗔𝗻𝘁𝗶 𝗘𝘅𝗽𝗹𝗼𝘀𝗶𝗼𝗻 】--
-local EXPLOSION = {}
+-- Add event handler for monitoring explosions
+local EXPLOSION = {} -- Table to store explosion data
 AddEventHandler("explosionEvent", function(SRC, DATA)
     if tonumber(SRC) then
         local HWID = GetPlayerToken(SRC, 0)
@@ -851,7 +965,9 @@ AddEventHandler("explosionEvent", function(SRC, DATA)
                         end
                     end
                 else
-                    EXPLOSION[HWID] = {
+                    EXPLOSION[HWID
+
+                    ] = {
                         COUNT = 1,
                         TIME  = os.time()
                     }
@@ -865,8 +981,7 @@ AddEventHandler("explosionEvent", function(SRC, DATA)
     end
 end)
 
-
---【 𝗔𝗻𝘁𝗶 𝗣𝗹𝗮𝘆 𝗦𝗼𝘂𝗻𝗱 】--
+-- Add event handler for preventing certain sounds from playing
 if GetResourceState("interact-sound") == "started" then
     AddEventHandler("InteractSound_SV:PlayWithinDistance", function(maxDistance, soundFile, soundVolume)
         local SRC = source
@@ -904,7 +1019,7 @@ if GetResourceState("interact-sound") == "started" then
     end)
 end
 
---【 𝗔𝗻𝘁𝗶 𝗧𝗮𝘇𝗲 𝗣𝗹𝗮𝘆𝗲𝗿"𝘀 】--
+-- Add event handler for preventing tazer spam
 local TAZE = {}
 AddEventHandler("weaponDamageEvent", function(SRC, DATA)
     if FIREAC.AntiTazePlayers then
@@ -931,16 +1046,24 @@ AddEventHandler("weaponDamageEvent", function(SRC, DATA)
     end
 end)
 
---【 𝗔𝗻𝘁𝗶 𝗖𝗹𝗲𝗮𝗿 𝗣𝗲𝗱 𝗧𝗮𝘀𝗸𝘀 】--
+-- Table to store data for preventing clearPedTasks abuse
 local FREEZE = {}
+
+-- Event handler for clearPedTasksEvent
 AddEventHandler("clearPedTasksEvent", function(SRC, DATA)
     local HWID = GetPlayerToken(SRC, 0)
+
     if FIREAC.AntiClearPedTasks then
+        -- Check if player is in the FREEZE table
         if FREEZE[HWID] ~= nil then
+            -- Increase the count of clearPedTasks events
             FREEZE[HWID].COUNT = FREEZE[HWID].COUNT + 1
+
+            -- Check if the time elapsed since the first clearPedTasks event is less than or equal to 10 seconds
             if os.time() - FREEZE[HWID].TIME <= 10 then
                 FREEZE[HWID] = nil
             else
+                -- Check if the count exceeds the maximum allowed clearPedTasks events
                 if FREEZE[HWID].COUNT >= FIREAC.MaxClearPedTasks then
                     FIREAC_ACTION(SRC, FIREAC.CPTPunishment, "Anti Clear Ped Tasks",
                         "Try Clear Ped Tasks for " .. FREEZE[HWID].TIME .. ".")
@@ -948,6 +1071,7 @@ AddEventHandler("clearPedTasksEvent", function(SRC, DATA)
                 end
             end
         else
+            -- If player is not in the FREEZE table, add them with initial data
             FREEZE[HWID] = {
                 COUNT = 1,
                 TIME  = os.time()
@@ -956,7 +1080,7 @@ AddEventHandler("clearPedTasksEvent", function(SRC, DATA)
     end
 end)
 
---【 𝗔𝗻𝘁𝗶 𝗕𝗿𝗶𝗻𝗴 𝗔𝗹𝗹 𝗣𝗹𝗮𝘆𝗲𝗿"𝘀 】--
+-- Event handler for syncing dead bodies in ambulance job
 RegisterNetEvent("esx_ambulancejob:syncDeadBody")
 AddEventHandler("esx_ambulancejob:syncDeadBody", function(PED, TARGET)
     local SRC = source
@@ -966,35 +1090,32 @@ AddEventHandler("esx_ambulancejob:syncDeadBody", function(PED, TARGET)
     end
 end)
 
+-- Event handlers for refreshing commands on resource starting and stopping
 AddEventHandler("onResourceStarting", function(RES)
     FIREAC_REFRESHCMD()
 end)
+
 AddEventHandler("onResourceStop", function(RES)
     FIREAC_REFRESHCMD()
 end)
 
---【 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗶𝗻𝗴 𝗘𝘃𝗲𝗻𝘁 】--
+-- Event handlers for player connection
 AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
-    local SRC     = source
-    local IP      = GetPlayerEndpoint(SRC)
-    local STEAM   = "Not Found"
-    local DISCORD = "Not Found"
-    local FIVEML  = "Not Found"
-    local LIVE    = "Not Found"
-    local XBL     = "Not Found"
-    local ISP     = "Not Found"
-    local CITY    = "Not Found"
-    local COUNTRY = "Not Found"
-    local PROXY   = "Not Found"
-    local HOSTING = "Not Found"
-    local LON     = "Not Found"
-    local LAT     = "Not Found"
-    local HWID    = GetPlayerToken(SRC, 0)
-    IP            = (string.gsub(string.gsub(string.gsub(IP, "-", ""), ",", ""), " ", ""):lower())
-    local g, f    = IP:find(string.lower("192.168"))
+    local SRC = source
+    local IP = GetPlayerEndpoint(SRC)
+    local STEAM, DISCORD, FIVEML, LIVE, XBL = "Not Found", "Not Found", "Not Found", "Not Found", "Not Found"
+    local ISP, CITY, COUNTRY, PROXY, HOSTING, LON, LAT = "Not Found", "Not Found", "Not Found", "Not Found", "Not Found",
+        "Not Found", "Not Found"
+    local HWID = GetPlayerToken(SRC, 0)
+
+    -- Process IP address
+    IP = (string.gsub(string.gsub(string.gsub(IP, "-", ""), ",", ""), " ", ""):lower())
+    local g, f = IP:find(string.lower("192.168"))
     if g or f then
         IP = "178.131.122.181"
     end
+
+    -- Extract player identifiers
     for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
         if DATA:match("steam") then
             STEAM = DATA
@@ -1008,97 +1129,39 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
             XBL = DATA
         end
     end
+
     print("^" .. COLORS .. "FIREAC^0: ^2Player ^3" .. name .. " ^2Connecting ...^0")
     deferrals.defer()
-    --【 𝗕𝗮𝗻 𝗣𝗹𝗮𝘆𝗲𝗿 】--
+
+    -- Check if player is in ban list
     local isInBanList = FIREAC_INBANLIST(SRC)
     if isInBanList then
         local card = {
             type = "AdaptiveCard",
             version = "1.2",
             body = {
-                {
-                    type = "TextBlock",
-                    text = "You are banned from our server !",
-                    wrap = true,
-                    horizontalAlignment = "Center",
-                    separator = true,
-                    height = "stretch",
-                    fontType = "Default",
-                    size = "Large",
-                    weight = "Bolder",
-                    color = "Orange"
-                },
-                {
-                    type = "TextBlock",
-                    text = "Ban Information :\nReason: " ..
-                        isInBanList[1].REASON .. "\nBan ID: #" .. isInBanList[1].BANID .. "",
-                    wrap = true,
-                    horizontalAlignment = "Center",
-                    separator = true,
-                    height = "stretch",
-                    fontType = "Default",
-                    size = "Medium",
-                    weight = "Bolder",
-                    color = "Light"
-                },
-                {
-                    type = "ActionSet",
-                    horizontalAlignment = "Center",
-                    actions = {
-                        {
-                            type = "Action.OpenUrl",
-                            title = "Join Discord",
-                            url = "https://discord.gg/qU7Hug7F2y",
-                            iconUrl =
-                            "https://icons.getbootstrap.com/assets/icons/discord.svg"
-                        }
-                    }
-                },
-                {
-                    type = "Container",
-                    items = {
-                        {
-                            type = "ActionSet",
-                            horizontalAlignment = "Center",
-                            actions = {
-                                {
-                                    type = "Action.OpenUrl",
-                                    title = "Visit our website",
-                                    url = "https://amirrezajaberi.ir/fireac",
-                                    iconUrl =
-                                    "https://icons.getbootstrap.com/assets/icons/globe.svg"
-                                }
-                            }
-                        }
-                    }
-                },
-                {
-                    type = "TextBlock",
-                    text = "This server protected by FIREAC®",
-                    wrap = true,
-                    horizontalAlignment = "Center",
-                    separator = true,
-                    height = "stretch",
-                    fontType = "Default",
-                    size = "Small",
-                    weight = "Bolder",
-                    color = "Light"
-                },
+                { type = "TextBlock", text = "You are banned from our server !",                                                                                                                                                                                                              wrap = true,                                                                                                                                                                  horizontalAlignment = "Center", separator = true, height = "stretch", fontType = "Default", size = "Large",  weight = "Bolder", color = "Orange" },
+                { type = "TextBlock", text = "Ban Information :\nReason: " .. isInBanList[1].REASON .. "\nBan ID: #" .. isInBanList[1].BANID .. "",                                                                                                                                           wrap = true,                                                                                                                                                                  horizontalAlignment = "Center", separator = true, height = "stretch", fontType = "Default", size = "Medium", weight = "Bolder", color = "Light" },
+                { type = "ActionSet", horizontalAlignment = "Center",                                                                                                                                                                                                                         actions = { { type = "Action.OpenUrl", title = "Join Discord", url = "https://discord.gg/qU7Hug7F2y", iconUrl = "https://icons.getbootstrap.com/assets/icons/discord.svg" } } },
+                { type = "Container", items = { { type = "ActionSet", horizontalAlignment = "Center", actions = { { type = "Action.OpenUrl", title = "Visit our website", url = "https://amirrezajaberi.ir/fireac", iconUrl = "https://icons.getbootstrap.com/assets/icons/globe.svg" } } } } },
+                { type = "TextBlock", text = "This server protected by FIREAC®",                                                                                                                                                                                                              wrap = true,                                                                                                                                                                  horizontalAlignment = "Center", separator = true, height = "stretch", fontType = "Default", size = "Small",  weight = "Bolder", color = "Light" },
             }
         }
+
         print("^" ..
             COLORS ..
-            "FIREAC^0: ^1Player ^3" .. GetPlayerName(SRC) .. " ^3Try For Join But ^0| ^3Ban ID: ^3 " ..
-            isInBanList[1].BANID .. "^0")
+            "FIREAC^0: ^1Player ^3" ..
+            GetPlayerName(SRC) .. " ^3Try For Join But ^0| ^3Ban ID: ^3 " .. isInBanList[1].BANID .. "^0")
         FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Connect, "TFJ", isInBanList[1].BANID, isInBanList[1].REASON)
+
         while true do
             Wait(0)
             deferrals.presentCard(card, "XD")
         end
     end
-    --【 𝗕𝗹𝗮𝗰𝗸 𝗟𝗶𝘀𝘁 𝗡𝗮𝗺𝗲 】--
-    if FIREAC.Connection.AntiBlackListName == true then
+
+    -- Check if player's name is in the blacklist
+    if FIREAC.Connection.AntiBlackListName then
         name = (string.gsub(string.gsub(string.gsub(name, "-", ""), ",", ""), " ", ""):lower())
         for index, value in ipairs(Names) do
             local g, f = name:find(string.lower(value))
@@ -1118,68 +1181,41 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
             end
         end
     end
-    --【 𝗔𝗻𝘁𝗶 𝗩𝗣𝗡 】--
+
+    -- Check for VPN usage
     if FIREAC.Connection.AntiVPN and not FIREAC.ServerConfig.Linux then
         PerformHttpRequest("http://ip-api.com/json/" .. IP .. "?fields=66846719", function(ERROR, DATA, RESULT)
-            if DATA ~= nil then
+            if DATA then
                 local TABLE = json.decode(DATA)
-                if TABLE ~= nil then
-                    ISP     = TABLE["isp"]
-                    CITY    = TABLE["city"]
-                    COUNTRY = TABLE["country"]
-                    if TABLE["proxy"] == true then
-                        PROXY = "ON"
-                    else
-                        PROXY = "OFF"
-                    end
-                    if TABLE["hosting"] == true then
-                        HOSTING = "ON"
-                    else
-                        HOSTING = "OFF"
-                    end
-                    LON = TABLE["lon"]
-                    LAT = TABLE["lat"]
+                if TABLE then
+                    ISP, CITY, COUNTRY = TABLE["isp"], TABLE["city"], TABLE["country"]
+                    PROXY, HOSTING, LON, LAT = TABLE["proxy"] and "ON" or "OFF", TABLE["hosting"] and "ON" or "OFF",
+                        TABLE["lon"], TABLE["lat"]
+
                     if PROXY == "ON" or HOSTING == "ON" then
-                        if FIREAC.Connection.HideIP then
-                            IP = "* HIDE BY OWNER *"
-                        end
+                        if FIREAC.Connection.HideIP then IP = "* HIDE BY OWNER *" end
                         local card = {
                             type = "AdaptiveCard",
                             version = "1.2",
-                            body = { {
-                                type = "Image",
-                                url = "https://cache.ip-api.com/" .. LON .. "," .. LAT .. ",10",
-                                horizontalAlignment = "Center"
-                            }, {
-                                type = "TextBlock",
-                                text = "" .. Emoji.Fire .. "  FIREAC  " .. Emoji.Fire .. "",
-                                wrap = true,
-                                horizontalAlignment = "Center",
-                                separator = true,
-                                height = "stretch",
-                                fontType = "Default",
-                                size = "Large",
-                                weight = "Bolder",
-                                color = "Light"
-                            }, {
-                                type = "TextBlock",
-                                text = "Your VPN is on Plase Turn off that\nIP: " ..
-                                    IP ..
-                                    "\nVPN: " ..
-                                    PROXY ..
-                                    "\nHosting: " .. HOSTING .. "\nISP: " ..
-                                    ISP .. "\nCountry: " .. COUNTRY .. "\nCity: " .. CITY .. "",
-                                wrap = true,
-                                horizontalAlignment = "Center",
-                                separator = true,
-                                height = "stretch",
-                                fontType = "Default",
-                                size = "Medium",
-                                weight = "Bolder",
-                                color = "Light"
-                            },
+                            body = {
+                                { type = "Image",     url = "https://cache.ip-api.com/" .. LON .. "," .. LAT .. ",10",                                                                                                                       horizontalAlignment = "Center" },
+                                {
+                                    type = "TextBlock",
+
+                                    text = "" .. Emoji.Fire .. "  FIREAC  " .. Emoji.Fire .. "",
+                                    wrap = true,
+                                    horizontalAlignment = "Center",
+                                    separator = true,
+                                    height = "stretch",
+                                    fontType = "Default",
+                                    size = "Large",
+                                    weight = "Bolder",
+                                    color = "Light"
+                                },
+                                { type = "TextBlock", text = "Your VPN is on Plase Turn off that\nIP: " .. IP .. "\nVPN: " .. PROXY .. "\nHosting: " .. HOSTING .. "\nISP: " .. ISP .. "\nCountry: " .. COUNTRY .. "\nCity: " .. CITY .. "", wrap = true,                   horizontalAlignment = "Center", separator = true, height = "stretch", fontType = "Default", size = "Medium", weight = "Bolder", color = "Light" },
                             }
                         }
+
                         print("^" ..
                             COLORS ..
                             "FIREAC^0: ^1Player ^3" ..
@@ -1193,15 +1229,8 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
                             Emoji.Fire .. "FIREAC" .. Emoji.Fire .. "]\nPlease Turn off your vpn and rejoin !")
                     else
                         local NEW_HWID = GetPlayerToken(SRC, 0)
-                        if NEW_HWID == nil then
-                            deferrals.done("[" ..
-                                Emoji.Fire ..
-                                "FIREAC" ..
-                                Emoji.Fire .. "]\nYour HWID (FiveM Token) not find please restart your fivem !")
-                        else
-                            if FIREAC.Connection.HideIP then
-                                IP = "* HIDE BY OWNER *"
-                            end
+                        if NEW_HWID then
+                            if FIREAC.Connection.HideIP then IP = "* HIDE BY OWNER *" end
                             FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Connect, "CONNECT")
                             deferrals.update("\n[" ..
                                 Emoji.Fire ..
@@ -1214,10 +1243,16 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
                                 "\nSteam : " ..
                                 STEAM ..
                                 "\nDiscord ID: " ..
-                                DISCORD .. "\nLive ID: " .. LIVE ..
-                                "\nXbox ID: " .. XBL .. "\nIP: " .. IP .. "\nHWID : " .. NEW_HWID .. "")
+                                DISCORD ..
+                                "\nLive ID: " ..
+                                LIVE .. "\nXbox ID: " .. XBL .. "\nIP: " .. IP .. "\nHWID : " .. NEW_HWID .. "")
                             Wait(2000)
                             deferrals.done()
+                        else
+                            deferrals.done("[" ..
+                                Emoji.Fire ..
+                                "FIREAC" ..
+                                Emoji.Fire .. "]\nYour HWID (FiveM Token) not found. Please restart your FiveM client!")
                         end
                     end
                 else
@@ -1238,28 +1273,29 @@ AddEventHandler("playerConnecting", function(name, setKickReason, deferrals)
             "\nLicense : " ..
             FIVEML ..
             "\nSteam : " ..
-            STEAM .. "\nDiscord ID: " ..
+            STEAM ..
+            "\nDiscord ID: " ..
             DISCORD .. "\nLive ID: " .. LIVE .. "\nXbox ID: " .. XBL .. "\nIP: " .. IP .. "\nHWID : " .. HWID .. "")
         Wait(2000)
         deferrals.done()
     end
 end)
 
---【 𝗘𝗻𝘁𝗶𝘁𝘆 𝗠𝗮𝗻𝗮𝗴𝗲𝗺𝗲𝗻𝘁 】--
-local SV_VEHICLES = {}
-local SV_PEDS = {}
-local SV_OBJECT = {}
+-- This code is an anti-cheat script for FiveM designed to prevent players from spawning unauthorized objects, peds, and vehicles.
 
+-- Define variables to store information about entities (vehicles, peds, objects)
+local SV_VEHICLES, SV_PEDS, SV_OBJECT = {}, {}, {}
+
+-- Event Handler for when an entity is created
 AddEventHandler("entityCreated", function(ENTITY)
     if DoesEntityExist(ENTITY) then
-        local TYPE       = GetEntityType(ENTITY)
-        local OWNER      = NetworkGetFirstEntityOwner(ENTITY)
-        local POPULATION = GetEntityPopulationType(ENTITY)
-        local MODEL      = GetEntityModel(ENTITY)
-        local HWID       = GetPlayerToken(OWNER, 0)
-        --【 𝗕𝗹𝗮𝗰𝗸 𝗟𝗶𝘀𝘁 𝗠𝗮𝗻𝗮𝗴𝗲 】--
+        local TYPE, OWNER, POPULATION, MODEL, HWID = GetEntityType(ENTITY), NetworkGetFirstEntityOwner(ENTITY),
+            GetEntityPopulationType(ENTITY), GetEntityModel(ENTITY), GetPlayerToken(OWNER, 0)
+
+        -- Execute actions based on anti-cheat settings
+        -- Anti-Blacklist Object Management
         if FIREAC.AntiBlackListObject and TYPE == 3 and POPULATION == 0 then
-            for index, value in ipairs(Objects) do
+            for _, value in ipairs(Objects) do
                 if MODEL == GetHashKey(value) then
                     if DoesEntityExist(ENTITY) then
                         DeleteEntity(ENTITY)
@@ -1269,8 +1305,10 @@ AddEventHandler("entityCreated", function(ENTITY)
                 end
             end
         end
+
+        -- Anti-Blacklist Ped Management
         if FIREAC.AntiBlackListPed and TYPE == 1 and POPULATION == 0 then
-            for index, value in ipairs(Peds) do
+            for _, value in ipairs(Peds) do
                 if MODEL == GetHashKey(value) then
                     if DoesEntityExist(ENTITY) then
                         DeleteEntity(ENTITY)
@@ -1280,8 +1318,10 @@ AddEventHandler("entityCreated", function(ENTITY)
                 end
             end
         end
+
+        -- Anti-Blacklist Vehicle Management
         if FIREAC.AntiBlackListVehicle and TYPE == 2 and POPULATION == 0 then
-            for index, value in ipairs(Vehicle) do
+            for _, value in ipairs(Vehicle) do
                 if MODEL == GetHashKey(value) then
                     if DoesEntityExist(ENTITY) then
                         DeleteEntity(ENTITY)
@@ -1291,130 +1331,78 @@ AddEventHandler("entityCreated", function(ENTITY)
                 end
             end
         end
-        --【 𝗦𝗽𝗮𝗺 𝗠𝗮𝗻𝗮𝗴𝗲𝗺𝗲𝗻𝘁 】--
-        if TYPE == 2 and FIREAC.AntiSpamVehicle and POPULATION == 0 then
-            if SV_VEHICLES[HWID] ~= nil then
-                SV_VEHICLES[HWID].COUNT = SV_VEHICLES[HWID].COUNT + 1
-                if os.time() - SV_VEHICLES[HWID].TIME >= 10 then
-                    SV_VEHICLES[HWID] = nil
-                else
-                    if SV_VEHICLES[HWID].COUNT >= FIREAC.MaxVehicle then
-                        for _, vehilce in ipairs(GetAllVehicles()) do
-                            local ENO = NetworkGetFirstEntityOwner(vehilce)
-                            if ENO == OWNER then
-                                if DoesEntityExist(vehilce) then
-                                    DeleteEntity(vehilce)
+
+        -- Spam Management
+        if POPULATION == 0 then
+            local spamTable = TYPE == 2 and SV_VEHICLES or (TYPE == 1 and SV_PEDS or (TYPE == 3 and SV_OBJECT or nil))
+
+            if spamTable then
+                if spamTable[HWID] then
+                    spamTable[HWID].COUNT = spamTable[HWID].COUNT + 1
+
+                    if os.time() - spamTable[HWID].TIME >= 10 then
+                        spamTable[HWID] = nil
+                    else
+                        local entityType = TYPE == 2 and "Vehicle" or
+                            (TYPE == 1 and "Ped" or (TYPE == 3 and "Object" or nil))
+
+                        if spamTable[HWID].COUNT >= FIREAC["Max" .. entityType] then
+                            local entityList = GetAllEntitiesOfType(TYPE)
+
+                            for _, entity in ipairs(entityList) do
+                                local entityOwner = NetworkGetFirstEntityOwner(entity)
+
+                                if entityOwner == OWNER and DoesEntityExist(entity) then
+                                    DeleteEntity(entity)
                                 end
                             end
+
+                            FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam " .. entityType,
+                                "Try For Spam " .. spamTable[HWID].COUNT)
                         end
-                        FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam Vehicle",
-                            "Try For Spam " .. SV_VEHICLES[HWID].COUNT .. "")
                     end
-                end
-            else
-                SV_VEHICLES[HWID] = {
-                    COUNT = 1,
-                    TIME  = os.time()
-                }
-            end
-        elseif TYPE == 1 and FIREAC.AntiSpamPed and POPULATION == 0 then
-            if SV_PEDS[HWID] ~= nil then
-                SV_PEDS[HWID].COUNT = SV_PEDS[HWID].COUNT + 1
-                if os.time() - SV_PEDS[HWID].TIME >= 10 then
-                    SV_PEDS[HWID] = nil
                 else
-                    for _, peds in ipairs(GetAllPeds()) do
-                        local ENO = NetworkGetFirstEntityOwner(peds)
-                        if ENO == OWNER then
-                            if DoesEntityExist(peds) then
-                                DeleteEntity(peds)
-                            end
-                        end
-                    end
-                    if SV_PEDS[HWID].COUNT >= FIREAC.MaxPed then
-                        FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam Ped",
-                            "Try For Spam " .. SV_PEDS[HWID].COUNT .. "")
-                    end
+                    spamTable[HWID] = { COUNT = 1, TIME = os.time() }
                 end
-            else
-                SV_PEDS[HWID] = {
-                    COUNT = 1,
-                    TIME  = os.time()
-                }
-            end
-        elseif TYPE == 3 and FIREAC.AntiSpamObject and POPULATION == 0 then
-            if SV_OBJECT[HWID] ~= nil then
-                SV_OBJECT[HWID].COUNT = SV_OBJECT[HWID].COUNT + 1
-                if os.time() - SV_OBJECT[HWID].TIME >= 10 then
-                    SV_OBJECT[HWID] = nil
-                else
-                    if SV_OBJECT[HWID].COUNT >= FIREAC.MaxObject then
-                        for _, objects in ipairs(GetAllObjects()) do
-                            local ENO = NetworkGetFirstEntityOwner(objects)
-                            if ENO == OWNER then
-                                if DoesEntityExist(objects) then
-                                    DeleteEntity(objects)
-                                end
-                            end
-                        end
-                        FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam Object",
-                            "Try For Spam " .. SV_OBJECT[HWID].COUNT .. " Objects")
-                    end
-                end
-            else
-                SV_OBJECT[HWID] = {
-                    COUNT = 1,
-                    TIME  = os.time()
-                }
             end
         end
     end
 end)
 
---【 𝗙𝘂𝗻𝗰𝘁𝗶𝗼𝗻 】--
+-- This function initiates the anti-cheat system and loads required configuration files.
+
 function StartAntiCheat()
-    local fire_config     = LoadResourceFile(GetCurrentResourceName(), "configs/fire-config.lua")
-    local fire_event      = LoadResourceFile(GetCurrentResourceName(), "tables/fire-event.lua")
-    local fire_explosions = LoadResourceFile(GetCurrentResourceName(), "tables/fire-explosions.lua")
-    local fire_name       = LoadResourceFile(GetCurrentResourceName(), "tables/fire-name.lua")
-    local fire_object     = LoadResourceFile(GetCurrentResourceName(), "tables/fire-object.lua")
-    local fire_peds       = LoadResourceFile(GetCurrentResourceName(), "tables/fire-peds.lua")
-    local fire_plate      = LoadResourceFile(GetCurrentResourceName(), "tables/fire-plate.lua")
-    local fire_vehicle    = LoadResourceFile(GetCurrentResourceName(), "tables/fire-vehicle.lua")
-    local fire_weapon     = LoadResourceFile(GetCurrentResourceName(), "tables/fire-weapon.lua")
-    local fire_words      = LoadResourceFile(GetCurrentResourceName(), "tables/fire-words.lua")
-    local fire_task       = LoadResourceFile(GetCurrentResourceName(), "tables/fire-task.lua")
-    local fire_anim       = LoadResourceFile(GetCurrentResourceName(), "tables/fire-anim.lua")
-    local fire_emoji      = LoadResourceFile(GetCurrentResourceName(), "tables/fire-emoji.lua")
-    if
-        fire_config and
-        fire_event and
-        fire_explosions and
-        fire_name and
-        fire_object and
-        fire_peds and
-        fire_plate and
-        fire_vehicle and
-        fire_weapon and
-        fire_words and
-        fire_task and
-        fire_anim and
-        fire_emoji
-    then
-        print("^" .. COLORS .. "[FIREAC]^0: ^2 fire-config.lua     LOADED !^0")
-        print("^" .. COLORS .. "[FIREAC]^0: ^2 fire-event.lua      LOADED !^0")
-        print("^" .. COLORS .. "[FIREAC]^0: ^2 fire-explosions.lua LOADED !^0")
-        print("^" .. COLORS .. "[FIREAC]^0: ^2 fire-name.lua       LOADED !^0")
-        print("^" .. COLORS .. "[FIREAC]^0: ^2 fire-anim.lua       LOADED !^0")
-        print("^" .. COLORS .. "[FIREAC]^0: ^2 fire-task.lua       LOADED !^0")
-        print("^" .. COLORS .. "[FIREAC]^0: ^2 fire-emoji.lua      LOADED !^0")
-        print("^" .. COLORS .. "[FIREAC]^0: ^2 fire-object.lua     LOADED !^0")
-        print("^" .. COLORS .. "[FIREAC]^0: ^2 fire-peds.lua       LOADED !^0")
-        print("^" .. COLORS .. "[FIREAC]^0: ^2 fire-plate.lua      LOADED !^0")
-        print("^" .. COLORS .. "[FIREAC]^0: ^2 fire-vehicle.lua    LOADED !^0")
-        print("^" .. COLORS .. "[FIREAC]^0: ^2 fire-weapon.lua     LOADED !^0")
-        print("^" .. COLORS .. "[FIREAC]^0: ^2 fire-words.lua      LOADED !^0")
-        print("^" .. COLORS .. "[FIREAC]^0: ^2 fire-white.lua      LOADED !^0")
+    -- List of resource files to be loaded
+    local resources = {
+        "configs/fire-config.lua",
+        "tables/fire-event.lua",
+        "tables/fire-explosions.lua",
+        "tables/fire-name.lua",
+        "tables/fire-object.lua",
+        "tables/fire-peds.lua",
+        "tables/fire-plate.lua",
+        "tables/fire-vehicle.lua",
+        "tables/fire-weapon.lua",
+        "tables/fire-words.lua",
+        "tables/fire-task.lua",
+        "tables/fire-anim.lua",
+        "tables/fire-emoji.lua",
+    }
+
+    local loadedFiles = {} -- Tracks successfully loaded files
+
+    -- Load each resource file
+    for _, resource in ipairs(resources) do
+        local content = LoadResourceFile(GetCurrentResourceName(), resource)
+        if content then
+            table.insert(loadedFiles, resource)
+            print("^" .. COLORS .. "[FIREAC]^0: ^2" .. resource .. " LOADED !^0")
+        end
+    end
+
+    -- Check if all required files are loaded successfully
+    if #loadedFiles == #resources then
+        -- Display a header for the anti-cheat system
         print("^" .. COLORS .. "")
         print([[
     8888888888 8888888 8888888b.  8888888888        d8888  .d8888b.
@@ -1425,18 +1413,19 @@ function StartAntiCheat()
     888          888   888 T88b   888          d88P   888 888    888
     888          888   888  T88b  888         d8888888888 Y88b  d88P
     888        8888888 888   T88b 8888888888 d88P     888  "Y8888P"
-
                     ]])
+
+        -- Perform an HTTP request to get server information
         PerformHttpRequest("http://localhost:" .. FIREAC.ServerConfig.Port .. "/info.json", function(ERROR, DATA, RESULT)
             if DATA ~= nil then
-                -- Check Artifact --
+                -- Extract server build information
                 local ARTIFACT = string.gsub(
                     string.gsub(
                         string.gsub(string.gsub(string.gsub(json.decode(DATA).server, "FXServer", " "), "-master", " "),
                             " SERVER", " "), "v1.0.0.", " "), "win32", "")
                 print("^" .. COLORS .. "[FIREAC]^0: ^3Server Build : " .. ARTIFACT .. "")
 
-                -- Send Log --
+                -- Send an embed message to the designated webhook
                 PerformHttpRequest(FIREAC.Webhooks.Ban, function(ERROR, DATA, RESULT)
                 end, "POST", json.encode({
                     embeds = {
@@ -1463,36 +1452,37 @@ function StartAntiCheat()
                     ["Content-Type"] = "application/json"
                 })
             else
+                -- Display an error message if the server information request fails
                 FIREAC_ERROR(FIREAC.ServerConfig.Name,
-                    "function StartAntiCheat (Server Port is wronge or We can't connect to that)")
+                    "function StartAntiCheat (Server Port is wrong or We can't connect to that)")
             end
         end)
     else
-        print("^" .. COLORS .. "[FIREAC]^0: ^1 Some File Of your FIREAC Not Found! Please Replice or Repair That^0")
-        Wait(1000)
-        print("^" .. COLORS .. "[FIREAC]^0: ^1 Some File Of your FIREAC Not Found! Please Replice or Repair That^0")
-        Wait(1000)
-        print("^" .. COLORS .. "[FIREAC]^0: ^1 Some File Of your FIREAC Not Found! Please Replice or Repair That^0")
-        Wait(1000)
-        print("^" .. COLORS .. "[FIREAC]^0: ^1 Some File Of your FIREAC Not Found! Please Replice or Repair That^0")
-        Wait(1000)
-        print("^" .. COLORS .. "[FIREAC]^0: ^1 Some File Of your FIREAC Not Found! Please Replice or Repair That^0")
-        Wait(1000)
-        print("^" .. COLORS .. "[FIREAC]^0: ^1 Some File Of your FIREAC Not Found! Please Replice or Repair That^0")
+        -- Display an error message if not all required files are found
+        print("^" .. COLORS .. "[FIREAC]^0: ^1 Some Files Of FIREAC Not Found! Please Replace or Repair Them^0")
+        for i = 1, 6 do
+            Wait(1000)
+            print("^" .. COLORS .. "[FIREAC]^0: ^1 Some Files Of FIREAC Not Found! Please Replace or Repair Them^0")
+        end
     end
 end
 
+-- Check if the player is near any admin
 function FIREAC_ISNEARADMIN(SRC)
     if tonumber(SRC) ~= nil then
         local RESULT = false
         local P_DATA = GetPlayers()
         local MY_PED = GetPlayerPed(SRC)
         local MY_POS = GetEntityCoords(MY_PED)
+
+        -- Iterate through active players
         for index, value in ipairs(P_DATA) do
             local IS_ADMIN = FIREAC_GETADMINS(value)
             if IS_ADMIN then
                 local ADMIN_PED = GetPlayerPed(value)
                 local ADMIN_POS = GetEntityCoords(ADMIN_PED)
+
+                -- Check if the player is within a 30 unit radius of any admin
                 if #(MY_POS - ADMIN_POS) < 30 then
                     RESULT = true
                 else
@@ -1506,15 +1496,18 @@ function FIREAC_ISNEARADMIN(SRC)
     end
 end
 
+-- Check if the player is whitelisted
 function FIREAC_WHITELIST(SRC)
     if tonumber(SRC) ~= nil then
         local IS_WHITELIST = false
-        local STEAM        = "Not Found"
-        local DISCORD      = "Not Found"
-        local FIVEML       = "Not Found"
-        local LIVE         = "Not Found"
-        local XBL          = "Not Found"
-        local IP           = GetPlayerEndpoint(SRC)
+        local STEAM = "Not Found"
+        local DISCORD = "Not Found"
+        local FIVEML = "Not Found"
+        local LIVE = "Not Found"
+        local XBL = "Not Found"
+        local IP = GetPlayerEndpoint(SRC)
+
+        -- Extract player identifiers
         for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
             if DATA:match("steam") then
                 STEAM = DATA
@@ -1528,8 +1521,10 @@ function FIREAC_WHITELIST(SRC)
                 XBL = DATA
             end
         end
+
         local p = promise.new()
 
+        -- Query the database to check if the player is whitelisted
         MySQL.Async.fetchAll(
             'SELECT * FROM fireac_whitelist WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
                 ['@steam'] = STEAM,
@@ -1550,15 +1545,18 @@ function FIREAC_WHITELIST(SRC)
     end
 end
 
+-- Check if the player is an admin
 function FIREAC_GETADMINS(SRC)
     if tonumber(SRC) ~= nil then
         local ISADMIN = false
-        local STEAM   = "Not Found"
+        local STEAM = "Not Found"
         local DISCORD = "Not Found"
-        local FIVEML  = "Not Found"
-        local LIVE    = "Not Found"
-        local XBL     = "Not Found"
-        local IP      = GetPlayerEndpoint(SRC)
+        local FIVEML = "Not Found"
+        local LIVE = "Not Found"
+        local XBL = "Not Found"
+        local IP = GetPlayerEndpoint(SRC)
+
+        -- Extract player identifiers
         for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
             if DATA:match("steam") then
                 STEAM = DATA
@@ -1575,6 +1573,7 @@ function FIREAC_GETADMINS(SRC)
 
         local p = promise.new()
 
+        -- Query the database to check if the player is an admin
         MySQL.Async.fetchAll('SELECT * FROM fireac_admin WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
             ['@steam'] = STEAM,
             ['@discord'] = DISCORD,
@@ -1594,15 +1593,18 @@ function FIREAC_GETADMINS(SRC)
     end
 end
 
+-- Check if the player is unbanned
 function FIREAC_UNBANACCESS(SRC)
     if tonumber(SRC) ~= nil then
         local ISADMIN = false
-        local STEAM   = "Not Found"
+        local STEAM = "Not Found"
         local DISCORD = "Not Found"
-        local FIVEML  = "Not Found"
-        local LIVE    = "Not Found"
-        local XBL     = "Not Found"
-        local IP      = GetPlayerEndpoint(SRC)
+        local FIVEML = "Not Found"
+        local LIVE = "Not Found"
+        local XBL = "Not Found"
+        local IP = GetPlayerEndpoint(SRC)
+
+        -- Extract player identifiers
         for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
             if DATA:match("steam") then
                 STEAM = DATA
@@ -1616,8 +1618,10 @@ function FIREAC_UNBANACCESS(SRC)
                 XBL = DATA
             end
         end
+
         local p = promise.new()
 
+        -- Query the database to check if the player is unbanned
         MySQL.Async.fetchAll('SELECT * FROM fireac_unban WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
             ['@steam'] = STEAM,
             ['@discord'] = DISCORD,
@@ -1637,6 +1641,7 @@ function FIREAC_UNBANACCESS(SRC)
     end
 end
 
+-- Log errors to Discord
 function FIREAC_ERROR(SERVER_NAME, ERROR)
     if SERVER_NAME ~= nil then
         if ERROR ~= nil then
@@ -1669,15 +1674,18 @@ function FIREAC_ERROR(SERVER_NAME, ERROR)
     end
 end
 
+-- Ban a player with reason
 function FIREAC_BAN(SRC, REASON)
     if tonumber(SRC) and tostring(REASON) then
-        local STEAM   = "N/A"
+        local STEAM = "N/A"
         local DISCORD = "N/A"
-        local FIVEML  = "N/A"
-        local LIVE    = "N/A"
-        local XBL     = "N/A"
-        local IP      = GetPlayerEndpoint(SRC)
-        local TOKENS  = {}
+        local FIVEML = "N/A"
+        local LIVE = "N/A"
+        local XBL = "N/A"
+        local IP = GetPlayerEndpoint(SRC)
+        local TOKENS = {}
+
+        -- Extract player identifiers
         for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
             if DATA:match("steam") then
                 STEAM = DATA
@@ -1691,26 +1699,30 @@ function FIREAC_BAN(SRC, REASON)
                 XBL = DATA
             end
         end
+
+        -- Extract player tokens
         for i = 0, GetNumPlayerTokens(SRC) do
             table.insert(TOKENS, GetPlayerToken(SRC, i))
         end
 
+        -- Insert ban record into the database
         MySQL.Async.fetchAll(
             "INSERT INTO fireac_banlist (STEAM, DISCORD, LICENSE, LIVE, XBL, IP, TOKENS, BANID, REASON) VALUES (@steam, @discord, @fiveml, @live, @xbl, @ip, @tokens, @banid, @reason)",
             {
-                ['@steam']   = STEAM,
+                ['@steam'] = STEAM,
                 ['@discord'] = DISCORD,
-                ['@fiveml']  = FIVEML,
-                ['@live']    = LIVE,
-                ['@xbl']     = XBL,
-                ['@ip']      = IP,
-                ['@tokens']  = json.encode(TOKENS),
-                ['@banid']   = math.random(tonumber(1000), tonumber(9999)),
-                ['@reason']  = REASON
+                ['@fiveml'] = FIVEML,
+                ['@live'] = LIVE,
+                ['@xbl'] = XBL,
+                ['@ip'] = IP,
+                ['@tokens'] = json.encode(TOKENS),
+                ['@banid'] = math.random(tonumber(1000), tonumber(9999)),
+                ['@reason'] = REASON
             })
     end
 end
 
+-- Unban a player by BanID
 function FIREAC:UNBAN(BanID)
     local p = promise.new()
     if tonumber(BanID) then
@@ -1729,9 +1741,12 @@ function FIREAC:UNBAN(BanID)
     return Citizen.Await(p)
 end
 
+-- Add a player to the admin list
 function FIREAC:ADDADMIN(Player_ID)
-    local p      = promise.new()
+    local p = promise.new()
     local FIVEML = "Not Found"
+
+    -- Extract player license
     for _, DATA in ipairs(GetPlayerIdentifiers(Player_ID)) do
         if DATA:match("license") then
             FIVEML = DATA
@@ -1754,9 +1769,12 @@ function FIREAC:ADDADMIN(Player_ID)
     return Citizen.Await(p)
 end
 
+-- Add a player to the whitelist
 function FIREAC:ADDWHITELIST(Player_ID)
-    local p      = promise.new()
+    local p = promise.new()
     local FIVEML = "Not Found"
+
+    -- Extract player license
     for _, DATA in ipairs(GetPlayerIdentifiers(Player_ID)) do
         if DATA:match("license") then
             FIVEML = DATA
@@ -1779,9 +1797,12 @@ function FIREAC:ADDWHITELIST(Player_ID)
     return Citizen.Await(p)
 end
 
+-- Add a player to the unban list
 function FIREAC:ADDUNBAN(Player_ID)
-    local p      = promise.new()
+    local p = promise.new()
     local FIVEML = "Not Found"
+
+    -- Extract player license
     for _, DATA in ipairs(GetPlayerIdentifiers(Player_ID)) do
         if DATA:match("license") then
             FIVEML = DATA
@@ -1804,15 +1825,18 @@ function FIREAC:ADDUNBAN(Player_ID)
     return Citizen.Await(p)
 end
 
+-- Check if a player is in the banlist
 function FIREAC_INBANLIST(SRC)
-    local p       = promise.new()
-    local STEAM   = "Not Found"
+    local p = promise.new()
+    local STEAM = "Not Found"
     local DISCORD = "Not Found"
-    local FIVEML  = "Not Found"
-    local LIVE    = "Not Found"
-    local XBL     = "Not Found"
-    local IP      = GetPlayerEndpoint(SRC)
-    local TOKEN   = GetPlayerToken(SRC, 0)
+    local FIVEML = "Not Found"
+    local LIVE = "Not Found"
+    local XBL = "Not Found"
+    local IP = GetPlayerEndpoint(SRC)
+    local TOKEN = GetPlayerToken(SRC, 0)
+
+    -- Extract player identifiers
     for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
         if DATA:match("steam") then
             STEAM = DATA
@@ -1830,13 +1854,13 @@ function FIREAC_INBANLIST(SRC)
     MySQL.Async.fetchAll(
         'SELECT * FROM fireac_banlist WHERE STEAM = @steam OR DISCORD = @discord OR LICENSE = @fiveml OR LIVE = @live OR XBL = @xbl OR IP = @ip OR TOKENS LIKE @token',
         {
-            ['@steam']   = STEAM,
+            ['@steam'] = STEAM,
             ['@discord'] = DISCORD,
-            ['@fiveml']  = FIVEML,
-            ['@live']    = LIVE,
-            ['@xbl']     = XBL,
-            ['@ip']      = IP,
-            ["@token"]   = "%" .. TOKEN .. "%",
+            ['@fiveml'] = FIVEML,
+            ['@live'] = LIVE,
+            ['@xbl'] = XBL,
+            ['@ip'] = IP,
+            ["@token"] = "%" .. TOKEN .. "%",
         },
         function(result)
             if result and #result > 0 then
@@ -1850,121 +1874,132 @@ function FIREAC_INBANLIST(SRC)
     return Citizen.Await(p)
 end
 
+-- FIREAC_ACTION: Handles various actions (WARN, KICK, BAN) for player violations.
+-- @param SRC: Source player ID.
+-- @param ACTION: Type of action (WARN, KICK, BAN).
+-- @param REASON: Reason for the action.
+-- @param DETAILS: Additional details about the action.
 function FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
-    if REASON ~= nil and DETAILS ~= nil then
-        if tonumber(SRC) ~= nil and tonumber(SRC) > 0 and GetPlayerName(SRC) ~= nsl then
-            if not FIREAC_WHITELIST(SRC) and not FIREAC_CHECK_TEMP_WHITELIST(SRC) and not FIREAC_IS_SPAMLIST(SRC, ACTION, REASON, DETAILS) then
-                if ACTION == "WARN" or ACTION == "KICK" or ACTION == "BAN" then
-                    if FIREAC.ScreenShot.Enable == true then
-                        if FIREAC.ScreenShot.Log ~= "" and FIREAC.ScreenShot.Log ~= nil then
-                            FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
-                        else
-                            FIREAC_ERROR(FIREAC.ServerConfig.Name,
-                                "function FIREAC_ACTION (FIREAC.ScreenShot.Log is nil)")
-                        end
+    -- Check if required parameters are provided and player is valid.
+    if REASON and DETAILS and tonumber(SRC) and tonumber(SRC) > 0 and GetPlayerName(SRC) ~= nsl then
+        -- Check whitelist, temporary whitelist, and spam list to ensure the action is valid.
+        if not FIREAC_WHITELIST(SRC) and not FIREAC_CHECK_TEMP_WHITELIST(SRC) and not FIREAC_IS_SPAMLIST(SRC, ACTION, REASON, DETAILS) then
+            -- Check the type of action: WARN, KICK, or BAN.
+            if ACTION == "WARN" or ACTION == "KICK" or ACTION == "BAN" then
+                -- Take a screenshot if enabled and a valid log path is provided.
+                if FIREAC.ScreenShot.Enable then
+                    if FIREAC.ScreenShot.Log and FIREAC.ScreenShot.Log ~= "" then
+                        FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
+                    else
+                        FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_ACTION (FIREAC.ScreenShot.Log is nil)")
                     end
-                    if ACTION == "WARN" then
-                        FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Ban, ACTION, REASON, DETAILS)
-                        FIREAC_MEESAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
-                    elseif ACTION == "KICK" then
-                        print("^" ..
-                            COLORS ..
-                            "FIREAC^0: ^1Player ^3" ..
-                            GetPlayerName(SRC) .. " ^3Kicked From Server ^0| ^3Reason: ^3 " .. REASON .. "^0")
-                        FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Ban, ACTION, REASON, DETAILS)
-                        FIREAC_MEESAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
-                        DropPlayer(SRC,
-                            "\n[" ..
-                            Emoji.Fire .. " FIREAC " .. Emoji.Fire ..
-                            "]\n" .. FIREAC.Message.Kick .. "\nReason: " .. REASON .. "")
-                    elseif ACTION == "BAN" then
-                        print("^" ..
-                            COLORS ..
-                            "FIREAC^0: ^1Player ^3" ..
-                            GetPlayerName(SRC) .. " ^1Banned From Server ^0| ^1Reason: ^3 " .. REASON .. "^0")
-                        FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Ban, ACTION, REASON, DETAILS)
-                        FIREAC_MEESAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
-                        FIREAC_BAN(SRC, REASON)
-                        DropPlayer(SRC,
-                            "\n[" ..
-                            Emoji.Fire .. " FIREAC " .. Emoji.Fire ..
-                            "]\n" .. FIREAC.Message.Ban .. "\nReason: " .. REASON .. "")
-                    end
-                else
-                    print("^" .. COLORS .. "FIREAC^0: ^3Warning! ^0invalid type of punishment :^1" .. ACTION .. "^0!")
                 end
+
+                -- Perform the specified action based on the type.
+                if ACTION == "WARN" then
+                    FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Ban, ACTION, REASON, DETAILS)
+                    FIREAC_MEESAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
+                elseif ACTION == "KICK" then
+                    local kickMessage = "\n[" .. Emoji.Fire .. " FIREAC " .. Emoji.Fire ..
+                        "]\n" .. FIREAC.Message.Kick .. "\nReason: " .. REASON .. ""
+                    print("^" ..
+                        COLORS ..
+                        "FIREAC^0: ^1Player ^3" ..
+                        GetPlayerName(SRC) .. " ^3Kicked From Server ^0| ^3Reason: ^3 " .. REASON .. "^0")
+                    FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Ban, ACTION, REASON, DETAILS)
+                    FIREAC_MEESAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
+                    DropPlayer(SRC, kickMessage)
+                elseif ACTION == "BAN" then
+                    local banMessage = "\n[" .. Emoji.Fire .. " FIREAC " .. Emoji.Fire ..
+                        "]\n" .. FIREAC.Message.Ban .. "\nReason: " .. REASON .. ""
+                    print("^" ..
+                        COLORS ..
+                        "FIREAC^0: ^1Player ^3" ..
+                        GetPlayerName(SRC) .. " ^1Banned From Server ^0| ^1Reason: ^3 " .. REASON .. "^0")
+                    FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Ban, ACTION, REASON, DETAILS)
+                    FIREAC_MEESAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
+                    FIREAC_BAN(SRC, REASON)
+                    DropPlayer(SRC, banMessage)
+                end
+            else
+                print("^" .. COLORS .. "FIREAC^0: ^3Warning! ^0Invalid type of punishment: ^1" .. ACTION .. "^0!")
             end
         end
     else
+        -- Log an error if required parameters are not provided.
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_ACTION (REASON and DETAILS Not Found)")
     end
 end
 
-function FIREAC_MEESAGE(SRC, TYPE, NAME, REASON)
-    if FIREAC.ChatSettings.Enable then
-        if TYPE ~= nil then
-            if NAME ~= nil then
-                if REASON ~= nil then
-                    if TYPE == "WARN" then
-                        if FIREAC.ChatSettings.PrivateWarn then
-                            for _, playerId in ipairs(GetPlayers()) do
-                                if FIREAC_GETADMINS(playerId) then
-                                    TriggerClientEvent('chat:addMessage', playerId, {
-                                        template =
-                                            '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://cdn.discordapp.com/attachments/905814226118008923/1045778789537419284/red.png); border-radius: 13px;"><i class="far fa-newspaper"></i> ' ..
-                                            Emoji.Fire .. ' FIREAC ' .. Emoji.Fire .. ' :<br>  {1}</div>',
-                                        args = { "Console",
-                                            "" ..
-                                            Emoji.Warn ..
-                                            " Warning | Player ^1" ..
-                                            NAME .. "(" .. SRC .. ")^0 Cheating From Server : ^5" .. REASON .. " " }
-                                    })
-                                end
-                            end
-                        else
-                            TriggerClientEvent('chat:addMessage', -1, {
-                                template =
-                                    '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://cdn.discordapp.com/attachments/905814226118008923/1045778789537419284/red.png); border-radius: 13px;"><i class="far fa-newspaper"></i> ' ..
-                                    Emoji.Fire .. ' FIREAC ' .. Emoji.Fire .. ' :<br>  {1}</div>',
-                                args = { "Console",
-                                    "" ..
-                                    Emoji.Warn ..
-                                    " Warning | Player ^1" ..
-                                    NAME .. "(" .. SRC .. ")^0 Cheating From Server : ^5" .. REASON .. " " }
-                            })
-                        end
-                    elseif TYPE == "KICK" then
-                        TriggerClientEvent('chat:addMessage', -1, {
-                            template =
-                                '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://cdn.discordapp.com/attachments/905814226118008923/1045778771975880784/orenge.png); border-radius: 13px;"><i class="far fa-newspaper"></i> ' ..
-                                Emoji.Fire .. ' FIREAC ' .. Emoji.Fire .. ' <br>  {1}</div>',
-                            args = { "Console",
-                                "" ..
-                                Emoji.Kick ..
-                                " Kick | Player ^1" .. NAME ..
-                                "(" .. SRC .. ")^0 Cheating From Server : ^5" .. REASON .. " " }
-                        })
-                    elseif TYPE == "BAN" then
-                        TriggerClientEvent('chat:addMessage', -1, {
-                            template =
-                                '<div style="padding: 0.5vw; margiDATA: 0.5vw; background-image: url(https://cdn.discordapp.com/attachments/905814226118008923/1045778782545518612/black.png); border-radius: 13px;"><i class="far fa-newspaper"></i> ' ..
-                                Emoji.Fire .. ' FIREAC ' .. Emoji.Fire .. ' <br>  {1}</div>',
-                            args = { "Console",
-                                "" ..
-                                Emoji.Ban ..
-                                " Banned | Player ^1" ..
-                                NAME .. "(" .. SRC .. ")^0 Cheating From Server : ^5" .. REASON .. " " }
+-- Function to handle and display FIREAC messages
+function FIREAC_MESSAGE(SRC, TYPE, NAME, REASON)
+    -- Local references to FIREAC configuration settings
+    local ChatSettings = FIREAC.ChatSettings
+    local ServerConfig = FIREAC.ServerConfig
+    local Emoji = FIREAC.Emoji
+
+    -- Check if the necessary parameters are provided and if chat is enabled
+    if ChatSettings.Enable and TYPE and NAME and REASON then
+        -- HTML template for the chat message
+        local messageTemplate =
+        '<div style="padding: 0.5vw; margin: 0.5vw; background-image: url(%s); border-radius: 13px;"><i class="far fa-newspaper"></i> %s FIREAC %s :<br>  {1}</div>'
+        local messageType = "" -- Initialize message type
+        local messageIcon = "" -- Initialize message icon
+
+        -- Determine message type and icon based on the provided TYPE
+        if TYPE == "WARN" then
+            -- Check if private warnings are enabled
+            if ChatSettings.PrivateWarn then
+                -- Iterate over players and send warning message to admins
+                for _, playerId in ipairs(GetPlayers()) do
+                    if FIREAC_GETADMINS(playerId) then
+                        messageType = "Warning"
+                        messageIcon = Emoji.Warn
+
+                        -- Send the warning message to the admin player
+                        TriggerClientEvent('chat:addMessage', playerId, {
+                            template = messageTemplate,
+                            args = { "Console", messageIcon .. " " .. messageType .. " | Player ^1" .. NAME .. "(" .. SRC .. ")^0 Cheating From Server : ^5" .. REASON .. " " }
                         })
                     end
-                else
-                    FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_MEESAGE (REASON Not Found)")
                 end
             else
-                FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_MEESAGE (NAME Not Found)")
+                -- If private warnings are not enabled, send the warning message to all players
+                messageType = "Warning"
+                messageIcon = Emoji.Warn
+
+                -- Send the warning message to all players
+                TriggerClientEvent('chat:addMessage', -1, {
+                    template = messageTemplate,
+                    args = { "Console", messageIcon .. " " .. messageType .. " | Player ^1" .. NAME .. "(" .. SRC .. ")^0 Cheating From Server : ^5" .. REASON .. " " }
+                })
             end
-        else
-            FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_MEESAGE (TYPE Not Found)")
+        elseif TYPE == "KICK" then
+            -- If TYPE is "KICK," set message type and icon accordingly
+            messageType = "Kick"
+            messageIcon = Emoji.Kick
+
+            -- Send the kick message to all players
+            TriggerClientEvent('chat:addMessage', -1, {
+                template = messageTemplate,
+                args = { "Console", messageIcon .. " " .. messageType .. " | Player ^1" .. NAME .. "(" .. SRC .. ")^0 Cheating From Server : ^5" .. REASON .. " " }
+            })
+        elseif TYPE == "BAN" then
+            -- If TYPE is "BAN," set message type and icon accordingly
+            messageType = "Banned"
+            messageIcon = Emoji.Ban
+
+            -- Send the ban message to all players
+            TriggerClientEvent('chat:addMessage', -1, {
+                template = messageTemplate,
+                args = { "Console", messageIcon .. " " .. messageType .. " | Player ^1" .. NAME .. "(" .. SRC .. ")^0 Cheating From Server : ^5" .. REASON .. " " }
+            })
         end
+    else
+        -- If any of the required parameters is missing, generate an error message
+        local errorMessage = "function FIREAC_MESSAGE (%s Not Found)"
+        FIREAC_ERROR(ServerConfig.Name,
+            TYPE and NAME and REASON and errorMessage:format("") or errorMessage:format("TYPE"))
     end
 end
 
@@ -2784,21 +2819,21 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
     end
 end
 
+-- Refreshes the list of registered commands and stores them in SERVER_CMDS
 function FIREAC_REFRESHCMD()
     local CMDS = GetRegisteredCommands()
-    for index, CMD in ipairs(CMDS) do
-        if SERVER_CMDS ~= nil then
-            table.insert(SERVER_CMDS, CMD)
-        else
-            SERVER_CMDS = {}
-            table.insert(SERVER_CMDS, CMD)
-        end
+    if SERVER_CMDS ~= nil then
+        table.insert(SERVER_CMDS, CMD)
+    else
+        SERVER_CMDS = {}
+        table.insert(SERVER_CMDS, CMD)
     end
 end
 
+-- Checks if a player with the given source is loaded
 function FIREAC_ISPLAYERLOAD(source)
-    local SRC    = tonumber(source)
-    local PED    = GetPlayerPed(SRC)
+    local SRC = tonumber(source)
+    local PED = GetPlayerPed(SRC)
     local STATUS = false
     if SRC ~= nil then
         if DoesEntityExist(PED) then
@@ -2816,6 +2851,7 @@ function FIREAC_ISPLAYERLOAD(source)
     return STATUS
 end
 
+-- Clears the SPAMLIST every 60 seconds
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(60000)
@@ -2826,9 +2862,12 @@ Citizen.CreateThread(function()
     end
 end)
 
+-- Main loop for AntiResourceStopper
 Citizen.CreateThread(function()
     while FIREAC.AntiResourceStopper do
         Citizen.Wait(5000)
+
+        -- Iterate through all players and update their TEMP_STOP status
         for _, value in ipairs(GetPlayers()) do
             if TEMP_STOP[value] then
                 TEMP_STOP[value].status = true
@@ -2838,7 +2877,10 @@ Citizen.CreateThread(function()
             TriggerClientEvent('FIREAC:checkStatus', value,
                 { name = GetCurrentResourceName(), path = GetResourcePath(GetCurrentResourceName()) })
         end
+
         Citizen.Wait(5000)
+
+        -- Check TEMP_STOP status and take action if necessary
         local players = GetPlayers()
         if players then
             for _, value in ipairs(players) do
@@ -2855,17 +2897,19 @@ Citizen.CreateThread(function()
                 end
             end
         end
+
         Citizen.Wait(5000)
     end
 end)
 
+-- Adds an entry to the SPAMLIST
 function FIREAC_ADD_SPAMLIST(SRC, ACTION, REASON, DETAILS)
     if tonumber(SRC) then
         if ACTION and REASON and DETAILS then
             if ACTION ~= "BAN" or ACTION ~= "KICK" then
                 table.insert(SPAMLIST, {
-                    ID      = SRC,
-                    REASON  = REASON,
+                    ID = SRC,
+                    REASON = REASON,
                     DETAILS = DETAILS,
                 })
             end
@@ -2873,6 +2917,7 @@ function FIREAC_ADD_SPAMLIST(SRC, ACTION, REASON, DETAILS)
     end
 end
 
+-- Checks if an entry exists in the SPAMLIST
 function FIREAC_IS_SPAMLIST(SRC, ACTION, REASON, DETAILS)
     local status = false
     if tonumber(SRC) then
@@ -2899,34 +2944,35 @@ function FIREAC_IS_SPAMLIST(SRC, ACTION, REASON, DETAILS)
     return status
 end
 
+-- Takes a screenshot and sends it to Discord
 function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
     if tonumber(SRC) ~= nil then
         if REASON ~= nil and DETAILS ~= nil and ACTION ~= nil then
-            local COLORS  = {
+            local COLORS = {
                 WARN = 1769216,
                 KICK = 16760576,
-                BAN  = 16711680,
+                BAN = 16711680,
             }
-            local SSO     = {
+            local SSO = {
                 encoding = FIREAC.ScreenShot.Format,
-                quality  = FIREAC.ScreenShot.Quality
+                quality = FIREAC.ScreenShot.Quality
             }
-            local NAME    = GetPlayerName(SRC)
-            local COORDS  = GetEntityCoords(GetPlayerPed(SRC))
-            local PING    = GetPlayerPing(SRC)
-            local STEAM   = "Not Found"
+            local NAME = GetPlayerName(SRC)
+            local COORDS = GetEntityCoords(GetPlayerPed(SRC))
+            local PING = GetPlayerPing(SRC)
+            local STEAM = "Not Found"
             local DISCORD = "Not Found"
-            local FIVEML  = "Not Found"
-            local LIVE    = "Not Found"
-            local XBL     = "Not Found"
-            local ISP     = "Not Found"
-            local CITY    = "Not Found"
+            local FIVEML = "Not Found"
+            local LIVE = "Not Found"
+            local XBL = "Not Found"
+            local ISP = "Not Found"
+            local CITY = "Not Found"
             local COUNTRY = "Not Found"
-            local PROXY   = "Not Found"
+            local PROXY = "Not Found"
             local HOSTING = "Not Found"
-            local IP      = GetPlayerEndpoint(SRC)
-            IP            = (string.gsub(string.gsub(string.gsub(IP, "-", ""), ",", ""), " ", ""):lower())
-            local g, f    = IP:find(string.lower("192.168"))
+            local IP = GetPlayerEndpoint(SRC)
+            IP = (string.gsub(string.gsub(string.gsub(IP, "-", ""), ",", ""), " ", ""):lower())
+            local g, f = IP:find(string.lower("192.168"))
             if g or f then
                 IP = "178.131.122.181"
             end
@@ -2948,13 +2994,15 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
             else
                 DISCORD = "Not Found"
             end
+
+            -- Check if running on Linux
             if not FIREAC.ChatSettings.Linux then
                 PerformHttpRequest("http://ip-api.com/json/" .. IP .. "?fields=66846719", function(ERROR, DATA, RESULT)
                     if DATA ~= nil then
                         local TABLE = json.decode(DATA)
                         if TABLE ~= nil then
-                            ISP     = TABLE["isp"]
-                            CITY    = TABLE["city"]
+                            ISP = TABLE["isp"]
+                            CITY = TABLE["city"]
                             COUNTRY = TABLE["country"]
                             if TABLE["proxy"] == true then
                                 PROXY = "ON"
@@ -2969,6 +3017,8 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
                             if FIREAC.Connection.HideIP then
                                 IP = "* HIDE BY OWNER *"
                             end
+
+                            -- Send screenshot to Discord
                             exports["discord-screenshot"]:requestCustomClientScreenshotUploadToDiscord(SRC,
                                 FIREAC.ScreenShot.Log, SSO, {
                                     username = "" .. Emoji.Fire .. " FIREAC " .. Emoji.Fire .. "",
@@ -3009,7 +3059,7 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
                                                 "\n**Hosting:** " .. HOSTING .. "",
                                             footer = {
                                                 text = "FIREAC V6 " ..
-                                                Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
+                                                    Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
                                                 icon_url =
                                                 "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                             },
@@ -3023,6 +3073,8 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
                 if FIREAC.Connection.HideIP then
                     IP = "* HIDE BY OWNER *"
                 end
+
+                -- Send screenshot to Discord
                 exports["discord-screenshot"]:requestCustomClientScreenshotUploadToDiscord(SRC,
                     FIREAC.ScreenShot.Log, SSO, {
                         username = "" .. Emoji.Fire .. " FIREAC " .. Emoji.Fire .. "",
@@ -3032,8 +3084,7 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
                                 color = COLORS[ACTION],
                                 author = {
                                     name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
-                                    icon_url =
-                                    "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
+                                    icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png"
                                 },
                                 title = "Screenshot",
                                 description = "**Player:** " ..
@@ -3055,8 +3106,7 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
                                     "",
                                 footer = {
                                     text = "FIREAC V6 " .. Emoji.Fire .. " | " .. os.date("%Y/%m/%d | %X") .. "",
-                                    icon_url =
-                                    "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
+                                    icon_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                 },
                             }
                         }
@@ -3066,6 +3116,7 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
     end
 end
 
+-- Changes the TEMP_WHITELIST status for a player
 function FIREAC_CHANGE_TEMP_WHHITELIST(SRC, STATUS)
     if tonumber(SRC) then
         if STATUS == true then
@@ -3088,6 +3139,7 @@ function FIREAC_CHANGE_TEMP_WHHITELIST(SRC, STATUS)
     end
 end
 
+-- Checks if a player is in TEMP_WHITELIST
 function FIREAC_CHECK_TEMP_WHITELIST(SRC)
     local CALLBACK = false
     if tonumber(SRC) then
@@ -3105,18 +3157,29 @@ function FIREAC_CHECK_TEMP_WHITELIST(SRC)
     end
 end
 
+-- Unbans a player
 RegisterCommand('funban', function(source, args)
+    -- Extracts the banned player's ID from the command arguments
     local BAN_ID = args[1]
+
+    -- Checks if the command is executed from the server console (source 0)
     if source == 0 then
+        -- Calls the FIREAC:UNBAN function to unban the player
         local unbaned = FIREAC:UNBAN(BAN_ID)
+
+        -- Prints a message based on the success or failure of the unban operation
         if unbaned then
             print("^" .. COLORS .. "[FIREAC]^0: You unbanned ^2" .. BAN_ID .. "^0 !")
         else
             print("^" .. COLORS .. "[FIREAC]^0: ^1 our unbanned failed !^0")
         end
     else
+        -- Checks if the source (player) has the access to unban players
         if FIREAC_UNBANACCESS(source) then
+            -- Calls the FIREAC:UNBAN function to unban the player
             local unbaned = FIREAC:UNBAN(BAN_ID)
+
+            -- Sends a chat message to the player based on the success or failure of the unban operation
             if unbaned then
                 TriggerClientEvent("chatMessage", source, "[FIREAC]", { 255, 0, 0 }, "You unbanned ^2" .. BAN_ID ..
                     "^0 !")
@@ -3124,21 +3187,31 @@ RegisterCommand('funban', function(source, args)
                 TriggerClientEvent("chatMessage", source, "[FIREAC]", { 255, 0, 0 }, "Your unbanned failed !")
             end
         else
+            -- Sends a chat message to the player if they don't have access to unban players
             TriggerClientEvent("chatMessage", source, "[FIREAC]", { 255, 0, 0 },
                 "You don't have access for unban players !")
         end
     end
 end)
 
+-- Adds an admin
 RegisterCommand('addadmin', function(source, args)
+    -- Extracts the target player's ID from the command arguments
     local PLAYER_ID = tonumber(args[1])
+
+    -- Checks if the command is executed from the server console (source 0)
     if source == 0 then
+        -- Checks if the target player with the given ID is online
         if GetPlayerName(PLAYER_ID) then
+            -- Calls the FIREAC:ADDADMIN function to add the player to the admin list
             local addedAdmin = FIREAC:ADDADMIN(PLAYER_ID)
+
+            -- Prints a message based on the success or failure of adding to the admin list
             if addedAdmin then
                 print("^" ..
                     COLORS ..
                     "[FIREAC]^0: You added ^2" .. GetPlayerName(PLAYER_ID) .. "(" .. PLAYER_ID .. ")^0 to admin list^0 !")
+                -- Triggers a client event to allow the added admin to open the FIREAC menu
                 TriggerClientEvent("FIREAC:allowToOpen", PLAYER_ID)
             else
                 print("^" .. COLORS .. "[FIREAC]^0: ^1 our unbanned failed !^0")
@@ -3149,11 +3222,19 @@ RegisterCommand('addadmin', function(source, args)
     end
 end)
 
+-- Registers a command to add a player to the whitelist
 RegisterCommand('addwhitelist', function(source, args)
+    -- Extracts the player ID from the command arguments
     local PLAYER_ID = tonumber(args[1])
+
+    -- Checks if the command is executed from the server console (source 0)
     if source == 0 then
+        -- Checks if the player with the given ID is online
         if GetPlayerName(PLAYER_ID) then
+            -- Calls the FIREAC:ADDWHITELIST function to add the player to the whitelist
             local addedAdmin = FIREAC:ADDWHITELIST(PLAYER_ID)
+
+            -- Prints a message based on the success or failure of adding to the whitelist
             if addedAdmin then
                 print("^" ..
                     COLORS ..
@@ -3167,11 +3248,19 @@ RegisterCommand('addwhitelist', function(source, args)
     end
 end)
 
+-- Registers a command to add a player to the unban access list
 RegisterCommand('addunban', function(source, args)
+    -- Extracts the player ID from the command arguments
     local PLAYER_ID = tonumber(args[1])
+
+    -- Checks if the command is executed from the server console (source 0)
     if source == 0 then
+        -- Checks if the player with the given ID is online
         if GetPlayerName(PLAYER_ID) then
+            -- Calls the FIREAC:ADDUNBAN function to add the player to unban access
             local addedAdmin = FIREAC:ADDUNBAN(PLAYER_ID)
+
+            -- Prints a message based on the success or failure of adding to unban access
             if addedAdmin then
                 print("^" ..
                     COLORS ..
