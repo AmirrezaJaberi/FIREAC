@@ -1289,8 +1289,9 @@ local SV_VEHICLES, SV_PEDS, SV_OBJECT = {}, {}, {}
 -- Event Handler for when an entity is created
 AddEventHandler("entityCreated", function(ENTITY)
     if DoesEntityExist(ENTITY) then
-        local TYPE, OWNER, POPULATION, MODEL, HWID = GetEntityType(ENTITY), NetworkGetFirstEntityOwner(ENTITY),
-            GetEntityPopulationType(ENTITY), GetEntityModel(ENTITY), GetPlayerToken(OWNER, 0)
+        local OWNER = NetworkGetFirstEntityOwner(ENTITY)
+        local TYPE, POPULATION, MODEL, HWID = GetEntityType(ENTITY), GetEntityPopulationType(ENTITY),
+            GetEntityModel(ENTITY), GetPlayerToken(OWNER, 0)
 
         -- Execute actions based on anti-cheat settings
         -- Anti-Blacklist Object Management
