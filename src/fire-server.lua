@@ -1898,7 +1898,7 @@ function FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
                 -- Perform the specified action based on the type.
                 if ACTION == "WARN" then
                     FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Ban, ACTION, REASON, DETAILS)
-                    FIREAC_MEESAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
+                    FIREAC_MESSAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
                 elseif ACTION == "KICK" then
                     local kickMessage = "\n[" .. Emoji.Fire .. " FIREAC " .. Emoji.Fire ..
                         "]\n" .. FIREAC.Message.Kick .. "\nReason: " .. REASON .. ""
@@ -1907,7 +1907,7 @@ function FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
                         "FIREAC^0: ^1Player ^3" ..
                         GetPlayerName(SRC) .. " ^3Kicked From Server ^0| ^3Reason: ^3 " .. REASON .. "^0")
                     FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Ban, ACTION, REASON, DETAILS)
-                    FIREAC_MEESAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
+                    FIREAC_MESSAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
                     DropPlayer(SRC, kickMessage)
                 elseif ACTION == "BAN" then
                     local banMessage = "\n[" .. Emoji.Fire .. " FIREAC " .. Emoji.Fire ..
@@ -1917,7 +1917,7 @@ function FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
                         "FIREAC^0: ^1Player ^3" ..
                         GetPlayerName(SRC) .. " ^1Banned From Server ^0| ^1Reason: ^3 " .. REASON .. "^0")
                     FIREAC_SENDLOG(SRC, FIREAC.Webhooks.Ban, ACTION, REASON, DETAILS)
-                    FIREAC_MEESAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
+                    FIREAC_MESSAGE(SRC, ACTION, GetPlayerName(SRC), REASON)
                     FIREAC_BAN(SRC, REASON)
                     DropPlayer(SRC, banMessage)
                 end
