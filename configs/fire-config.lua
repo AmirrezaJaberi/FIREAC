@@ -22,6 +22,12 @@ FIREAC.ServerConfig = {
     Linux = false
 }
 
+FIREAC.ACE = {
+    Enable = false, -- Enable Ace authorisation
+    Admin = "FIREAC.Admin", -- Ace permission for a player to be an admin
+    Whitelist = "FIREAC.Whitelist", -- Ace permission for a player to be whitelisted
+    Unban = "FIREAC.Unban" -- Ace permission for a player have rights to unban
+}
 
 -- Chat Settings
 FIREAC.ChatSettings             = {

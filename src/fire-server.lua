@@ -1500,47 +1500,53 @@ end
 -- Check if the player is whitelisted
 function FIREAC_WHITELIST(SRC)
     if tonumber(SRC) ~= nil then
-        local IS_WHITELIST = false
-        local STEAM = "Not Found"
-        local DISCORD = "Not Found"
-        local FIVEML = "Not Found"
-        local LIVE = "Not Found"
-        local XBL = "Not Found"
-        local IP = GetPlayerEndpoint(SRC)
-
-        -- Extract player identifiers
-        for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
-            if DATA:match("steam") then
-                STEAM = DATA
-            elseif DATA:match("discord") then
-                DISCORD = DATA:gsub("discord:", "")
-            elseif DATA:match("license") then
-                FIVEML = DATA
-            elseif DATA:match("live") then
-                LIVE = DATA
-            elseif DATA:match("xbl") then
-                XBL = DATA
-            end
-        end
-
-        local p = promise.new()
-
-        -- Query the database to check if the player is whitelisted
-        MySQL.Async.fetchAll(
-            'SELECT * FROM fireac_whitelist WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
-                ['@steam'] = STEAM,
-                ['@discord'] = DISCORD,
-                ['@fivem'] = FIVEML,
-                ['@live'] = LIVE,
-                ['@xbl'] = XBL
-            }, function(users)
-                if users and next(users) ~= nil then
-                    IS_WHITELIST = true
+        if FIREAC.ACE.Enable == false then
+            local IS_WHITELIST = false
+            local STEAM = "Not Found"
+            local DISCORD = "Not Found"
+            local FIVEML = "Not Found"
+            local LIVE = "Not Found"
+            local XBL = "Not Found"
+            local IP = GetPlayerEndpoint(SRC)
+    
+            -- Extract player identifiers
+            for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
+                if DATA:match("steam") then
+                    STEAM = DATA
+                elseif DATA:match("discord") then
+                    DISCORD = DATA:gsub("discord:", "")
+                elseif DATA:match("license") then
+                    FIVEML = DATA
+                elseif DATA:match("live") then
+                    LIVE = DATA
+                elseif DATA:match("xbl") then
+                    XBL = DATA
                 end
-                p:resolve(IS_WHITELIST)
-            end)
-
-        return Citizen.Await(p)
+            end
+    
+            local p = promise.new()
+    
+            -- Query the database to check if the player is whitelisted
+            MySQL.Async.fetchAll(
+                'SELECT * FROM fireac_whitelist WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
+                    ['@steam'] = STEAM,
+                    ['@discord'] = DISCORD,
+                    ['@fivem'] = FIVEML,
+                    ['@live'] = LIVE,
+                    ['@xbl'] = XBL
+                }, function(users)
+                    if users and next(users) ~= nil then
+                        IS_WHITELIST = true
+                    end
+                    p:resolve(IS_WHITELIST)
+                end)
+    
+            return Citizen.Await(p)
+        elseif FIREAC.ACE.Enable == true then
+            return IsPlayerAceAllowed(SRC, FIREAC.ACE.Whitelist)
+        else
+            FIREAC_ERROR(FIREAC.ServerConfig.Name, "Config: FIREAC.ACE.Enable is not true or false")
+        end
     else
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_WHITELIST (SRC Not Found)")
     end
@@ -1549,46 +1555,52 @@ end
 -- Check if the player is an admin
 function FIREAC_GETADMINS(SRC)
     if tonumber(SRC) ~= nil then
-        local ISADMIN = false
-        local STEAM = "Not Found"
-        local DISCORD = "Not Found"
-        local FIVEML = "Not Found"
-        local LIVE = "Not Found"
-        local XBL = "Not Found"
-        local IP = GetPlayerEndpoint(SRC)
-
-        -- Extract player identifiers
-        for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
-            if DATA:match("steam") then
-                STEAM = DATA
-            elseif DATA:match("discord") then
-                DISCORD = DATA:gsub("discord:", "")
-            elseif DATA:match("license") then
-                FIVEML = DATA
-            elseif DATA:match("live") then
-                LIVE = DATA
-            elseif DATA:match("xbl") then
-                XBL = DATA
+        if FIREAC.ACE.Enable == false then
+            local ISADMIN = false
+            local STEAM = "Not Found"
+            local DISCORD = "Not Found"
+            local FIVEML = "Not Found"
+            local LIVE = "Not Found"
+            local XBL = "Not Found"
+            local IP = GetPlayerEndpoint(SRC)
+    
+            -- Extract player identifiers
+            for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
+                if DATA:match("steam") then
+                    STEAM = DATA
+                elseif DATA:match("discord") then
+                    DISCORD = DATA:gsub("discord:", "")
+                elseif DATA:match("license") then
+                    FIVEML = DATA
+                elseif DATA:match("live") then
+                    LIVE = DATA
+                elseif DATA:match("xbl") then
+                    XBL = DATA
+                end
             end
+    
+            local p = promise.new()
+    
+            -- Query the database to check if the player is an admin
+            MySQL.Async.fetchAll('SELECT * FROM fireac_admin WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
+                ['@steam'] = STEAM,
+                ['@discord'] = DISCORD,
+                ['@fivem'] = FIVEML,
+                ['@live'] = LIVE,
+                ['@xbl'] = XBL
+            }, function(users)
+                if users and next(users) ~= nil then
+                    ISADMIN = true
+                end
+                p:resolve(ISADMIN)
+            end)
+    
+            return Citizen.Await(p)
+        elseif FIREAC.ACE.Enable == true then
+            return IsPlayerAceAllowed(SRC, FIREAC.ACE.Admin)
+        else
+            FIREAC_ERROR(FIREAC.ServerConfig.Name, "Config: FIREAC.ACE.Enable is not true or false")
         end
-
-        local p = promise.new()
-
-        -- Query the database to check if the player is an admin
-        MySQL.Async.fetchAll('SELECT * FROM fireac_admin WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
-            ['@steam'] = STEAM,
-            ['@discord'] = DISCORD,
-            ['@fivem'] = FIVEML,
-            ['@live'] = LIVE,
-            ['@xbl'] = XBL
-        }, function(users)
-            if users and next(users) ~= nil then
-                ISADMIN = true
-            end
-            p:resolve(ISADMIN)
-        end)
-
-        return Citizen.Await(p)
     else
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_GETADMINS (SRC Not Found)")
     end
@@ -1597,46 +1609,52 @@ end
 -- Check if the player is unbanned
 function FIREAC_UNBANACCESS(SRC)
     if tonumber(SRC) ~= nil then
-        local ISADMIN = false
-        local STEAM = "Not Found"
-        local DISCORD = "Not Found"
-        local FIVEML = "Not Found"
-        local LIVE = "Not Found"
-        local XBL = "Not Found"
-        local IP = GetPlayerEndpoint(SRC)
-
-        -- Extract player identifiers
-        for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
-            if DATA:match("steam") then
-                STEAM = DATA
-            elseif DATA:match("discord") then
-                DISCORD = DATA:gsub("discord:", "")
-            elseif DATA:match("license") then
-                FIVEML = DATA
-            elseif DATA:match("live") then
-                LIVE = DATA
-            elseif DATA:match("xbl") then
-                XBL = DATA
+        if FIREAC.ACE.Enable == false then
+            local ISADMIN = false
+            local STEAM = "Not Found"
+            local DISCORD = "Not Found"
+            local FIVEML = "Not Found"
+            local LIVE = "Not Found"
+            local XBL = "Not Found"
+            local IP = GetPlayerEndpoint(SRC)
+    
+            -- Extract player identifiers
+            for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
+                if DATA:match("steam") then
+                    STEAM = DATA
+                elseif DATA:match("discord") then
+                    DISCORD = DATA:gsub("discord:", "")
+                elseif DATA:match("license") then
+                    FIVEML = DATA
+                elseif DATA:match("live") then
+                    LIVE = DATA
+                elseif DATA:match("xbl") then
+                    XBL = DATA
+                end
             end
+    
+            local p = promise.new()
+    
+            -- Query the database to check if the player is unbanned
+            MySQL.Async.fetchAll('SELECT * FROM fireac_unban WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
+                ['@steam'] = STEAM,
+                ['@discord'] = DISCORD,
+                ['@fivem'] = FIVEML,
+                ['@live'] = LIVE,
+                ['@xbl'] = XBL
+            }, function(users)
+                if users and next(users) ~= nil then
+                    ISADMIN = true
+                end
+                p:resolve(ISADMIN)
+            end)
+    
+            return Citizen.Await(p)
+        elseif FIREAC.ACE.Enable == true then
+            return IsPlayerAceAllowed(SRC, FIREAC.ACE.Unban)
+        else
+            FIREAC_ERROR(FIREAC.ServerConfig.Name, "Config: FIREAC.ACE.Enable is not true or false")
         end
-
-        local p = promise.new()
-
-        -- Query the database to check if the player is unbanned
-        MySQL.Async.fetchAll('SELECT * FROM fireac_unban WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
-            ['@steam'] = STEAM,
-            ['@discord'] = DISCORD,
-            ['@fivem'] = FIVEML,
-            ['@live'] = LIVE,
-            ['@xbl'] = XBL
-        }, function(users)
-            if users and next(users) ~= nil then
-                ISADMIN = true
-            end
-            p:resolve(ISADMIN)
-        end)
-
-        return Citizen.Await(p)
     else
         FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_UNBANACCESS (SRC Not Found)")
     end
@@ -1720,6 +1738,8 @@ function FIREAC_BAN(SRC, REASON)
                 ['@banid'] = math.random(tonumber(1000), tonumber(9999)),
                 ['@reason'] = REASON
             })
+    else
+        FIREAC_ERROR(SERVER_NAME, "No SRC or REASON is not a sring")
     end
 end
 
