@@ -7,20 +7,6 @@
 
 ---
 
-### Advertisement
-
-<p align='center'>
-  For an enhanced <b>paid anticheat</b>, visit <a href="https://store.fiveguard.ac">https://store.fiveguard.ac</a>.
-</p>
-<p align='center'>
-  We are able to provide this <strong>free product</strong> thanks to the support of <a href="https://fiveguard.net">https://fiveguard.net</a>.
-</p>
-<p align='center'>
-  <strong>Fiveguard</strong> - Elevating your FiveM server security.
-</p>
-
----
-
 ### Requirements
 
 <table align='center'>
