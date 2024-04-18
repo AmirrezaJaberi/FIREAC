@@ -5,6 +5,8 @@
 
 [FIREAC](https://github.com/AmirrezaJaberi/FIREAC/) is the best free FiveM anti-cheat created by Amirreza Jaberi for you, FiveM server owners, and developers. This anti-cheat is designed to help you eliminate cheaters and ensure a fair gaming experience for your players.
 
+---
+
 ### Advertisement
 
 <p align='center'>
