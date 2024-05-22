@@ -3,10 +3,6 @@
 
 ---
 
-[FIREAC](https://github.com/AmirrezaJaberi/FIREAC/) is the best free FiveM anti-cheat created by Amirreza Jaberi for you, FiveM server owners, and developers. This anti-cheat is designed to help you eliminate cheaters and ensure a fair gaming experience for your players.
-
----
-
 ### Advertisement
 
 [Fiveguard.net](https://fiveguard.net/) is best paid FiveM Anticheat providing unique features such as Anti Aimbot, Objects-AI detection, Cheats-AI detection, Safe-Events and many more. This product is developed to eliminate cheats and at the same time provide smooth gaming experience!
@@ -24,6 +20,9 @@
 ---
 
 ### Requirements
+
+
+[FIREAC](https://github.com/AmirrezaJaberi/FIREAC/) is the best free FiveM anti-cheat created by Amirreza Jaberi for you, FiveM server owners, and developers. This anti-cheat is designed to help you eliminate cheaters and ensure a fair gaming experience for your players.
 
 <table align='center'>
   <tr>
