@@ -1957,7 +1957,6 @@ function FIREAC_MESSAGE(SRC, TYPE, NAME, REASON)
     -- Local references to FIREAC configuration settings
     local ChatSettings = FIREAC.ChatSettings
     local ServerConfig = FIREAC.ServerConfig
-    local Emoji = FIREAC.Emoji
 
     -- Check if the necessary parameters are provided and if chat is enabled
     if ChatSettings.Enable and TYPE and NAME and REASON then
