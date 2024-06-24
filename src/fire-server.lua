@@ -536,7 +536,7 @@ AddEventHandler("FIREAC:GetScreenShot", function(P_ID)
         -- Check if the source is an admin
         if FIREAC_GETADMINS(SRC) then
             -- Check if there is a screenshot log
-            if FIREAC.ScreenShot.Log ~= "" and FIREAC.ScreenShot.Log ~= nil then
+            if FIREAC.Webhooks.ScreenShot ~= "" and FIREAC.Webhooks.ScreenShot ~= nil then
                 FIREAC_SCREENSHOT(P_ID, "By Admin Menu", "By " .. GetPlayerName(SRC) .. "", "WARN")
             end
         else
@@ -655,7 +655,7 @@ AddEventHandler("FIREAC:ScreenShotFromClient", function(URL, REASON, DETAILS)
 
                         -- Perform screenshot posting
                         if URL then
-                            PerformHttpRequest(FIREAC.ScreenShot.Log, function(ERROR, DATA, RESULT) end, "POST",
+                            PerformHttpRequest(FIREAC.Webhooks.ScreenShot, function(ERROR, DATA, RESULT) end, "POST",
                                 json.encode({
                                     embeds = { {
                                         author = {
@@ -695,7 +695,7 @@ AddEventHandler("FIREAC:ScreenShotFromClient", function(URL, REASON, DETAILS)
             end)
         else
             -- Perform screenshot posting for Linux servers
-            PerformHttpRequest(FIREAC.ScreenShot.Log, function(ERROR, DATA, RESULT) end, "POST", json.encode({
+            PerformHttpRequest(FIREAC.Webhooks.ScreenShot, function(ERROR, DATA, RESULT) end, "POST", json.encode({
                 embeds = { {
                     author = {
                         name = "" .. Emoji.Fire .. "| FIRE AC™ | " .. Emoji.Fire .. "",
@@ -1909,10 +1909,10 @@ function FIREAC_ACTION(SRC, ACTION, REASON, DETAILS)
             if ACTION == "WARN" or ACTION == "KICK" or ACTION == "BAN" then
                 -- Take a screenshot if enabled and a valid log path is provided.
                 if FIREAC.ScreenShot.Enable then
-                    if FIREAC.ScreenShot.Log and FIREAC.ScreenShot.Log ~= "" then
+                    if FIREAC.Webhooks.ScreenShot and FIREAC.Webhooks.ScreenShot ~= "" then
                         FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
                     else
-                        FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_ACTION (FIREAC.ScreenShot.Log is nil)")
+                        FIREAC_ERROR(FIREAC.ServerConfig.Name, "function FIREAC_ACTION (FIREAC.Webhooks.ScreenShot is nil)")
                     end
                 end
 
@@ -3041,7 +3041,7 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
 
                             -- Send screenshot to Discord
                             exports["discord-screenshot"]:requestCustomClientScreenshotUploadToDiscord(SRC,
-                                FIREAC.ScreenShot.Log, SSO, {
+                                FIREAC.Webhooks.ScreenShot, SSO, {
                                     username = "" .. Emoji.Fire .. " FIREAC " .. Emoji.Fire .. "",
                                     avatar_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                                     embeds = {
@@ -3097,7 +3097,7 @@ function FIREAC_SCREENSHOT(SRC, REASON, DETAILS, ACTION)
 
                 -- Send screenshot to Discord
                 exports["discord-screenshot"]:requestCustomClientScreenshotUploadToDiscord(SRC,
-                    FIREAC.ScreenShot.Log, SSO, {
+                    FIREAC.Webhooks.ScreenShot, SSO, {
                         username = "" .. Emoji.Fire .. " FIREAC " .. Emoji.Fire .. "",
                         avatar_url = "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                         embeds = {
