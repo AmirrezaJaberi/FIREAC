@@ -1508,7 +1508,7 @@ function FIREAC_WHITELIST(SRC)
             local LIVE = "Not Found"
             local XBL = "Not Found"
             local IP = GetPlayerEndpoint(SRC)
-    
+
             -- Extract player identifiers
             for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
                 if DATA:match("steam") then
@@ -1523,9 +1523,9 @@ function FIREAC_WHITELIST(SRC)
                     XBL = DATA
                 end
             end
-    
+
             local p = promise.new()
-    
+
             -- Query the database to check if the player is whitelisted
             MySQL.Async.fetchAll(
                 'SELECT * FROM fireac_whitelist WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
@@ -1540,7 +1540,7 @@ function FIREAC_WHITELIST(SRC)
                     end
                     p:resolve(IS_WHITELIST)
                 end)
-    
+
             return Citizen.Await(p)
         elseif FIREAC.ACE.Enable == true then
             return IsPlayerAceAllowed(SRC, FIREAC.ACE.Whitelist)
@@ -1563,7 +1563,7 @@ function FIREAC_GETADMINS(SRC)
             local LIVE = "Not Found"
             local XBL = "Not Found"
             local IP = GetPlayerEndpoint(SRC)
-    
+
             -- Extract player identifiers
             for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
                 if DATA:match("steam") then
@@ -1578,11 +1578,12 @@ function FIREAC_GETADMINS(SRC)
                     XBL = DATA
                 end
             end
-    
+
             local p = promise.new()
-    
+
             -- Query the database to check if the player is an admin
-            MySQL.Async.fetchAll('SELECT * FROM fireac_admin WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
+            MySQL.Async.fetchAll(
+            'SELECT * FROM fireac_admin WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
                 ['@steam'] = STEAM,
                 ['@discord'] = DISCORD,
                 ['@fivem'] = FIVEML,
@@ -1594,7 +1595,7 @@ function FIREAC_GETADMINS(SRC)
                 end
                 p:resolve(ISADMIN)
             end)
-    
+
             return Citizen.Await(p)
         elseif FIREAC.ACE.Enable == true then
             return IsPlayerAceAllowed(SRC, FIREAC.ACE.Admin)
@@ -1617,7 +1618,7 @@ function FIREAC_UNBANACCESS(SRC)
             local LIVE = "Not Found"
             local XBL = "Not Found"
             local IP = GetPlayerEndpoint(SRC)
-    
+
             -- Extract player identifiers
             for _, DATA in ipairs(GetPlayerIdentifiers(SRC)) do
                 if DATA:match("steam") then
@@ -1632,11 +1633,12 @@ function FIREAC_UNBANACCESS(SRC)
                     XBL = DATA
                 end
             end
-    
+
             local p = promise.new()
-    
+
             -- Query the database to check if the player is unbanned
-            MySQL.Async.fetchAll('SELECT * FROM fireac_unban WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
+            MySQL.Async.fetchAll(
+            'SELECT * FROM fireac_unban WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
                 ['@steam'] = STEAM,
                 ['@discord'] = DISCORD,
                 ['@fivem'] = FIVEML,
@@ -1648,7 +1650,7 @@ function FIREAC_UNBANACCESS(SRC)
                 end
                 p:resolve(ISADMIN)
             end)
-    
+
             return Citizen.Await(p)
         elseif FIREAC.ACE.Enable == true then
             return IsPlayerAceAllowed(SRC, FIREAC.ACE.Unban)
@@ -1957,7 +1959,6 @@ function FIREAC_MESSAGE(SRC, TYPE, NAME, REASON)
     -- Local references to FIREAC configuration settings
     local ChatSettings = FIREAC.ChatSettings
     local ServerConfig = FIREAC.ServerConfig
-    local Emoji = FIREAC.Emoji
 
     -- Check if the necessary parameters are provided and if chat is enabled
     if ChatSettings.Enable and TYPE and NAME and REASON then
@@ -2907,7 +2908,7 @@ Citizen.CreateThread(function()
             for _, value in ipairs(players) do
                 if value ~= nil then
                     local status = TEMP_STOP[value].status
-                    if status == false then
+                    if status and status == false then
                         FIREAC_ACTION(value, FIREAC.ResourcePunishment, "Anti Resource Stopper",
                             "Try to stop anticheat resource !")
                         TriggerClientEvent('FIREAC:checkStatus', value,
