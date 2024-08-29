@@ -1338,32 +1338,36 @@ AddEventHandler("entityCreated", function(ENTITY)
             local spamTable = TYPE == 2 and SV_VEHICLES or (TYPE == 1 and SV_PEDS or (TYPE == 3 and SV_OBJECT or nil))
 
             if spamTable then
-                if spamTable[HWID] then
-                    spamTable[HWID].COUNT = spamTable[HWID].COUNT + 1
-
-                    if os.time() - spamTable[HWID].TIME >= 10 then
-                        spamTable[HWID] = nil
-                    else
-                        local entityType = TYPE == 2 and "Vehicle" or
-                            (TYPE == 1 and "Ped" or (TYPE == 3 and "Object" or nil))
-
-                        if spamTable[HWID].COUNT >= FIREAC["Max" .. entityType] then
-                            local entityList = GetAllEntitiesOfType(TYPE)
-
-                            for _, entity in ipairs(entityList) do
-                                local entityOwner = NetworkGetFirstEntityOwner(entity)
-
-                                if entityOwner == OWNER and DoesEntityExist(entity) then
-                                    DeleteEntity(entity)
+                if HWID then
+                    if spamTable[HWID] then
+                        spamTable[HWID].COUNT = spamTable[HWID].COUNT + 1
+    
+                        if os.time() - spamTable[HWID].TIME >= 10 then
+                            spamTable[HWID] = nil
+                        else
+                            local entityType = TYPE == 2 and "Vehicle" or
+                                (TYPE == 1 and "Ped" or (TYPE == 3 and "Object" or nil))
+    
+                            if spamTable[HWID].COUNT >= FIREAC["Max" .. entityType] then
+                                local entityList = GetAllEntitiesOfType(TYPE)
+    
+                                for _, entity in ipairs(entityList) do
+                                    local entityOwner = NetworkGetFirstEntityOwner(entity)
+    
+                                    if entityOwner == OWNER and DoesEntityExist(entity) then
+                                        DeleteEntity(entity)
+                                    end
                                 end
+    
+                                FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam " .. entityType,
+                                    "Try For Spam " .. spamTable[HWID].COUNT)
                             end
-
-                            FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam " .. entityType,
-                                "Try For Spam " .. spamTable[HWID].COUNT)
                         end
+                    else
+                        spamTable[HWID] = { COUNT = 1, TIME = os.time() }
                     end
                 else
-                    spamTable[HWID] = { COUNT = 1, TIME = os.time() }
+                    print("^" .. COLORS .. "[FIREAC]^0: ^1 This player ("..OWNER..") HWID (FiveM Token) not found !^0")
                 end
             end
         end
@@ -1583,18 +1587,18 @@ function FIREAC_GETADMINS(SRC)
 
             -- Query the database to check if the player is an admin
             MySQL.Async.fetchAll(
-            'SELECT * FROM fireac_admin WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
-                ['@steam'] = STEAM,
-                ['@discord'] = DISCORD,
-                ['@fivem'] = FIVEML,
-                ['@live'] = LIVE,
-                ['@xbl'] = XBL
-            }, function(users)
-                if users and next(users) ~= nil then
-                    ISADMIN = true
-                end
-                p:resolve(ISADMIN)
-            end)
+                'SELECT * FROM fireac_admin WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
+                    ['@steam'] = STEAM,
+                    ['@discord'] = DISCORD,
+                    ['@fivem'] = FIVEML,
+                    ['@live'] = LIVE,
+                    ['@xbl'] = XBL
+                }, function(users)
+                    if users and next(users) ~= nil then
+                        ISADMIN = true
+                    end
+                    p:resolve(ISADMIN)
+                end)
 
             return Citizen.Await(p)
         elseif FIREAC.ACE.Enable == true then
@@ -1638,18 +1642,18 @@ function FIREAC_UNBANACCESS(SRC)
 
             -- Query the database to check if the player is unbanned
             MySQL.Async.fetchAll(
-            'SELECT * FROM fireac_unban WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
-                ['@steam'] = STEAM,
-                ['@discord'] = DISCORD,
-                ['@fivem'] = FIVEML,
-                ['@live'] = LIVE,
-                ['@xbl'] = XBL
-            }, function(users)
-                if users and next(users) ~= nil then
-                    ISADMIN = true
-                end
-                p:resolve(ISADMIN)
-            end)
+                'SELECT * FROM fireac_unban WHERE identifier IN (@steam, @discord, @fivem, @live, @xbl)', {
+                    ['@steam'] = STEAM,
+                    ['@discord'] = DISCORD,
+                    ['@fivem'] = FIVEML,
+                    ['@live'] = LIVE,
+                    ['@xbl'] = XBL
+                }, function(users)
+                    if users and next(users) ~= nil then
+                        ISADMIN = true
+                    end
+                    p:resolve(ISADMIN)
+                end)
 
             return Citizen.Await(p)
         elseif FIREAC.ACE.Enable == true then
