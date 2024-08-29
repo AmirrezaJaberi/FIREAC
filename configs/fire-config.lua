@@ -5,7 +5,7 @@
 FIREAC              = {}
 
 -- FIREAC Version
-FIREAC.Version      = "7.1.0"
+FIREAC.Version      = "7.1.1"
 
 -- Server Configuration
 FIREAC.ServerConfig = {

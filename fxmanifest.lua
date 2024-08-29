@@ -9,7 +9,7 @@ game 'gta5'
 -- Project Information
 author 'Amirreza Jaberi'
 description 'FIREAC'
-version '7.1.0'
+version '7.1.1'
 
 -- Web UI Page
 ui_page 'ui/index.html'
