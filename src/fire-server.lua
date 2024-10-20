@@ -18,6 +18,14 @@ local TEMP_WHITELIST = {}
 -- Temporary stop list to prevent specific actions temporarily
 local TEMP_STOP      = {}
 
+-- Initialize TEMP_STOP for players when they connect
+AddEventHandler('playerConnecting', function(name, setKickReason, deferrals)
+    local id = source
+    if id then
+        TEMP_STOP[id] = { status = false }
+    end
+end)
+
 -- Start the AntiCheat thread
 Citizen.CreateThread(function()
     StartAntiCheat()
