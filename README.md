@@ -15,6 +15,7 @@
   <strong>Fiveguard</strong> - Elevating your FiveM server security.
 </p>
 
+<b>FireAC is only free version containing basic checks if you want FULL PROTECTION you need to purchase this <a href="https://fiveguard.net/" rel="dofollow">FiveM Anticheat</a>
 ---
 
 ### Requirements
