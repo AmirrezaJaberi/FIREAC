@@ -2335,7 +2335,7 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                 icon_url =
                                 "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                             },
-                            title = "" .. Emoji.Exoplosion .. " Explosion " .. Emoji.Exoplosion .. "",
+                            title = "" .. Emoji.Explosion .. " Explosion " .. Emoji.Explosion .. "",
                             description = "**Player:** " ..
                                 NAME ..
                                 "\n**Explosion Type:**: " ..
@@ -2706,7 +2706,7 @@ function FIREAC_SENDLOG(SRC, URL, TYPE, REASON, DETAILS)
                                 icon_url =
                                 "https://github.com/AmIrReZa386/AmIrReZa386/raw/main/assist/FIREAC.png",
                             },
-                            title = "" .. Emoji.Exoplosion .. " Explosion " .. Emoji.Exoplosion .. "",
+                            title = "" .. Emoji.Explosion .. " Explosion " .. Emoji.Explosion .. "",
                             description = "**Player:** " ..
                                 NAME ..
                                 "\n**Steam Hex:** " ..
