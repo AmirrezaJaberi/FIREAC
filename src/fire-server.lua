@@ -1341,24 +1341,24 @@ AddEventHandler("entityCreated", function(ENTITY)
                 if HWID then
                     if spamTable[HWID] then
                         spamTable[HWID].COUNT = spamTable[HWID].COUNT + 1
-    
+
                         if os.time() - spamTable[HWID].TIME >= 10 then
                             spamTable[HWID] = nil
                         else
                             local entityType = TYPE == 2 and "Vehicle" or
                                 (TYPE == 1 and "Ped" or (TYPE == 3 and "Object" or nil))
-    
+
                             if spamTable[HWID].COUNT >= FIREAC["Max" .. entityType] then
                                 local entityList = GetAllEntitiesOfType(TYPE)
-    
+
                                 for _, entity in ipairs(entityList) do
                                     local entityOwner = NetworkGetFirstEntityOwner(entity)
-    
+
                                     if entityOwner == OWNER and DoesEntityExist(entity) then
                                         DeleteEntity(entity)
                                     end
                                 end
-    
+
                                 FIREAC_ACTION(OWNER, FIREAC.SpamPunishment, "Anti Spam " .. entityType,
                                     "Try For Spam " .. spamTable[HWID].COUNT)
                             end
@@ -1367,7 +1367,8 @@ AddEventHandler("entityCreated", function(ENTITY)
                         spamTable[HWID] = { COUNT = 1, TIME = os.time() }
                     end
                 else
-                    print("^" .. COLORS .. "[FIREAC]^0: ^1 This player ("..OWNER..") HWID (FiveM Token) not found !^0")
+                    print("^" .. COLORS .. "[FIREAC]^0: ^1 This player (" .. OWNER ..
+                    ") HWID (FiveM Token) not found !^0")
                 end
             end
         end
@@ -1462,6 +1463,13 @@ function StartAntiCheat()
                     "function StartAntiCheat (Server Port is wrong or We can't connect to that)")
             end
         end)
+        print("^3═════════════════════════════════════════════════════════════════════════════════")
+        print("^1★ ^3THE PERFECT ^4FiveM MLO's ^1-> ^5https://kingmaps.net/")
+        print("^1★ ^3For the best ^1FiveM Anticheat ^1-> ^5https://fiveguard.net/")
+        print("^1★ ^3Most reliable ^2FiveM Scripts ^3supporting ^1QBCORE, ESX, VRP ^1-> ^5https://justscripts.net/")
+        print("^3═════════════════════════════════════════════════════════════════════════════════")
+        print(
+        "^6This resource is sponsored by ^5https://kingmaps.net/^6, ^5https://fiveguard.net/^6, and ^5https://justscripts.net/^6!")
     else
         -- Display an error message if not all required files are found
         print("^" .. COLORS .. "[FIREAC]^0: ^1 Some Files Of FIREAC Not Found! Please Replace or Repair Them^0")
