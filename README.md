@@ -248,7 +248,7 @@ For a step-by-step guide on installing the anti-cheat, refer to the FIREAC websi
     <td>
       FIREAC - AGPL-3.0 License
       <br>
-      Copyright © 2022-2024 by Amirreza Jaberi
+      Copyright © 2022-2025 by Amirreza Jaberi
       <br>
       This software is licensed under the terms of the GNU Affero General Public License as published by
       the Free Software Foundation, either version 3 of the License, or

@@ -1,11 +1,11 @@
 -- FIREAC Configuration
--- Copyright 2022-2024 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
+-- Copyright 2022-2025 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
 -- Licensed under the GNU Affero General Public License v3.0
 
 FIREAC              = {}
 
 -- FIREAC Version
-FIREAC.Version      = "7.1.1"
+FIREAC.Version      = "7.1.2"
 
 -- Server Configuration
 FIREAC.ServerConfig = {

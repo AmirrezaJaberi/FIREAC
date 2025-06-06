@@ -1,5 +1,5 @@
 -- FIREAC (https://github.com/AmirrezaJaberi/FIREAC)
--- Copyright 2022-2024 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
+-- Copyright 2022-2025 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
 -- Licensed under the GNU Affero General Public License v3.0
 
 -- Main Settings
@@ -9,7 +9,7 @@ game 'gta5'
 -- Project Information
 author 'Amirreza Jaberi'
 description 'FIREAC'
-version '7.1.1'
+version '7.1.2'
 
 -- Web UI Page
 ui_page 'ui/index.html'
