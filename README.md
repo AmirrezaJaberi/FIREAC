@@ -1,7 +1,27 @@
-<h1 align='center'><img src="https://github.com/AmirrezaJaberi/AmirrezaJaberi/blob/main/assist/logo/fireac.png" alt="FIREAC logo" height="20" width="20"> FIREAC <img src="https://github.com/AmirrezaJaberi/AmirrezaJaberi/blob/main/assist/logo/fireac.png" alt="FIREAC logo" height="20" width="20"></h1>
-<p align='center'><b><a href='https://discord.gg/uvccDWtqhv'>Discord</a> - <a href='https://amirrezajaberi.ir/fireac'>Website</a></b></p>
 
-### Advertisement
+<h1 align="center">
+  <img src="https://github.com/AmirrezaJaberi/AmirrezaJaberi/blob/main/assist/logo/fireac.png" alt="FIREAC logo" height="30" width="30">  
+  <b>FIREAC</b>  
+  <img src="https://github.com/AmirrezaJaberi/AmirrezaJaberi/blob/main/assist/logo/fireac.png" alt="FIREAC logo" height="30" width="30">
+</h1>
+
+<p align="center">
+  <b>
+    <a href="https://discord.gg/uvccDWtqhv">Discord</a> • 
+    <a href="https://amirrezajaberi.ir/fireac">Website</a>
+  </b>
+</p>
+
+---
+
+### 🚀 What is FIREAC?
+
+[FIREAC](https://amirrezajaberi.ir/fireac) is the **best free FiveM anti-cheat**, created by **Amirreza Jaberi**.  
+It protects your server with advanced **client-side & server-side detections** and ensures a **fair experience** for all players.  
+
+---
+
+### 📢 Advertisement  
 
 [Fiveguard.net](https://fiveguard.net/) is best paid FiveM Anticheat providing unique features such as Anti Aimbot, Objects-AI detection, Cheats-AI detection, Safe-Events and many more. This product is developed to eliminate cheats and at the same time provide smooth gaming experience!
 
@@ -15,13 +35,11 @@
   <strong>Fiveguard</strong> - Elevating your FiveM server security.
 </p>
 
-<b>FireAC is only free version containing basic checks if you want FULL PROTECTION you need to purchase this <a href="https://fiveguard.net/" rel="dofollow">FiveM Anticheat</a>
+<b>FIREAC is only free version containing basic checks if you want FULL PROTECTION you need to purchase this <a href="https://fiveguard.net/" rel="dofollow">FiveM Anticheat</a>
+  
 ---
 
-### Requirements
-
-
-[FIREAC](https://github.com/AmirrezaJaberi/FIREAC/) is the best free FiveM anti-cheat created by Amirreza Jaberi for you, FiveM server owners, and developers. This anti-cheat is designed to help you eliminate cheaters and ensure a fair gaming experience for your players.
+### ⚙️ Requirements  
 
 <table align='center'>
   <tr>
@@ -36,236 +54,134 @@
 
 ---
 
-### Features
+### 🛡️ Features  
 
-**Client Side Protection**
+<details>
+  <summary><b>Client Side Protection</b></summary>
 
-- Anti-Track Players
-- Anti-Health Hack
-- Anti-Armor Hack
-- Anti-Infinite Ammo
-- Anti-Spectate
-- Anti-Ragdoll
-- Anti-Menyoo
-- Anti-Aim Assist
-- Anti-Infinite Stamina
-- Anti-Aim Bot
-- Anti-Blacklist Weapon
-- Anti-Add Weapon
-- Anti-Remove Weapon
-- Anti-God Mode
-- Anti-Noclip
-- Anti-Rainbow Vehicle
-- Anti-Teleport Vehicle
-- Anti-Teleport Ped
-- Anti-Invisible
-- Anti-Change Speed
-- Anti-Free Camera
-- Anti-Plate Changer
-- Anti-Night Vision
-- Anti-Thermal Vision
-- Anti-Super Jump
-- Anti-Suicide
+- Anti-Track Players  
+- Anti-Health Hack  
+- Anti-Armor Hack  
+- Anti-Infinite Ammo  
+- Anti-Spectate  
+- Anti-Ragdoll  
+- Anti-Menyoo  
+- Anti-Aim Assist  
+- Anti-Infinite Stamina  
+- Anti-Aim Bot  
+- Anti-Blacklist Weapon  
+- Anti-Add Weapon  
+- Anti-Remove Weapon  
+- Anti-God Mode  
+- Anti-Noclip  
+- Anti-Rainbow Vehicle  
+- Anti-Teleport Vehicle / Ped  
+- Anti-Invisible  
+- Anti-Change Speed  
+- Anti-Free Camera  
+- Anti-Plate Changer  
+- Anti-Night Vision / Thermal Vision  
+- Anti-Super Jump  
+- Anti-Suicide  
+</details>
 
-**Server Side Protection**
+<details>
+  <summary><b>Server Side Protection</b></summary>
 
-- Anti-Spam Chat
-- Anti-Blacklist Commands
-- Anti-Weapon Damage Changer
-- Anti-Vehicle Damage Changer
-- Anti-Blacklist Word
-- Anti-Bring All
-- Anti-Blacklist Trigger
-- Anti-Spam Trigger
-- Anti-Clear Ped Tasks
-- Anti-Taze Players
-- Anti-Inject
-- Anti-Blacklist Explosion
-- Anti-Explosion Spam
-- Anti-Blacklist Object
-- Anti-Blacklist Ped
-- Anti-Blacklist Vehicle
-- Anti-Spam Vehicle
-- Anti-Spam Ped
-- Anti-Spam Object
-- Anti-Change Perm
-- Anti-Play Sound
+- Anti-Spam Chat  
+- Anti-Blacklist Commands  
+- Anti-Weapon Damage Changer  
+- Anti-Vehicle Damage Changer  
+- Anti-Blacklist Word  
+- Anti-Bring All  
+- Anti-Blacklist Trigger  
+- Anti-Spam Trigger  
+- Anti-Clear Ped Tasks  
+- Anti-Taze Players  
+- Anti-Inject  
+- Anti-Blacklist Explosion  
+- Anti-Explosion Spam  
+- Anti-Blacklist Object/Ped/Vehicle  
+- Anti-Spam Object/Ped/Vehicle  
+- Anti-Change Perm  
+- Anti-Play Sound  
+</details>
 
 ---
 
-### Inject Protection
+### 📦 Installation  
 
-**Server Side Protection**
-
-- Anti-Resource Start/Stop/Restart
-- Anti-Add Command
+🔗 For full installation guide & step-by-step tutorial, please visit:  
+👉 **[FIREAC Documentation](https://docmaker.ir/panel/template/5/2/en/Anti-Cheat-Installation-Guide-for-FIREAC/)**  
 
 ---
 
-### Connection Protection
+### ✅ Whitelist  
 
-**Server Side Protection**
-
-- Anti-VPN
-- Anti-Hosting
-- Anti-Blacklist Name
+Manage authorized players, admins, and permissions easily.  
+📖 Detailed whitelist guide is available here:  
+👉 **[Whitelist Documentation](https://docmaker.ir/panel/template/5/32/en/How-to-add-a-player-to-the-whitelist-in-FIREAC/)**  
 
 ---
 
-### Ban Method
+### 🔓 Unban  
 
-**Identifiers**
+Use the `/funban` command for unbanning players.  
+📖 Learn more about unban management here:  
+👉 **[Unban Documentation](https://docmaker.ir/panel/template/5/12/en/How-to-lift-a-user-ban-in-FIREAC/)**  
+---
 
-- FiveM License
-- Steam Identifier
-- IP Address
-- Microsoft ID (LIVE ID)
-- Xbox Live ID (XBL ID)
-- Discord ID
-- FiveM Player Tokens
+### 👑 Add Admin  
+
+Use the `/addadmin` command for adding administrators.  
+This allows them to access the **admin menu** and manage the anti-cheat system.  
+
+📖 Learn more about adding admins here:  
+👉 **[Add Admin Documentation](https://docmaker.ir/panel/template/5/22/en/How-to-add-an-admin-to-FIREAC/)**  
+
 
 ---
 
-### Logs
+### 📊 Exports  
 
-- Console
-- Discord
-- Chat
-- Screenshot
-
----
-
-### Installation
-
-Add the following lines to your `server.cfg`:
-
-```
-ensure FIREAC
-ensure screenshot-basic
-ensure discord-screenshot
-```
-
----
-
-### Whitelist
-
-To manage authorized users, utilize the admin menu in-game..
-
----
-
-### Exports (Server Side)
-
-- `FIREAC_CHANGE_TEMP_WHITELIST`: This export enables you to add or remove a player from the `Temporary Whitelist`s. For example:
+You can use exports such as:  
 
 ```lua
--- Add:
-exports['FIREAC']:FIREAC_CHANGE_TEMP_WHITELIST(source, true)
-
--- Remove:
-exports['FIREAC']:FIREAC_CHANGE_TEMP_WHITELIST(source, false)
+exports['FIREAC']:FIREAC_ACTION(source, "BAN", "Cheating", "Using godmode")
 ```
 
-- `FIREAC_CHECK_TEMP_WHITELIST`: This export is exclusively for checking a player's status in the `Temporary Whitelist`:
-  for example :
-
-```
--- Check:
-exports['FIREAC']:FIREAC_CHECK_TEMP_WHITELIST(source)
-```
-
-- `FIREAC_ACTION`: Use this export for performing actions like `BAN`,`KICK`, or `WARN` on a player:
-
-```
--- Ban:
-exports['FIREAC']:FIREAC_ACTION(source, "BAN", reason, details)
-
--- Kick:
-exports['FIREAC']:FIREAC_ACTION(source, "KICK", reason, details)
-
--- Warn:
-exports['FIREAC']:FIREAC_ACTION(source, "WARN", reason, details)
-```
-
-### (Client Side)
-
-- `FIREAC_CHANGE_TEMP_WHHITELIST`: This export is designed for adding or removing a player from the `Temporary Whitelist` on the client side:
-
-```
--- Add:
-exports['FIREAC']:FIREAC_CHANGE_TEMP_WHHITELIST(true)
-
--- Remove:
-exports['FIREAC']:FIREAC_CHANGE_TEMP_WHHITELIST(false)
-```
-
-- `FIREAC_CHECK_TEMP_WHITELIST`: Similar to the server side, use this export to check a player's status in the `Temporary Whitelist`:
-
-```
--- Check:
-exports['FIREAC']:FIREAC_CHECK_TEMP_WHITELIST()
-```
-
-- `FIREAC_ACTION`: On the client side, employ this export for actions such as `BAN`, `KICK`, or `WARN`:
-
-```
--- Ban:
-exports['FIREAC']:FIREAC_ACTION("BAN", reason, details)
-
--- Kick:
-exports['FIREAC']:FIREAC_ACTION("KICK", reason, details)
-
--- Warn:
-exports['FIREAC']:FIREAC_ACTION("WARN", reason, details)
-```
+📖 Full list of exports & examples:  
+👉 **[Exports Documentation](https://amirrezajaberi.ir/fireac)**  
 
 ---
 
-### Command
+### 📝 Commands  
 
-| Command                                 | Description                                                                                       |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `/funban [Ban ID]`                      | Unban a user from the database by admins (use the console in-game).                               |
-| `/addadmin [ID (Player in server)]`     | Add an admin to the database, granting access to the admin menu (use the console in-game).        |
-| `/addwhitelist [ID (Player in server)]` | Add an admin to the database, providing full permissions in the server (use the console in-game). |
+| Command | Description |
+| ------- | ----------- |
+| `/funban [Ban ID]` | Unban a user from the database |
+| `/addadmin [ID]` | Add admin with access to admin menu |
+| `/addwhitelist [ID]` | Add player to whitelist with full permissions |
 
----
-
-### Tutorial
-
-For a step-by-step guide on installing the anti-cheat, refer to the FIREAC website tutorial at **https://amirrezajaberi.ir/fireac**.
+📖 Learn all commands with examples:  
+👉 **[Commands Documentation](https://amirrezajaberi.ir/fireac)**  
 
 ---
 
-### License
+### 🎓 Tutorial  
 
-<table>
-  <tr>
-    <td>
-      <h4 align='center'>Legal Notices</h4>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      FIREAC - AGPL-3.0 License
-      <br>
-      Copyright © 2022-2025 by Amirreza Jaberi
-      <br>
-      This software is licensed under the terms of the GNU Affero General Public License as published by
-      the Free Software Foundation, either version 3 of the License, or
-      (at your option) any later version.
-      <br><br>
-      <strong>Disclaimer:</strong>
-      <br>
-      This program is distributed in the hope that it will be useful,
-      but WITHOUT ANY WARRANTY; without even the implied warranty of
-      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-      GNU Affero General Public License for more details.
-      <br><br>
-      <strong>Copy of the License:</strong>
-      <br>
-      You should have received a copy of the GNU Affero General Public License
-      along with this program.
-      If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.
-    </td>
-  </tr>
-</table>
+📖 Complete step-by-step guide available at:  
+👉 **[FIREAC Tutorial](https://amirrezajaberi.ir/fireac)**  
+
+---
+
+### 📜 License  
+
+FIREAC - AGPL-3.0 License  
+Copyright © 2022-2025  
+Developed by **Amirreza Jaberi**  
+
+> This software is free but without any warranty.  
+See the [GNU License](https://www.gnu.org/licenses/) for details.  
+
+---
