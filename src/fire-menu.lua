@@ -1,11 +1,9 @@
 -- FIREAC (https://github.com/AmirrezaJaberi/FIREAC)
--- Copyright 2022-2025 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
+-- Copyright 2022-2026 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
 -- Licensed under the GNU Affero General Public License v3.0
---
 
--- Variable declarations
 local isAdmin = false
-local isSpawn = false
+local pendingAdminMenuOpen = false
 local playerLocations = { coords = nil, heading = nil }
 
 local cam = nil
@@ -17,121 +15,225 @@ local health, maxhealth, armor = nil, nil, nil
 local radius = -1
 local polarAngleDeg, azimuthAngleDeg = 0, 0
 
----------------- Net Events ----------------
+local adminModes = {
+    godmode = false,
+    invisible = false,
+    night = false,
+    thermal = false,
+    spectate = false,
+    weaponKit = false,
+}
 
--- Event: Allow opening the admin menu
-RegisterNetEvent("FIREAC:allowToOpen")
-AddEventHandler("FIREAC:allowToOpen", function()
-    isAdmin = true
+local function hasPersistentAdminMode()
+    for _, enabled in pairs(adminModes) do
+        if enabled then return true end
+    end
+    return false
+end
+
+local function grantAdminGrace(duration)
+    if not isAdmin then return false end
+    duration = math.max(1000, math.min(tonumber(duration) or 15000, 600000))
+    TriggerServerEvent("FIREAC:adminState", true, duration)
+    TriggerEvent("FIREAC:clientGrace", duration)
+    return true
+end
+
+local function refreshPersistentAdminState()
+    if not isAdmin then return false end
+    if hasPersistentAdminMode() then
+        TriggerServerEvent("FIREAC:adminState", true, 90000)
+        TriggerEvent("FIREAC:clientGrace", 90000)
+    else
+        TriggerServerEvent("FIREAC:adminState", false, 0)
+        TriggerEvent("FIREAC:clientGrace", 5000)
+    end
+    return true
+end
+
+CreateThread(function()
+    while true do
+        Wait(30000)
+        if isAdmin and hasPersistentAdminMode() then
+            refreshPersistentAdminState()
+        end
+    end
 end)
 
--- Event: Receive player data for the admin menu
+RegisterNetEvent("FIREAC:allowToOpen")
+AddEventHandler("FIREAC:allowToOpen", function(allowed)
+    isAdmin = allowed == true
+
+    if isAdmin then
+        if pendingAdminMenuOpen then
+            pendingAdminMenuOpen = false
+            CreateThread(function()
+                Wait(0)
+                if not IsPauseMenuActive() and not IsNuiFocused() then
+                    openAdminMenu()
+                end
+            end)
+        end
+        return
+    end
+
+    pendingAdminMenuOpen = false
+    if InSpectatorMode then exitSpectate() end
+    for mode in pairs(adminModes) do adminModes[mode] = false end
+    SetEntityInvincible(PlayerPedId(), false)
+    SetEntityVisible(PlayerPedId(), true, false)
+    SetNightvision(false)
+    SetSeethrough(false)
+    SetNuiFocus(false, false)
+    SendNUIMessage({ action = "forceClose" })
+end)
+
 RegisterNetEvent("FIREAC:sendAllPlayerData")
 AddEventHandler("FIREAC:sendAllPlayerData", function(playerList)
+    if not isAdmin then return end
     updatePlayerList(playerList)
 end)
 
--- Event: Open player data menu in the admin UI
 RegisterNetEvent("FIREAC:openPlayerData")
 AddEventHandler("FIREAC:openPlayerData", function(data)
+    if not isAdmin then return end
     openPlayerAction(data)
 end)
 
--- Event: Spectate a player
 RegisterNetEvent("FIREAC:spectatePlayer")
 AddEventHandler("FIREAC:spectatePlayer", function(target, coords)
+    if not isAdmin then return end
     if target and coords then
         spectatePlayer(target, coords)
     end
 end)
 
--- Event: Update ban list data
 RegisterNetEvent("FIREAC:updateBanListData")
-AddEventHandler("FIREAC:updateBanListData", function(banList)
-    updateBanListData(banList)
+AddEventHandler("FIREAC:updateBanListData", function(banList, meta)
+    if not isAdmin then return end
+    updateBanListData(banList, meta)
 end)
 
--- Event: Update admin data
 RegisterNetEvent("FIREAC:updateAdminData")
-AddEventHandler("FIREAC:updateAdminData", function(adminList)
-    updateAdminData(adminList)
+AddEventHandler("FIREAC:updateAdminData", function(adminList, meta)
+    if not isAdmin then return end
+    updateAdminData(adminList, meta)
 end)
 
--- Event: Update unban access data
 RegisterNetEvent("FIREAC:updateUnbanAccess")
-AddEventHandler("FIREAC:updateUnbanAccess", function(unbanList)
-    updateUnbanAccess(unbanList)
+AddEventHandler("FIREAC:updateUnbanAccess", function(unbanList, meta)
+    if not isAdmin then return end
+    updateUnbanAccess(unbanList, meta)
 end)
 
--- Event: Update whitelist data
 RegisterNetEvent("FIREAC:updateWhiteList")
-AddEventHandler("FIREAC:updateWhiteList", function(whiteList)
-    updateWhiteList(whiteList)
+AddEventHandler("FIREAC:updateWhiteList", function(whiteList, meta)
+    if not isAdmin then return end
+    updateWhiteList(whiteList, meta)
 end)
 
----------------- Open Menu ----------------
+RegisterNetEvent("FIREAC:updateAccessOnlinePlayers")
+AddEventHandler("FIREAC:updateAccessOnlinePlayers", function(scope, players)
+    if not isAdmin then return end
+    SendNUIMessage({
+        action = "updateAccessPlayers",
+        scope = scope,
+        players = players or {}
+    })
+end)
 
--- Register the command to open the admin menu
-RegisterCommand("fireacmenu", function()
+RegisterNetEvent("FIREAC:updateDashboardStats")
+AddEventHandler("FIREAC:updateDashboardStats", function(stats)
+    if not isAdmin then return end
+    SendNUIMessage({
+        action = "updateDashboardStats",
+        stats = stats or {}
+    })
+end)
+
+local function requestAdminMenuOpen()
+    if FIREAC.AdminMenu.Enable ~= true then return end
+    if IsPauseMenuActive() or IsNuiFocused() then return end
+
     if isAdmin then
+        if IsPauseMenuActive() or IsNuiFocused() then return end
         openAdminMenu()
+        return
     end
+
+    pendingAdminMenuOpen = true
+    TriggerServerEvent("FIREAC:checkIsAdmin")
+
+    SetTimeout(1500, function()
+        pendingAdminMenuOpen = false
+    end)
+end
+
+RegisterCommand("+fireac_admin_menu", function()
+    requestAdminMenuOpen()
 end, false)
 
--- Register the key mapping to open the admin menu
-RegisterKeyMapping("fireacmenu", "FIREAC admin menu", "keyboard", FIREAC.AdminMenu.Key)
+RegisterCommand("-fireac_admin_menu", function() end, false)
 
----------------- NUI Call Backs ----------------
+RegisterCommand("fireacmenu", function()
+    requestAdminMenuOpen()
+end, false)
 
--- Callback: Close menu
+RegisterCommand("fireac", function()
+    requestAdminMenuOpen()
+end, false)
+
+RegisterKeyMapping("+fireac_admin_menu", "FIREAC - Open admin menu", "keyboard", tostring(FIREAC.AdminMenu.Key or "F9"))
+
+local function requireAdmin(cb)
+    if isAdmin then return true end
+    if cb then cb("forbidden") end
+    return false
+end
+
 RegisterNUICallback("onCloseMenu", function(data, cb)
     SetNuiFocus(false, false)
     cb("ok")
 end)
 
--- Callback: Get admin status
 RegisterNUICallback("getAdminStatus", function(data, cb)
+    if not requireAdmin(cb) then return end
     updateAdminStatus()
     cb("ok")
 end)
 
--- Callback: Toggle god mode
 RegisterNUICallback("godmode", function(data, cb)
+    if not requireAdmin(cb) then return end
     local playerPed = PlayerPedId()
-    local invincible = not GetPlayerInvincible(PlayerId())
-
-    SetEntityInvincible(playerPed, invincible)
-
+    adminModes.godmode = not GetPlayerInvincible(PlayerId())
+    SetEntityInvincible(playerPed, adminModes.godmode)
+    refreshPersistentAdminState()
     cb("ok")
 end)
 
--- Callback: Toggle invisibility
 RegisterNUICallback("invisible", function(data, cb)
+    if not requireAdmin(cb) then return end
     local playerPed = PlayerPedId()
-    local visible = IsEntityVisible(playerPed)
-
-    SetEntityVisible(playerPed, not visible)
-
+    adminModes.invisible = IsEntityVisible(playerPed)
+    SetEntityVisible(playerPed, not adminModes.invisible, false)
+    refreshPersistentAdminState()
     cb("ok")
 end)
 
--- Callback: Suicide
 RegisterNUICallback("suicide", function(data, cb)
-    local playerPed = PlayerPedId()
-
-    SetEntityHealth(playerPed, 0)
+    if not grantAdminGrace(15000) then cb("forbidden") return end
+    SetEntityHealth(PlayerPedId(), 0)
     cb("ok")
 end)
 
--- Callback: Heal
 RegisterNUICallback("heal", function(data, cb)
+    if not grantAdminGrace(10000) then cb("forbidden") return end
     local playerPed = PlayerPedId()
-
     SetEntityHealth(playerPed, GetPedMaxHealth(playerPed))
+    SetPedArmour(playerPed, math.min(GetPedArmour(playerPed), tonumber(FIREAC.MaxArmor) or 100))
     cb("ok")
 end)
 
--- Callback: Give all weapons
 RegisterNUICallback("giveAllWeapon", function(data, cb)
     local weapons = { 'WEAPON_UNARMED', 'WEAPON_KNIFE', 'WEAPON_KNUCKLE', 'WEAPON_NIGHTSTICK', 'WEAPON_HAMMER',
         'WEAPON_BAT',
@@ -150,21 +252,25 @@ RegisterNUICallback("giveAllWeapon", function(data, cb)
         'WEAPON_HOMINGLAUNCHER', 'WEAPON_GRENADE', 'WEAPON_STICKYBOMB', 'WEAPON_PROXMINE', 'WEAPON_MINIGUN',
         'WEAPON_RAILGUN', 'WEAPON_POOLCUE', 'WEAPON_BZGAS', 'WEAPON_SMOKEGRENADE', 'WEAPON_MOLOTOV',
         'WEAPON_FIREEXTINGUISHER', 'WEAPON_PETROLCAN', 'WEAPON_SNOWBALL', 'WEAPON_FLARE', 'WEAPON_BALL' }
-    for index, weapon in ipairs(weapons) do
-        local weaponHash = GetHashKey(weapon)
-        GiveWeaponToPed(PlayerPedId(), weaponHash, 3000)
+    if not requireAdmin(cb) then return end
+    for _, weapon in ipairs(weapons) do
+        GiveWeaponToPed(PlayerPedId(), GetHashKey(weapon), 3000, false, false)
     end
+    adminModes.weaponKit = true
+    refreshPersistentAdminState()
     cb("ok")
 end)
 
--- Callback: Remove all weapons
 RegisterNUICallback("removeAllWeapon", function(data, cb)
+    if not requireAdmin(cb) then return end
     RemoveAllPedWeapons(PlayerPedId(), true)
+    adminModes.weaponKit = false
+    refreshPersistentAdminState()
     cb("ok")
 end)
 
--- Callback: Get player coordinates
 RegisterNUICallback("getPlayerCoords", function(data, cb)
+    if not requireAdmin(cb) then return end
     local playerCoord = GetEntityCoords(PlayerPedId())
     local headingCoord = GetEntityHeading(PlayerPedId())
 
@@ -176,211 +282,302 @@ RegisterNUICallback("getPlayerCoords", function(data, cb)
     cb("ok")
 end)
 
--- Callback: Get all players' data
+RegisterNUICallback("getDashboardStats", function(data, cb)
+    if not requireAdmin(cb) then return end
+    TriggerServerEvent("FIREAC:getDashboardStats")
+    cb("ok")
+end)
+
 RegisterNUICallback("getAllPlayersData", function(data, cb)
+    if not requireAdmin(cb) then return end
     TriggerServerEvent("FIREAC:getAllPlayerData")
     cb("ok")
 end)
 
--- Callback: Get player data
 RegisterNUICallback("getPlayerData", function(data, cb)
-    TriggerServerEvent("FIREAC:getPlayerData", data.playerId)
+    if not requireAdmin(cb) then return end
+    TriggerServerEvent("FIREAC:getPlayerData", tonumber(data and data.playerId))
     cb("ok")
 end)
 
--- Callback: Spectate
 RegisterNUICallback("spectate", function(data, cb)
+    if not requireAdmin(cb) then return end
     if InSpectatorMode then
         exitSpectate()
     else
-        TriggerServerEvent('FIREAC:requestSpectate', data.playerId)
+        adminModes.spectate = true
+        refreshPersistentAdminState()
+        TriggerServerEvent('FIREAC:requestSpectate', tonumber(data and data.playerId))
     end
     cb("ok")
 end)
 
--- Callback: Ban player
 RegisterNUICallback("ban", function(data, cb)
-    TriggerServerEvent("FIREAC:banPlayerByAdmin", data.playerId)
+    if not requireAdmin(cb) then return end
+    TriggerServerEvent("FIREAC:banPlayerByAdmin", tonumber(data and data.playerId), tostring(data and data.reason or "Banned by FIREAC admin menu"))
     cb("ok")
 end)
 
--- Callback: Add player to admin
+RegisterNUICallback("gotoPlayer", function(data, cb)
+    if not grantAdminGrace(90000) then cb("forbidden") return end
+    TriggerServerEvent("FIREAC:TeleportToPlayer", tonumber(data and data.playerId))
+    cb("ok")
+end)
+
+RegisterNUICallback("bringPlayer", function(data, cb)
+    if not grantAdminGrace(120000) then cb("forbidden") return end
+    TriggerServerEvent("FIREAC:BringPlayerToAdmin", tonumber(data and data.playerId))
+    cb("ok")
+end)
+
+RegisterNUICallback("kickPlayer", function(data, cb)
+    if not requireAdmin(cb) then return end
+    TriggerServerEvent("FIREAC:KickPlayerByAdmin", tonumber(data and data.playerId), tostring(data and data.reason or "Kicked by admin menu"))
+    cb("ok")
+end)
+
 RegisterNUICallback("addToAdmin", function(data, cb)
-    TriggerServerEvent("FIREAC:addPlayerAsAdmin", data.playerId)
+    if not requireAdmin(cb) then return end
+    TriggerServerEvent("FIREAC:addPlayerAsAdmin", tonumber(data and data.playerId))
     cb("ok")
 end)
 
--- Callback: Add player to whitelist
 RegisterNUICallback("addToWhiteList", function(data, cb)
-    TriggerServerEvent("FIREAC:addPlayerAsWhiteList", data.playerId)
+    if not requireAdmin(cb) then return end
+    TriggerServerEvent("FIREAC:addPlayerAsWhiteList", tonumber(data and data.playerId))
     cb("ok")
 end)
 
--- Callback: Add player to unban access
 RegisterNUICallback("addToUnban", function(data, cb)
-    TriggerServerEvent("FIREAC:addPlayerUnbanAccess", data.playerId)
+    if not requireAdmin(cb) then return end
+    TriggerServerEvent("FIREAC:addPlayerUnbanAccess", tonumber(data and data.playerId))
     cb("ok")
 end)
 
--- Callback: Delete vehicles
 RegisterNUICallback("delete_vehicles", function(data, cb)
+    if not requireAdmin(cb) then return end
     TriggerServerEvent("FIREAC:deleteEntitys", "vehicles")
     cb("ok")
 end)
 
--- Callback: Delete objects
 RegisterNUICallback("delete_objects", function(data, cb)
+    if not requireAdmin(cb) then return end
     TriggerServerEvent("FIREAC:deleteEntitys", "props")
     cb("ok")
 end)
 
--- Callback: Delete peds
 RegisterNUICallback("delete_peds", function(data, cb)
+    if not requireAdmin(cb) then return end
     TriggerServerEvent("FIREAC:deleteEntitys", "peds")
     cb("ok")
 end)
 
--- Callback: Delete all entities
 RegisterNUICallback("delete_all_entity", function(data, cb)
+    if not requireAdmin(cb) then return end
     TriggerServerEvent("FIREAC:deleteEntitys", "vehicles")
     TriggerServerEvent("FIREAC:deleteEntitys", "props")
     TriggerServerEvent("FIREAC:deleteEntitys", "peds")
     cb("ok")
 end)
 
--- Callback: Teleport to waypoint
 RegisterNUICallback("teleportToWaypoint", function(data, cb)
+    if not grantAdminGrace(15000) then cb("forbidden") return end
     local waypoint = GetFirstBlipInfoId(8)
     if DoesBlipExist(waypoint) then
-        SetEntityCoords(PlayerPedId(), GetBlipInfoIdCoord(waypoint))
+        local coords = GetBlipInfoIdCoord(waypoint)
+        SetEntityCoords(PlayerPedId(), coords.x, coords.y, coords.z, false, false, false, false)
     end
     cb("ok")
 end)
 
--- Callback: Teleport to coordinates
 RegisterNUICallback("teleportToCoords", function(data, cb)
-    SetEntityCoords(PlayerPedId(), data.x, data.y, data.z)
+    if not grantAdminGrace(15000) then cb("forbidden") return end
+    local x, y, z = tonumber(data and data.x), tonumber(data and data.y), tonumber(data and data.z)
+    if x and y and z and math.abs(x) < 20000 and math.abs(y) < 20000 and math.abs(z) < 5000 then
+        SetEntityCoords(PlayerPedId(), x, y, z, false, false, false, false)
+    end
     cb("ok")
 end)
 
--- Callback: Toggle night vision
 RegisterNUICallback("night", function(data, cb)
-    if not GetUsingnightvision() then
-        SetNightvision(1)
-    else
-        SetNightvision(0)
-    end
+    if not requireAdmin(cb) then return end
+    adminModes.night = not GetUsingnightvision()
+    SetNightvision(adminModes.night)
+    refreshPersistentAdminState()
     cb("ok")
 end)
 
--- Callback: Toggle thermal vision
 RegisterNUICallback("thermal", function(data, cb)
-    if not GetUsingseethrough() then
-        SetSeethrough(1)
-    else
-        SetSeethrough(0)
+    if not requireAdmin(cb) then return end
+    adminModes.thermal = not GetUsingseethrough()
+    SetSeethrough(adminModes.thermal)
+    refreshPersistentAdminState()
+    cb("ok")
+end)
+
+RegisterNUICallback("spawnVehicleForSelf", function(data, cb)
+    if not grantAdminGrace(45000) then cb("forbidden") return end
+    TriggerServerEvent("FIREAC:spawnVehicle", data)
+    cb("ok")
+end)
+
+RegisterNUICallback("spawnVehicleOthers", function(data, cb)
+    if not grantAdminGrace(45000) then cb("forbidden") return end
+    TriggerServerEvent("FIREAC:spawnVehicle", data)
+    cb("ok")
+end)
+
+RegisterNUICallback("repairVehicle", function(data, cb)
+    if not grantAdminGrace(30000) then cb("forbidden") return end
+    local ped = PlayerPedId()
+    local vehicle = GetVehiclePedIsIn(ped, false)
+    if vehicle ~= 0 then
+        SetVehicleFixed(vehicle)
+        SetVehicleDeformationFixed(vehicle)
+        SetVehicleDirtLevel(vehicle, 0.0)
     end
     cb("ok")
 end)
 
--- Callback: Spawn vehicle for self
-RegisterNUICallback("spawnVehicleForSelf", function(data, cb)
-    TriggerServerEvent("FIREAC:spawnVehicle", data)
+RegisterNUICallback("cleanVehicle", function(data, cb)
+    if not grantAdminGrace(30000) then cb("forbidden") return end
+    local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+    if vehicle ~= 0 then SetVehicleDirtLevel(vehicle, 0.0) end
     cb("ok")
 end)
 
--- Callback: Spawn vehicle for others
-RegisterNUICallback("spawnVehicleOthers", function(data, cb)
-    TriggerServerEvent("FIREAC:spawnVehicle", data)
+RegisterNUICallback("deleteCurrentVehicle", function(data, cb)
+    if not grantAdminGrace(30000) then cb("forbidden") return end
+    local ped = PlayerPedId()
+    local vehicle = GetVehiclePedIsIn(ped, false)
+    if vehicle ~= 0 and DoesEntityExist(vehicle) then
+        SetEntityAsMissionEntity(vehicle, true, true)
+        DeleteVehicle(vehicle)
+    end
     cb("ok")
 end)
 
--- Callback: Get ban list data
+RegisterNUICallback("setVehicleColor", function(data, cb)
+    if not grantAdminGrace(30000) then cb("forbidden") return end
+    local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+    if vehicle ~= 0 and DoesEntityExist(vehicle) then
+        local r = math.max(0, math.min(255, tonumber(data and data.r) or 255))
+        local g = math.max(0, math.min(255, tonumber(data and data.g) or 120))
+        local b = math.max(0, math.min(255, tonumber(data and data.b) or 24))
+        SetVehicleCustomPrimaryColour(vehicle, r, g, b)
+        SetVehicleCustomSecondaryColour(vehicle, r, g, b)
+    end
+    cb("ok")
+end)
+
+RegisterNUICallback("maxVehicleMods", function(data, cb)
+    if not grantAdminGrace(45000) then cb("forbidden") return end
+    local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+    if vehicle ~= 0 and DoesEntityExist(vehicle) then
+        SetVehicleModKit(vehicle, 0)
+        for modType = 0, 49 do
+            local count = GetNumVehicleMods(vehicle, modType)
+            if count and count > 0 then
+                SetVehicleMod(vehicle, modType, count - 1, false)
+            end
+        end
+        ToggleVehicleMod(vehicle, 18, true)
+        SetVehicleFixed(vehicle)
+        SetVehicleDirtLevel(vehicle, 0.0)
+    end
+    cb("ok")
+end)
+
 RegisterNUICallback("getBanListData", function(data, cb)
-    TriggerServerEvent("FIREAC:getBanListData")
+    if not requireAdmin(cb) then return end
+    TriggerServerEvent("FIREAC:getBanListData", data or {})
     cb("ok")
 end)
 
--- Callback: Unban selected player
 RegisterNUICallback("unbanSelectedPlayer", function(data, cb)
-    TriggerServerEvent("FIREAC:unbanSelectedPlayer", data.banID)
+    if not requireAdmin(cb) then return end
+    TriggerServerEvent("FIREAC:unbanSelectedPlayer", tonumber(data and data.banID))
     cb("ok")
 end)
 
--- Callback: Get admin list data
 RegisterNUICallback("getAdminListData", function(data, cb)
-    TriggerServerEvent("FIREAC:getAdminListData")
+    if not requireAdmin(cb) then return end
+    TriggerServerEvent("FIREAC:getAdminListData", data or {})
     cb("ok")
 end)
 
--- Callback: Remove selected admin
 RegisterNUICallback("removeSelectedAdmin", function(data, cb)
-    TriggerServerEvent("FIREAC:removeSelectedAdmin", data.id)
+    if not requireAdmin(cb) then return end
+    TriggerServerEvent("FIREAC:removeSelectedAdmin", tonumber(data and data.id))
     cb("ok")
 end)
 
--- Callback to get unban access data
 RegisterNUICallback("getUnbanAccessData", function(data, cb)
-    -- Trigger server event to get unban access data
-    TriggerServerEvent("FIREAC:getUnbanAccessData")
+    if not requireAdmin(cb) then return end
+    TriggerServerEvent("FIREAC:getUnbanAccessData", data or {})
     cb("ok")
 end)
 
--- Callback to remove unban access for a player
 RegisterNUICallback("removeUnbanAccess", function(data, cb)
-    -- Trigger server event to remove unban access for the specified player
-    TriggerServerEvent("FIREAC:removeUnbanAccess", data.id)
+    if not requireAdmin(cb) then return end
+    TriggerServerEvent("FIREAC:removeUnbanAccess", tonumber(data and data.id))
     cb("ok")
 end)
 
--- Callback to get whitelist data
 RegisterNUICallback("getWhitelistData", function(data, cb)
-    -- Trigger server event to get whitelist data
-    TriggerServerEvent("FIREAC:getWhitelistData")
+    if not requireAdmin(cb) then return end
+    TriggerServerEvent("FIREAC:getWhitelistData", data or {})
     cb("ok")
 end)
 
--- Callback to remove a user from the whitelist
+RegisterNUICallback("getAccessOnlinePlayers", function(data, cb)
+    if not requireAdmin(cb) then return end
+    local scope = tostring(data and data.scope or "")
+    if scope == "admins" or scope == "whitelist" then
+        TriggerServerEvent("FIREAC:getAccessOnlinePlayers", scope)
+    end
+    cb("ok")
+end)
+
 RegisterNUICallback("removeWhitelistUser", function(data, cb)
-    -- Trigger server event to remove the specified user from the whitelist
-    TriggerServerEvent("FIREAC:removeWhitelistUser", data.id)
+    if not requireAdmin(cb) then return end
+    TriggerServerEvent("FIREAC:removeWhitelistUser", tonumber(data and data.id))
     cb("ok")
 end)
 
----------------- Functions ----------------
-
--- Function to open the admin menu
 function openAdminMenu()
-    -- Send NUI message to open the UI
+    if not isAdmin then return end
+    TriggerServerEvent("FIREAC:checkIsAdmin")
     SendNUIMessage({
         action = "openUI",
     })
-    -- Set focus on NUI
     SetNuiFocus(true, true)
 end
 
--- Function to open the player action menu
 function openPlayerAction(data)
-    -- Send NUI message to open the player action menu with provided data
     SendNUIMessage({
         action = "openPlayerActionMenu",
         data = data
     })
 end
 
--- Function to update admin status
 function updateAdminStatus()
-    -- Send NUI message to update admin status with godmode and visibility
+    local vision = "Normal"
+    if GetUsingseethrough() then
+        vision = "Thermal"
+    elseif GetUsingnightvision() then
+        vision = "Night"
+    end
     SendNUIMessage({
         action = "updateAdminStatus",
         godmode = GetPlayerInvincible(PlayerId()),
-        visible = IsEntityVisible(PlayerPedId())
+        visible = IsEntityVisible(PlayerPedId()),
+        vision = vision,
+        spectate = InSpectatorMode == true
     })
 end
 
--- Function to update player coordinates
 function updatePlayerCoords()
-    -- Send NUI message to update player coordinates
     SendNUIMessage({
         action = "updatePlayerCoords",
         location = vector4(playerLocations.coords.x, playerLocations.coords.y, playerLocations.coords.z,
@@ -388,93 +585,94 @@ function updatePlayerCoords()
     })
 end
 
--- Function to update player list
 function updatePlayerList(playerList)
-    -- Send NUI message to update player list
     SendNUIMessage({
         action = "updatePlayerList",
         playerList = playerList,
     })
 end
 
--- Function to update ban list data
-function updateBanListData(banList)
-    -- Send NUI message to update ban list
+function updateBanListData(banList, meta)
     SendNUIMessage({
         action = "updateBanList",
         banList = banList,
+        meta = meta or {}
     })
 end
 
--- Function to update admin data
-function updateAdminData(adminList)
-    -- Send NUI message to update admin data
+function updateAdminData(adminList, meta)
     SendNUIMessage({
         action = "updateAdminData",
         adminList = adminList,
+        meta = meta or {}
     })
 end
 
--- Function to update unban access data
-function updateUnbanAccess(unbanList)
-    -- Send NUI message to update unban access data
+function updateUnbanAccess(unbanList, meta)
     SendNUIMessage({
         action = "updateUnbanAccess",
         unbanList = unbanList,
+        meta = meta or {}
     })
 end
 
--- Function to update whitelist data
-function updateWhiteList(whiteList)
-    -- Send NUI message to update whitelist data
+function updateWhiteList(whiteList, meta)
     SendNUIMessage({
         action = "updateWhiteList",
         whiteList = whiteList,
+        meta = meta or {}
     })
 end
 
--- Function to spectate a player
 function spectatePlayer(target, coords)
-    -- Initialize camera
+    if not isAdmin or type(coords) ~= "vector3" and type(coords) ~= "table" then return end
+    local player = GetPlayerFromServerId(tonumber(target) or -1)
+    if player == -1 then
+        adminModes.spectate = false
+        refreshPersistentAdminState()
+        return
+    end
+    local ped = GetPlayerPed(player)
+    if ped == 0 or not DoesEntityExist(ped) then
+        adminModes.spectate = false
+        refreshPersistentAdminState()
+        return
+    end
+
     cam = cam or CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
-    SetCamCoord(cam, coords.x, coords.y, coords.z)
+    SetCamCoord(cam, tonumber(coords.x) or 0.0, tonumber(coords.y) or 0.0, tonumber(coords.z) or 0.0)
     SetCamActive(cam, true)
     RenderScriptCams(true, false, 0, true, true)
-    Wait(500)
+    Wait(250)
 
-    -- Get player ID from server ID
-    local player = GetPlayerFromServerId(target)
-    if player == -1 then return end
-
-    -- Get player ped
-    local ped = GetPlayerPed(player)
+    adminModes.spectate = true
+    refreshPersistentAdminState()
     NetworkSetInSpectatorMode(true, ped)
     InSpectatorMode = true
     TargetSpectate = target
     handelSpectate(player, ped)
 end
 
--- Function to update target checks during spectate
 function updateTargetChecks()
     Citizen.CreateThread(function()
         while InSpectatorMode do
             Citizen.Wait(1000)
-            health, maxhealth, armor = GetEntityHealth(targetPed), GetEntityMaxHealth(targetPed), GetPedArmour(targetPed)
-            handleVoiceChannel(TargetSpectate)
+            if targetPed and targetPed ~= 0 and DoesEntityExist(targetPed) then
+                health, maxhealth, armor = GetEntityHealth(targetPed), GetEntityMaxHealth(targetPed), GetPedArmour(targetPed)
+                handleVoiceChannel(TargetSpectate)
+            end
         end
     end)
 end
 
--- Function to handle voice channel during spectate
 function handleVoiceChannel(target)
-    local channel = MumbleGetVoiceChannelFromServerId(target)
-    if currentVoiceChannel ~= channel then
-        currentVoiceChannel = channel
-        MumbleAddVoiceChannelListen(channel)
-    end
+    local channel = tonumber(MumbleGetVoiceChannelFromServerId(target))
+    if not channel or channel < 0 or currentVoiceChannel == channel then return end
+    if currentVoiceChannel then MumbleRemoveVoiceChannelListen(currentVoiceChannel) end
+    currentVoiceChannel = channel
+    MumbleAddVoiceChannelListen(channel)
 end
 
--- Function to handle spectate
 function handelSpectate(player, ped)
     Citizen.CreateThread(function()
         targetPed = GetPlayerPed(player)
@@ -482,11 +680,17 @@ function handelSpectate(player, ped)
 
         while InSpectatorMode do
             Citizen.Wait(5)
-            local coords = GetEntityCoords(targetPed)
-
-            if not DoesEntityExist(ped) then
+            local currentPlayer = GetPlayerFromServerId(TargetSpectate or -1)
+            if currentPlayer == -1 then
                 exitSpectate()
+                break
             end
+            targetPed = GetPlayerPed(currentPlayer)
+            if targetPed == 0 or not DoesEntityExist(targetPed) then
+                exitSpectate()
+                break
+            end
+            local coords = GetEntityCoords(targetPed)
 
             DisableControlAction(2, 37, true)
 
@@ -522,7 +726,6 @@ function handelSpectate(player, ped)
     end)
 end
 
--- Function to convert polar coordinates to world coordinates
 function polar3DToWorld3D(entityPosition, radius, polarAngleDeg, azimuthAngleDeg)
     local polarAngleRad, azimuthAngleRad = polarAngleDeg * math.pi / 180.0, azimuthAngleDeg * math.pi / 180.0
 
@@ -535,7 +738,6 @@ function polar3DToWorld3D(entityPosition, radius, polarAngleDeg, azimuthAngleDeg
     return pos
 end
 
--- Function to draw text on the screen
 function Draw(text)
     for i, theText in pairs(text) do
         SetTextFont(0)
@@ -551,29 +753,35 @@ function Draw(text)
     end
 end
 
--- Function to exit spectate mode
 function exitSpectate()
-    if InSpectatorMode then
-        InSpectatorMode, TargetSpectate, targetPed = false, nil, nil
+    if not InSpectatorMode then return end
+    InSpectatorMode, TargetSpectate, targetPed = false, nil, nil
+    adminModes.spectate = false
+    NetworkSetInSpectatorMode(false, PlayerPedId())
+    RenderScriptCams(false, false, 0, true, true)
+    if cam and DoesCamExist(cam) then
         SetCamActive(cam, false)
-        RenderScriptCams(false, false, 0, true, true)
-        NetworkSetInSpectatorMode(false)
-
-        if currentVoiceChannel then
-            local serverId = GetPlayerServerId(ply)
-            MumbleRemoveVoiceChannelListen(serverId)
-            currentVoiceChannel = nil
-        end
+        DestroyCam(cam, false)
+        cam = nil
     end
+    if currentVoiceChannel then
+        MumbleRemoveVoiceChannelListen(currentVoiceChannel)
+        currentVoiceChannel = nil
+    end
+    refreshPersistentAdminState()
 end
 
----------------- Thread ----------------
-
--- Citizen thread to check if spawned
 Citizen.CreateThread(function()
-    if not isSpawn then
-        isSpawn = true
-        -- Trigger server event to check if the player is an admin
-        TriggerServerEvent("FIREAC:checkIsAdmin")
-    end
+    while not NetworkIsPlayerActive(PlayerId()) do Wait(500) end
+    TriggerServerEvent("FIREAC:checkIsAdmin")
+end)
+
+AddEventHandler("onClientResourceStop", function(resourceName)
+    if resourceName ~= GetCurrentResourceName() then return end
+    if InSpectatorMode then exitSpectate() end
+    SetEntityInvincible(PlayerPedId(), false)
+    SetEntityVisible(PlayerPedId(), true, false)
+    SetNightvision(false)
+    SetSeethrough(false)
+    SetNuiFocus(false, false)
 end)

@@ -1,16 +1,11 @@
--- Do not touch these codes as much as possible (touch them if you are familiar and confident)
-
 Events = {
-    -- Job --
     'NB:recruterplayer',
     'NB:destituerplayer',
     'Esx-MenuPessoal:Boss_recruterplayer',
-    -- Revive --
     'ems:revive',
     'paramedic:revive',
     'whoapd:revive',
     'ambulancier:selfRespawn',
-    -- Add Money --
     'esx_fueldeliver',
     'esx_truckerjob:pay',
     'esx_godirtyjob:pay',
@@ -64,16 +59,12 @@ Events = {
     'esx_mugging:giveMoney',
     'paycheck:salary',
     'vrp_slotmachine:server:2',
-    -- Bank --
     'bank:withdraw',
     'bank:deposit',
-    -- Mechanic --
     'esx_mecanojob:onNPCJobCompleted',
     'esx_mechanicjob:startCraft',
     'esx_mechanicjob:startHarvest',
-    -- Discord Log --
     'DiscordBot:playerDied',
-    -- Drug --
     'esx_drugs:startHarvestWeed',
     'esx_drugs:startTransformWeed',
     'esx_drugs:startSellWeed',
@@ -88,7 +79,6 @@ Events = {
     'esx_drugs:startSellOpium',
     'esx_blanchisseur:startWhitening',
     'esx_drugs:stopTransformCoke',
-    -- Cuff --
     'BsCuff:Cuff696999',
     'CheckHandcuff',
     'unCuffServer',
@@ -100,13 +90,10 @@ Events = {
     'OG_cuffs:cuffCheckNearest',
     'cuffServer',
     'cuffGranted',
-    -- Public --
     'hentailover:xdlol',
     'adminmenu:allowall',
-    -- Carthief --
     'esx_carthief:alertcops',
     'esx_carthief:pay',
-    -- Jail --
     'esx-qalle-jail:jailPlayer',
     'esx_jailer:sendToJail',
     'esx_jail:sendToJail',
@@ -114,16 +101,13 @@ Events = {
     'JailUpdate',
     'ljail:jailplayer',
     '17A34C820A685513C5B4ADDD85968B9E905CC300A261EB55D299ABCB6C90AAA872712B3B6C13DC41913FCC2BE84A07EF9300DC4E89669A4B0E6FBB344A69D239',
-    -- Kick --
     'llotrainer:adminKick',
     'esx_mafiajob:confiscatePlayerItem',
     'InteractSound_SV:PlayOnAll',
-    -- Dynamic --
     'SEM_InteractionMenu:Jail',
     'SEM_InteractionMenu:DragNear',
 }
 
--- You can add or remove your custom events
 SpamCheck = {
     { EVENT = "esx_policejob:handcuff",          MAX_TIME = 4 },
     { EVENT = "esx-qalle-hunting:reward",        MAX_TIME = 3 },

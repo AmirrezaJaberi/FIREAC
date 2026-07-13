@@ -1,20 +1,16 @@
 -- FIREAC (https://github.com/AmirrezaJaberi/FIREAC)
--- Copyright 2022-2025 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
+-- Copyright 2022-2026 by Amirreza Jaberi (https://github.com/AmirrezaJaberi)
 -- Licensed under the GNU Affero General Public License v3.0
 
--- Main Settings
 fx_version 'cerulean'
 game 'gta5'
 
--- Project Information
 author 'Amirreza Jaberi'
-description 'FIREAC'
-version '7.1.2'
+description 'FIREAC hardened anti-cheat and admin UI'
+version '7.2.18'
 
--- Web UI Page
 ui_page 'ui/index.html'
 
--- UI Files
 files {
     'ui/*.html',
     'ui/css/*.css',
@@ -22,40 +18,40 @@ files {
     'ui/assists/**/*.*'
 }
 
--- Shared Scripts and Configurations
 shared_scripts {
     'tables/*.lua',
     'configs/fire-config.lua'
 }
 
--- Client Scripts
 client_scripts {
     'src/fire-client.lua',
-    'src/fire-menu.lua',
+    'src/fire-menu.lua'
 }
 
--- Server Scripts
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
     'configs/fire-webhook.lua',
-    'src/fire-server.lua',
+    'src/fire-server.lua'
 }
 
--- Exports (For use on both client and server)
 exports {
+    'FIREAC_CHANGE_TEMP_WHITELIST',
     'FIREAC_CHANGE_TEMP_WHHITELIST',
     'FIREAC_CHECK_TEMP_WHITELIST',
     'FIREAC_ACTION'
 }
 
--- Server-specific Exports
 server_exports {
+    'FIREAC_CHANGE_TEMP_WHITELIST',
     'FIREAC_CHANGE_TEMP_WHHITELIST',
     'FIREAC_CHECK_TEMP_WHITELIST',
-    'FIREAC_ACTION'
+    'FIREAC_ACTION',
+    'FIREAC_BAN_PLAYER',
+    'BanPlayer',
+    'FIREAC_UNBAN_PLAYER',
+    'UnbanPlayer'
 }
 
--- Dependencies
 dependencies {
-    'oxmysql',
+    'oxmysql'
 }

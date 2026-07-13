@@ -1,1149 +1,180 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>FIREAC (FiveM anti-cheat by Amirreza Jaberi)</title>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link defer href="./css/style.css" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500&family=Ephesis&family=Saira+Extra+Condensed&family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-
-    <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+  <title>FIREAC Admin Control Center</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="./css/style.css" rel="stylesheet">
+  <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
 </head>
-
 <body>
-    <section class="main" id="main-ui" style="display: none;">
-        <div class="main-card">
-            <div class="header">
-                <div class="right-logo">
-                    <img src="./assists/logo.png">
-                </div>
-                <div class="title">
-                    <span class="titleText" id="title">Admin Menu</span>
-                </div>
-                <div class="left-logo">
-                    <img src="./assists/logo.png">
+  <section class="fireac-shell" id="main-ui" style="display:none;">
+    <div class="fireac-panel fireac-panel--tabs">
+      <header class="fireac-header">
+        <div class="brand-lockup">
+          <div class="brand-mark"><img src="./assists/logo.png" alt="FIREAC"></div>
+          <div class="brand-copy">
+            <strong>FIRE<span>AC</span></strong>
+            <small>SECURITY OPERATIONS</small>
+          </div>
+        </div>
+        <div class="page-title">
+          <span id="breadcrumb">Dashboard</span>
+          <h1 id="title">Admin Control Center</h1>
+        </div>
+        <div class="header-actions">
+          <div class="status-pill"><i></i><span>Protected</span></div>
+          <button class="back-button" id="header-back" onclick="goBack()" style="display:none;">Back</button>
+          <button class="close-button" onclick="closeUI()" aria-label="Close FIREAC menu">×</button>
+        </div>
+      </header>
 
-                    <button class="close-button" onclick="closeUI()">
-                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <g id="Stockholm-icons-/-Code-/-Error-circle" stroke="none" stroke-width="1" fill="none"
-                                fill-rule="evenodd">
-                                <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                <circle id="Oval-5" fill="#ff0000" opacity="0.5" cx="12" cy="12" r="10"></circle>
-                                <path
-                                    d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z"
-                                    id="Combined-Shape" fill="#000"></path>
-                            </g>
-                        </svg>
-                    </button>
-                </div>
+      <nav class="admin-tabs" aria-label="FIREAC admin tabs">
+        <button class="tab-button is-active" data-page="home" onclick="openPage('home')"><span>⌁</span>Dashboard</button>
+        <button class="tab-button" data-page="admin" onclick="openPage('admin')"><span>⚡</span>Self</button>
+        <button class="tab-button" data-page="players" onclick="openPage('players')"><span>👥</span>Players</button>
+        <button class="tab-button" data-page="server" onclick="openPage('server')"><span>📦</span>Entity</button>
+        <button class="tab-button" data-page="teleport" onclick="openPage('teleport')"><span>📍</span>Teleport</button>
+        <button class="tab-button" data-page="vehicle" onclick="openPage('vehicle')"><span>🚗</span>Vehicle</button>
+        <button class="tab-button" data-page="bans" onclick="openPage('bans')"><span>⛔</span>Bans</button>
+        <button class="tab-button" data-page="admins" onclick="openPage('admins')"><span>🛡️</span>Admins</button>
+        <button class="tab-button" data-page="whitelist" onclick="openPage('whitelist')"><span>✅</span>Whitelist</button>
+        <button class="tab-button" data-page="unban" onclick="openPage('unban')"><span>🔓</span>Unban</button>
+      </nav>
+
+      <main class="fireac-body">
+        <section class="view view-home is-active" id="view-home" data-title="Admin Control Center" data-breadcrumb="Dashboard">
+          <div class="hero-card hero-card--dashboard">
+            <div>
+              <span class="eyebrow">LIVE SECURITY OVERVIEW</span>
+              <h2>FIREAC Tactical Admin Panel</h2>
+              <p>Dashboard is the default tab. Switch tabs to load self tools, players, entities, teleport and vehicle control.</p>
             </div>
-            <div class="body">
-                <!-- Selection Menu -->
-                <div class="main-menu" id="main-menu">
-                    <!-- Admin Menu -->
-                    <button class="select-button" onclick="openAdminToolMenu()">
-                        <svg width="50px" height="50px" viewBox="0 0 24 24" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <g id="Stockholm-icons-/-Tools-/-Tools" stroke="none" stroke-width="1" fill="none"
-                                fill-rule="evenodd">
-                                <rect id="bound" x="0" y="0" width="50" height="50"></rect>
-                                <path
-                                    d="M15.9497475,3.80761184 L13.0246125,6.73274681 C12.2435639,7.51379539 12.2435639,8.78012535 13.0246125,9.56117394 L14.4388261,10.9753875 C15.2198746,11.7564361 16.4862046,11.7564361 17.2672532,10.9753875 L20.1923882,8.05025253 C20.7341101,10.0447871 20.2295941,12.2556873 18.674559,13.8107223 C16.8453326,15.6399488 14.1085592,16.0155296 11.8839934,14.9444337 L6.75735931,20.0710678 C5.97631073,20.8521164 4.70998077,20.8521164 3.92893219,20.0710678 C3.1478836,19.2900192 3.1478836,18.0236893 3.92893219,17.2426407 L9.05556629,12.1160066 C7.98447038,9.89144078 8.36005124,7.15466739 10.1892777,5.32544095 C11.7443127,3.77040588 13.9552129,3.26588995 15.9497475,3.80761184 Z"
-                                    id="Combined-Shape" fill="#4b0b08"></path>
-                                <path
-                                    d="M16.6568542,5.92893219 L18.0710678,7.34314575 C18.4615921,7.73367004 18.4615921,8.36683502 18.0710678,8.75735931 L16.6913928,10.1370344 C16.3008685,10.5275587 15.6677035,10.5275587 15.2771792,10.1370344 L13.8629656,8.7228208 C13.4724413,8.33229651 13.4724413,7.69913153 13.8629656,7.30860724 L15.2426407,5.92893219 C15.633165,5.5384079 16.26633,5.5384079 16.6568542,5.92893219 Z"
-                                    id="Rectangle-2" fill="#4b0b08" opacity="0.3"></path>
-                            </g>
-                        </svg>
-                        <span>Admin Tool</span>
-                    </button>
-                    <!-- Admin Menu -->
-                    <button class="select-button" onclick="openPlayersMenu()">
-                        <svg width="50px" height="50px" viewBox="0 0 24 24" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <g id="Stockholm-icons-/-General-/-User" stroke="none" stroke-width="1" fill="none"
-                                fill-rule="evenodd">
-                                <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                                <path
-                                    d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z"
-                                    id="Mask" fill="#4b0b08" fill-rule="nonzero" opacity="0.3"></path>
-                                <path
-                                    d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z"
-                                    id="Mask-Copy" fill="#4b0b08" fill-rule="nonzero"></path>
-                            </g>
-                        </svg>
-                        <span>Players List</span>
-                    </button>
-                    <!-- Server Menu -->
-                    <button class="select-button" onclick="openServerMenu()">
-                        <svg width="50px" height="50px" viewBox="0 0 24 24" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <g id="Stockholm-icons-/-Devices-/-Server" stroke="none" stroke-width="1" fill="none"
-                                fill-rule="evenodd">
-                                <rect id="bound" x="0" y="0" width="50" height="50"></rect>
-                                <path
-                                    d="M5,2 L19,2 C20.1045695,2 21,2.8954305 21,4 L21,6 C21,7.1045695 20.1045695,8 19,8 L5,8 C3.8954305,8 3,7.1045695 3,6 L3,4 C3,2.8954305 3.8954305,2 5,2 Z M11,4 C10.4477153,4 10,4.44771525 10,5 C10,5.55228475 10.4477153,6 11,6 L16,6 C16.5522847,6 17,5.55228475 17,5 C17,4.44771525 16.5522847,4 16,4 L11,4 Z M7,6 C7.55228475,6 8,5.55228475 8,5 C8,4.44771525 7.55228475,4 7,4 C6.44771525,4 6,4.44771525 6,5 C6,5.55228475 6.44771525,6 7,6 Z"
-                                    id="Combined-Shape" fill="#4b0b08" opacity="0.3"></path>
-                                <path
-                                    d="M5,9 L19,9 C20.1045695,9 21,9.8954305 21,11 L21,13 C21,14.1045695 20.1045695,15 19,15 L5,15 C3.8954305,15 3,14.1045695 3,13 L3,11 C3,9.8954305 3.8954305,9 5,9 Z M11,11 C10.4477153,11 10,11.4477153 10,12 C10,12.5522847 10.4477153,13 11,13 L16,13 C16.5522847,13 17,12.5522847 17,12 C17,11.4477153 16.5522847,11 16,11 L11,11 Z M7,13 C7.55228475,13 8,12.5522847 8,12 C8,11.4477153 7.55228475,11 7,11 C6.44771525,11 6,11.4477153 6,12 C6,12.5522847 6.44771525,13 7,13 Z"
-                                    id="Combined-Shape-Copy" fill="#4b0b08"></path>
-                                <path
-                                    d="M5,16 L19,16 C20.1045695,16 21,16.8954305 21,18 L21,20 C21,21.1045695 20.1045695,22 19,22 L5,22 C3.8954305,22 3,21.1045695 3,20 L3,18 C3,16.8954305 3.8954305,16 5,16 Z M11,18 C10.4477153,18 10,18.4477153 10,19 C10,19.5522847 10.4477153,20 11,20 L16,20 C16.5522847,20 17,19.5522847 17,19 C17,18.4477153 16.5522847,18 16,18 L11,18 Z M7,20 C7.55228475,20 8,19.5522847 8,19 C8,18.4477153 7.55228475,18 7,18 C6.44771525,18 6,18.4477153 6,19 C6,19.5522847 6.44771525,20 7,20 Z"
-                                    id="Combined-Shape-Copy-2" fill="#4b0b08"></path>
-                            </g>
-                        </svg>
-                        <span>Server Tool</span>
-                    </button>
-                    <!-- Teleport Menu -->
-                    <button class="select-button" onclick="openTeleportMenu()">
-                        <svg width="50px" height="50px" viewBox="0 0 24 24" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <g id="Stockholm-icons-/-Map-/-Marker#1" stroke="none" stroke-width="1" fill="none"
-                                fill-rule="evenodd">
-                                <rect id="bound" x="0" y="0" width="50" height="50"></rect>
-                                <path
-                                    d="M5,10.5 C5,6 8,3 12.5,3 C17,3 20,6.75 20,10.5 C20,12.8325623 17.8236613,16.03566 13.470984,20.1092932 C12.9154018,20.6292577 12.0585054,20.6508331 11.4774555,20.1594925 C7.15915182,16.5078313 5,13.2880005 5,10.5 Z M12.5,12 C13.8807119,12 15,10.8807119 15,9.5 C15,8.11928813 13.8807119,7 12.5,7 C11.1192881,7 10,8.11928813 10,9.5 C10,10.8807119 11.1192881,12 12.5,12 Z"
-                                    id="Combined-Shape" fill="#4b0b08" fill-rule="nonzero"></path>
-                            </g>
-                        </svg>
-                        <span>Teleport Option</span>
-                    </button>
-                    <!-- Vision Menu -->
-                    <button class="select-button" onclick="openVisionMenu()">
-                        <svg width="50px" height="50px" viewBox="0 0 24 24" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <g id="Stockholm-icons-/-General-/-Binocular" stroke="none" stroke-width="1" fill="none"
-                                fill-rule="evenodd">
-                                <rect id="bound" x="0" y="0" width="50" height="50"></rect>
-                                <path
-                                    d="M12.8434797,16 L11.1565203,16 L10.9852159,16.6393167 C10.3352654,19.064965 7.84199997,20.5044524 5.41635172,19.8545019 C2.99070348,19.2045514 1.55121603,16.711286 2.20116652,14.2856378 L3.92086709,7.86762789 C4.57081758,5.44197964 7.06408298,4.00249219 9.48973122,4.65244268 C10.5421727,4.93444352 11.4089671,5.56345262 12,6.38338695 C12.5910329,5.56345262 13.4578273,4.93444352 14.5102688,4.65244268 C16.935917,4.00249219 19.4291824,5.44197964 20.0791329,7.86762789 L21.7988335,14.2856378 C22.448784,16.711286 21.0092965,19.2045514 18.5836483,19.8545019 C16.158,20.5044524 13.6647346,19.064965 13.0147841,16.6393167 L12.8434797,16 Z M17.4563502,18.1051865 C18.9630797,18.1051865 20.1845253,16.8377967 20.1845253,15.2743923 C20.1845253,13.7109878 18.9630797,12.4435981 17.4563502,12.4435981 C15.9496207,12.4435981 14.7281751,13.7109878 14.7281751,15.2743923 C14.7281751,16.8377967 15.9496207,18.1051865 17.4563502,18.1051865 Z M6.54364977,18.1051865 C8.05037928,18.1051865 9.27182488,16.8377967 9.27182488,15.2743923 C9.27182488,13.7109878 8.05037928,12.4435981 6.54364977,12.4435981 C5.03692026,12.4435981 3.81547465,13.7109878 3.81547465,15.2743923 C3.81547465,16.8377967 5.03692026,18.1051865 6.54364977,18.1051865 Z"
-                                    id="Combined-Shape" fill="#4b0b08"></path>
-                            </g>
-                        </svg>
-                        <span>Vision View</span>
-                    </button>
-                    <!-- Vehicle Menu -->
-                    <button class="select-button" onclick="openVehicleMenu()">
-                        <svg width="50px" height="50px" viewBox="0 0 24 24" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <g id="Stockholm-icons-/-Home-/-Key" stroke="none" stroke-width="1" fill="none"
-                                fill-rule="evenodd">
-                                <rect id="bound" x="0" y="0" width="50" height="50"></rect>
-                                <polygon id="Path-59" fill="#4b0b08" opacity="0.3"
-                                    transform="translate(8.885842, 16.114158) rotate(-315.000000) translate(-8.885842, -16.114158) "
-                                    points="6.89784488 10.6187476 6.76452164 19.4882481 8.88584198 21.6095684 11.0071623 19.4882481 9.59294876 18.0740345 10.9659914 16.7009919 9.55177787 15.2867783 11.0071623 13.8313939 10.8837471 10.6187476">
-                                </polygon>
-                                <path
-                                    d="M15.9852814,14.9852814 C12.6715729,14.9852814 9.98528137,12.2989899 9.98528137,8.98528137 C9.98528137,5.67157288 12.6715729,2.98528137 15.9852814,2.98528137 C19.2989899,2.98528137 21.9852814,5.67157288 21.9852814,8.98528137 C21.9852814,12.2989899 19.2989899,14.9852814 15.9852814,14.9852814 Z M16.1776695,9.07106781 C17.0060967,9.07106781 17.6776695,8.39949494 17.6776695,7.57106781 C17.6776695,6.74264069 17.0060967,6.07106781 16.1776695,6.07106781 C15.3492424,6.07106781 14.6776695,6.74264069 14.6776695,7.57106781 C14.6776695,8.39949494 15.3492424,9.07106781 16.1776695,9.07106781 Z"
-                                    id="Combined-Shape" fill="#4b0b08"
-                                    transform="translate(15.985281, 8.985281) rotate(-315.000000) translate(-15.985281, -8.985281) ">
-                                </path>
-                            </g>
-                        </svg>
-                        <span>Vehicle Spawner</span>
-                    </button>
-                    <!-- Ban List -->
-                    <button class="select-button" onclick="openBanListMenu()">
-                        <?xml version="1.0" encoding="UTF-8"?>
-                        <svg width="50px" height="50px" viewBox="0 0 24 24" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <g id="Stockholm-icons-/-General-/-Shield-disabled" stroke="none" stroke-width="1"
-                                fill="none" fill-rule="evenodd">
-                                <rect id="bound" x="0" y="0" width="50" height="50"></rect>
-                                <path
-                                    d="M4,4 L11.6314229,2.5691082 C11.8750185,2.52343403 12.1249815,2.52343403 12.3685771,2.5691082 L20,4 L20,13.2830094 C20,16.2173861 18.4883464,18.9447835 16,20.5 L12.5299989,22.6687507 C12.2057287,22.8714196 11.7942713,22.8714196 11.4700011,22.6687507 L8,20.5 C5.51165358,18.9447835 4,16.2173861 4,13.2830094 L4,4 Z"
-                                    id="Path-50" fill="#4b0b08" opacity="0.3"></path>
-                                <path
-                                    d="M10.5857864,12 L9.17157288,10.5857864 C8.78104858,10.1952621 8.78104858,9.56209717 9.17157288,9.17157288 C9.56209717,8.78104858 10.1952621,8.78104858 10.5857864,9.17157288 L12,10.5857864 L13.4142136,9.17157288 C13.8047379,8.78104858 14.4379028,8.78104858 14.8284271,9.17157288 C15.2189514,9.56209717 15.2189514,10.1952621 14.8284271,10.5857864 L13.4142136,12 L14.8284271,13.4142136 C15.2189514,13.8047379 15.2189514,14.4379028 14.8284271,14.8284271 C14.4379028,15.2189514 13.8047379,15.2189514 13.4142136,14.8284271 L12,13.4142136 L10.5857864,14.8284271 C10.1952621,15.2189514 9.56209717,15.2189514 9.17157288,14.8284271 C8.78104858,14.4379028 8.78104858,13.8047379 9.17157288,13.4142136 L10.5857864,12 Z"
-                                    id="Combined-Shape" fill="#4b0b08"></path>
-                            </g>
-                        </svg>
-                        <span>Ban List</span>
-                    </button>
-                    <!-- Admin List -->
-                    <button class="select-button" onclick="openAdminListMenu()">
-                        <svg width="50px" height="50px" viewBox="0 0 24 24" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <g id="Stockholm-icons-/-Communication-/-Clipboard-check" stroke="none" stroke-width="1"
-                                fill="none" fill-rule="evenodd">
-                                <rect id="bound" x="0" y="0" width="50" height="50"></rect>
-                                <path
-                                    d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z"
-                                    id="Combined-Shape" fill="#4b0b08" opacity="0.3"></path>
-                                <path
-                                    d="M10.875,15.75 C10.6354167,15.75 10.3958333,15.6541667 10.2041667,15.4625 L8.2875,13.5458333 C7.90416667,13.1625 7.90416667,12.5875 8.2875,12.2041667 C8.67083333,11.8208333 9.29375,11.8208333 9.62916667,12.2041667 L10.875,13.45 L14.0375,10.2875 C14.4208333,9.90416667 14.9958333,9.90416667 15.3791667,10.2875 C15.7625,10.6708333 15.7625,11.2458333 15.3791667,11.6291667 L11.5458333,15.4625 C11.3541667,15.6541667 11.1145833,15.75 10.875,15.75 Z"
-                                    id="check-path" fill="#4b0b08"></path>
-                                <path
-                                    d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z"
-                                    id="Combined-Shape" fill="#4b0b08"></path>
-                            </g>
-                        </svg>
-                        <span>Admin List</span>
-                    </button>
-                    <!-- Unban List -->
-                    <button class="select-button" onclick="openUnbanListMenu()">
-                        <svg width="50px" height="50px" viewBox="0 0 24 24" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <g id="Stockholm-icons-/-General-/-Like" stroke="none" stroke-width="1" fill="none"
-                                fill-rule="evenodd">
-                                <rect id="bound" x="0" y="0" width="50" height="50"></rect>
-                                <path
-                                    d="M9,10 L9,19 L10.1525987,19.3841996 C11.3761964,19.7920655 12.6575468,20 13.9473319,20 L17.5405883,20 C18.9706314,20 20.2018758,18.990621 20.4823303,17.5883484 L21.231529,13.8423552 C21.5564648,12.217676 20.5028146,10.6372006 18.8781353,10.3122648 C18.6189212,10.260422 18.353992,10.2430672 18.0902299,10.2606513 L14.5,10.5 L14.8641964,6.49383981 C14.9326895,5.74041495 14.3774427,5.07411874 13.6240179,5.00562558 C13.5827848,5.00187712 13.5414031,5 13.5,5 L13.5,5 C12.5694044,5 11.7070439,5.48826024 11.2282564,6.28623939 L9,10 Z"
-                                    id="Path-42" fill="#4b0b08"></path>
-                                <rect id="Rectangle-153" fill="#4b0b08" opacity="0.3" x="2" y="9" width="5" height="11"
-                                    rx="1"></rect>
-                            </g>
-                        </svg>
-                        <span>Unban Access</span>
-                    </button>
-                    <!-- White List -->
-                    <button class="select-button" onclick="openWhitelistMenu()">
-                        <svg width="50px" height="50px" viewBox="0 0 24 24" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <g id="Stockholm-icons-/-General-/-Shield-check" stroke="none" stroke-width="1" fill="none"
-                                fill-rule="evenodd">
-                                <rect id="bound" x="0" y="0" width="50" height="50"></rect>
-                                <path
-                                    d="M4,4 L11.6314229,2.5691082 C11.8750185,2.52343403 12.1249815,2.52343403 12.3685771,2.5691082 L20,4 L20,13.2830094 C20,16.2173861 18.4883464,18.9447835 16,20.5 L12.5299989,22.6687507 C12.2057287,22.8714196 11.7942713,22.8714196 11.4700011,22.6687507 L8,20.5 C5.51165358,18.9447835 4,16.2173861 4,13.2830094 L4,4 Z"
-                                    id="Path-50" fill="#4b0b08" opacity="0.3"></path>
-                                <path
-                                    d="M11.1750002,14.75 C10.9354169,14.75 10.6958335,14.6541667 10.5041669,14.4625 L8.58750019,12.5458333 C8.20416686,12.1625 8.20416686,11.5875 8.58750019,11.2041667 C8.97083352,10.8208333 9.59375019,10.8208333 9.92916686,11.2041667 L11.1750002,12.45 L14.3375002,9.2875 C14.7208335,8.90416667 15.2958335,8.90416667 15.6791669,9.2875 C16.0625002,9.67083333 16.0625002,10.2458333 15.6791669,10.6291667 L11.8458335,14.4625 C11.6541669,14.6541667 11.4145835,14.75 11.1750002,14.75 Z"
-                                    id="check-path" fill="#4b0b08"></path>
-                            </g>
-                        </svg>
-                        <span>Whitelist Users</span>
-                    </button>
-                </div>
-                <!-- Admin Menu -->
-                <div class="admin-menu" id="admin-menu" style="display: none;">
-                    <div class="closebar">
-                        <button onclick="backToMainMenu()">
-                            <svg width="28px" height="28px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Media-/-Backward" stroke="none" stroke-width="1" fill="none"
-                                    fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <path
-                                        d="M11.0879549,18.2771971 L17.8286578,12.3976203 C18.0367595,12.2161036 18.0583109,11.9002555 17.8767943,11.6921539 C17.8622027,11.6754252 17.8465132,11.6596867 17.8298301,11.6450431 L11.0891271,5.72838979 C10.8815919,5.54622572 10.5656782,5.56679309 10.3835141,5.7743283 C10.3034433,5.86555116 10.2592899,5.98278612 10.2592899,6.10416552 L10.2592899,17.9003957 C10.2592899,18.1765381 10.4831475,18.4003957 10.7592899,18.4003957 C10.8801329,18.4003957 10.9968872,18.3566309 11.0879549,18.2771971 Z"
-                                        id="Path-10" fill="#ff5249" opacity="0.3"
-                                        transform="translate(14.129645, 12.002277) scale(-1, 1) translate(-14.129645, -12.002277) ">
-                                    </path>
-                                    <path
-                                        d="M5.08795487,18.2771971 L11.8286578,12.3976203 C12.0367595,12.2161036 12.0583109,11.9002555 11.8767943,11.6921539 C11.8622027,11.6754252 11.8465132,11.6596867 11.8298301,11.6450431 L5.08912711,5.72838979 C4.8815919,5.54622572 4.56567821,5.56679309 4.38351414,5.7743283 C4.30344325,5.86555116 4.25928988,5.98278612 4.25928988,6.10416552 L4.25928988,17.9003957 C4.25928988,18.1765381 4.48314751,18.4003957 4.75928988,18.4003957 C4.88013293,18.4003957 4.99688719,18.3566309 5.08795487,18.2771971 Z"
-                                        id="Path-10-Copy" fill="#ff5249"
-                                        transform="translate(8.129645, 12.002277) scale(-1, 1) translate(-8.129645, -12.002277) ">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span>
-                                Back
-                            </span>
-                        </button>
-                    </div>
-                    <div class="mainbar">
-                        <div class="stautsBtns">
-                            <button id="godmode" onclick="doAction('godmode')">
-                                <div class="informaton">
-                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                        <g id="Stockholm-icons-/-Electric-/-Highvoltage" stroke="none" stroke-width="1"
-                                            fill="none" fill-rule="evenodd">
-                                            <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                            <path
-                                                d="M2.76702366,20 C2.59202225,20 2.4200849,19.9540749 2.2683913,19.8668136 C1.78966338,19.5914265 1.62482304,18.9800956 1.90021009,18.5013676 L11.1332403,2.45083309 C11.221302,2.29774818 11.3483346,2.17071522 11.5014193,2.08265312 C11.9801465,1.80726488 12.5914779,1.97210369 12.8668662,2.45083092 L22.0999499,18.5013655 C22.187212,18.6530596 22.2331375,18.8249977 22.2331375,19 C22.2331375,19.5522847 21.7854223,20 21.2331375,20 L2.76702366,20 Z M11,18 L15,12 L12.9444444,12 L12.9444444,8 L9,14 L11,14 L11,18 Z"
-                                                id="Combined-Shape" fill="#000000"></path>
-                                        </g>
-                                    </svg>
-                                    <span>Godmode</span>
-                                </div>
-                                <div class="status">
-                                    <div class="enable" id="enable-godmode" style="display: none;">
-                                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <g id="Stockholm-icons-/-Navigation-/-Check" stroke="none" stroke-width="1"
-                                                fill="none" fill-rule="evenodd">
-                                                <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                                                <path
-                                                    d="M6.26193932,17.6476484 C5.90425297,18.0684559 5.27315905,18.1196257 4.85235158,17.7619393 C4.43154411,17.404253 4.38037434,16.773159 4.73806068,16.3523516 L13.2380607,6.35235158 C13.6013618,5.92493855 14.2451015,5.87991302 14.6643638,6.25259068 L19.1643638,10.2525907 C19.5771466,10.6195087 19.6143273,11.2515811 19.2474093,11.6643638 C18.8804913,12.0771466 18.2484189,12.1143273 17.8356362,11.7474093 L14.0997854,8.42665306 L6.26193932,17.6476484 Z"
-                                                    id="Path-94" fill="#008d00" fill-rule="nonzero"
-                                                    transform="translate(11.999995, 12.000002) rotate(-180.000000) translate(-11.999995, -12.000002) ">
-                                                </path>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <div class="disable" id="disable-godmode">
-                                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <g id="Stockholm-icons-/-Navigation-/-Close" stroke="none" stroke-width="1"
-                                                fill="none" fill-rule="evenodd">
-                                                <g id="Group"
-                                                    transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)"
-                                                    fill="#ff0000">
-                                                    <rect id="Rectangle-185" x="0" y="7" width="16" height="2" rx="1">
-                                                    </rect>
-                                                    <rect id="Rectangle-185-Copy" opacity="0.3"
-                                                        transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000) "
-                                                        x="0" y="7" width="16" height="2" rx="1"></rect>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </button>
-                            <button id="invisible" onclick="doAction('invisible')">
-                                <div class="informaton">
-                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                        <g id="Stockholm-icons-/-General-/-Visible" stroke="none" stroke-width="1"
-                                            fill="none" fill-rule="evenodd">
-                                            <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                            <path
-                                                d="M3,12 C3,12 5.45454545,6 12,6 C16.9090909,6 21,12 21,12 C21,12 16.9090909,18 12,18 C5.45454545,18 3,12 3,12 Z"
-                                                id="Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-                                            <path
-                                                d="M12,15 C10.3431458,15 9,13.6568542 9,12 C9,10.3431458 10.3431458,9 12,9 C13.6568542,9 15,10.3431458 15,12 C15,13.6568542 13.6568542,15 12,15 Z"
-                                                id="Path" fill="#000000" opacity="0.3"></path>
-                                        </g>
-                                    </svg>
-                                    <span>Invisible<span>
-                                </div>
-                                <div class="status">
-                                    <div class="enable" id="enable-invisible" style="display: none;">
-                                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <g id="Stockholm-icons-/-Navigation-/-Check" stroke="none" stroke-width="1"
-                                                fill="none" fill-rule="evenodd">
-                                                <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                                                <path
-                                                    d="M6.26193932,17.6476484 C5.90425297,18.0684559 5.27315905,18.1196257 4.85235158,17.7619393 C4.43154411,17.404253 4.38037434,16.773159 4.73806068,16.3523516 L13.2380607,6.35235158 C13.6013618,5.92493855 14.2451015,5.87991302 14.6643638,6.25259068 L19.1643638,10.2525907 C19.5771466,10.6195087 19.6143273,11.2515811 19.2474093,11.6643638 C18.8804913,12.0771466 18.2484189,12.1143273 17.8356362,11.7474093 L14.0997854,8.42665306 L6.26193932,17.6476484 Z"
-                                                    id="Path-94" fill="#008d00" fill-rule="nonzero"
-                                                    transform="translate(11.999995, 12.000002) rotate(-180.000000) translate(-11.999995, -12.000002) ">
-                                                </path>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <div class="disable" id="disable-invisible">
-                                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <g id="Stockholm-icons-/-Navigation-/-Close" stroke="none" stroke-width="1"
-                                                fill="none" fill-rule="evenodd">
-                                                <g id="Group"
-                                                    transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)"
-                                                    fill="#ff0000">
-                                                    <rect id="Rectangle-185" x="0" y="7" width="16" height="2" rx="1">
-                                                    </rect>
-                                                    <rect id="Rectangle-185-Copy" opacity="0.3"
-                                                        transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000) "
-                                                        x="0" y="7" width="16" height="2" rx="1"></rect>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </button>
-                        </div>
-                        <div class="actionBtns">
-                            <button id="suicide" onclick="doAction('suicide')">
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <g id="Stockholm-icons-/-Cooking-/-Knife#2" stroke="none" stroke-width="1"
-                                        fill="none" fill-rule="evenodd">
-                                        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                        <path
-                                            d="M7.6109127,15.767767 C8.001437,16.1582912 8.001437,16.7914562 7.6109127,17.1819805 L4.0753788,20.7175144 C3.68485451,21.1080387 3.05168953,21.1080387 2.66116524,20.7175144 L1.95405845,20.0104076 C1.56353416,19.6198833 1.56353416,18.9867184 1.95405845,18.5961941 L5.48959236,15.0606602 C5.88011665,14.6701359 6.51328163,14.6701359 6.90380592,15.0606602 L7.6109127,15.767767 Z"
-                                            id="Rectangle-Copy" fill="#000000" opacity="0.3"></path>
-                                        <path
-                                            d="M18.5104076,2.03984489 C21.2440777,4.77351493 21.2440777,9.20566979 18.5104076,11.9393398 L12.8535534,17.5961941 L7.90380592,12.6464466 L18.5104076,2.03984489 Z"
-                                            id="Path-65" fill="#000000"></path>
-                                    </g>
-                                </svg>
-                                <span>Suicide</span>
-                            </button>
-                            <button id="heal" onclick="doAction('heal')">
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <g id="Stockholm-icons-/-General-/-Heart" stroke="none" stroke-width="1" fill="none"
-                                        fill-rule="evenodd">
-                                        <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                                        <path
-                                            d="M16.5,4.5 C14.8905,4.5 13.00825,6.32463215 12,7.5 C10.99175,6.32463215 9.1095,4.5 7.5,4.5 C4.651,4.5 3,6.72217984 3,9.55040872 C3,12.6834696 6,16 12,19.5 C18,16 21,12.75 21,9.75 C21,6.92177112 19.349,4.5 16.5,4.5 Z"
-                                            id="Shape" fill="#000000" fill-rule="nonzero"></path>
-                                    </g>
-                                </svg>
-                                <span>Heal</span>
-                            </button>
-                            <button id="giveAllWeapon" onclick="doAction('giveAllWeapon')">
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <g id="Stockholm-icons-/-Tools-/-Axe" stroke="none" stroke-width="1" fill="none"
-                                        fill-rule="evenodd">
-                                        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                        <path
-                                            d="M15.2426407,15.8284271 L21.6066017,9.46446609 L23.0208153,10.8786797 L16.6568542,17.2426407 L15.2426407,15.8284271 Z M1.80761184,16.5355339 L11.7071068,6.63603897 C12.0976311,6.24551468 12.7307961,6.24551468 13.1213203,6.63603897 L14.5355339,8.05025253 C14.9260582,8.44077682 14.9260582,9.0739418 14.5355339,9.46446609 L4.63603897,19.363961 C4.24551468,19.7544853 3.6123497,19.7544853 3.22182541,19.363961 L1.80761184,17.9497475 C1.41708755,17.5592232 1.41708755,16.9260582 1.80761184,16.5355339 Z M15.9497475,3.80761184 L17.363961,5.22182541 C17.7544853,5.6123497 17.7544853,6.24551468 17.363961,6.63603897 L16.6568542,7.34314575 C16.26633,7.73367004 15.633165,7.73367004 15.2426407,7.34314575 L13.8284271,5.92893219 C13.4379028,5.5384079 13.4379028,4.90524292 13.8284271,4.51471863 L14.5355339,3.80761184 C14.9260582,3.41708755 15.5592232,3.41708755 15.9497475,3.80761184 Z"
-                                            id="Combined-Shape" fill="#000000" opacity="0.3"></path>
-                                        <path
-                                            d="M19.3284271,3.55025253 C16.9950938,4.88358587 15.3284271,5.55025253 14.3284271,5.55025253 C13.3284271,5.55025253 11.3284271,5.55025253 8.32842712,5.55025253 L8.32842712,10.5502525 C10.9950938,10.5502525 12.9950938,10.5502525 14.3284271,10.5502525 C15.6617605,10.5502525 17.3284271,11.2169192 19.3284271,12.5502525 L19.3284271,3.55025253 Z"
-                                            id="Path-44" fill="#000000"
-                                            transform="translate(13.828427, 8.050253) rotate(-675.000000) translate(-13.828427, -8.050253) ">
-                                        </path>
-                                    </g>
-                                </svg>
-                                <span>Give All Weapon</span>
-                            </button>
-                            <button id="removeAllWeapon" onclick="doAction('removeAllWeapon')">
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <g id="Stockholm-icons-/-Home-/-Broom" stroke="none" stroke-width="1" fill="none"
-                                        fill-rule="evenodd">
-                                        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                        <path
-                                            d="M10.5278225,22.5278225 L8.79765312,20.7976531 L9.99546268,18.4463973 L7.35584531,19.3558453 L5.04895282,17.0489528 L8.15438502,11.6366281 L2.74206034,14.7420603 L1.30025253,13.3002525 L9.26548692,8.03126375 C11.3411817,6.65819522 14.1285885,7.15099488 15.6076701,9.15253022 C17.1660799,11.2614147 17.1219524,14.1519817 15.4998952,16.212313 L10.5278225,22.5278225 Z"
-                                            id="Rectangle-124" fill="#000000" opacity="0.3"></path>
-                                        <path
-                                            d="M22.4246212,4.91054166 L18.4071175,8.92804534 C17.6260689,9.70909393 16.359739,9.70909393 15.5786904,8.92804534 C14.7976418,8.14699676 14.7976418,6.8806668 15.5786904,6.09961822 L19.6029298,2.0753788 C19.7817428,2.41498256 19.9878937,2.74436937 20.2214305,3.06039796 C20.8190224,3.86907629 21.5791361,4.49033747 22.4246212,4.91054166 Z"
-                                            id="Combined-Shape" fill="#000000"
-                                            transform="translate(18.708763, 5.794605) rotate(-180.000000) translate(-18.708763, -5.794605) ">
-                                        </path>
-                                    </g>
-                                </svg>
-                                <span>Remove All Weapon</span>
-                            </button>
-                        </div>
-                        <div class="coordsDisplay">
-                            <svg width="80px" height="80px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Map-/-Location-arrow" stroke="none" stroke-width="1"
-                                    fill="none" fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <path
-                                        d="M4.88230018,17.2353996 L13.2844582,0.431083506 C13.4820496,0.0359007077 13.9625881,-0.12427877 14.3577709,0.0733126292 C14.5125928,0.15072359 14.6381308,0.276261584 14.7155418,0.431083506 L23.1176998,17.2353996 C23.3152912,17.6305824 23.1551117,18.1111209 22.7599289,18.3087123 C22.5664522,18.4054506 22.3420471,18.4197165 22.1378777,18.3482572 L14,15.5 L5.86212227,18.3482572 C5.44509941,18.4942152 4.98871325,18.2744737 4.84275525,17.8574509 C4.77129597,17.6532815 4.78556182,17.4288764 4.88230018,17.2353996 Z"
-                                        id="Path-99" fill="#ff4c4c" fill-rule="nonzero"
-                                        transform="translate(14.000087, 9.191034) rotate(-315.000000) translate(-14.000087, -9.191034) ">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span class="coords-text">Your coords loaction :</span>
-                            <span class="coords-loaction">vector4(0.0, 0.0, 0.0, 0.0)</span>
-                            <button id="copyCoords" onclick="doAction('copyLiveCoords')">
-                                <svg width="30px" height="30px" viewBox="0 0 24 24" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <g id="Stockholm-icons-/-General-/-Clipboard" stroke="none" stroke-width="1"
-                                        fill="none" fill-rule="evenodd">
-                                        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                        <path
-                                            d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z"
-                                            id="Combined-Shape" fill="#9ff5ff" opacity="0.3"></path>
-                                        <path
-                                            d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z"
-                                            id="Combined-Shape" fill="#9ff5ff"></path>
-                                        <rect id="Rectangle-152" fill="#9ff5ff" opacity="0.3" x="7" y="10" width="5"
-                                            height="2" rx="1"></rect>
-                                        <rect id="Rectangle-152-Copy" fill="#9ff5ff" opacity="0.3" x="7" y="14"
-                                            width="9" height="2" rx="1"></rect>
-                                    </g>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Players List -->
-                <div class="player-menu" id="player-menu" style="display: none;">
-                    <div class="closebar">
-                        <button onclick="backToMainMenu()">
-                            <svg width="28px" height="28px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Media-/-Backward" stroke="none" stroke-width="1" fill="none"
-                                    fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <path
-                                        d="M11.0879549,18.2771971 L17.8286578,12.3976203 C18.0367595,12.2161036 18.0583109,11.9002555 17.8767943,11.6921539 C17.8622027,11.6754252 17.8465132,11.6596867 17.8298301,11.6450431 L11.0891271,5.72838979 C10.8815919,5.54622572 10.5656782,5.56679309 10.3835141,5.7743283 C10.3034433,5.86555116 10.2592899,5.98278612 10.2592899,6.10416552 L10.2592899,17.9003957 C10.2592899,18.1765381 10.4831475,18.4003957 10.7592899,18.4003957 C10.8801329,18.4003957 10.9968872,18.3566309 11.0879549,18.2771971 Z"
-                                        id="Path-10" fill="#ff5249" opacity="0.3"
-                                        transform="translate(14.129645, 12.002277) scale(-1, 1) translate(-14.129645, -12.002277) ">
-                                    </path>
-                                    <path
-                                        d="M5.08795487,18.2771971 L11.8286578,12.3976203 C12.0367595,12.2161036 12.0583109,11.9002555 11.8767943,11.6921539 C11.8622027,11.6754252 11.8465132,11.6596867 11.8298301,11.6450431 L5.08912711,5.72838979 C4.8815919,5.54622572 4.56567821,5.56679309 4.38351414,5.7743283 C4.30344325,5.86555116 4.25928988,5.98278612 4.25928988,6.10416552 L4.25928988,17.9003957 C4.25928988,18.1765381 4.48314751,18.4003957 4.75928988,18.4003957 C4.88013293,18.4003957 4.99688719,18.3566309 5.08795487,18.2771971 Z"
-                                        id="Path-10-Copy" fill="#ff5249"
-                                        transform="translate(8.129645, 12.002277) scale(-1, 1) translate(-8.129645, -12.002277) ">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span>
-                                Back
-                            </span>
-                        </button>
-                    </div>
-                    <div class="mainbar">
-                        <div class="playerList">
-                            <button class="row" id="player-2" onclick="openPlayerActionList()">
-                                <svg width="40px" height="40px" viewBox="0 0 24 24" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <g id="Stockholm-icons-/-General-/-User" stroke="none" stroke-width="1" fill="none"
-                                        fill-rule="evenodd">
-                                        <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                                        <path
-                                            d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z"
-                                            id="Mask" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-                                        <path
-                                            d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z"
-                                            id="Mask-Copy" fill="#000000" fill-rule="nonzero"></path>
-                                    </g>
-                                </svg>
-                                <div class="playerID">
-                                    <span class="title"> ID : </span>
-                                    <span class="value"> 1 </span>
-                                </div>
-                                <div class="playerName">
-                                    <span class="title"> Player name : </span>
-                                    <span class="value"> AmIrReZa </span>
-                                </div>
-                            </button>
-                        </div>
-                        <div class="playerAction" style="display: none;">
-                            <div class="head">
-                                <div class="titleBar">
-                                    <span>Player Action Menu</span>
-                                </div>
-                                <div class="closeBar">
-                                    <button class="closeBtn" onclick="closePlayerActionMenu()">
-                                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <defs></defs>
-                                            <g id="Stockholm-icons-/-Navigation-/-Close" stroke="none" stroke-width="1"
-                                                fill="none" fill-rule="evenodd">
-                                                <g id="Group"
-                                                    transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)"
-                                                    fill="#000000">
-                                                    <rect id="Rectangle-185" x="0" y="7" width="16" height="2" rx="1">
-                                                    </rect>
-                                                    <rect id="Rectangle-185-Copy" opacity="0.3"
-                                                        transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000) "
-                                                        x="0" y="7" width="16" height="2" rx="1"></rect>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                        <span>Close</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="information">
-                                <div class="textInfromation">
-                                    <span id="playerName">AmIrReZa</span>(<span id="playerId">1</span>)
-                                </div>
-                                <div class="statusInfromation">
-                                    <div class="heartStatus">
-                                        <div class="icon">
-                                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                <g id="Stockholm-icons-/-General-/-Heart" stroke="none" stroke-width="1"
-                                                    fill="none" fill-rule="evenodd">
-                                                    <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                                                    <path
-                                                        d="M16.5,4.5 C14.8905,4.5 13.00825,6.32463215 12,7.5 C10.99175,6.32463215 9.1095,4.5 7.5,4.5 C4.651,4.5 3,6.72217984 3,9.55040872 C3,12.6834696 6,16 12,19.5 C18,16 21,12.75 21,9.75 C21,6.92177112 19.349,4.5 16.5,4.5 Z"
-                                                        id="Shape" fill="#ff8282" fill-rule="nonzero"></path>
-                                                </g>
-                                            </svg>
-                                        </div>
-                                        <div class="text">
-                                            <span id="heartCount">255</span>/255
-                                        </div>
-                                    </div>
-                                    <div class="armourStatus">
-                                        <div class="icon">
-                                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                <g id="Stockholm-icons-/-Communication-/-Shield-user" stroke="none"
-                                                    stroke-width="1" fill="none" fill-rule="evenodd">
-                                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                                    <path
-                                                        d="M4,4 L11.6314229,2.5691082 C11.8750185,2.52343403 12.1249815,2.52343403 12.3685771,2.5691082 L20,4 L20,13.2830094 C20,16.2173861 18.4883464,18.9447835 16,20.5 L12.5299989,22.6687507 C12.2057287,22.8714196 11.7942713,22.8714196 11.4700011,22.6687507 L8,20.5 C5.51165358,18.9447835 4,16.2173861 4,13.2830094 L4,4 Z"
-                                                        id="Path-50" fill="#b8b8b8" opacity="0.3"></path>
-                                                    <path
-                                                        d="M12,11 C10.8954305,11 10,10.1045695 10,9 C10,7.8954305 10.8954305,7 12,7 C13.1045695,7 14,7.8954305 14,9 C14,10.1045695 13.1045695,11 12,11 Z"
-                                                        id="Mask" fill="#b8b8b8" opacity="0.3"></path>
-                                                    <path
-                                                        d="M7.00036205,16.4995035 C7.21569918,13.5165724 9.36772908,12 11.9907452,12 C14.6506758,12 16.8360465,13.4332455 16.9988413,16.5 C17.0053266,16.6221713 16.9988413,17 16.5815,17 C14.5228466,17 11.463736,17 7.4041679,17 C7.26484009,17 6.98863236,16.6619875 7.00036205,16.4995035 Z"
-                                                        id="Mask-Copy" fill="#b8b8b8" opacity="0.3"></path>
-                                                </g>
-                                            </svg>
-                                        </div>
-                                        <div class="text">
-                                            <span id="armourCount">255</span>/255
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="actions">
-                                <button onclick="doActionOnTargetPlayer('spectate')">
-                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                        <g id="Stockholm-icons-/-Devices-/-Camera" stroke="none" stroke-width="1"
-                                            fill="none" fill-rule="evenodd">
-                                            <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                            <path
-                                                d="M5,7 L19,7 C20.1045695,7 21,7.8954305 21,9 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,9 C3,7.8954305 3.8954305,7 5,7 Z M12,17 C14.209139,17 16,15.209139 16,13 C16,10.790861 14.209139,9 12,9 C9.790861,9 8,10.790861 8,13 C8,15.209139 9.790861,17 12,17 Z"
-                                                id="Combined-Shape" fill="#000000"></path>
-                                            <rect id="Rectangle" fill="#000000" opacity="0.3" x="9" y="4" width="6"
-                                                height="2" rx="1"></rect>
-                                            <circle id="Oval-2" fill="#000000" opacity="0.3" cx="12" cy="13" r="2">
-                                            </circle>
-                                        </g>
-                                    </svg>
-                                    <span class="actionText">Spectate Player</span>
-                                </button>
-                                <button onclick="doActionOnTargetPlayer('ban')">
-                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                        <g id="Stockholm-icons-/-Communication-/-Spam" stroke="none" stroke-width="1"
-                                            fill="none" fill-rule="evenodd">
-                                            <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                            <path
-                                                d="M4.5,3 L19.5,3 C20.3284271,3 21,3.67157288 21,4.5 L21,19.5 C21,20.3284271 20.3284271,21 19.5,21 L4.5,21 C3.67157288,21 3,20.3284271 3,19.5 L3,4.5 C3,3.67157288 3.67157288,3 4.5,3 Z M8,5 C7.44771525,5 7,5.44771525 7,6 C7,6.55228475 7.44771525,7 8,7 L16,7 C16.5522847,7 17,6.55228475 17,6 C17,5.44771525 16.5522847,5 16,5 L8,5 Z M10.5857864,14 L9.17157288,15.4142136 C8.78104858,15.8047379 8.78104858,16.4379028 9.17157288,16.8284271 C9.56209717,17.2189514 10.1952621,17.2189514 10.5857864,16.8284271 L12,15.4142136 L13.4142136,16.8284271 C13.8047379,17.2189514 14.4379028,17.2189514 14.8284271,16.8284271 C15.2189514,16.4379028 15.2189514,15.8047379 14.8284271,15.4142136 L13.4142136,14 L14.8284271,12.5857864 C15.2189514,12.1952621 15.2189514,11.5620972 14.8284271,11.1715729 C14.4379028,10.7810486 13.8047379,10.7810486 13.4142136,11.1715729 L12,12.5857864 L10.5857864,11.1715729 C10.1952621,10.7810486 9.56209717,10.7810486 9.17157288,11.1715729 C8.78104858,11.5620972 8.78104858,12.1952621 9.17157288,12.5857864 L10.5857864,14 Z"
-                                                id="Combined-Shape" fill="#000000"></path>
-                                        </g>
-                                    </svg>
-                                    <span class="actionText">Ban Player</span>
-                                </button>
-                                <button onclick="doActionOnTargetPlayer('addToAdmin')">
-                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                        <g id="Stockholm-icons-/-Communication-/-Add-user" stroke="none"
-                                            stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                                            <path
-                                                d="M18,8 L16,8 C15.4477153,8 15,7.55228475 15,7 C15,6.44771525 15.4477153,6 16,6 L18,6 L18,4 C18,3.44771525 18.4477153,3 19,3 C19.5522847,3 20,3.44771525 20,4 L20,6 L22,6 C22.5522847,6 23,6.44771525 23,7 C23,7.55228475 22.5522847,8 22,8 L20,8 L20,10 C20,10.5522847 19.5522847,11 19,11 C18.4477153,11 18,10.5522847 18,10 L18,8 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z"
-                                                id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3">
-                                            </path>
-                                            <path
-                                                d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
-                                                id="Mask-Copy" fill="#000000" fill-rule="nonzero"></path>
-                                        </g>
-                                    </svg>
-                                    <span class="actionText">Add to Admin</span>
-                                </button>
-                                <button onclick="doActionOnTargetPlayer('addToWhiteList')">
-                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                        <g id="Stockholm-icons-/-Communication-/-Clipboard-check" stroke="none"
-                                            stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                            <path
-                                                d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z"
-                                                id="Combined-Shape" fill="#000000" opacity="0.3"></path>
-                                            <path
-                                                d="M10.875,15.75 C10.6354167,15.75 10.3958333,15.6541667 10.2041667,15.4625 L8.2875,13.5458333 C7.90416667,13.1625 7.90416667,12.5875 8.2875,12.2041667 C8.67083333,11.8208333 9.29375,11.8208333 9.62916667,12.2041667 L10.875,13.45 L14.0375,10.2875 C14.4208333,9.90416667 14.9958333,9.90416667 15.3791667,10.2875 C15.7625,10.6708333 15.7625,11.2458333 15.3791667,11.6291667 L11.5458333,15.4625 C11.3541667,15.6541667 11.1145833,15.75 10.875,15.75 Z"
-                                                id="check-path" fill="#000000"></path>
-                                            <path
-                                                d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z"
-                                                id="Combined-Shape" fill="#000000"></path>
-                                        </g>
-                                    </svg>
-                                    <span class="actionText">Add to Whitelist</span>
-                                </button>
-                                <button onclick="doActionOnTargetPlayer('addToUnban')">
-                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                        <g id="Stockholm-icons-/-Communication-/-Delete-user" stroke="none"
-                                            stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                                            <path
-                                                d="M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z M21,8 L17,8 C16.4477153,8 16,7.55228475 16,7 C16,6.44771525 16.4477153,6 17,6 L21,6 C21.5522847,6 22,6.44771525 22,7 C22,7.55228475 21.5522847,8 21,8 Z"
-                                                id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3">
-                                            </path>
-                                            <path
-                                                d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
-                                                id="Mask-Copy" fill="#000000" fill-rule="nonzero"></path>
-                                        </g>
-                                    </svg>
-                                    <span class="actionText">Allow to Unban</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Server Tools -->
-                <div class="server-menu" id="server-menu" style="display: none;">
-                    <div class="closebar">
-                        <button onclick="backToMainMenu()">
-                            <svg width="28px" height="28px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Media-/-Backward" stroke="none" stroke-width="1" fill="none"
-                                    fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <path
-                                        d="M11.0879549,18.2771971 L17.8286578,12.3976203 C18.0367595,12.2161036 18.0583109,11.9002555 17.8767943,11.6921539 C17.8622027,11.6754252 17.8465132,11.6596867 17.8298301,11.6450431 L11.0891271,5.72838979 C10.8815919,5.54622572 10.5656782,5.56679309 10.3835141,5.7743283 C10.3034433,5.86555116 10.2592899,5.98278612 10.2592899,6.10416552 L10.2592899,17.9003957 C10.2592899,18.1765381 10.4831475,18.4003957 10.7592899,18.4003957 C10.8801329,18.4003957 10.9968872,18.3566309 11.0879549,18.2771971 Z"
-                                        id="Path-10" fill="#ff5249" opacity="0.3"
-                                        transform="translate(14.129645, 12.002277) scale(-1, 1) translate(-14.129645, -12.002277) ">
-                                    </path>
-                                    <path
-                                        d="M5.08795487,18.2771971 L11.8286578,12.3976203 C12.0367595,12.2161036 12.0583109,11.9002555 11.8767943,11.6921539 C11.8622027,11.6754252 11.8465132,11.6596867 11.8298301,11.6450431 L5.08912711,5.72838979 C4.8815919,5.54622572 4.56567821,5.56679309 4.38351414,5.7743283 C4.30344325,5.86555116 4.25928988,5.98278612 4.25928988,6.10416552 L4.25928988,17.9003957 C4.25928988,18.1765381 4.48314751,18.4003957 4.75928988,18.4003957 C4.88013293,18.4003957 4.99688719,18.3566309 5.08795487,18.2771971 Z"
-                                        id="Path-10-Copy" fill="#ff5249"
-                                        transform="translate(8.129645, 12.002277) scale(-1, 1) translate(-8.129645, -12.002277) ">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span>
-                                Back
-                            </span>
-                        </button>
-                    </div>
-                    <div class="mainbar">
-                        <button onclick="doOnServer('delete_vehicles')">
-                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Devices-/-Generator" stroke="none" stroke-width="1" fill="none"
-                                    fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <rect id="Combined-Shape" fill="#000000" opacity="0.3" x="2" y="6" width="20"
-                                        height="14" rx="2"></rect>
-                                    <path
-                                        d="M5,4 L7,4 C7.55228475,4 8,4.44771525 8,5 L8,6 L4,6 L4,5 C4,4.44771525 4.44771525,4 5,4 Z M17,4 L19,4 C19.5522847,4 20,4.44771525 20,5 L20,6 L16,6 L16,5 C16,4.44771525 16.4477153,4 17,4 Z"
-                                        id="Combined-Shape" fill="#000000"></path>
-                                    <path
-                                        d="M7,12 L7,11 C7,10.4477153 7.44771525,10 8,10 C8.55228475,10 9,10.4477153 9,11 L9,12 L10,12 C10.5522847,12 11,12.4477153 11,13 C11,13.5522847 10.5522847,14 10,14 L9,14 L9,15 C9,15.5522847 8.55228475,16 8,16 C7.44771525,16 7,15.5522847 7,15 L7,14 L6,14 C5.44771525,14 5,13.5522847 5,13 C5,12.4477153 5.44771525,12 6,12 L7,12 Z"
-                                        id="Combined-Shape" fill="#000000"></path>
-                                    <rect id="Rectangle-46-Copy" fill="#000000" x="14" y="12" width="4" height="2"
-                                        rx="1"></rect>
-                                </g>
-                            </svg>
-                            <span>Delete Vehicles</span>
-                        </button>
-                        <button onclick="doOnServer('delete_objects')">
-                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Home-/-Fireplace" stroke="none" stroke-width="1" fill="none"
-                                    fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <path
-                                        d="M17,20 L17,12 C17,9.23857625 14.7614237,7 12,7 C9.23857625,7 7,9.23857625 7,12 L7,20 L5,20 C3.8954305,20 3,19.1045695 3,18 L3,6 C3,4.8954305 3.8954305,4 5,4 L19,4 C20.1045695,4 21,4.8954305 21,6 L21,18 C21,19.1045695 20.1045695,20 19,20 L17,20 Z"
-                                        id="Combined-Shape" fill="#000000" opacity="0.3"></path>
-                                    <path
-                                        d="M12.9717525,11.7005668 C12.8097937,13.3201542 12.3239175,14.1866868 11.5141238,14.3001646 C11.5141238,14.3001646 12.2429381,11.4576287 11.2711857,10 C11.2711857,10 11.1681401,11.5618236 10.126941,13.4359819 C9.63887975,14.3144921 9.08474261,14.9067082 9.08474261,16.0734529 C9.08474261,17.7393714 10.7908674,18.6003292 12.002779,18.6003292 C13.2146906,18.6003292 14.9152574,18.0172577 14.9152574,15.9765075 C14.9152574,15.1373628 14.2674224,13.7120493 12.9717525,11.7005668 Z"
-                                        id="Path-17" fill="#000000"></path>
-                                </g>
-                            </svg>
-                            <span>Delete Objects</span>
-                        </button>
-                        <button onclick="doOnServer('delete_peds')">
-                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-General-/-Smile" stroke="none" stroke-width="1" fill="none"
-                                    fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <rect id="Combined-Shape" fill="#000000" opacity="0.3" x="2" y="2" width="20"
-                                        height="20" rx="10"></rect>
-                                    <path
-                                        d="M6.16794971,14.5547002 C5.86159725,14.0951715 5.98577112,13.4743022 6.4452998,13.1679497 C6.90482849,12.8615972 7.52569784,12.9857711 7.83205029,13.4452998 C8.9890854,15.1808525 10.3543313,16 12,16 C13.6456687,16 15.0109146,15.1808525 16.1679497,13.4452998 C16.4743022,12.9857711 17.0951715,12.8615972 17.5547002,13.1679497 C18.0142289,13.4743022 18.1384028,14.0951715 17.8320503,14.5547002 C16.3224187,16.8191475 14.3543313,18 12,18 C9.64566871,18 7.67758127,16.8191475 6.16794971,14.5547002 Z"
-                                        id="Path-56" fill="#000000"></path>
-                                </g>
-                            </svg>
-                            <span>Delete Peds</span>
-                        </button>
-                        <button onclick="doOnServer('delete_all_entity')">
-                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-General-/-Trash" stroke="none" stroke-width="1" fill="none"
-                                    fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <path
-                                        d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z"
-                                        id="round" fill="#000000" fill-rule="nonzero"></path>
-                                    <path
-                                        d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z"
-                                        id="Shape" fill="#000000" opacity="0.3"></path>
-                                </g>
-                            </svg>
-                            <span>Delete All Entity</span>
-                        </button>
-                    </div>
-                </div>
-                <!-- Teleport Option -->
-                <div class="teleport-menu" id="teleport-menu" style="display: none;">
-                    <div class="closebar">
-                        <button onclick="backToMainMenu()">
-                            <svg width="28px" height="28px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Media-/-Backward" stroke="none" stroke-width="1" fill="none"
-                                    fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <path
-                                        d="M11.0879549,18.2771971 L17.8286578,12.3976203 C18.0367595,12.2161036 18.0583109,11.9002555 17.8767943,11.6921539 C17.8622027,11.6754252 17.8465132,11.6596867 17.8298301,11.6450431 L11.0891271,5.72838979 C10.8815919,5.54622572 10.5656782,5.56679309 10.3835141,5.7743283 C10.3034433,5.86555116 10.2592899,5.98278612 10.2592899,6.10416552 L10.2592899,17.9003957 C10.2592899,18.1765381 10.4831475,18.4003957 10.7592899,18.4003957 C10.8801329,18.4003957 10.9968872,18.3566309 11.0879549,18.2771971 Z"
-                                        id="Path-10" fill="#ff5249" opacity="0.3"
-                                        transform="translate(14.129645, 12.002277) scale(-1, 1) translate(-14.129645, -12.002277) ">
-                                    </path>
-                                    <path
-                                        d="M5.08795487,18.2771971 L11.8286578,12.3976203 C12.0367595,12.2161036 12.0583109,11.9002555 11.8767943,11.6921539 C11.8622027,11.6754252 11.8465132,11.6596867 11.8298301,11.6450431 L5.08912711,5.72838979 C4.8815919,5.54622572 4.56567821,5.56679309 4.38351414,5.7743283 C4.30344325,5.86555116 4.25928988,5.98278612 4.25928988,6.10416552 L4.25928988,17.9003957 C4.25928988,18.1765381 4.48314751,18.4003957 4.75928988,18.4003957 C4.88013293,18.4003957 4.99688719,18.3566309 5.08795487,18.2771971 Z"
-                                        id="Path-10-Copy" fill="#ff5249"
-                                        transform="translate(8.129645, 12.002277) scale(-1, 1) translate(-8.129645, -12.002277) ">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span>
-                                Back
-                            </span>
-                        </button>
-                    </div>
-                    <div class="mainbar">
-                        <div class="waypoint">
-                            <button onclick="teleportToWaypoint()">
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <g id="Stockholm-icons-/-Map-/-Marker#2" stroke="none" stroke-width="1" fill="none"
-                                        fill-rule="evenodd">
-                                        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                        <path
-                                            d="M9.82829464,16.6565893 C7.02541569,15.7427556 5,13.1079084 5,10 C5,6.13400675 8.13400675,3 12,3 C15.8659932,3 19,6.13400675 19,10 C19,13.1079084 16.9745843,15.7427556 14.1717054,16.6565893 L12,21 L9.82829464,16.6565893 Z M12,12 C13.1045695,12 14,11.1045695 14,10 C14,8.8954305 13.1045695,8 12,8 C10.8954305,8 10,8.8954305 10,10 C10,11.1045695 10.8954305,12 12,12 Z"
-                                            id="Combined-Shape" fill="#000000"></path>
-                                    </g>
-                                </svg>
-                                <span>Teleport to waypoint</span>
-                            </button>
-                        </div>
-                        <div class="coordinate">
-                            <div class="inputBar">
-                                <label for="x-coords">x :</label>
-                                <input type="text" id="x-coords" name="x-coords" value="0.0">
-                                <label for="y-cooords">y:</label>
-                                <input type="text" id="y-coords" name="y-coords" value="0.0">
-                                <label for="z-coords">z:</label>
-                                <input type="text" id="z-coords" name="z-coords" value="0.0">
-                            </div>
-                            <div class="buttonBar">
-                                <button onclick="teleportToCoords()">
-                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                        <g id="Stockholm-icons-/-Map-/-Marker#1" stroke="none" stroke-width="1"
-                                            fill="none" fill-rule="evenodd">
-                                            <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                            <path
-                                                d="M5,10.5 C5,6 8,3 12.5,3 C17,3 20,6.75 20,10.5 C20,12.8325623 17.8236613,16.03566 13.470984,20.1092932 C12.9154018,20.6292577 12.0585054,20.6508331 11.4774555,20.1594925 C7.15915182,16.5078313 5,13.2880005 5,10.5 Z M12.5,12 C13.8807119,12 15,10.8807119 15,9.5 C15,8.11928813 13.8807119,7 12.5,7 C11.1192881,7 10,8.11928813 10,9.5 C10,10.8807119 11.1192881,12 12.5,12 Z"
-                                                id="Combined-Shape" fill="#000000" fill-rule="nonzero"></path>
-                                        </g>
-                                    </svg>
-                                    <span>Teleport to coords</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Vision View -->
-                <div class="vision-menu" id="vision-menu" style="display: none;">
-                    <div class="closebar">
-                        <button onclick="backToMainMenu()">
-                            <svg width="28px" height="28px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Media-/-Backward" stroke="none" stroke-width="1" fill="none"
-                                    fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <path
-                                        d="M11.0879549,18.2771971 L17.8286578,12.3976203 C18.0367595,12.2161036 18.0583109,11.9002555 17.8767943,11.6921539 C17.8622027,11.6754252 17.8465132,11.6596867 17.8298301,11.6450431 L11.0891271,5.72838979 C10.8815919,5.54622572 10.5656782,5.56679309 10.3835141,5.7743283 C10.3034433,5.86555116 10.2592899,5.98278612 10.2592899,6.10416552 L10.2592899,17.9003957 C10.2592899,18.1765381 10.4831475,18.4003957 10.7592899,18.4003957 C10.8801329,18.4003957 10.9968872,18.3566309 11.0879549,18.2771971 Z"
-                                        id="Path-10" fill="#ff5249" opacity="0.3"
-                                        transform="translate(14.129645, 12.002277) scale(-1, 1) translate(-14.129645, -12.002277) ">
-                                    </path>
-                                    <path
-                                        d="M5.08795487,18.2771971 L11.8286578,12.3976203 C12.0367595,12.2161036 12.0583109,11.9002555 11.8767943,11.6921539 C11.8622027,11.6754252 11.8465132,11.6596867 11.8298301,11.6450431 L5.08912711,5.72838979 C4.8815919,5.54622572 4.56567821,5.56679309 4.38351414,5.7743283 C4.30344325,5.86555116 4.25928988,5.98278612 4.25928988,6.10416552 L4.25928988,17.9003957 C4.25928988,18.1765381 4.48314751,18.4003957 4.75928988,18.4003957 C4.88013293,18.4003957 4.99688719,18.3566309 5.08795487,18.2771971 Z"
-                                        id="Path-10-Copy" fill="#ff5249"
-                                        transform="translate(8.129645, 12.002277) scale(-1, 1) translate(-8.129645, -12.002277) ">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span>
-                                Back
-                            </span>
-                        </button>
-                    </div>
-                    <div class="mainbar">
-                        <button class="night" onclick="changeVisionView('night')">
-                            <svg width="40px" height="40px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Weather-/-Moon" stroke="none" stroke-width="1" fill="none"
-                                    fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <path
-                                        d="M12.0700837,4.0003006 C11.3895108,5.17692613 11,6.54297551 11,8 C11,12.3948932 14.5439081,15.9620623 18.9299163,15.9996994 C17.5467214,18.3910707 14.9612535,20 12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 C12.0233848,4 12.0467462,4.00010034 12.0700837,4.0003006 Z"
-                                        id="Combined-Shape" fill="#000000"></path>
-                                </g>
-                            </svg>
-                            <span>Night Vision</span>
-                        </button>
-                        <button class="thermal" onclick="changeVisionView('thermal')">
-                            <svg width="40px" height="40px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Clothes-/-Sun-glasses" stroke="none" stroke-width="1"
-                                    fill="none" fill-rule="evenodd">
-                                    <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                                    <path
-                                        d="M9.89442719,16.9422697 L8.10557281,16.0478425 C9.18098918,13.8970098 11.7963808,13.0252125 13.9472136,14.1006289 C14.7898516,14.5219479 15.4731082,15.2052045 15.8944272,16.0478425 L14.1055728,16.9422697 C13.8777812,16.4866865 13.5083696,16.1172749 13.0527864,15.8894833 C11.8899107,15.3080454 10.4758651,15.7793939 9.89442719,16.9422697 Z M21.9058667,8.11925961 C22.4393328,8.26220142 22.7559153,8.81053838 22.6129734,9.34400448 L20.9657703,15.4914504 C20.8228285,16.0249165 20.2744915,16.341499 19.7410254,16.1985572 C19.2075593,16.0556153 18.8909768,15.5072784 19.0339186,14.9738123 L20.6811218,8.82636639 C20.8240636,8.29290029 21.3724006,7.9763178 21.9058667,8.11925961 Z M2.09413334,8.11925961 C2.62759945,7.9763178 3.1759364,8.29290029 3.31887821,8.82636639 L4.87179248,14.6219213 C5.0147343,15.1553875 4.69815181,15.7037244 4.1646857,15.8466662 C3.6312196,15.989608 3.08288264,15.6730255 2.93994083,15.1395594 L1.38702656,9.34400448 C1.24408475,8.81053838 1.56066724,8.26220142 2.09413334,8.11925961 Z"
-                                        id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-                                    <path
-                                        d="M6.5,20 C4.01471863,20 2,17.9852814 2,15.5 C2,13.0147186 4.01471863,11 6.5,11 C8.98528137,11 11,13.0147186 11,15.5 C11,17.9852814 8.98528137,20 6.5,20 Z M17.5,20 C15.0147186,20 13,17.9852814 13,15.5 C13,13.0147186 15.0147186,11 17.5,11 C19.9852814,11 22,13.0147186 22,15.5 C22,17.9852814 19.9852814,20 17.5,20 Z"
-                                        id="Combined-Shape" fill="#000000"></path>
-                                </g>
-                            </svg>
-                            <span>Thermal Vision</span>
-                        </button>
-                    </div>
-                </div>
-                <!-- Vehicle Spawner -->
-                <div class="vehicle-menu" id="vehicle-menu" style="display: none;">
-                    <div class="closebar">
-                        <button onclick="backToMainMenu()">
-                            <svg width="28px" height="28px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Media-/-Backward" stroke="none" stroke-width="1" fill="none"
-                                    fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <path
-                                        d="M11.0879549,18.2771971 L17.8286578,12.3976203 C18.0367595,12.2161036 18.0583109,11.9002555 17.8767943,11.6921539 C17.8622027,11.6754252 17.8465132,11.6596867 17.8298301,11.6450431 L11.0891271,5.72838979 C10.8815919,5.54622572 10.5656782,5.56679309 10.3835141,5.7743283 C10.3034433,5.86555116 10.2592899,5.98278612 10.2592899,6.10416552 L10.2592899,17.9003957 C10.2592899,18.1765381 10.4831475,18.4003957 10.7592899,18.4003957 C10.8801329,18.4003957 10.9968872,18.3566309 11.0879549,18.2771971 Z"
-                                        id="Path-10" fill="#ff5249" opacity="0.3"
-                                        transform="translate(14.129645, 12.002277) scale(-1, 1) translate(-14.129645, -12.002277) ">
-                                    </path>
-                                    <path
-                                        d="M5.08795487,18.2771971 L11.8286578,12.3976203 C12.0367595,12.2161036 12.0583109,11.9002555 11.8767943,11.6921539 C11.8622027,11.6754252 11.8465132,11.6596867 11.8298301,11.6450431 L5.08912711,5.72838979 C4.8815919,5.54622572 4.56567821,5.56679309 4.38351414,5.7743283 C4.30344325,5.86555116 4.25928988,5.98278612 4.25928988,6.10416552 L4.25928988,17.9003957 C4.25928988,18.1765381 4.48314751,18.4003957 4.75928988,18.4003957 C4.88013293,18.4003957 4.99688719,18.3566309 5.08795487,18.2771971 Z"
-                                        id="Path-10-Copy" fill="#ff5249"
-                                        transform="translate(8.129645, 12.002277) scale(-1, 1) translate(-8.129645, -12.002277) ">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span>
-                                Back
-                            </span>
-                        </button>
-                    </div>
-                    <div class="mainbar">
-                        <div class="myself">
-                            <div class="inputBar">
-                                <label for="vehicle-name-m">Vehicle Name :</label>
-                                <input type="text" id="vehicle-name-m" name="vehicle-name-m">
-                            </div>
-                            <div class="buttonBar">
-                                <button onclick="spawnVehicleForSelf()">
-                                    <span>Spawn</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="other">
-                            <div class="inputBar">
-                                <label for="vehicle-name-o">Vehicle name :</label>
-                                <input type="text" id="vehicle-name-o" name="vehicle-name-o">
-                                <label for="target-player">Target player :</label>
-                                <input type="text" id="target-player" name="target-player">
-                            </div>
-                            <div class="buttonBar">
-                                <button onclick="spawnVehicleOthers()">
-                                    <span>Spawn</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Ban List -->
-                <div class="banlist-menu" id="banlist-menu" style="display: none;">
-                    <div class="closebar">
-                        <button onclick="backToMainMenu()">
-                            <svg width="28px" height="28px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Media-/-Backward" stroke="none" stroke-width="1" fill="none"
-                                    fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <path
-                                        d="M11.0879549,18.2771971 L17.8286578,12.3976203 C18.0367595,12.2161036 18.0583109,11.9002555 17.8767943,11.6921539 C17.8622027,11.6754252 17.8465132,11.6596867 17.8298301,11.6450431 L11.0891271,5.72838979 C10.8815919,5.54622572 10.5656782,5.56679309 10.3835141,5.7743283 C10.3034433,5.86555116 10.2592899,5.98278612 10.2592899,6.10416552 L10.2592899,17.9003957 C10.2592899,18.1765381 10.4831475,18.4003957 10.7592899,18.4003957 C10.8801329,18.4003957 10.9968872,18.3566309 11.0879549,18.2771971 Z"
-                                        id="Path-10" fill="#ff5249" opacity="0.3"
-                                        transform="translate(14.129645, 12.002277) scale(-1, 1) translate(-14.129645, -12.002277) ">
-                                    </path>
-                                    <path
-                                        d="M5.08795487,18.2771971 L11.8286578,12.3976203 C12.0367595,12.2161036 12.0583109,11.9002555 11.8767943,11.6921539 C11.8622027,11.6754252 11.8465132,11.6596867 11.8298301,11.6450431 L5.08912711,5.72838979 C4.8815919,5.54622572 4.56567821,5.56679309 4.38351414,5.7743283 C4.30344325,5.86555116 4.25928988,5.98278612 4.25928988,6.10416552 L4.25928988,17.9003957 C4.25928988,18.1765381 4.48314751,18.4003957 4.75928988,18.4003957 C4.88013293,18.4003957 4.99688719,18.3566309 5.08795487,18.2771971 Z"
-                                        id="Path-10-Copy" fill="#ff5249"
-                                        transform="translate(8.129645, 12.002277) scale(-1, 1) translate(-8.129645, -12.002277) ">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span>
-                                Back
-                            </span>
-                        </button>
-                    </div>
-                    <div class="mainbar">
-                        <button id="bannedPlayer-3333" onclick="unbanSelectedPlayer()">
-                            <svg width="34px" height="34px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Communication-/-Delete-user" stroke="none" stroke-width="1"
-                                    fill="none" fill-rule="evenodd">
-                                    <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                                    <path
-                                        d="M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z M21,8 L17,8 C16.4477153,8 16,7.55228475 16,7 C16,6.44771525 16.4477153,6 17,6 L21,6 C21.5522847,6 22,6.44771525 22,7 C22,7.55228475 21.5522847,8 21,8 Z"
-                                        id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-                                    <path
-                                        d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
-                                        id="Mask-Copy" fill="#000000" fill-rule="nonzero"></path>
-                                </g>
-                            </svg>
-                            <span class="banid">#3333</span>
-                            <span class="reason">Anti Spam Vehicle</span>
-                        </button>
-                    </div>
-                </div>
-                <!-- Admin List -->
-                <div class="adminlist-menu" id="adminlist-menu" style="display: none;">
-                    <div class="closebar">
-                        <button onclick="backToMainMenu()">
-                            <svg width="28px" height="28px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Media-/-Backward" stroke="none" stroke-width="1" fill="none"
-                                    fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <path
-                                        d="M11.0879549,18.2771971 L17.8286578,12.3976203 C18.0367595,12.2161036 18.0583109,11.9002555 17.8767943,11.6921539 C17.8622027,11.6754252 17.8465132,11.6596867 17.8298301,11.6450431 L11.0891271,5.72838979 C10.8815919,5.54622572 10.5656782,5.56679309 10.3835141,5.7743283 C10.3034433,5.86555116 10.2592899,5.98278612 10.2592899,6.10416552 L10.2592899,17.9003957 C10.2592899,18.1765381 10.4831475,18.4003957 10.7592899,18.4003957 C10.8801329,18.4003957 10.9968872,18.3566309 11.0879549,18.2771971 Z"
-                                        id="Path-10" fill="#ff5249" opacity="0.3"
-                                        transform="translate(14.129645, 12.002277) scale(-1, 1) translate(-14.129645, -12.002277) ">
-                                    </path>
-                                    <path
-                                        d="M5.08795487,18.2771971 L11.8286578,12.3976203 C12.0367595,12.2161036 12.0583109,11.9002555 11.8767943,11.6921539 C11.8622027,11.6754252 11.8465132,11.6596867 11.8298301,11.6450431 L5.08912711,5.72838979 C4.8815919,5.54622572 4.56567821,5.56679309 4.38351414,5.7743283 C4.30344325,5.86555116 4.25928988,5.98278612 4.25928988,6.10416552 L4.25928988,17.9003957 C4.25928988,18.1765381 4.48314751,18.4003957 4.75928988,18.4003957 C4.88013293,18.4003957 4.99688719,18.3566309 5.08795487,18.2771971 Z"
-                                        id="Path-10-Copy" fill="#ff5249"
-                                        transform="translate(8.129645, 12.002277) scale(-1, 1) translate(-8.129645, -12.002277) ">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span>
-                                Back
-                            </span>
-                        </button>
-                    </div>
-                    <div class="mainbar">
-                        <button id="adminPerson-3333" onclick="removeSelectedAdmin()">
-                            <svg width="34px" height="34px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Communication-/-Delete-user" stroke="none" stroke-width="1"
-                                    fill="none" fill-rule="evenodd">
-                                    <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                                    <path
-                                        d="M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z M21,8 L17,8 C16.4477153,8 16,7.55228475 16,7 C16,6.44771525 16.4477153,6 17,6 L21,6 C21.5522847,6 22,6.44771525 22,7 C22,7.55228475 21.5522847,8 21,8 Z"
-                                        id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-                                    <path
-                                        d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
-                                        id="Mask-Copy" fill="#000000" fill-rule="nonzero"></path>
-                                </g>
-                            </svg>
-                            <span class="identifier">steam:xxxxxxxxxxxxxx</span>
-                        </button>
-                    </div>
-                </div>
-                <!-- Unban Access -->
-                <div class="ubAccess-menu" id="ubAccess-menu" style="display: none;">
-                    <div class="closebar">
-                        <button onclick="backToMainMenu()">
-                            <svg width="28px" height="28px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Media-/-Backward" stroke="none" stroke-width="1" fill="none"
-                                    fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <path
-                                        d="M11.0879549,18.2771971 L17.8286578,12.3976203 C18.0367595,12.2161036 18.0583109,11.9002555 17.8767943,11.6921539 C17.8622027,11.6754252 17.8465132,11.6596867 17.8298301,11.6450431 L11.0891271,5.72838979 C10.8815919,5.54622572 10.5656782,5.56679309 10.3835141,5.7743283 C10.3034433,5.86555116 10.2592899,5.98278612 10.2592899,6.10416552 L10.2592899,17.9003957 C10.2592899,18.1765381 10.4831475,18.4003957 10.7592899,18.4003957 C10.8801329,18.4003957 10.9968872,18.3566309 11.0879549,18.2771971 Z"
-                                        id="Path-10" fill="#ff5249" opacity="0.3"
-                                        transform="translate(14.129645, 12.002277) scale(-1, 1) translate(-14.129645, -12.002277) ">
-                                    </path>
-                                    <path
-                                        d="M5.08795487,18.2771971 L11.8286578,12.3976203 C12.0367595,12.2161036 12.0583109,11.9002555 11.8767943,11.6921539 C11.8622027,11.6754252 11.8465132,11.6596867 11.8298301,11.6450431 L5.08912711,5.72838979 C4.8815919,5.54622572 4.56567821,5.56679309 4.38351414,5.7743283 C4.30344325,5.86555116 4.25928988,5.98278612 4.25928988,6.10416552 L4.25928988,17.9003957 C4.25928988,18.1765381 4.48314751,18.4003957 4.75928988,18.4003957 C4.88013293,18.4003957 4.99688719,18.3566309 5.08795487,18.2771971 Z"
-                                        id="Path-10-Copy" fill="#ff5249"
-                                        transform="translate(8.129645, 12.002277) scale(-1, 1) translate(-8.129645, -12.002277) ">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span>
-                                Back
-                            </span>
-                        </button>
-                    </div>
-                    <div class="mainbar">
-                        <button id="unbanAccess-3333" onclick="removeUnbanAccess()">
-                            <svg width="34px" height="34px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Communication-/-Delete-user" stroke="none" stroke-width="1"
-                                    fill="none" fill-rule="evenodd">
-                                    <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                                    <path
-                                        d="M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z M21,8 L17,8 C16.4477153,8 16,7.55228475 16,7 C16,6.44771525 16.4477153,6 17,6 L21,6 C21.5522847,6 22,6.44771525 22,7 C22,7.55228475 21.5522847,8 21,8 Z"
-                                        id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-                                    <path
-                                        d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
-                                        id="Mask-Copy" fill="#000000" fill-rule="nonzero"></path>
-                                </g>
-                            </svg>
-                            <span class="identifier">steam:xxxxxxxxxxxxxx</span>
-                        </button>
-                    </div>
-                </div>
-                <!-- Whitelist Users -->
-                <div class="wlusers-menu" id="wlusers-menu" style="display: none;">
-                    <div class="closebar">
-                        <button onclick="backToMainMenu()">
-                            <svg width="28px" height="28px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Media-/-Backward" stroke="none" stroke-width="1" fill="none"
-                                    fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                    <path
-                                        d="M11.0879549,18.2771971 L17.8286578,12.3976203 C18.0367595,12.2161036 18.0583109,11.9002555 17.8767943,11.6921539 C17.8622027,11.6754252 17.8465132,11.6596867 17.8298301,11.6450431 L11.0891271,5.72838979 C10.8815919,5.54622572 10.5656782,5.56679309 10.3835141,5.7743283 C10.3034433,5.86555116 10.2592899,5.98278612 10.2592899,6.10416552 L10.2592899,17.9003957 C10.2592899,18.1765381 10.4831475,18.4003957 10.7592899,18.4003957 C10.8801329,18.4003957 10.9968872,18.3566309 11.0879549,18.2771971 Z"
-                                        id="Path-10" fill="#ff5249" opacity="0.3"
-                                        transform="translate(14.129645, 12.002277) scale(-1, 1) translate(-14.129645, -12.002277) ">
-                                    </path>
-                                    <path
-                                        d="M5.08795487,18.2771971 L11.8286578,12.3976203 C12.0367595,12.2161036 12.0583109,11.9002555 11.8767943,11.6921539 C11.8622027,11.6754252 11.8465132,11.6596867 11.8298301,11.6450431 L5.08912711,5.72838979 C4.8815919,5.54622572 4.56567821,5.56679309 4.38351414,5.7743283 C4.30344325,5.86555116 4.25928988,5.98278612 4.25928988,6.10416552 L4.25928988,17.9003957 C4.25928988,18.1765381 4.48314751,18.4003957 4.75928988,18.4003957 C4.88013293,18.4003957 4.99688719,18.3566309 5.08795487,18.2771971 Z"
-                                        id="Path-10-Copy" fill="#ff5249"
-                                        transform="translate(8.129645, 12.002277) scale(-1, 1) translate(-8.129645, -12.002277) ">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span>
-                                Back
-                            </span>
-                        </button>
-                    </div>
-                    <div class="mainbar">
-                        <button id="whitelistuser-3333" onclick="removeWhitelistUser()">
-                            <svg width="34px" height="34px" viewBox="0 0 24 24" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g id="Stockholm-icons-/-Communication-/-Delete-user" stroke="none" stroke-width="1"
-                                    fill="none" fill-rule="evenodd">
-                                    <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                                    <path
-                                        d="M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z M21,8 L17,8 C16.4477153,8 16,7.55228475 16,7 C16,6.44771525 16.4477153,6 17,6 L21,6 C21.5522847,6 22,6.44771525 22,7 C22,7.55228475 21.5522847,8 21,8 Z"
-                                        id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-                                    <path
-                                        d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
-                                        id="Mask-Copy" fill="#000000" fill-rule="nonzero"></path>
-                                </g>
-                            </svg>
-                            <span class="identifier">steam:xxxxxxxxxxxxxx</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="footer">
-                    <span class="footerText">This anti-cheat developed by <button
-                            onclick="openUrl('https://amirrezajaberi.ir/')">Amirreza
-                            Jaberi</button> as <button
-                            onclick="openUrl('https://amirrezajaberi.ir/fireac')">FIREAC</button>
-                        on
-                        github & it's public to use for all users .</span>
-                </div>
+            <div class="hero-orb"><span>F9</span><small>Admin Menu</small></div>
+          </div>
+
+          <div class="status-strip">
+            <div class="status-card" id="status-card-godmode"><small>Godmode</small><b id="status-godmode">OFF</b></div>
+            <div class="status-card" id="status-card-invisible"><small>Invisible</small><b id="status-invisible">OFF</b></div>
+            <div class="status-card" id="status-card-vision"><small>Vision</small><b id="status-vision">Normal</b></div>
+            <div class="status-card" id="status-card-spectate"><small>Spectate</small><b id="status-spectate">OFF</b></div>
+          </div>
+
+          <div class="dashboard-grid dashboard-grid--center" id="dashboard-grid">
+            <button class="dash-card primary" data-page="players" onclick="openPage('players')"><span class="card-icon">👥</span><strong id="stat-players">0</strong><small>Online Players</small><em>Open players menu</em></button>
+            <button class="dash-card" data-page="server" onclick="openPage('server')"><span class="card-icon">📦</span><strong id="stat-props">0</strong><small>Props / Objects</small><em>Entity menu</em></button>
+            <button class="dash-card" data-page="vehicle" onclick="openPage('vehicle')"><span class="card-icon">🚗</span><strong id="stat-vehicles">0</strong><small>Vehicles</small><em>Vehicle menu</em></button>
+            <button class="dash-card" data-page="server" onclick="openPage('server')"><span class="card-icon">🧍</span><strong id="stat-peds">0</strong><small>Peds</small><em>Cleanup tools</em></button>
+            <button class="dash-card danger" data-page="bans" onclick="openPage('bans')"><span class="card-icon">⛔</span><strong id="stat-bans">0</strong><small>Banned Players</small><em>Ban overview</em></button>
+            <button class="dash-card" data-page="admins" onclick="openPage('admins')"><span class="card-icon">🛡️</span><strong id="stat-admins">0</strong><small>Admins</small><em>Admin access</em></button>
+            <button class="dash-card" data-page="whitelist" onclick="openPage('whitelist')"><span class="card-icon">✅</span><strong id="stat-whitelist">0</strong><small>Whitelist</small><em>Trusted users</em></button>
+            <button class="dash-card" data-page="unban" onclick="openPage('unban')"><span class="card-icon">🔓</span><strong id="stat-unban">0</strong><small>Unban Access</small><em>Unban permissions</em></button>
+          </div>
+
+          <div class="overview-grid">
+            <div class="overview-card">
+              <div class="section-head compact"><h2>Latest Admins</h2><p>Last 5 saved admin records.</p></div>
+              <div class="record-list mini" id="overview-admins"></div>
             </div>
-    </section>
-    <script defer src="./js/script.js"></script>
+            <div class="overview-card">
+              <div class="section-head compact"><h2>Latest Bans</h2><p>Last 5 ban records.</p></div>
+              <div class="record-list mini" id="overview-bans"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="view-admin" data-title="Self Menu" data-breadcrumb="Dashboard / Self Menu">
+          <div class="section-head"><h2>Self Menu</h2><p>Personal admin modes and quick actions. All modes grant anti-cheat grace while active.</p></div>
+          <div class="tool-grid two">
+            <button class="tool-card" id="godmode" onclick="doAction('godmode')"><span>⚡</span><b>Godmode</b><small id="godmode-state">OFF</small></button>
+            <button class="tool-card" id="invisible" onclick="doAction('invisible')"><span>🫥</span><b>Invisible</b><small id="invisible-state">OFF</small></button>
+          </div>
+          <div class="tool-grid five">
+            <button class="tool-card compact" onclick="doAction('suicide')"><span>☠️</span><b>Suicide</b></button>
+            <button class="tool-card compact" onclick="doAction('heal')"><span>❤️</span><b>Heal</b></button>
+            <button class="tool-card compact" onclick="doAction('giveAllWeapon')"><span>🔫</span><b>All Weapons</b></button>
+            <button class="tool-card compact" onclick="doAction('removeAllWeapon')"><span>🧹</span><b>Clear Weapons</b></button>
+            <button class="tool-card compact" onclick="doAction('copyLiveCoords')"><span>📋</span><b>Copy Coords</b></button>
+          </div>
+          <div class="tool-grid two">
+            <button class="tool-card" onclick="changeVisionView('night')"><span>🌙</span><b>Night Vision</b><small>Toggle</small></button>
+            <button class="tool-card" onclick="changeVisionView('thermal')"><span>🔥</span><b>Thermal Vision</b><small>Toggle</small></button>
+          </div>
+          <div class="coords-card"><span>LIVE COORDINATES</span><code class="coords-loaction">Waiting for coordinates...</code></div>
+        </section>
+
+        <section class="view" id="view-players" data-title="Players Menu" data-breadcrumb="Dashboard / Players Menu">
+          <div class="section-head"><h2>Players Menu</h2><p>Click a player to open moderation and teleport actions.</p></div>
+          <div class="search-box"><span>Search</span><input class="record-search" data-target=".playerList" type="text" placeholder="Search by player name, ID, license, admin, whitelist..." autocomplete="off"></div>
+          <div class="list-grid playerList"></div>
+          <div class="playerAction action-panel" style="display:none;">
+            <div class="action-panel-head"><button class="mini-back" onclick="closePlayerActionMenu()">Back to players</button><strong id="playerName">Player</strong><span>#<b id="playerId">0</b></span></div>
+            <div class="mini-stats"><div><small>Health</small><b id="heartCount">0</b></div><div><small>Armour</small><b id="armourCount">0</b></div></div>
+            <div class="moderation-box">
+              <label>Ban / Kick reason</label>
+              <input id="moderation-reason" type="text" maxlength="180" placeholder="Example: Toxic behavior, exploit abuse, event spam..." autocomplete="off">
+            </div>
+            <div class="tool-grid five player-action-grid">
+              <button class="tool-card compact" onclick="doActionOnTargetPlayer('gotoPlayer')"><span>➡️</span><b>Goto</b></button>
+              <button class="tool-card compact" onclick="doActionOnTargetPlayer('bringPlayer')"><span>⬅️</span><b>Bring</b></button>
+              <button class="tool-card compact danger" onclick="doActionOnTargetPlayer('kickPlayer')"><span>👢</span><b>Kick</b><small>Uses reason</small></button>
+              <button class="tool-card compact" onclick="doActionOnTargetPlayer('spectate')"><span>🎥</span><b>Spectate</b></button>
+              <button class="tool-card compact danger" onclick="doActionOnTargetPlayer('ban')"><span>⛔</span><b>Ban</b><small>Uses reason</small></button>
+              <button class="tool-card compact" onclick="doActionOnTargetPlayer('addToAdmin')"><span>🛡️</span><b>Make Admin</b></button>
+              <button class="tool-card compact" onclick="doActionOnTargetPlayer('addToWhiteList')"><span>✅</span><b>Whitelist</b></button>
+              <button class="tool-card compact" onclick="doActionOnTargetPlayer('addToUnban')"><span>🔓</span><b>Unban Access</b></button>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="view-server" data-title="Entity Menu" data-breadcrumb="Dashboard / Entity Menu">
+          <div class="section-head"><h2>Entity Menu</h2><p>Cleanup tools are server-authorized. Player peds are never deleted.</p></div>
+          <div class="tool-grid four">
+            <button class="tool-card danger" onclick="doOnServer('delete_vehicles')"><span>🚗</span><b>Delete Vehicles</b><small id="server-vehicles">0 detected</small></button>
+            <button class="tool-card danger" onclick="doOnServer('delete_objects')"><span>📦</span><b>Delete Props</b><small id="server-props">0 detected</small></button>
+            <button class="tool-card danger" onclick="doOnServer('delete_peds')"><span>🧍</span><b>Delete Peds</b><small id="server-peds">0 detected</small></button>
+            <button class="tool-card danger" onclick="doOnServer('delete_all_entity')"><span>🔥</span><b>Delete All</b><small>Vehicles, props and peds</small></button>
+          </div>
+        </section>
+
+        <section class="view" id="view-teleport" data-title="Teleport Menu" data-breadcrumb="Dashboard / Teleport Menu">
+          <div class="section-head"><h2>Teleport Menu</h2><p>Admin teleport actions grant temporary grace to prevent false teleport bans.</p></div>
+          <div class="form-grid">
+            <div class="form-card center"><span>📍</span><h3>Waypoint</h3><button onclick="teleportToWaypoint()">Teleport to Waypoint</button></div>
+            <div class="form-card"><span>🧭</span><h3>Manual Coordinates</h3><div class="input-row"><input id="x-coords" placeholder="X"><input id="y-coords" placeholder="Y"><input id="z-coords" placeholder="Z"></div><button onclick="teleportToCoords()">Teleport</button></div>
+          </div>
+        </section>
+
+        <section class="view" id="view-vehicle" data-title="Vehicle Menu" data-breadcrumb="Dashboard / Vehicle Menu">
+          <div class="section-head"><h2>Vehicle Menu</h2><p>Spawn, repair, color and fully customize your current vehicle.</p></div>
+          <div class="form-grid">
+            <div class="form-card"><span>🚘</span><h3>Spawn For Yourself</h3><input id="vehicle-name-m" placeholder="vehicle model, e.g. sultan"><button onclick="spawnVehicleForSelf()">Spawn Vehicle</button></div>
+            <div class="form-card"><span>🎯</span><h3>Spawn For Player</h3><input id="vehicle-name-o" placeholder="vehicle model"><input id="target-player" placeholder="target server id"><button onclick="spawnVehicleOthers()">Spawn For Target</button></div>
+            <div class="form-card"><span>🎨</span><h3>Vehicle Color</h3><div class="input-row"><input id="veh-r" placeholder="R" value="255"><input id="veh-g" placeholder="G" value="120"><input id="veh-b" placeholder="B" value="24"></div><button onclick="setVehicleColor()">Apply RGB</button></div>
+            <div class="form-card center"><span>🛠️</span><h3>Current Vehicle</h3><div class="button-row"><button onclick="vehicleAction('repairVehicle')">Repair</button><button onclick="vehicleAction('cleanVehicle')">Clean</button><button onclick="vehicleAction('maxVehicleMods')">Full Custom</button><button class="danger-btn" onclick="vehicleAction('deleteCurrentVehicle')">Delete</button></div></div>
+          </div>
+        </section>
+
+        <section class="view" id="view-bans" data-title="Banned Players" data-breadcrumb="Dashboard / Banned Players"><div class="section-head"><h2>Banned Players</h2><p>Player name is shown first, identifiers below. Click a record to unban it.</p></div><div class="search-box"><span>Search</span><input class="record-search" data-target="#ban-records" type="text" placeholder="Search by name, license, discord, Ban ID, reason..." autocomplete="off"></div><div class="record-list paged-list" id="ban-records"></div><div class="pager" id="ban-pager"></div></section>
+
+        <section class="view" id="view-admins" data-title="Access Menu" data-breadcrumb="Dashboard / Access Menu">
+          <div class="section-head"><h2>Admins</h2><p>Add online players or click a record to remove admin access.</p></div>
+          <div class="access-picker"><div class="access-picker-head"><div><h3>Add online player as admin</h3><p>The server saves name + license.</p></div><button type="button" onclick="refreshAccessPlayers('admins')">Refresh</button></div><div class="search-box mini-search"><span>Online Search</span><input class="record-search" data-target="#admin-online-picker" type="text" placeholder="Search online player by name, ID or license..." autocomplete="off"></div><div class="access-player-list" id="admin-online-picker"></div></div>
+          <div class="section-head compact"><h2>Current Admins</h2><p>Click a record to remove access.</p></div><div class="search-box"><span>Search</span><input class="record-search" data-target="#admin-records" type="text" placeholder="Search by admin name, license or record ID..." autocomplete="off"></div><div class="record-list paged-list" id="admin-records"></div><div class="pager" id="admin-pager"></div>
+        </section>
+
+        <section class="view" id="view-unban" data-title="Unban Access" data-breadcrumb="Dashboard / Unban Access"><div class="section-head"><h2>Unban Access</h2><p>Click a record to remove unban permission.</p></div><div class="search-box"><span>Search</span><input class="record-search" data-target="#unban-records" type="text" placeholder="Search by name, license or record ID..." autocomplete="off"></div><div class="record-list paged-list" id="unban-records"></div><div class="pager" id="unban-pager"></div></section>
+
+        <section class="view" id="view-whitelist" data-title="Whitelist" data-breadcrumb="Dashboard / Whitelist">
+          <div class="section-head"><h2>Whitelist</h2><p>Add online players or click a record to remove whitelist access.</p></div>
+          <div class="access-picker"><div class="access-picker-head"><div><h3>Add online player to whitelist</h3><p>The server saves name + license.</p></div><button type="button" onclick="refreshAccessPlayers('whitelist')">Refresh</button></div><div class="search-box mini-search"><span>Online Search</span><input class="record-search" data-target="#whitelist-online-picker" type="text" placeholder="Search online player by name, ID or license..." autocomplete="off"></div><div class="access-player-list" id="whitelist-online-picker"></div></div>
+          <div class="section-head compact"><h2>Current Whitelist</h2><p>Click a record to remove access.</p></div><div class="search-box"><span>Search</span><input class="record-search" data-target="#whitelist-records" type="text" placeholder="Search by whitelist name, license or record ID..." autocomplete="off"></div><div class="record-list paged-list" id="whitelist-records"></div><div class="pager" id="whitelist-pager"></div>
+        </section>
+      </main>
+
+      <footer class="fireac-footer"><span>FIREAC Hardened UI</span><i></i><span>ESC: Back / Close</span><i></i><b>V7.2.18</b></footer>
+    </div>
+  </section>
+  <script src="./js/script.js" type="text/javascript"></script>
 </body>
-
-</html>ّ
+</html>

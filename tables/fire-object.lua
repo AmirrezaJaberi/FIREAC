@@ -1,5 +1,3 @@
--- Do not touch these codes as much as possible (touch them if you are familiar and confident)
-
 Objects = {
     'prop_cs_dildo_01',
     'prop_speaker_05',

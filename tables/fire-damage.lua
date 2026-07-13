@@ -1,5 +1,3 @@
--- Do not touch these codes as much as possible (touch them if you are familiar and confident)
-
 DAMAGE = {
     [-1357824103] = { DAMAGE = 34, NAME = "AdvancedRifle" },
     [453432689]   = { DAMAGE = 26, NAME = "Pistol" },
