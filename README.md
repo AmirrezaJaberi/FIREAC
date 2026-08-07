@@ -10,22 +10,6 @@
     <a href="https://amirrezajaberi.ir/fireac">Website</a>
   </b>
 </p>
-
----
-
-### 🚀 What is FIREAC?
-
-[FIREAC](https://amirrezajaberi.ir/fireac) is a free and lightweight FiveM anti-cheat created by **Amirreza Jaberi**.  
-It provides useful basic client-side and server-side checks while keeping installation and administration simple.
-
-FIREAC works with **ESX**, **QBCore**, and **Standalone** servers. The current version includes improved player lifecycle handling and fixes the previous spawn and incorrect-player punishment problems.
-
----
-
-### 🖥️ Admin Panel
-
-![FIREAC Admin Panel](ui/assists/admin-panel.png)
-
 ---
 
 ### 📢 Advertisement
@@ -43,6 +27,21 @@ FIREAC works with **ESX**, **QBCore**, and **Standalone** servers. The current v
 </p>
 
 <b>FIREAC is a very good free anti-cheat for basic protection. For stronger and more complete protection, purchase <a href="https://fiveguard.net/" rel="dofollow">Fiveguard Premium</a>, which includes advanced systems such as Anti Resource Stopper, Anti Resource Starter, Anti Aimbot, Objects-AI detection, Cheats-AI detection, Safe-Events and more.</b>
+
+---
+
+### 🚀 What is FIREAC?
+
+[FIREAC](https://amirrezajaberi.ir/fireac) is a free and lightweight FiveM anti-cheat created by **Amirreza Jaberi**.  
+It provides useful basic client-side and server-side checks while keeping installation and administration simple.
+
+FIREAC works with **ESX**, **QBCore**, and **Standalone** servers. The current version includes improved player lifecycle handling and fixes the previous spawn and incorrect-player punishment problems.
+
+---
+
+### 🖥️ Admin Panel
+
+![FIREAC Admin Panel](ui/assists/admin-panel.png)
 
 ---
 
