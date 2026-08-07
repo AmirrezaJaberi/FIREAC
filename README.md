@@ -10,7 +10,6 @@
     <a href="https://amirrezajaberi.ir/fireac">Website</a>
   </b>
 </p>
----
 
 ### 📢 Advertisement
 
