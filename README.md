@@ -11,23 +11,6 @@
   </b>
 </p>
 
-### 📢 Advertisement
-
-[Fiveguard.net](https://fiveguard.net/) is best paid FiveM Anticheat providing unique features such as Anti Aimbot, Objects-AI detection, Cheats-AI detection, Safe-Events and many more. This product is developed to eliminate cheats and at the same time provide smooth gaming experience!
-
-<p align='center'>
-  For an enhanced <b>paid anticheat</b>, visit <a href="https://store.fiveguard.ac">https://store.fiveguard.ac</a>.
-</p>
-<p align='center'>
-  We are able to provide this <strong>free product</strong> thanks to the support of <a href="https://fiveguard.net">https://fiveguard.net</a>.
-</p>
-<p align='center'>
-  <strong>Fiveguard</strong> - Elevating your FiveM server security.
-</p>
-
-<b>FIREAC is a very good free anti-cheat for basic protection. For stronger and more complete protection, purchase <a href="https://fiveguard.net/" rel="dofollow">Fiveguard Premium</a>, which includes advanced systems such as Anti Resource Stopper, Anti Resource Starter, Anti Aimbot, Objects-AI detection, Cheats-AI detection, Safe-Events and more.</b>
----
-
 ### 🚀 What is FIREAC?
 
 [FIREAC](https://amirrezajaberi.ir/fireac) is a free and lightweight FiveM anti-cheat created by **Amirreza Jaberi**.  
